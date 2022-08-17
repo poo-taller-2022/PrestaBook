@@ -1,0 +1,5 @@
+Hoja de Ruta : 
+
+17/08
+	Reunión de meet : - Modelado de UML y debate de diseño.
+			  - Planteo de dudas con respecto al enunciado para preguntar en clases.
