@@ -5,17 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-/**
-*
-* @author sqlitetutorial.net
-*/
 public class Connect {
-    /**
-    * Connect to a sample database
-    */
 	
 	static Logger logger = Logger.getLogger("Prestabook");
 	
+	/**
+	 * Connect to a sample database
+	 */
    public static void connect() {
        Connection conn = null;
        try {
