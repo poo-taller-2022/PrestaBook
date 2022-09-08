@@ -17,3 +17,8 @@ Hoja de Ruta :
 	Reunión de meet : - Agregación de funcionalidades a cada clase correspondiente
 			  - Corrección de asociaciones 
 			  - Envío de dudas correspondiente a la clase Multa 
+
+7/09 
+	Reunión de meet : - División de tareas
+			  - Comienzo de codificación de clases 
+			  
