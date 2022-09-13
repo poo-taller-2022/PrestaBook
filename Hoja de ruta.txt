@@ -3,3 +3,22 @@ Hoja de Ruta :
 17/08
 	Reunión de meet : - Modelado de UML y debate de diseño.
 			  - Planteo de dudas con respecto al enunciado para preguntar en clases.
+
+24/08
+	Reunión de meet : - Corrección del UML
+			  - Envio para corrección
+
+30/08
+	Reunion por Zoom : - Corrección del UML (Post devolución)
+			   - Replanteo de clases (Nueva clase Ejemplar)
+			   - Replanteo de asociaciones
+
+31/08
+	Reunión de meet : - Agregación de funcionalidades a cada clase correspondiente
+			  - Corrección de asociaciones 
+			  - Envío de dudas correspondiente a la clase Multa 
+
+7/09 
+	Reunión de meet : - División de tareas
+			  - Comienzo de codificación de clases 
+			  
