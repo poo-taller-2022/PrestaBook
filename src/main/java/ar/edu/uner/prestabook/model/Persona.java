@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook;
+package ar.edu.uner.prestabook.model;
 
 import lombok.Data;
 
