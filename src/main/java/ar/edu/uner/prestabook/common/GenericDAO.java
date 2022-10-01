@@ -1,5 +1,6 @@
 package ar.edu.uner.prestabook.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface GenericDAO<T> {
@@ -9,7 +10,7 @@ public interface GenericDAO<T> {
 	 * 
 	 * @return
 	 */
-	public List<T> findAll();
+	public String findAll();
 
 	/**
 	 * Finds an entity by its id

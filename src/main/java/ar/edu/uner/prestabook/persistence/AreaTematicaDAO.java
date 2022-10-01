@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.AreaTematica;
@@ -14,20 +11,24 @@ import ar.edu.uner.prestabook.model.AreaTematica;
 public class AreaTematicaDAO implements IAreaTematicaDAO {
 
 	@Override
-	public List<AreaTematica> findAll() {
+	public String findAll() {
 		String sql = "SELECT * FROM AREAS_TEMATICAS";
+		String text = "";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
-			List<AreaTematica> areasTematicas = new LinkedList<>();
+			//List<AreaTematica> areasTematicas = new LinkedList<>();
+			
 			while (resultados.next()) {
-				areasTematicas.add(toAreaTematica(resultados));
+				//areasTematicas.add(toAreaTematica(resultados));
+				
+				text = text + resultados.getString("id") + ": " + resultados.getString("nombre") + "\n";
 			}
-			return areasTematicas;
+			return text;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return Collections.emptyList();
+		return "";
 	}
 
 	@Override
@@ -45,6 +46,14 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void main(String[] args) {		
+		AreaTematica t = new AreaTematica();
+		t.setNombre("c++");
+		AreaTematicaDAO a = new AreaTematicaDAO();
+		a.insert(t);
+		a.insert(t);
 	}
 
 	@Override
