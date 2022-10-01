@@ -15,8 +15,11 @@ import java.sql.Connection;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
-public class Interfaz extends JFrame {
+public class MenuOpciones extends JFrame {
 
+	/**
+	 * 
+	 */
 	private JPanel contentPane;
 	private JLabel areasTematicas;
 	private JButton btnPrestarADomicilio;
@@ -38,7 +41,7 @@ public class Interfaz extends JFrame {
 	 * Create the frame.
 	 */
 	
-	public Interfaz(Connection conn) {
+	public MenuOpciones(Connection conn) {
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,9 +142,9 @@ public class Interfaz extends JFrame {
 		JButton btnRegresar = new JButton("Regresar");
 		btnRegresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login(conn);
+				IniciarSesion login = new IniciarSesion(conn);
 				login.setVisible(true);
-				Interfaz.this.dispose();
+				MenuOpciones.this.dispose();
 			}
 		});
 		btnRegresar.setForeground(Color.BLACK);

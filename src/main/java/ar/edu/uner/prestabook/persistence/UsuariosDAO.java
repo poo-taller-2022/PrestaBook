@@ -4,11 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
-import ar.edu.uner.prestabook.jframe.Login;
-import ar.edu.uner.prestabook.model.AreaTematica;
 
 public class UsuariosDAO {
 	

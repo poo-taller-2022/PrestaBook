@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
-public class Login extends JFrame {
+public class IniciarSesion extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField cajaCorreo;
@@ -38,7 +38,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login(conn);
+					IniciarSesion frame = new IniciarSesion(conn);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login(Connection conn) {
+	public IniciarSesion(Connection conn) {
 		
 		UsuariosDAO usuariosDAO = new UsuariosDAO(conn);
 		setUndecorated(true);
@@ -74,7 +74,7 @@ public class Login extends JFrame {
 		lblNewLabel = new JLabel("PrestaBook");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Roboto Black", Font.PLAIN, 26));
-		lblNewLabel.setBounds(259, 28, 151, 42);
+		lblNewLabel.setBounds(243, 30, 151, 42);
 		panel.add(lblNewLabel);
 		
 		btnExit = new JButton("X");
@@ -91,40 +91,40 @@ public class Login extends JFrame {
 		panel.add(btnExit);
 		
 		JLabel lblContrasenia = new JLabel("Contraseña");
-		lblContrasenia.setBounds(189, 236, 66, 14);
+		lblContrasenia.setBounds(149, 236, 66, 14);
 		contentPane.add(lblContrasenia);
 		
 		JLabel lblIniciarSesin = new JLabel("Iniciar sesión");
 		lblIniciarSesin.setFont(new Font("Roboto Black", Font.PLAIN, 17));
-		lblIniciarSesin.setBounds(265, 131, 119, 14);
+		lblIniciarSesin.setBounds(262, 131, 119, 14);
 		contentPane.add(lblIniciarSesin);
 		
 		cajaCorreo = new JTextField();
 		cajaCorreo.setBackground(new Color(211, 211, 211));
 		cajaCorreo.setForeground(new Color(128, 128, 128));
 		cajaCorreo.setColumns(10);
-		cajaCorreo.setBounds(262, 180, 180, 30);
+		cajaCorreo.setBounds(234, 180, 180, 30);
 		contentPane.add(cajaCorreo);
 		
 		cajaContrasenia = new JPasswordField();
 		cajaContrasenia.setToolTipText("");
 		cajaContrasenia.setBackground(new Color(211, 211, 211));
-		cajaContrasenia.setBounds(262, 228, 180, 30);
+		cajaContrasenia.setBounds(234, 228, 180, 30);
 		contentPane.add(cajaContrasenia);
 		
 		JLabel lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(189, 188, 59, 14);
+		lblCorreo.setBounds(149, 188, 59, 14);
 		contentPane.add(lblCorreo);
-		
+		 
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!cajaCorreo.getText().equals("") && !cajaContrasenia.getText().equals("")) {
 					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(cajaCorreo.getText(), cajaContrasenia.getText());
 					if (busquedaUsuario.equals("usuario encontrado")) {
-						Interfaz interfaz = new Interfaz(conn);
+						MenuOpciones interfaz = new MenuOpciones(conn);
 						interfaz.setVisible(true);
-						Login.this.dispose();
+						IniciarSesion.this.dispose();
 						String busquedaNombre = usuariosDAO.buscarNombre(cajaCorreo.getText());
 						JOptionPane.showInternalMessageDialog(null, "Bienvenido (a) \n" +  busquedaNombre);
 						interfaz.textUsusario.setText(busquedaNombre);
@@ -134,17 +134,16 @@ public class Login extends JFrame {
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
 				}
-				
 			}
 		});
 		
 		btnIngresar.setForeground(new Color(0, 0, 0));
 		btnIngresar.setBackground(new Color(255, 255, 255));
-		btnIngresar.setBounds(295, 314, 89, 23);
+		btnIngresar.setBounds(268, 314, 89, 23);
 		contentPane.add(btnIngresar);
 		
 		JLabel lblNewLabel_1 = new JLabel("¿No estas registrado?");
-		lblNewLabel_1.setBounds(228, 388, 141, 14);
+		lblNewLabel_1.setBounds(179, 388, 141, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		btnRegistrarse = new JButton("Registrarse");
@@ -152,12 +151,12 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Registrarse registrarse = new Registrarse(conn);
 				registrarse.setVisible(true);
-				Login.this.dispose();
+				IniciarSesion.this.dispose();
 			}
 		});
 		btnRegistrarse.setBorderPainted(false);
 		btnRegistrarse.setForeground(new Color(0, 0, 255));
-		btnRegistrarse.setBounds(372, 384, 119, 23);
+		btnRegistrarse.setBounds(316, 384, 119, 23);
 		contentPane.add(btnRegistrarse);
 	}
 }

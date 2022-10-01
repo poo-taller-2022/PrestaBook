@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
-import ar.edu.uner.prestabook.jframe.Login;
+import ar.edu.uner.prestabook.jframe.IniciarSesion;
 
 public class App {
 
 	public static void main(String[] args) {
 		try {
 			Connection conn = ConnectionProvider.getConnection();
-			Login.main(conn);
+			IniciarSesion.main(conn);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

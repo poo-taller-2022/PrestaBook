@@ -122,7 +122,7 @@ public class Registrarse extends JFrame {
 		JButton btnRegresar = new JButton("Regresar");
 		btnRegresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login(conn);
+				IniciarSesion login = new IniciarSesion(conn);
 				login.setVisible(true);
 				Registrarse.this.dispose();
 			}
