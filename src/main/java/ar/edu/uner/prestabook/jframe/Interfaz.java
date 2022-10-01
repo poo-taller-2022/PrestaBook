@@ -1,7 +1,5 @@
 package ar.edu.uner.prestabook.jframe;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,64 +11,46 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
 import java.awt.Color;
-import javax.swing.JTextField;
 
 public class Interfaz extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel areasTematicas;
 	private JButton btnPrestarADomicilio;
-	private JButton btnListarAreasTematicas_2;
-	private JButton btnListarAreasTematicas_3;
-	private JButton btnListarAreasTematicas_4;
-	private JButton btnListarAreasTematicas_1;
-	private JButton btnListarAreasTematicas_5;
-	private JButton btnListarAreasTematicas_6;
-	private JButton btnListarAreasTematicas_7;
-	private JButton btnListarAreasTematicas_8;
-	private JButton btnListarAreasTematicas_9;
-	private JButton btnListarAreasTematicas_10;
-	private JButton btnListarAreasTematicas_11;
+	private JButton btnPrestarEnSala;
+	private JButton btnGestionarDevolución;
+	private JButton btnListarLectoresMorosos;
+	private JButton btnListarMasBuscadasPorPublicoGeneral;
+	private JButton btnListarEjemplaresDisponiblesPorArea;
+	private JButton btnListarEjemplaresDisponiblesPorFecha;
+	private JButton btnListarLectoresMultadosPorPeriodo;
+	private JButton btnListarRankingMultados;
+	private JButton ListarObrasPorEditorial;
 	private JButton btnExit;
 	private JLabel lblNewLabel;
 	public JLabel textUsusario;
-
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Interfaz frame = new Interfaz();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JButton btnAplicarMultaALector;
 
 	/**
 	 * Create the frame.
 	 */
-	public Interfaz() {
+	
+	public Interfaz(Connection conn) {
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		iniciarComponentes();
+		iniciarComponentes(conn);
 		
 		setTitle("Opciones");
 		setLocationRelativeTo(null);
 		
 	}
 
-	private void iniciarComponentes() {
+	private void iniciarComponentes(Connection conn) {
 		setBounds(100, 100, 598, 727);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -87,7 +67,7 @@ public class Interfaz extends JFrame {
 		btnListarAreasTematicas.setBounds(101, 68, 382, 23);
 		btnListarAreasTematicas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AreaTematicaDAO a = new AreaTematicaDAO();
+				AreaTematicaDAO a = new AreaTematicaDAO(conn);
 				JOptionPane.showInternalMessageDialog(null, a.findAll());
 			}
 		});
@@ -99,49 +79,49 @@ public class Interfaz extends JFrame {
 		btnPrestarADomicilio.setBounds(101, 106, 382, 23);
 		contentPane.add(btnPrestarADomicilio);
 		
-		btnListarAreasTematicas_2 = new JButton("Prestar obra en sala");
-		btnListarAreasTematicas_2.setBounds(101, 148, 382, 23);
-		contentPane.add(btnListarAreasTematicas_2);
+		btnPrestarEnSala = new JButton("Prestar obra en sala");
+		btnPrestarEnSala.setBounds(101, 148, 382, 23);
+		contentPane.add(btnPrestarEnSala);
 		
-		btnListarAreasTematicas_3 = new JButton("Gestionar devolución de obra");
-		btnListarAreasTematicas_3.setBounds(101, 188, 382, 23);
-		contentPane.add(btnListarAreasTematicas_3);
+		btnGestionarDevolución = new JButton("Gestionar devolución de obra");
+		btnGestionarDevolución.setBounds(101, 188, 382, 23);
+		contentPane.add(btnGestionarDevolución);
 		
-		btnListarAreasTematicas_4 = new JButton("Listar lectores morosos");
-		btnListarAreasTematicas_4.setBounds(101, 225, 382, 23);
-		contentPane.add(btnListarAreasTematicas_4);
+		btnListarLectoresMorosos = new JButton("Listar lectores morosos");
+		btnListarLectoresMorosos.setBounds(101, 225, 382, 23);
+		contentPane.add(btnListarLectoresMorosos);
 		
-		btnListarAreasTematicas_1 = new JButton("Listar obras mas buscadas por alumnos y docentes");
-		btnListarAreasTematicas_1.setBounds(101, 269, 382, 23);
-		contentPane.add(btnListarAreasTematicas_1);
+		JButton btnListarMasBuscadasPorAlumnosDocentes = new JButton("Listar obras mas buscadas por alumnos y docentes");
+		btnListarMasBuscadasPorAlumnosDocentes.setBounds(101, 269, 382, 23);
+		contentPane.add(btnListarMasBuscadasPorAlumnosDocentes);
 		
-		btnListarAreasTematicas_5 = new JButton("Listar obras mas buscadas por publico en general");
-		btnListarAreasTematicas_5.setBounds(101, 311, 382, 23);
-		contentPane.add(btnListarAreasTematicas_5);
+		btnListarMasBuscadasPorPublicoGeneral = new JButton("Listar obras mas buscadas por publico en general");
+		btnListarMasBuscadasPorPublicoGeneral.setBounds(101, 311, 382, 23);
+		contentPane.add(btnListarMasBuscadasPorPublicoGeneral);
 		
-		btnListarAreasTematicas_6 = new JButton("Listar ejemplares disponibles por area");
-		btnListarAreasTematicas_6.setBounds(101, 357, 382, 23);
-		contentPane.add(btnListarAreasTematicas_6);
+		btnListarEjemplaresDisponiblesPorArea = new JButton("Listar ejemplares disponibles por area");
+		btnListarEjemplaresDisponiblesPorArea.setBounds(101, 357, 382, 23);
+		contentPane.add(btnListarEjemplaresDisponiblesPorArea);
 		
-		btnListarAreasTematicas_7 = new JButton("Listar ejemplares disponibles a partir de una fecha");
-		btnListarAreasTematicas_7.setBounds(101, 407, 382, 23);
-		contentPane.add(btnListarAreasTematicas_7);
+		btnListarEjemplaresDisponiblesPorFecha = new JButton("Listar ejemplares disponibles a partir de una fecha");
+		btnListarEjemplaresDisponiblesPorFecha.setBounds(101, 407, 382, 23);
+		contentPane.add(btnListarEjemplaresDisponiblesPorFecha);
 		
-		btnListarAreasTematicas_8 = new JButton("Listar lectores multados por periodo");
-		btnListarAreasTematicas_8.setBounds(101, 449, 382, 23);
-		contentPane.add(btnListarAreasTematicas_8);
+		btnListarLectoresMultadosPorPeriodo = new JButton("Listar lectores multados por periodo");
+		btnListarLectoresMultadosPorPeriodo.setBounds(101, 449, 382, 23);
+		contentPane.add(btnListarLectoresMultadosPorPeriodo);
 		
-		btnListarAreasTematicas_9 = new JButton("Listar ranking de multados");
-		btnListarAreasTematicas_9.setBounds(101, 496, 382, 23);
-		contentPane.add(btnListarAreasTematicas_9);
+		btnListarRankingMultados = new JButton("Listar ranking de multados");
+		btnListarRankingMultados.setBounds(101, 496, 382, 23);
+		contentPane.add(btnListarRankingMultados);
 		
-		btnListarAreasTematicas_10 = new JButton("Listar obras por editorial ");
-		btnListarAreasTematicas_10.setBounds(101, 541, 382, 23);
-		contentPane.add(btnListarAreasTematicas_10);
+		ListarObrasPorEditorial = new JButton("Listar obras por editorial ");
+		ListarObrasPorEditorial.setBounds(101, 541, 382, 23);
+		contentPane.add(ListarObrasPorEditorial);
 		
-		btnListarAreasTematicas_11 = new JButton("Aplicar multa a lector");
-		btnListarAreasTematicas_11.setBounds(101, 588, 382, 23);
-		contentPane.add(btnListarAreasTematicas_11);
+		btnAplicarMultaALector = new JButton("Aplicar multa a lector");
+		btnAplicarMultaALector.setBounds(101, 588, 382, 23);
+		contentPane.add(btnAplicarMultaALector);
 		
 		btnExit = new JButton("X");
 		btnExit.addActionListener(new ActionListener() {
@@ -159,7 +139,7 @@ public class Interfaz extends JFrame {
 		JButton btnRegresar = new JButton("Regresar");
 		btnRegresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
+				Login login = new Login(conn);
 				login.setVisible(true);
 				Interfaz.this.dispose();
 			}
@@ -170,13 +150,13 @@ public class Interfaz extends JFrame {
 		contentPane.add(btnRegresar);
 		
 		lblNewLabel = new JLabel("Usuario:");
-		lblNewLabel.setBounds(0, 6, 62, 14);
+		lblNewLabel.setBounds(0, 6, 47, 14);
 		contentPane.add(lblNewLabel);
 		
 		textUsusario = new JLabel("");
-		textUsusario.setBounds(52, 0, 205, 30);
+		textUsusario.setForeground(new Color(0, 128, 255));
+		textUsusario.setBounds(57, 2, 205, 23);
 		contentPane.add(textUsusario);
 		
 	}
-
 }

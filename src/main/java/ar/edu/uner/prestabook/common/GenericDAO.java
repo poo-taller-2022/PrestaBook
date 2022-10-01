@@ -1,7 +1,10 @@
 package ar.edu.uner.prestabook.common;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.uner.prestabook.model.AreaTematica;
 
 public interface GenericDAO<T> {
 
@@ -46,4 +49,7 @@ public interface GenericDAO<T> {
 	 *         statements or null for SQL statements that return nothing
 	 */
 	public Integer delete(T t);
+
+
+
 }

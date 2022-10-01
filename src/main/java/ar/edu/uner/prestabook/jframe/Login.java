@@ -6,8 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ar.edu.uner.prestabook.persistence.AreaTematicaDAO;
-import ar.edu.uner.prestabook.persistence.LoginDAO;
+import ar.edu.uner.prestabook.persistence.UsuariosDAO;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -16,11 +15,10 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.DropMode;
 import javax.swing.JButton;
 
 public class Login extends JFrame {
@@ -36,11 +34,11 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(Connection conn) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					Login frame = new Login(conn);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,9 +50,9 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public Login(Connection conn) {
 		
-		LoginDAO loginDAO = new LoginDAO();
+		UsuariosDAO usuariosDAO = new UsuariosDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,25 +119,25 @@ public class Login extends JFrame {
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Interfaz interfaz = new Interfaz();
-				interfaz.setVisible(true);
-				Login.this.dispose();
-				
-				String busquedaUsuario = loginDAO.buscarUsuarioRegistrado(cajaCorreo.getText(), cajaContrasenia.getText());
-				if (cajaCorreo.getText().equals("root") && cajaContrasenia.getText().equals("root")) {
-					JOptionPane.showInternalMessageDialog(null, "Bienvenido, ingresante sesión como un root (Administrador)");
-					interfaz.textUsusario.setText("Administrador");
-					Login.this.dispose();
-				} else if (busquedaUsuario.equals("usuario encontrado")) {
-					String busquedaNombre = loginDAO.buscarNombre(cajaCorreo.getText());
-					JOptionPane.showInternalMessageDialog(null, "Bienvenido (a) \n" +  busquedaNombre);
-					interfaz.textUsusario.setText(busquedaNombre);
-					Login.this.dispose();
+				if(!cajaCorreo.getText().equals("") && !cajaContrasenia.getText().equals("")) {
+					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(cajaCorreo.getText(), cajaContrasenia.getText());
+					if (busquedaUsuario.equals("usuario encontrado")) {
+						Interfaz interfaz = new Interfaz(conn);
+						interfaz.setVisible(true);
+						Login.this.dispose();
+						String busquedaNombre = usuariosDAO.buscarNombre(cajaCorreo.getText());
+						JOptionPane.showInternalMessageDialog(null, "Bienvenido (a) \n" +  busquedaNombre);
+						interfaz.textUsusario.setText(busquedaNombre);
+					} else {
+						JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
+					}
 				} else {
-					JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
+					JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
 				}
+				
 			}
 		});
+		
 		btnIngresar.setForeground(new Color(0, 0, 0));
 		btnIngresar.setBackground(new Color(255, 255, 255));
 		btnIngresar.setBounds(295, 314, 89, 23);
@@ -152,7 +150,7 @@ public class Login extends JFrame {
 		btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Registrarse registrarse = new Registrarse();
+				Registrarse registrarse = new Registrarse(conn);
 				registrarse.setVisible(true);
 				Login.this.dispose();
 			}

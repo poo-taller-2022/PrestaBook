@@ -10,12 +10,17 @@ import ar.edu.uner.prestabook.model.AreaTematica;
 
 public class AreaTematicaDAO implements IAreaTematicaDAO {
 
+	Connection conn;
+	
+	public AreaTematicaDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
 	@Override
 	public String findAll() {
 		String sql = "SELECT * FROM AREAS_TEMATICAS";
 		String text = "";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			//List<AreaTematica> areasTematicas = new LinkedList<>();
 			
@@ -34,8 +39,7 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	@Override
 	public AreaTematica findById(Object id) {
 		String sql = String.format("SELECT * FROM AREAS_TEMATICAS WHERE ID = %s", id.toString());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			AreaTematica areaTematica = null;
 			if (resultados.next()) {
@@ -48,19 +52,25 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 		return null;
 	}
 	
-	public static void main(String[] args) {		
-		AreaTematica t = new AreaTematica();
-		t.setNombre("c++");
-		AreaTematicaDAO a = new AreaTematicaDAO();
-		a.insert(t);
-		a.insert(t);
+	public static void main(String[] args) {	
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			AreaTematica t = new AreaTematica();
+			t.setNombre("c++");
+			AreaTematicaDAO a = new AreaTematicaDAO(conn);
+			a.insert(t);
+			a.findById(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
 	public Integer insert(AreaTematica areaTematica) {
 		String sql = String.format("INSERT INTO AREAS_TEMATICAS (NOMBRE) VALUES ('%s')", areaTematica.getNombre());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,8 +82,7 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	public Integer update(AreaTematica areaTematica) {
 		String sql = String.format("UPDATE AREAS_TEMATICAS SET NOMBRE = '%s' WHERE ID = '%s'", areaTematica.getNombre(),
 				areaTematica.getId());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -1,12 +1,10 @@
 package ar.edu.uner.prestabook.jframe;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ar.edu.uner.prestabook.persistence.LoginDAO;
+import ar.edu.uner.prestabook.persistence.UsuariosDAO;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -17,40 +15,24 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.awt.event.ActionEvent;
 
 public class Registrarse extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textNombre;
+	private JTextField textApellido;
 	private JPasswordField passwordField;
 	private JButton btnGuardar;
 	private JTextField textCorreo;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registrarse frame = new Registrarse();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	
-	LoginDAO loginDao = new LoginDAO();
-	private JTextField textApellido;
-	
-	public Registrarse() {
+	public Registrarse(Connection conn) {
+		UsuariosDAO usuariosDAO = new UsuariosDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,15 +101,19 @@ public class Registrarse extends JFrame {
 		btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int i = loginDao.guardar(textNombre.getText(), textApellido.getText(), textCorreo.getText(), passwordField.getText());
-				if (i > 0) {
-					JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+				if (!textNombre.getText().equals("") && !textApellido.getText().equals("") && !textCorreo.getText().equals("") && !passwordField.getText().equals("")) {
+					int i = usuariosDAO.guardar(textNombre.getText(), textApellido.getText(), textCorreo.getText(), passwordField.getText());
+					if (i > 0) {
+						JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+					} else {
+						JOptionPane.showInternalMessageDialog(null, "No se pudo guardar los datos");
+					}
 				} else {
-					JOptionPane.showInternalMessageDialog(null, "No se pudo guardar los datos");
+					JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");
 				}
 			}
 		});
+		
 		btnGuardar.setForeground(Color.BLACK);
 		btnGuardar.setBackground(Color.WHITE);
 		btnGuardar.setBounds(182, 371, 119, 23);
@@ -136,7 +122,7 @@ public class Registrarse extends JFrame {
 		JButton btnRegresar = new JButton("Regresar");
 		btnRegresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
+				Login login = new Login(conn);
 				login.setVisible(true);
 				Registrarse.this.dispose();
 			}
