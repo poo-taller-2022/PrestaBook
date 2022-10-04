@@ -1,5 +1,7 @@
 package ar.edu.uner.prestabook.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,6 +16,6 @@ public class Coleccion extends Obra {
 
 	@Id
 	private Long id;
-	private Obra[] obras;
+	private List<Obra> obras;
 
 }

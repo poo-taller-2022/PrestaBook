@@ -1,5 +1,7 @@
 package ar.edu.uner.prestabook.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -17,6 +19,6 @@ public class Edicion {
 	private Long volumenes;
 	private Integer paginas;
 	private String idioma;
-	private Formato[] formatos;
+	private List<Formato> formatos;
 
 }
