@@ -22,19 +22,19 @@ public class Docente extends Lector {
 		
 	}
 	
-	public Docente(Lector lector) {
-		this.setNombre(lector.getNombre());
-		this.setApellido(lector.getApellido());
-		this.setTipoDocumento(lector.getTipoDocumento());
-		this.setDocumento(lector.getDocumento());
-		this.setEmail(lector.getEmail());
-		this.setCelular(lector.getCelular());
-		this.setFechaNacimiento(lector.getFechaNacimiento());
-		this.setSexo(lector.getSexo());
-		this.setNacionalidad(lector.getNacionalidad());
-		this.setDomicilio(lector.getDomicilio());
-		this.setCodigoPostal(lector.getCodigoPostal());
-		this.setDepartamento(lector.getDepartamento());
-		this.setLocalidad(lector.getLocalidad());
+	public Docente(Lector lec) {
+		this.setNombre(lec.getNombre());
+		this.setApellido(lec.getApellido());
+		this.setTipoDocumento(lec.getTipoDocumento());
+		this.setDocumento(lec.getDocumento());
+		this.setEmail(lec.getEmail());
+		this.setCelular(lec.getCelular());
+		this.setFechaNacimiento(lec.getFechaNacimiento());
+		this.setSexo(lec.getSexo());
+		this.setNacionalidad(lec.getNacionalidad());
+		this.setDomicilio(lec.getDomicilio());
+		this.setCodigoPostal(lec.getCodigoPostal());
+		this.setDepartamento(lec.getDepartamento());
+		this.setLocalidad(lec.getLocalidad());
 	}
 }

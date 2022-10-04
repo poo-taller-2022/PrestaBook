@@ -32,6 +32,7 @@ public class DocenteDAO implements IDocenteDAO{
 
 	@Override
 	public Docente findById(Object id) {
+		
 		String sql = String.format("SELECT * FROM DOCENTES WHERE ID = %s", id.toString());
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql)) {

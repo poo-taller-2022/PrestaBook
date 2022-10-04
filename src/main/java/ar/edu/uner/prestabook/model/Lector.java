@@ -22,9 +22,9 @@ public class Lector extends Persona {
 	@Id
 	private Long id;
 	
-	public void registrarse(String tipo) {
+	public void registrarse(String tipoLector) {
 		
-		switch(tipo.toUpperCase()) {
+		switch(tipoLector.toUpperCase()) {
 			case "GENERAL":
 				LectorDAO l = new LectorDAO();
 				l.insert(this);

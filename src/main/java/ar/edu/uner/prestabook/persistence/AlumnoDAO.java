@@ -32,6 +32,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 
 	@Override
 	public Alumno findById(Object id) {
+		
 		String sql = String.format("SELECT * FROM ALUMNOS WHERE ID = %s", id.toString());
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql)) {

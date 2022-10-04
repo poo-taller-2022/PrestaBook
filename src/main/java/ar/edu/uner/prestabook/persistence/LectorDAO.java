@@ -49,6 +49,7 @@ public class LectorDAO implements ILectorDAO {
 
 	@Override
 	public Integer insert(Lector lector) {
+		
 		String sql = String.format("INSERT INTO LECTORES (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
 				+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
 				+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD) VALUES ('%s','%s','%s','%s','%s','%s',"
