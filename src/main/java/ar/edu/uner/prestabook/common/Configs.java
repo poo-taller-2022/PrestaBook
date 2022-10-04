@@ -3,7 +3,6 @@ package ar.edu.uner.prestabook.common;
 import java.io.IOException;
 import java.util.Properties;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import lombok.Getter;
 
 /**
@@ -27,7 +26,7 @@ public class Configs {
 	static {
 		Properties properties = new Properties();
 		try {
-			properties.load(ConnectionProvider.class.getResourceAsStream("/properties.env"));
+			properties.load(Configs.class.getResourceAsStream("/properties.env"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
