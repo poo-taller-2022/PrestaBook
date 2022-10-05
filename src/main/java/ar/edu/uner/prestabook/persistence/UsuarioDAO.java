@@ -4,16 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import ar.edu.uner.prestabook.model.AreaTematica;
 
 
-public class UsuariosDAO {
+public class UsuarioDAO {
 	
 	Connection conn;
 	
-	public UsuariosDAO(Connection conn) {
+	public UsuarioDAO(Connection conn) {
 		this.conn = conn;
 	}
-
+	
 	public Integer guardar(String nombre, String apellido, String correo, String contrasenia) {
 		String sql = String.format("INSERT INTO USUARIOS (NOMBRE,APELLIDO ,CORREO,CONTRASENIA) VALUES (?,?,?,?)");
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {

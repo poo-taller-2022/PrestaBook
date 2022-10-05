@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ar.edu.uner.prestabook.persistence.UsuariosDAO;
+import ar.edu.uner.prestabook.persistence.UsuarioDAO;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -32,7 +32,7 @@ public class Registrarse extends JFrame {
 	 */
 	
 	public Registrarse(Connection conn) {
-		UsuariosDAO usuariosDAO = new UsuariosDAO(conn);
+		UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

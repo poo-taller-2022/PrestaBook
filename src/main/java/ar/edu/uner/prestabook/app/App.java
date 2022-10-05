@@ -9,8 +9,9 @@ import ar.edu.uner.prestabook.jframe.IniciarSesion;
 public class App {
 
 	public static void main(String[] args) {
+		Connection conn;
 		try {
-			Connection conn = ConnectionProvider.getConnection();
+			conn = ConnectionProvider.getConnection();
 			IniciarSesion.main(conn);
 			
 		} catch (SQLException e) {

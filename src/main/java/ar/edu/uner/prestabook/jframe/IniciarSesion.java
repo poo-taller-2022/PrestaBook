@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ar.edu.uner.prestabook.persistence.UsuariosDAO;
+import ar.edu.uner.prestabook.persistence.UsuarioDAO;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -21,15 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
-public class IniciarSesion extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField cajaCorreo;
-	private JPasswordField cajaContrasenia;
-	private JPanel panel;
-	private JLabel lblNewLabel;
-	private JButton btnExit;
-	private JButton btnRegistrarse;
+public class IniciarSesion extends JFrame {
 
 	/**
 	 * Launch the application.
@@ -50,34 +43,35 @@ public class IniciarSesion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public IniciarSesion(Connection conn) {
 		
-		UsuariosDAO usuariosDAO = new UsuariosDAO(conn);
+		UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 648, 486);
 		setLocationRelativeTo(null);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		panel.setBackground(new Color(72, 53, 247));
 		panel.setBounds(0, 0, 648, 100);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		lblNewLabel = new JLabel("PrestaBook");
+		JLabel lblNewLabel = new JLabel("PrestaBook");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Roboto Black", Font.PLAIN, 26));
 		lblNewLabel.setBounds(243, 30, 151, 42);
 		panel.add(lblNewLabel);
 		
-		btnExit = new JButton("X");
+		JButton btnExit = new JButton("X");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -99,14 +93,14 @@ public class IniciarSesion extends JFrame {
 		lblIniciarSesin.setBounds(262, 131, 119, 14);
 		contentPane.add(lblIniciarSesin);
 		
-		cajaCorreo = new JTextField();
+		JTextField cajaCorreo = new JTextField();
 		cajaCorreo.setBackground(new Color(211, 211, 211));
 		cajaCorreo.setForeground(new Color(128, 128, 128));
 		cajaCorreo.setColumns(10);
 		cajaCorreo.setBounds(234, 180, 180, 30);
 		contentPane.add(cajaCorreo);
 		
-		cajaContrasenia = new JPasswordField();
+		JPasswordField cajaContrasenia = new JPasswordField();
 		cajaContrasenia.setToolTipText("");
 		cajaContrasenia.setBackground(new Color(211, 211, 211));
 		cajaContrasenia.setBounds(234, 228, 180, 30);
@@ -146,7 +140,7 @@ public class IniciarSesion extends JFrame {
 		lblNewLabel_1.setBounds(179, 388, 141, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		btnRegistrarse = new JButton("Registrarse");
+		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Registrarse registrarse = new Registrarse(conn);

@@ -3,6 +3,7 @@ package ar.edu.uner.prestabook.jframe;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import ar.edu.uner.prestabook.persistence.AreaTematicaDAO;
 
 import javax.swing.JLabel;
@@ -50,7 +51,6 @@ public class MenuOpciones extends JFrame {
 		
 		setTitle("Opciones");
 		setLocationRelativeTo(null);
-		
 	}
 
 	private void iniciarComponentes(Connection conn) {
@@ -66,7 +66,7 @@ public class MenuOpciones extends JFrame {
 		areasTematicas.setBounds(212, 27, 156, 30);
 		contentPane.add(areasTematicas);
 		
-		JButton btnListarAreasTematicas = new JButton("Listar areas tematicas");
+		JButton btnListarAreasTematicas = new JButton("Listar areas tematicas   ");
 		btnListarAreasTematicas.setBounds(101, 68, 382, 23);
 		btnListarAreasTematicas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,7 +74,6 @@ public class MenuOpciones extends JFrame {
 				JOptionPane.showInternalMessageDialog(null, a.findAll());
 			}
 		});
-		
 		
 		contentPane.add(btnListarAreasTematicas);
 		
@@ -161,5 +160,8 @@ public class MenuOpciones extends JFrame {
 		textUsusario.setBounds(57, 2, 205, 23);
 		contentPane.add(textUsusario);
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(39, 27, 104, 23);
+		contentPane.add(panel);
 	}
 }
