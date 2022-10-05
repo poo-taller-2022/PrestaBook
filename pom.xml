@@ -11,6 +11,12 @@
 	<dependencies>
 
 		<dependency>
+		    <groupId>org.modelmapper</groupId>
+		    <artifactId>modelmapper</artifactId>
+		    <version>3.1.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.39.2.1</version>

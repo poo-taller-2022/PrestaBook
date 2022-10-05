@@ -1,5 +1,7 @@
 package ar.edu.uner.prestabook.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,7 +14,7 @@ public class Obra {
 
 	@Id
 	private String isbn;
-	private Ejemplar[] ejemplares;
+	private List<Ejemplar> ejemplares;
 	private String titulo;
 	private String subtitulo;
 	private String primerAutor;

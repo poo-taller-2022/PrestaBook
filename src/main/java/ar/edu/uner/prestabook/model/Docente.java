@@ -17,4 +17,5 @@ public class Docente extends Lector {
 	@Id
 	private Long id;
 	private List<String> carreras;
+	
 }
