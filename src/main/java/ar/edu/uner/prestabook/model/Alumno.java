@@ -17,4 +17,5 @@ public class Alumno extends Lector {
 	@Id
 	private Long id;
 	private List<String> carreras;
+	
 }
