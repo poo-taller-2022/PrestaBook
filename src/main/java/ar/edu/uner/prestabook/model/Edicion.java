@@ -19,11 +19,10 @@ public class Edicion {
 	private Long volumenes;
 	private Integer paginas;
 	private String idioma;
-<<<<<<< HEAD
-	private Formato formatos;
+	private List<Formato> formatos;
 	
 	public Edicion(Long id, String editorial, String pais, Integer numero, Integer anio, Long volumenes,
-			Integer paginas, String idioma, Formato formatos) {
+			Integer paginas, String idioma, List<Formato> formatos) {
 		super();
 		this.id = id;
 		this.editorial = editorial;
@@ -35,9 +34,4 @@ public class Edicion {
 		this.idioma = idioma;
 		this.formatos = formatos;
 	}
-	
-=======
-	private List<Formato> formatos;
-
->>>>>>> 30adcef8e86f59b4df64ba7e150a5581db6d5597
 }

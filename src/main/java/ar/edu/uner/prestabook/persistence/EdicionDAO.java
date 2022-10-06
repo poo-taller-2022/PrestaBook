@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Formato;
 
@@ -96,7 +95,7 @@ public class EdicionDAO implements IEdicionDAO {
 	private Edicion toEdicion(ResultSet resultados) {
 		try {
 			FormatoDAO formatoDAO = new FormatoDAO(this.conn);
-			Formato formato = formatoDAO.findById(resultados.getInt(9));
+			List<Formato> formato = (List<Formato>) formatoDAO.findById(resultados.getInt(9));
 			
 			return new Edicion(resultados.getLong(1), resultados.getString(2), resultados.getString(3), resultados.getInt(4), resultados.getInt(5), resultados.getLong(6), resultados.getInt(7), resultados.getString(8),formato);
 		
