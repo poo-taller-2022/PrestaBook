@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -20,13 +21,10 @@ import java.awt.event.ActionEvent;
 
 public class Registrarse extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textNombre;
-	private JTextField textApellido;
-	private JPasswordField passwordField;
-	private JButton btnGuardar;
-	private JTextField textCorreo;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the frame.
 	 */
@@ -35,10 +33,10 @@ public class Registrarse extends JFrame {
 		UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 642, 460);
 		setLocationRelativeTo(null);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -73,7 +71,7 @@ public class Registrarse extends JFrame {
 		lblRegistrarse.setBounds(268, 114, 112, 30);
 		contentPane.add(lblRegistrarse);
 		
-		textNombre = new JTextField();
+		JTextField textNombre = new JTextField();
 		textNombre.setForeground(Color.GRAY);
 		textNombre.setColumns(10);
 		textNombre.setBackground(new Color(211, 211, 211));
@@ -88,7 +86,7 @@ public class Registrarse extends JFrame {
 		lblCorreo.setBounds(117, 267, 112, 14);
 		contentPane.add(lblCorreo);
 		
-		passwordField = new JPasswordField();
+		JPasswordField passwordField = new JPasswordField();
 		passwordField.setToolTipText("");
 		passwordField.setBackground(new Color(211, 211, 211));
 		passwordField.setBounds(228, 313, 180, 30);
@@ -98,11 +96,25 @@ public class Registrarse extends JFrame {
 		lblContrasenia.setBounds(147, 321, 72, 14);
 		contentPane.add(lblContrasenia);
 		
-		btnGuardar = new JButton("Guardar");
+		JTextField textCorreo = new JTextField();
+		textCorreo.setForeground(Color.GRAY);
+		textCorreo.setColumns(10);
+		textCorreo.setBackground(new Color(211, 211, 211));
+		textCorreo.setBounds(228, 259, 180, 30);
+		contentPane.add(textCorreo);
+		
+		JTextField textApellido = new JTextField();
+		textApellido.setForeground(Color.GRAY);
+		textApellido.setColumns(10);
+		textApellido.setBackground(new Color(211, 211, 211));
+		textApellido.setBounds(228, 205, 180, 30);
+		contentPane.add(textApellido);
+		
+		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!textNombre.getText().equals("") && !textApellido.getText().equals("") && !textCorreo.getText().equals("") && !passwordField.getText().equals("")) {
-					int i = usuariosDAO.guardar(textNombre.getText(), textApellido.getText(), textCorreo.getText(), passwordField.getText());
+				if (!textNombre.getText().isBlank() && !textApellido.getText().isBlank() && !textCorreo.getText().isBlank() && !(String.valueOf(passwordField.getPassword()).isBlank())) {
+					int i = usuariosDAO.guardar(textNombre.getText(), textApellido.getText(), textCorreo.getText(), String.valueOf(((JPasswordField) textCorreo).getPassword()));
 					if (i > 0) {
 						JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 					} else {
@@ -131,20 +143,6 @@ public class Registrarse extends JFrame {
 		btnRegresar.setBackground(Color.WHITE);
 		btnRegresar.setBounds(336, 371, 119, 23);
 		contentPane.add(btnRegresar);
-		
-		textCorreo = new JTextField();
-		textCorreo.setForeground(Color.GRAY);
-		textCorreo.setColumns(10);
-		textCorreo.setBackground(new Color(211, 211, 211));
-		textCorreo.setBounds(228, 259, 180, 30);
-		contentPane.add(textCorreo);
-		
-		textApellido = new JTextField();
-		textApellido.setForeground(Color.GRAY);
-		textApellido.setColumns(10);
-		textApellido.setBackground(new Color(211, 211, 211));
-		textApellido.setBounds(228, 205, 180, 30);
-		contentPane.add(textApellido);
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setBounds(164, 163, 59, 14);

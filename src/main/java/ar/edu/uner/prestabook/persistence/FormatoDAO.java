@@ -22,8 +22,7 @@ public class FormatoDAO implements IFormatoDAO {
 	@Override
 	public List<Formato> findAll() {
 		String sql = "SELECT * FROM FORMATO";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<Formato> formato = new LinkedList<>();
 			while (resultados.next()) {

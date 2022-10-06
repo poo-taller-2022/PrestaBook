@@ -18,12 +18,17 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
 
 public class IniciarSesion extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +54,7 @@ public class IniciarSesion extends JFrame {
 		UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 648, 486);
 		setLocationRelativeTo(null);
 		JPanel contentPane = new JPanel();
@@ -65,11 +70,11 @@ public class IniciarSesion extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("PrestaBook");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Roboto Black", Font.PLAIN, 26));
-		lblNewLabel.setBounds(243, 30, 151, 42);
-		panel.add(lblNewLabel);
+		JLabel lblPrestaBook = new JLabel("PrestaBook");
+		lblPrestaBook.setForeground(new Color(255, 255, 255));
+		lblPrestaBook.setFont(new Font("Roboto Black", Font.PLAIN, 26));
+		lblPrestaBook.setBounds(243, 30, 151, 42);
+		panel.add(lblPrestaBook);
 		
 		JButton btnExit = new JButton("X");
 		btnExit.addActionListener(new ActionListener() {
@@ -113,8 +118,8 @@ public class IniciarSesion extends JFrame {
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!cajaCorreo.getText().equals("") && !cajaContrasenia.getText().equals("")) {
-					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(cajaCorreo.getText(), cajaContrasenia.getText());
+				if(!cajaCorreo.getText().isBlank() && !(String.copyValueOf(cajaContrasenia.getPassword()).isBlank())) {
+					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(cajaCorreo.getText(), String.valueOf(cajaContrasenia.getPassword()));
 					if (busquedaUsuario.equals("usuario encontrado")) {
 						MenuOpciones interfaz = new MenuOpciones(conn);
 						interfaz.setVisible(true);
@@ -136,9 +141,9 @@ public class IniciarSesion extends JFrame {
 		btnIngresar.setBounds(268, 314, 89, 23);
 		contentPane.add(btnIngresar);
 		
-		JLabel lblNewLabel_1 = new JLabel("¿No estas registrado?");
-		lblNewLabel_1.setBounds(179, 388, 141, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
+		lblNoRegistrado.setBounds(179, 388, 141, 14);
+		contentPane.add(lblNoRegistrado);
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {

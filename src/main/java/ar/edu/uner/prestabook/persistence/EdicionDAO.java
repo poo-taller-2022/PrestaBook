@@ -23,8 +23,7 @@ public class EdicionDAO implements IEdicionDAO {
 	@Override
 	public List<Edicion> findAll() {
 		String sql = "SELECT * FROM EDICIONES";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<Edicion> ediciones = new LinkedList<>();
 			while (resultados.next()) {

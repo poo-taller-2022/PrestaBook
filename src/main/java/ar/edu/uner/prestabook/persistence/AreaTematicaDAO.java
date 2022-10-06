@@ -22,8 +22,7 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	@Override
 	public List<AreaTematica> findAll() {
 		String sql = "SELECT * FROM AREAS_TEMATICAS";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<AreaTematica> areasTematicas = new LinkedList<>();
 			while (resultados.next()) {

@@ -13,11 +13,16 @@ import ar.edu.uner.prestabook.model.Alumno;
 
 public class AlumnoDAO implements IAlumnoDAO {
 
+	Connection conn;
+	
+	public AlumnoDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
 	@Override
 	public List<Alumno> findAll() {
 		String sql = "SELECT * FROM ALUMNOS";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<Alumno> alumnos = new LinkedList<>();
 			while (resultados.next()) {
@@ -34,8 +39,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 	public Alumno findById(Object id) {
 		
 		String sql = String.format("SELECT * FROM ALUMNOS WHERE ID = %s", id.toString());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			Alumno alumno = null;
 			if (resultados.next()) {
@@ -57,8 +61,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 				alumno.getDocumento(),alumno.getEmail(),alumno.getCelular(),alumno.getFechaNacimiento(),alumno.getSexo(),
 				alumno.getNacionalidad(),alumno.getDomicilio(),alumno.getCodigoPostal(),alumno.getDepartamento(),alumno.getLocalidad());
 		
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,8 +80,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 				alumno.getNacionalidad(),alumno.getDomicilio(),alumno.getCodigoPostal(),alumno.getDepartamento(),
 				alumno.getLocalidad(), alumno.getId());
         
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
