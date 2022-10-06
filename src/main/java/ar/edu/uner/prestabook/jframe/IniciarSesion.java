@@ -118,7 +118,7 @@ public class IniciarSesion extends JFrame {
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!cajaCorreo.getText().isBlank() && !(String.copyValueOf(cajaContrasenia.getPassword()).isBlank())) {
+				if(!cajaCorreo.getText().isBlank() && !(String.valueOf(cajaContrasenia.getPassword()).isBlank())) {
 					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(cajaCorreo.getText(), String.valueOf(cajaContrasenia.getPassword()));
 					if (busquedaUsuario.equals("usuario encontrado")) {
 						MenuOpciones interfaz = new MenuOpciones(conn);
