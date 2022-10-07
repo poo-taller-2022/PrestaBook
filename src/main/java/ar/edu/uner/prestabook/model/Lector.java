@@ -1,5 +1,6 @@
 package ar.edu.uner.prestabook.model;
 
+import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,21 +25,21 @@ public class Lector extends Persona {
 	@Id
 	private Long id;
 
-	public void registrarse(String tipoLector) {
+	public void registrarse(String tipoLector, Connection conn) {
 		ModelMapper m = new ModelMapper();
 
 		switch (tipoLector.toUpperCase()) {
 			case "GENERAL":
-				LectorDAO l = new LectorDAO();
+				LectorDAO l = new LectorDAO(conn);
 				l.insert(this);
 				break;
 			case "ALUMNO":
-				AlumnoDAO a = new AlumnoDAO();
+				AlumnoDAO a = new AlumnoDAO(conn);
 				Alumno alumno = m.map(this, Alumno.class);
 				a.insert(alumno);
 				break;
 			case "DOCENTE":
-				DocenteDAO d = new DocenteDAO();
+				DocenteDAO d = new DocenteDAO(conn);
 				Docente docente = m.map(this, Docente.class);
 				d.insert(docente);
 				break;
