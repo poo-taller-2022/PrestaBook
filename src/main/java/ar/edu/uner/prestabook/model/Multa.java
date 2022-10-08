@@ -14,5 +14,5 @@ public class Multa {
 	private Long id;
 	private Integer plazo;
 	private String fecha;
-	
+
 }

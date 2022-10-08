@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 @Table(name = "ejemplares")
 public class Ejemplar extends Obra {
 
-	
 	private CodigoIdentificatorio codigoIdentificatorio;
 	private String formaAdquisicion;
 	private String fechaAdquisicion;

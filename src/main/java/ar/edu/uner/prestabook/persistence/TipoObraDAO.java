@@ -8,13 +8,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.TipoObra;
 
 public class TipoObraDAO implements ITipoObraDAO {
-	
-Connection conn;
-	
+
+	Connection conn;
+
 	public TipoObraDAO(Connection conn) {
 		this.conn = conn;
 	}
@@ -51,9 +50,8 @@ Connection conn;
 		return null;
 	}
 
-	
-	//@Override
-	public  Integer insert(TipoObra tipoObra) {
+	@Override
+	public Integer insert(TipoObra tipoObra) {
 		String sql = String.format("INSERT INTO TIPOS_OBRA (NOMBRE) VALUES ('%s')", tipoObra.getNombre());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
@@ -80,7 +78,7 @@ Connection conn;
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	private TipoObra toTipoObra(ResultSet resultados) {
 		TipoObra area = new TipoObra();
 		try {
@@ -91,7 +89,5 @@ Connection conn;
 		}
 		return area;
 	}
-	
-	
 
 }

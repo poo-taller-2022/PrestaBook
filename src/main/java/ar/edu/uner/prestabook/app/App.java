@@ -13,9 +13,7 @@ public class App {
 		try {
 			conn = ConnectionProvider.getConnection();
 			IniciarSesion.main(conn);
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

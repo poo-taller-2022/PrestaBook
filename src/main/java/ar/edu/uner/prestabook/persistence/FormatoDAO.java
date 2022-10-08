@@ -8,17 +8,16 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.Formato;
 
 public class FormatoDAO implements IFormatoDAO {
 
 	Connection conn;
-	
+
 	public FormatoDAO(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	@Override
 	public List<Formato> findAll() {
 		String sql = "SELECT * FROM FORMATO";
@@ -53,7 +52,7 @@ public class FormatoDAO implements IFormatoDAO {
 
 	@Override
 	public Integer insert(Formato formato) {
-		String sql = String.format("INSERT FORMATO (NOMBRE) VALUES ('%s')", formato.getNombre());
+		String sql = String.format("INSERT INTO FORMATO (NOMBRE) VALUES ('%s')", formato.getNombre());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {

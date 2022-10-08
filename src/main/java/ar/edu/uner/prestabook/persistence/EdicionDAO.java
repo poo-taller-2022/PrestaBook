@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,11 +15,11 @@ import ar.edu.uner.prestabook.model.Formato;
 public class EdicionDAO implements IEdicionDAO {
 
 	Connection conn;
-	
+
 	public EdicionDAO(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	@Override
 	public List<Edicion> findAll() {
 		String sql = "SELECT * FROM EDICIONES";
@@ -50,19 +51,15 @@ public class EdicionDAO implements IEdicionDAO {
 		}
 		return null;
 	}
-	
+
 	@Override
-	public Integer insert(Edicion edicion) {	
-		String sql = String.format("INSERT INTO EDICIONES (EDITORIAL, PAIS, NUMERO, ANIO, VOLUMENES, PAGINAS, IDIOMA) VALUES (?,?,?,?,?,?,?)");
+	public Integer insert(Edicion edicion) {
+		String sql = String.format(
+				"INSERT INTO EDICIONES (EDITORIAL, PAIS, NUMERO, ANIO, VOLUMENES, PAGINAS, IDIOMA) "
+						+ "VALUES ('%s','%s','%d','%d','%d','%d','%s')",
+				edicion.getEditorial(), edicion.getPais(), edicion.getNumero(), edicion.getAnio(),
+				edicion.getVolumenes(), edicion.getPaginas(), edicion.getIdioma());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
-			statement.setString(1, edicion.getEditorial());
-			statement.setString(2, edicion.getPais());
-			statement.setInt(3, edicion.getNumero());
-			statement.setInt(4, edicion.getAnio());
-			statement.setLong(5, edicion.getVolumenes());
-			statement.setInt(6, edicion.getPaginas());
-			statement.setString(7, edicion.getIdioma());
-			
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,7 +69,11 @@ public class EdicionDAO implements IEdicionDAO {
 
 	@Override
 	public Integer update(Edicion edicion) {
-		String sql = String.format("UPDATE EDICIONES SET ID, EDITORIAL, PAIS, NUMERO, ANIO, VOLUMENES, PAGINAS, IDIOMA, FORMATO = '%s' WHERE ID = '%s'", edicion.getId(), edicion.getEditorial(), edicion.getPais(), edicion.getNumero(), edicion.getAnio(), edicion.getVolumenes(), edicion.getPaginas(), edicion.getIdioma());
+		String sql = String.format(
+				"UPDATE EDICIONES SET EDITORIAL = '%s', PAIS = '%s', NUMERO = '%d', ANIO = '%d', VOLUMENES = '%d', "
+						+ "PAGINAS = '%d', IDIOMA = '%s', FORMATO = '%s' WHERE ID = '%s'",
+				edicion.getId(), edicion.getEditorial(), edicion.getPais(), edicion.getNumero(), edicion.getAnio(),
+				edicion.getVolumenes(), edicion.getPaginas(), edicion.getIdioma());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
@@ -91,19 +92,20 @@ public class EdicionDAO implements IEdicionDAO {
 	 * 
 	 * @param resultados The result set from the db
 	 */
-	
+
 	private Edicion toEdicion(ResultSet resultados) {
 		try {
 			FormatoDAO formatoDAO = new FormatoDAO(this.conn);
 			List<Formato> formato = (List<Formato>) formatoDAO.findById(resultados.getInt(9));
-			
-			return new Edicion(resultados.getLong(1), resultados.getString(2), resultados.getString(3), resultados.getInt(4), resultados.getInt(5), resultados.getLong(6), resultados.getInt(7), resultados.getString(8),formato);
-		
+
+			return new Edicion(resultados.getLong(1), resultados.getString(2), resultados.getString(3),
+					resultados.getInt(4), resultados.getInt(5), resultados.getLong(6), resultados.getInt(7),
+					resultados.getString(8), formato);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 
 }

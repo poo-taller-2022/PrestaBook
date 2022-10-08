@@ -8,17 +8,16 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.AreaTematica;
 
 public class AreaTematicaDAO implements IAreaTematicaDAO {
 
 	Connection conn;
-	
+
 	public AreaTematicaDAO(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	@Override
 	public List<AreaTematica> findAll() {
 		String sql = "SELECT * FROM AREAS_TEMATICAS";

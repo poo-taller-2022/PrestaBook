@@ -8,17 +8,16 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.Alumno;
 
 public class AlumnoDAO implements IAlumnoDAO {
 
 	Connection conn;
-	
+
 	public AlumnoDAO(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	@Override
 	public List<Alumno> findAll() {
 		String sql = "SELECT * FROM ALUMNOS";
@@ -37,7 +36,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 
 	@Override
 	public Alumno findById(Object id) {
-		
+
 		String sql = String.format("SELECT * FROM ALUMNOS WHERE ID = %s", id.toString());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
@@ -54,13 +53,16 @@ public class AlumnoDAO implements IAlumnoDAO {
 
 	@Override
 	public Integer insert(Alumno alumno) {
-		String sql = String.format("INSERT INTO ALUMNOS (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
-				+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
-				+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD) VALUES ('%s','%s','%s','%s','%s','%s',"
-				+ "'%s','%s','%s','%s','%s','%s','%s')", alumno.getNombre(),alumno.getApellido(),alumno.getTipoDocumento(),
-				alumno.getDocumento(),alumno.getEmail(),alumno.getCelular(),alumno.getFechaNacimiento(),alumno.getSexo(),
-				alumno.getNacionalidad(),alumno.getDomicilio(),alumno.getCodigoPostal(),alumno.getDepartamento(),alumno.getLocalidad());
-		
+		String sql = String.format(
+				"INSERT INTO ALUMNOS (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
+						+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
+						+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD, CONTRASENIA) VALUES ('%s','%s','%s','%s','%s','%s',"
+						+ "'%s','%s','%s','%s','%s','%s','%s','%s')",
+				alumno.getNombre(), alumno.getApellido(), alumno.getTipoDocumento(), alumno.getDocumento(),
+				alumno.getEmail(), alumno.getCelular(), alumno.getFechaNacimiento(), alumno.getSexo(),
+				alumno.getNacionalidad(), alumno.getDomicilio(), alumno.getCodigoPostal(), alumno.getDepartamento(),
+				alumno.getLocalidad(), alumno.getContrasenia());
+
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
@@ -72,14 +74,15 @@ public class AlumnoDAO implements IAlumnoDAO {
 	@Override
 	public Integer update(Alumno alumno) {
 
-        String sql = String.format("UPDATE ALUMNOS SET NOMBRE = '%s', APELLIDO = '%s', TIPO_DOCUMENTO = '%s', DNI = '%s', "
-                + "EMAIL = '%s', CELULAR = '%s', FECHA_NACIMIENTO = '%s', SEXO = '%s', NACIONALIDAD = '%s', DOMICILIO = '%s', "
-                + "CODIGO_POSTAL = '%s', DEPARTAMENTO = '%s', LOCALIDAD = '%s' "
-                + "WHERE ID = '%s'", alumno.getNombre(),alumno.getApellido(),alumno.getTipoDocumento(),
-				alumno.getDocumento(),alumno.getEmail(),alumno.getCelular(),alumno.getFechaNacimiento(),alumno.getSexo(),
-				alumno.getNacionalidad(),alumno.getDomicilio(),alumno.getCodigoPostal(),alumno.getDepartamento(),
+		String sql = String.format(
+				"UPDATE ALUMNOS SET NOMBRE = '%s', APELLIDO = '%s', TIPO_DOCUMENTO = '%s', DNI = '%s', "
+						+ "EMAIL = '%s', CELULAR = '%s', FECHA_NACIMIENTO = '%s', SEXO = '%s', NACIONALIDAD = '%s', DOMICILIO = '%s', "
+						+ "CODIGO_POSTAL = '%s', DEPARTAMENTO = '%s', LOCALIDAD = '%s' " + "WHERE ID = '%s'",
+				alumno.getNombre(), alumno.getApellido(), alumno.getTipoDocumento(), alumno.getDocumento(),
+				alumno.getEmail(), alumno.getCelular(), alumno.getFechaNacimiento(), alumno.getSexo(),
+				alumno.getNacionalidad(), alumno.getDomicilio(), alumno.getCodigoPostal(), alumno.getDepartamento(),
 				alumno.getLocalidad(), alumno.getId());
-        
+
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
@@ -92,7 +95,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 	public Integer delete(Alumno alumno) {
 		return 0;
 	}
-	
+
 	private Alumno toAlumno(ResultSet resultados) {
 		Alumno alumno = new Alumno();
 		try {
