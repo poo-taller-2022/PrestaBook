@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.persistence;
+package ar.edu.uner.prestabook.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,28 @@ import java.util.List;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.Lector;
+import ar.edu.uner.prestabook.persistence.ILectorDAO;
 
 public class LectorDAO implements ILectorDAO {
+
+	/**
+	 * Singleton instance of the class
+	 */
+	private static final LectorDAO instance = new LectorDAO();
+
+	/**
+	 * Private constructor to avoid instantiation
+	 */
+	private LectorDAO() {
+	}
+
+	/**
+	 * 
+	 * @return the singleton instance of the class
+	 */
+	public static LectorDAO getInstance() {
+		return instance;
+	}
 
 	@Override
 	public List<Lector> findAll() {
@@ -49,14 +69,17 @@ public class LectorDAO implements ILectorDAO {
 
 	@Override
 	public Integer insert(Lector lector) {
-		
-		String sql = String.format("INSERT INTO LECTORES (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
-				+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
-				+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD) VALUES ('%s','%s','%s','%s','%s','%s',"
-				+ "'%s','%s','%s','%s','%s','%s','%s')", lector.getNombre(),lector.getApellido(),lector.getTipoDocumento(),
-				lector.getDocumento(),lector.getEmail(),lector.getCelular(),lector.getFechaNacimiento(),lector.getSexo(),
-				lector.getNacionalidad(),lector.getDomicilio(),lector.getCodigoPostal(),lector.getDepartamento(),lector.getLocalidad());
-		
+
+		String sql = String.format(
+				"INSERT INTO LECTORES (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
+						+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
+						+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD) VALUES ('%s','%s','%s','%s','%s','%s',"
+						+ "'%s','%s','%s','%s','%s','%s','%s')",
+				lector.getNombre(), lector.getApellido(), lector.getTipoDocumento(), lector.getDocumento(),
+				lector.getEmail(), lector.getCelular(), lector.getFechaNacimiento(), lector.getSexo(),
+				lector.getNacionalidad(), lector.getDomicilio(), lector.getCodigoPostal(), lector.getDepartamento(),
+				lector.getLocalidad());
+
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
@@ -68,15 +91,16 @@ public class LectorDAO implements ILectorDAO {
 
 	@Override
 	public Integer update(Lector lector) {
-		
-        String sql = String.format("UPDATE LECTORES SET NOMBRE = '%s', APELLIDO = '%s', TIPO_DOCUMENTO = '%s', DNI = '%s', "
-                + "EMAIL = '%s', CELULAR = '%s', FECHA_NACIMIENTO = '%s', SEXO = '%s', NACIONALIDAD = '%s', DOMICILIO = '%s', "
-                + "CODIGO_POSTAL = '%s', DEPARTAMENTO = '%s', LOCALIDAD = '%s' "
-                + "WHERE ID = '%s'", lector.getNombre(),lector.getApellido(),lector.getTipoDocumento(),
-				lector.getDocumento(),lector.getEmail(),lector.getCelular(),lector.getFechaNacimiento(),lector.getSexo(),
-				lector.getNacionalidad(),lector.getDomicilio(),lector.getCodigoPostal(),lector.getDepartamento(),
+
+		String sql = String.format(
+				"UPDATE LECTORES SET NOMBRE = '%s', APELLIDO = '%s', TIPO_DOCUMENTO = '%s', DNI = '%s', "
+						+ "EMAIL = '%s', CELULAR = '%s', FECHA_NACIMIENTO = '%s', SEXO = '%s', NACIONALIDAD = '%s', DOMICILIO = '%s', "
+						+ "CODIGO_POSTAL = '%s', DEPARTAMENTO = '%s', LOCALIDAD = '%s' " + "WHERE ID = '%s'",
+				lector.getNombre(), lector.getApellido(), lector.getTipoDocumento(), lector.getDocumento(),
+				lector.getEmail(), lector.getCelular(), lector.getFechaNacimiento(), lector.getSexo(),
+				lector.getNacionalidad(), lector.getDomicilio(), lector.getCodigoPostal(), lector.getDepartamento(),
 				lector.getLocalidad(), lector.getId());
-		
+
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
@@ -90,7 +114,7 @@ public class LectorDAO implements ILectorDAO {
 	public Integer delete(Lector lector) {
 		return 0;
 	}
-	
+
 	private Lector toLector(ResultSet resultados) {
 		Lector lector = new Lector();
 		try {

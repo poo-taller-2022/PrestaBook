@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.persistence;
+package ar.edu.uner.prestabook.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,28 @@ import java.util.List;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.TipoObra;
+import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 public class TipoObraDAO implements ITipoObraDAO {
+
+	/**
+	 * Singleton instance of the class
+	 */
+	private static final TipoObraDAO instance = new TipoObraDAO();
+
+	/**
+	 * Private constructor to avoid instantiation
+	 */
+	private TipoObraDAO() {
+	}
+
+	/**
+	 * 
+	 * @return the singleton instance of the class
+	 */
+	public static TipoObraDAO getInstance() {
+		return instance;
+	}
 
 	@Override
 	public List<TipoObra> findAll() {
@@ -47,9 +67,8 @@ public class TipoObraDAO implements ITipoObraDAO {
 		return null;
 	}
 
-	
-	//@Override
-	public  Integer insert(TipoObra tipoObra) {
+	// @Override
+	public Integer insert(TipoObra tipoObra) {
 		String sql = String.format("INSERT INTO TIPOS_OBRA (NOMBRE) VALUES ('%s')", tipoObra.getNombre());
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -75,10 +94,9 @@ public class TipoObraDAO implements ITipoObraDAO {
 
 	@Override
 	public Integer delete(TipoObra t) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	private TipoObra toTipoObra(ResultSet resultados) {
 		TipoObra area = new TipoObra();
 		try {
@@ -89,7 +107,5 @@ public class TipoObraDAO implements ITipoObraDAO {
 		}
 		return area;
 	}
-	
-	
 
 }

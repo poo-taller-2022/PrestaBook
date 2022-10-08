@@ -5,10 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
-import ar.edu.uner.prestabook.persistence.AlumnoDAO;
-import ar.edu.uner.prestabook.persistence.DocenteDAO;
-import ar.edu.uner.prestabook.persistence.LectorDAO;
-
+import ar.edu.uner.prestabook.common.DaoFactory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -28,20 +25,18 @@ public class Lector extends Persona {
 		ModelMapper m = new ModelMapper();
 
 		switch (tipoLector.toUpperCase()) {
-			case "GENERAL":
-				LectorDAO l = new LectorDAO();
-				l.insert(this);
-				break;
-			case "ALUMNO":
-				AlumnoDAO a = new AlumnoDAO();
-				Alumno alumno = m.map(this, Alumno.class);
-				a.insert(alumno);
-				break;
-			case "DOCENTE":
-				DocenteDAO d = new DocenteDAO();
-				Docente docente = m.map(this, Docente.class);
-				d.insert(docente);
-				break;
+		case "GENERAL":
+			DaoFactory.getLectorDAO().insert(this);
+			break;
+		case "ALUMNO":
+			Alumno alumno = m.map(this, Alumno.class);
+			DaoFactory.getAlumnoDAO().insert(alumno);
+			break;
+		case "DOCENTE":
+			Docente docente = m.map(this, Docente.class);
+			DaoFactory.getDocenteDAO().insert(docente);
+			break;
+		default:
 		}
 	}
 

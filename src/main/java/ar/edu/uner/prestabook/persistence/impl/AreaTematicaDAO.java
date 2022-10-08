@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.persistence;
+package ar.edu.uner.prestabook.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,28 @@ import java.util.List;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 
 public class AreaTematicaDAO implements IAreaTematicaDAO {
+
+	/**
+	 * Singleton instance of the class
+	 */
+	private static final AreaTematicaDAO instance = new AreaTematicaDAO();
+
+	/**
+	 * Private constructor to avoid instantiation
+	 */
+	private AreaTematicaDAO() {
+	}
+
+	/**
+	 * 
+	 * @return the singleton instance of the class
+	 */
+	public static AreaTematicaDAO getInstance() {
+		return instance;
+	}
 
 	@Override
 	public List<AreaTematica> findAll() {
