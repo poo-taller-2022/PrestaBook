@@ -309,55 +309,25 @@ public class Registrarse extends JFrame {
 						&& !(String.valueOf(textContrasenia.getPassword()).isBlank());
 
 				if (Boolean.TRUE.equals(camposCompletos)) {
-					String sexoSeleccionado;
+					String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
 
-					if (btnRadioHombre.isSelected()) {
-						sexoSeleccionado = btnRadioHombre.getText();
-					} else if (btnRadioMujer.isSelected()) {
-						sexoSeleccionado = btnRadioMujer.getText();
-					} else {
-						sexoSeleccionado = btnRadioOtro.getText();
-					}
+					String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
+							btnRadioFuncionario);
 
-					String tipoSeleccionado;
-					if (btnRadioPublicoGeneral.isSelected()) {
-						tipoSeleccionado = btnRadioPublicoGeneral.getText();
-					} else if (btnRadioDocente.isSelected()) {
-						tipoSeleccionado = btnRadioDocente.getText();
-					} else if (btnRadioAlumno.isSelected()) {
-						tipoSeleccionado = btnRadioAlumno.getText();
-					} else {
-						tipoSeleccionado = btnRadioFuncionario.getText();
-					}
+					Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
+							textEmail, textNumeroDeTelefono, textFechaDeNacimiento, sexoSeleccionado, textNacionalidad,
+							textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
 
-					Lector lector = new Lector();
-					lector.setNombre(textNombre.getText());
-					lector.setApellido(textApellido.getText());
-					lector.setTipoDocumento(textTipoDeDocumento.getText());
-					lector.setDocumento(textNumeroDeDocumento.getText());
-					lector.setEmail(textEmail.getText());
-					lector.setCelular(textNumeroDeTelefono.getText());
-					lector.setFechaNacimiento(textFechaDeNacimiento.getText());
-					lector.setSexo(sexoSeleccionado);
-					lector.setNacionalidad(textNacionalidad.getText());
-					lector.setDomicilio(textDomicilio.getText());
-					lector.setCodigoPostal(textCodigoPostal.getText());
-					lector.setDepartamento(textDepartamento.getText());
-					lector.setLocalidad(textLocalidad.getText());
-					lector.setContrasenia(String.valueOf((textContrasenia).getPassword()));
-
-					if (!Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
-						lector.registrarse(tipoSeleccionado, conn, lector);
-						JOptionPane.showInternalMessageDialog(null,
-								"Datos del " + tipoSeleccionado + " guardados correctamente");
-					} else if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
+					if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
 						Funcionario funcionario = new Funcionario();
 						funcionario.registrarse(conn, lector);
 						JOptionPane.showInternalMessageDialog(null,
 								"Datos del " + tipoSeleccionado + " guardados correctamente");
 					} else {
-						JOptionPane.showInternalMessageDialog(null, "No se pudo guardar los datos");
-					}
+						lector.registrarse(tipoSeleccionado, conn, lector);
+						JOptionPane.showInternalMessageDialog(null,
+								"Datos del " + tipoSeleccionado + " guardados correctamente");
+					} 
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");
 				}
@@ -386,5 +356,70 @@ public class Registrarse extends JFrame {
 			}
 		});
 
+	}
+	
+	/**
+	 * Method created to find the gender selected by the user
+	 */
+
+	public String sexoSeleccionado(JRadioButton btnRadioHombre, JRadioButton btnRadioMujer, JRadioButton btnRadioOtro) {
+		String sexoSeleccionado;
+
+		if (btnRadioHombre.isSelected()) {
+			sexoSeleccionado = btnRadioHombre.getText();
+		} else if (btnRadioMujer.isSelected()) {
+			sexoSeleccionado = btnRadioMujer.getText();
+		} else {
+			sexoSeleccionado = btnRadioOtro.getText();
+		}
+		return sexoSeleccionado;
+	}
+	
+	/**
+	 * Method created to find the selected user type
+	 */
+
+	public String tipoSeleccionado(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
+			JRadioButton btnRadioAlumno, JRadioButton btnRadioFuncionario) {
+		String tipoSeleccionado;
+
+		if (btnRadioPublicoGeneral.isSelected()) {
+			tipoSeleccionado = btnRadioPublicoGeneral.getText();
+		} else if (btnRadioDocente.isSelected()) {
+			tipoSeleccionado = btnRadioDocente.getText();
+		} else if (btnRadioAlumno.isSelected()) {
+			tipoSeleccionado = btnRadioAlumno.getText();
+		} else {
+			tipoSeleccionado = btnRadioFuncionario.getText();
+		}
+		return tipoSeleccionado;
+	}
+	
+	/**
+	 * Method to create a reader
+	 */
+
+	public Lector crearLector(JTextField textNombre, JTextField textApellido, JTextField textTipoDeDocumento,
+			JTextField textNumeroDeDocumento, JTextField textEmail, JTextField textNumeroDeTelefono,
+			JTextField textFechaDeNacimiento, String sexoSeleccionado, JTextField textNacionalidad,
+			JTextField textDomicilio, JTextField textCodigoPostal, JTextField textDepartamento,
+			JTextField textLocalidad, JTextField textContrasenia) {
+		Lector lector = new Lector();
+		lector.setNombre(textNombre.getText());
+		lector.setApellido(textApellido.getText());
+		lector.setTipoDocumento(textTipoDeDocumento.getText());
+		lector.setDocumento(textNumeroDeDocumento.getText());
+		lector.setEmail(textEmail.getText());
+		lector.setCelular(textNumeroDeTelefono.getText());
+		lector.setFechaNacimiento(textFechaDeNacimiento.getText());
+		lector.setSexo(sexoSeleccionado);
+		lector.setNacionalidad(textNacionalidad.getText());
+		lector.setDomicilio(textDomicilio.getText());
+		lector.setCodigoPostal(textCodigoPostal.getText());
+		lector.setDepartamento(textDepartamento.getText());
+		lector.setLocalidad(textLocalidad.getText());
+		lector.setContrasenia(String.valueOf(((JPasswordField) textContrasenia).getPassword()));
+
+		return lector;
 	}
 }

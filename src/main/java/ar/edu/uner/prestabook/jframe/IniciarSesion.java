@@ -32,7 +32,7 @@ public class IniciarSesion extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	public static void main(Connection conn) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -51,18 +51,18 @@ public class IniciarSesion extends JFrame {
 	 */
 
 	public IniciarSesion(Connection conn) {
-		
+
 		/**
 		 * Create components
 		 */
-		
+
 		UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 648, 486);
 		setLocationRelativeTo(null);
-		
+
 		JPanel contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -158,7 +158,7 @@ public class IniciarSesion extends JFrame {
 		JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
 		lblNoRegistrado.setBounds(224, 432, 141, 14);
 		contentPane.add(lblNoRegistrado);
-		
+
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.setBackground(new Color(255, 255, 255));
 		btnRegistrarse.setBorder(null);
@@ -166,41 +166,37 @@ public class IniciarSesion extends JFrame {
 		btnRegistrarse.setForeground(new Color(0, 64, 128));
 		btnRegistrarse.setBounds(351, 428, 119, 23);
 		contentPane.add(btnRegistrarse);
-		
+
 		/**
 		 * Method created to search for user in database
 		 */
-		
+
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String tipoSeleccionado;
-				if (btnRadioPublicoGeneral.isSelected()) {
-					tipoSeleccionado = "Lectores";
-				} else if (btnRadioDocente.isSelected()) {
-					tipoSeleccionado = "Docentes";
-				} else if (btnRadioAlumno.isSelected()) {
-					tipoSeleccionado = "Alumnos";
-				} else {
-					tipoSeleccionado = "Funcionarios";
-				}
 
-				if (!cajaCorreo.getText().isBlank() && !(String.valueOf(cajaContrasenia.getPassword()).isBlank())) {
-					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoSeleccionado, cajaCorreo.getText(),
+				String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
+
+				Boolean camposCompletos = !cajaCorreo.getText().isBlank()
+						&& !(String.valueOf(cajaContrasenia.getPassword()).isBlank());
+
+				if (Boolean.TRUE.equals(camposCompletos)) {
+					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
 							String.valueOf(cajaContrasenia.getPassword()));
+
 					if (busquedaUsuario.equals("usuario encontrado")) {
-						String busquedaNombre = usuariosDAO.buscarNombre(tipoSeleccionado, cajaCorreo.getText());
-						if ("Funcionarios".equals(tipoSeleccionado)) {
+						String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
+
+						if ("Funcionarios".equals(tipoDeUsuario)) {
 							SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario(conn);
 							interfazSistemaFuncionario.setVisible(true);
-							IniciarSesion.this.dispose();
 							interfazSistemaFuncionario.textUsusario.setText(busquedaNombre);
 						} else {
 							SistemaLector interfazSistemaLector = new SistemaLector(conn);
 							interfazSistemaLector.setVisible(true);
-							IniciarSesion.this.dispose();
 							interfazSistemaLector.textUsusario.setText(busquedaNombre);
 						}
-						
+						IniciarSesion.this.dispose();
+
 					} else {
 						JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
 					}
@@ -213,7 +209,7 @@ public class IniciarSesion extends JFrame {
 		/**
 		 * Created method to open "Registrarse" window
 		 */
-		
+
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Registrarse registrarse = new Registrarse(conn);
@@ -221,17 +217,36 @@ public class IniciarSesion extends JFrame {
 				IniciarSesion.this.dispose();
 			}
 		});
-		
-		
+
 		/**
 		 * Created method to close window
 		 */
-		
+
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 
+	}
+
+	/**
+	 * Method created to find the type of user to log in and search the
+	 * corresponding table in the database
+	 */
+
+	public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
+			JRadioButton btnRadioAlumno) {
+		String tipoDeUsuario;
+		if (btnRadioPublicoGeneral.isSelected()) {
+			tipoDeUsuario = "Lectores";
+		} else if (btnRadioDocente.isSelected()) {
+			tipoDeUsuario = "Docentes";
+		} else if (btnRadioAlumno.isSelected()) {
+			tipoDeUsuario = "Alumnos";
+		} else {
+			tipoDeUsuario = "Funcionarios";
+		}
+		return tipoDeUsuario;
 	}
 }
