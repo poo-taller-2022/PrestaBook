@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.Connection;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -55,8 +56,7 @@ public class SistemaFuncionario extends JFrame {
 		lblIconCerrarSesion.setBounds(817, 5, 19, 16);
 		panelPrestabook.add(lblIconCerrarSesion);
 
-		ImageIcon image = new ImageIcon(
-				SistemaLector.class.getResource("/ar/edu/uner/prestabook/jframe/images/Vector.png"));
+		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
 		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
 				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
 		lblIconCerrarSesion.setIcon(icon);
@@ -250,7 +250,7 @@ public class SistemaFuncionario extends JFrame {
 
 		JLabel lblIconLibreria = new JLabel("");
 		lblIconLibreria.setIcon(
-				new ImageIcon(SistemaLector.class.getResource("/ar/edu/uner/prestabook/jframe/images/library.png")));
+				new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
 		lblIconLibreria.setBounds(548, 292, 605, 493);
 		contentPane.add(lblIconLibreria);
 
