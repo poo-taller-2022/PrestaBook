@@ -9,41 +9,41 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
-import ar.edu.uner.prestabook.model.Docente;
-import ar.edu.uner.prestabook.persistence.IDocenteDAO;
+import ar.edu.uner.prestabook.model.Funcionario;
+import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
 
-public class DocenteDAO implements IDocenteDAO {
+public class FuncionarioDAO implements IFuncionarioDAO {
 
     /**
      * Singleton instance of the class
      */
-    private static final DocenteDAO instance = new DocenteDAO();
+    private static final FuncionarioDAO instance = new FuncionarioDAO();
 
     /**
      * Private constructor to avoid instantiation
      */
-    private DocenteDAO() {
+    private FuncionarioDAO() {
     }
 
     /**
      * 
      * @return the singleton instance of the class
      */
-    public static DocenteDAO getInstance() {
+    public static FuncionarioDAO getInstance() {
         return instance;
     }
 
     @Override
-    public List<Docente> findAll() {
-        String sql = "SELECT * FROM DOCENTES";
+    public List<Funcionario> findAll() {
+        String sql = "SELECT * FROM FUNCIONARIOS";
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
             ResultSet resultados = statement.executeQuery();
-            List<Docente> docentes = new LinkedList<>();
+            List<Funcionario> funcionario = new LinkedList<>();
             while (resultados.next()) {
-                docentes.add(toDocente(resultados));
+                funcionario.add(toFuncionario(resultados));
             }
-            return docentes;
+            return funcionario;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,17 +51,17 @@ public class DocenteDAO implements IDocenteDAO {
     }
 
     @Override
-    public Docente findById(Object id) {
+    public Funcionario findById(Object id) {
 
-        String sql = String.format("SELECT * FROM DOCENTES WHERE ID = %s", id.toString());
+        String sql = String.format("SELECT * FROM FUNCIONARIOS WHERE ID = %s", id.toString());
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
             ResultSet resultados = statement.executeQuery();
-            Docente docente = null;
+            Funcionario funcionario = null;
             if (resultados.next()) {
-                docente = toDocente(resultados);
+                funcionario = toFuncionario(resultados);
             }
-            return docente;
+            return funcionario;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,16 +69,17 @@ public class DocenteDAO implements IDocenteDAO {
     }
 
     @Override
-    public Integer insert(Docente docente) {
+    public Integer insert(Funcionario funcionario) {
         String sql = String.format(
-                "INSERT INTO DOCENTES (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
+                "INSERT INTO FUNCIONARIOS (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
                         + "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
                         + "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD, CONTRASENIA) VALUES ('%s','%s','%s','%s','%s','%s',"
                         + "'%s','%s','%s','%s','%s','%s','%s','%s')",
-                docente.getNombre(), docente.getApellido(), docente.getTipoDocumento(), docente.getDocumento(),
-                docente.getEmail(), docente.getCelular(), docente.getFechaNacimiento(), docente.getSexo(),
-                docente.getNacionalidad(), docente.getDomicilio(), docente.getCodigoPostal(), docente.getDepartamento(),
-                docente.getLocalidad(), docente.getContrasenia());
+                funcionario.getNombre(), funcionario.getApellido(), funcionario.getTipoDocumento(),
+                funcionario.getDocumento(), funcionario.getEmail(), funcionario.getCelular(),
+                funcionario.getFechaNacimiento(), funcionario.getSexo(), funcionario.getNacionalidad(),
+                funcionario.getDomicilio(), funcionario.getCodigoPostal(), funcionario.getDepartamento(),
+                funcionario.getLocalidad(), funcionario.getContrasenia());
 
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -90,16 +91,17 @@ public class DocenteDAO implements IDocenteDAO {
     }
 
     @Override
-    public Integer update(Docente docente) {
+    public Integer update(Funcionario funcionario) {
 
         String sql = String.format(
-                "UPDATE DOCENTES SET NOMBRE = '%s', APELLIDO = '%s', TIPO_DOCUMENTO = '%s', DNI = '%s', "
+                "UPDATE FUNCIONARIOS SET NOMBRE = '%s', APELLIDO = '%s', TIPO_DOCUMENTO = '%s', DNI = '%s', "
                         + "EMAIL = '%s', CELULAR = '%s', FECHA_NACIMIENTO = '%s', SEXO = '%s', NACIONALIDAD = '%s', DOMICILIO = '%s', "
                         + "CODIGO_POSTAL = '%s', DEPARTAMENTO = '%s', LOCALIDAD = '%s' " + "WHERE ID = '%s'",
-                docente.getNombre(), docente.getApellido(), docente.getTipoDocumento(), docente.getDocumento(),
-                docente.getEmail(), docente.getCelular(), docente.getFechaNacimiento(), docente.getSexo(),
-                docente.getNacionalidad(), docente.getDomicilio(), docente.getCodigoPostal(), docente.getDepartamento(),
-                docente.getLocalidad(), docente.getId());
+                funcionario.getNombre(), funcionario.getApellido(), funcionario.getTipoDocumento(),
+                funcionario.getDocumento(), funcionario.getEmail(), funcionario.getCelular(),
+                funcionario.getFechaNacimiento(), funcionario.getSexo(), funcionario.getNacionalidad(),
+                funcionario.getDomicilio(), funcionario.getCodigoPostal(), funcionario.getDepartamento(),
+                funcionario.getLocalidad(), funcionario.getId());
 
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -111,26 +113,26 @@ public class DocenteDAO implements IDocenteDAO {
     }
 
     @Override
-    public Integer delete(Docente docente) {
+    public Integer delete(Funcionario funcionario) {
         return 0;
     }
 
     /**
-     * Converts a ResultSet into an Docente
+     * Converts a ResultSet into a Funcionario
      * 
      * @param resultados the ResultSet with the rows obtained from the database
      *                   query
-     * @return an Docente
+     * @return a Funcionario
      */
-    private Docente toDocente(ResultSet resultados) {
-        Docente docente = new Docente();
+    private Funcionario toFuncionario(ResultSet resultados) {
+        Funcionario funcionario = new Funcionario();
         try {
-            docente.setId(resultados.getLong(1));
-            docente.setNombre(resultados.getString(2));
+            funcionario.setId(resultados.getLong(1));
+            funcionario.setNombre(resultados.getString(2));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return docente;
+        return funcionario;
     }
 
 }

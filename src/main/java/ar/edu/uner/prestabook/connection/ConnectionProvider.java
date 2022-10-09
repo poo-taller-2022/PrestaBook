@@ -36,7 +36,6 @@ public class ConnectionProvider {
 			throw new SQLException(e);
 		}
 		if (connection == null || connection.isClosed()) {
-			System.out.println("Open db");
 			connection = DriverManager.getConnection(Configs.getDatasourceUrl());
 		}
 		return connection;

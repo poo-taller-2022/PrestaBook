@@ -1,22 +1,18 @@
 package ar.edu.uner.prestabook.jframe;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class SistemaLector extends JFrame {
 
@@ -27,7 +23,7 @@ public class SistemaLector extends JFrame {
 	 * Create the frame.
 	 */
 
-	public SistemaLector(Connection conn) {
+	public SistemaLector() {
 
 		/**
 		 * Create components
@@ -175,7 +171,7 @@ public class SistemaLector extends JFrame {
 
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IniciarSesion login = new IniciarSesion(conn);
+				IniciarSesion login = new IniciarSesion();
 				login.setVisible(true);
 				SistemaLector.this.dispose();
 			}

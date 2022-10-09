@@ -1,12 +1,14 @@
 package ar.edu.uner.prestabook.model;
 
-import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
+import ar.edu.uner.prestabook.persistence.IDocenteDAO;
+import ar.edu.uner.prestabook.persistence.ILectorDAO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -26,24 +28,25 @@ public class Lector extends Persona {
 	@Id
 	private Long id;
 
-	public void registrarse(String tipoLector, Connection conn, Lector lector) {
+	public void registrarse(String tipoLector, Lector lector) {
 		ModelMapper m = new ModelMapper();
 
 		switch (tipoLector.toUpperCase()) {
 		case "PUBLICO GENERAL":
-			LectorDAO l = new LectorDAO(conn);
+			ILectorDAO l = DaoFactory.getLectorDAO();
 			l.insert(lector);
 			break;
 		case "ALUMNO":
-			AlumnoDAO a = new AlumnoDAO(conn);
+			IAlumnoDAO a = DaoFactory.getAlumnoDAO();
 			Alumno alumno = m.map(lector, Alumno.class);
 			a.insert(alumno);
 			break;
 		case "DOCENTE":
-			DocenteDAO d = new DocenteDAO(conn);
+			IDocenteDAO d = DaoFactory.getDocenteDAO();
 			Docente docente = m.map(lector, Docente.class);
 			d.insert(docente);
 			break;
+		default:
 		}
 	}
 

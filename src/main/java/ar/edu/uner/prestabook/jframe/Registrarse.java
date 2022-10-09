@@ -1,28 +1,26 @@
 package ar.edu.uner.prestabook.jframe;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Objects;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
-
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.util.Objects;
-import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.border.LineBorder;
 
 public class Registrarse extends JFrame {
 
@@ -32,7 +30,7 @@ public class Registrarse extends JFrame {
 	 * Create the frame.
 	 */
 
-	public Registrarse(Connection conn) {
+	public Registrarse() {
 
 		/**
 		 * Create components
@@ -320,11 +318,11 @@ public class Registrarse extends JFrame {
 
 					if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
 						Funcionario funcionario = new Funcionario();
-						funcionario.registrarse(conn, lector);
+						funcionario.registrarse(lector);
 						JOptionPane.showInternalMessageDialog(null,
 								"Datos del " + tipoSeleccionado + " guardados correctamente");
 					} else {
-						lector.registrarse(tipoSeleccionado, conn, lector);
+						lector.registrarse(tipoSeleccionado, lector);
 						JOptionPane.showInternalMessageDialog(null,
 								"Datos del " + tipoSeleccionado + " guardados correctamente");
 					} 
@@ -340,7 +338,7 @@ public class Registrarse extends JFrame {
 
 		btnRegresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IniciarSesion login = new IniciarSesion(conn);
+				IniciarSesion login = new IniciarSesion();
 				login.setVisible(true);
 				Registrarse.this.dispose();
 			}
