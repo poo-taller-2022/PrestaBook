@@ -13,8 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import javax.swing.JTextField;
@@ -55,124 +53,80 @@ public class IniciarSesion extends JFrame {
 		/**
 		 * Create components
 		 */
-
-		UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
-		setUndecorated(true);
-		setResizable(false);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 648, 486);
-		setLocationRelativeTo(null);
-
-		JPanel contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JPanel panelPrestabook = new JPanel();
-		panelPrestabook.setBackground(new Color(0, 64, 128));
-		panelPrestabook.setBounds(0, 0, 648, 100);
+		
+		ventana();
+		JPanel contentPane = contentPane();
+		
+		JPanel panelPrestabook = panelPrestabook();
 		contentPane.add(panelPrestabook);
-		panelPrestabook.setLayout(null);
-
-		JLabel lblPrestaBook = new JLabel("PrestaBook");
-		lblPrestaBook.setForeground(new Color(255, 255, 255));
-		lblPrestaBook.setFont(new Font("Verdana", Font.BOLD, 32));
-		lblPrestaBook.setBounds(218, 34, 264, 42);
-		panelPrestabook.add(lblPrestaBook);
-
-		JButton btnExit = new JButton("X");
-		btnExit.setBorderPainted(false);
-		btnExit.setBorder(null);
-		btnExit.setFocusPainted(false);
-		btnExit.setFont(new Font("Roboto Black", Font.PLAIN, 12));
-		btnExit.setForeground(new Color(255, 255, 255));
-		btnExit.setBackground(new Color(255, 106, 106));
-		btnExit.setBounds(601, 0, 47, 25);
+		
+		panelPrestabook.add(lblPrestaBook());
+		
+		JButton btnExit = btnExit();
 		panelPrestabook.add(btnExit);
-
-		JLabel lblContrasenia = new JLabel("Contraseña");
-		lblContrasenia.setBounds(239, 314, 66, 14);
-		contentPane.add(lblContrasenia);
-
-		JLabel lblIniciarSesion = new JLabel("Iniciar sesión");
-		lblIniciarSesion.setFont(new Font("Verdana", Font.BOLD, 17));
-		lblIniciarSesion.setBounds(258, 130, 161, 23);
-		contentPane.add(lblIniciarSesion);
-
-		JTextField cajaCorreo = new JTextField();
-		cajaCorreo.setBackground(new Color(255, 255, 255));
-		cajaCorreo.setForeground(new Color(128, 128, 128));
-		cajaCorreo.setColumns(10);
-		cajaCorreo.setBounds(239, 254, 180, 30);
-		contentPane.add(cajaCorreo);
-
-		JPasswordField cajaContrasenia = new JPasswordField();
-		cajaContrasenia.setToolTipText("");
-		cajaContrasenia.setBackground(new Color(255, 255, 255));
-		cajaContrasenia.setBounds(239, 329, 180, 30);
-		contentPane.add(cajaContrasenia);
-
-		JLabel lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(239, 238, 59, 14);
-		contentPane.add(lblCorreo);
-
-		JPanel panelIngresarComo = new JPanel();
-		panelIngresarComo.setLayout(null);
-		panelIngresarComo.setBorder(new LineBorder(new Color(128, 128, 128)));
-		panelIngresarComo.setBounds(39, 178, 560, 38);
+		
+		contentPane.add(lblIniciarSesion());
+		contentPane.add(lblIngresarComo());
+		
+		JPanel panelIngresarComo = panelIngresarComo();
 		contentPane.add(panelIngresarComo);
-
+		
 		ButtonGroup buttonGroupTipo = new ButtonGroup();
-
-		JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
+		
+		JRadioButton btnRadioFuncionario = btnRadioFuncionario();
 		buttonGroupTipo.add(btnRadioFuncionario);
-		btnRadioFuncionario.setBounds(19, 7, 109, 23);
 		panelIngresarComo.add(btnRadioFuncionario);
-
-		JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
+		
+		JRadioButton btnRadioAlumno = btnRadioAlumno();
 		buttonGroupTipo.add(btnRadioAlumno);
-		btnRadioAlumno.setBounds(171, 7, 101, 23);
 		panelIngresarComo.add(btnRadioAlumno);
-
-		JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
+		
+		JRadioButton btnRadioDocente = btnRadioDocente();
 		buttonGroupTipo.add(btnRadioDocente);
-		btnRadioDocente.setBounds(308, 7, 108, 23);
 		panelIngresarComo.add(btnRadioDocente);
-
-		JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
+		
+		JRadioButton btnRadioPublicoGeneral = btnRadioPublicoGeneral();
 		buttonGroupTipo.add(btnRadioPublicoGeneral);
-		btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
 		panelIngresarComo.add(btnRadioPublicoGeneral);
-
-		JLabel lblIngresarComo = new JLabel("Ingresar como");
-		lblIngresarComo.setBounds(39, 162, 97, 14);
-		contentPane.add(lblIngresarComo);
-
-		JButton btnIngresar = new JButton("Ingresar");
-		btnIngresar.setForeground(new Color(0, 0, 0));
-		btnIngresar.setBackground(new Color(255, 255, 255));
-		btnIngresar.setBounds(283, 382, 89, 23);
+		
+		contentPane.add(lblContrasenia());
+		contentPane.add(lblCorreo());
+		
+		JTextField cajaCorreo = cajaCorreo();
+		contentPane.add(cajaCorreo);
+		
+		JPasswordField cajaContrasenia = cajaContrasenia();
+		contentPane.add(cajaContrasenia);
+		
+		JButton btnIngresar = btnIngresar();
 		contentPane.add(btnIngresar);
-
-		JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
-		lblNoRegistrado.setBounds(224, 432, 141, 14);
-		contentPane.add(lblNoRegistrado);
-
-		JButton btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBackground(new Color(255, 255, 255));
-		btnRegistrarse.setBorder(null);
-		btnRegistrarse.setBorderPainted(false);
-		btnRegistrarse.setForeground(new Color(0, 64, 128));
-		btnRegistrarse.setBounds(351, 428, 119, 23);
+		
+		contentPane.add(lblNoRegistrado());
+		
+		JButton btnRegistrarse = btnRegistrarse();
 		contentPane.add(btnRegistrarse);
+		
+		/**
+		 * Created method to open "Registrarse" window
+		 */ 
 
+		btnRegistrarse.addActionListener(e ->  {
+				Registrarse registrarse = new Registrarse(conn);
+				registrarse.setVisible(true);
+				IniciarSesion.this.dispose();
+		});
+
+		/**
+		 * Created method to close window
+		 */
+
+		btnExit.addActionListener(e -> System.exit(0));
+		
 		/**
 		 * Method created to search for user in database
 		 */
 
-		btnIngresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnIngresar.addActionListener(e -> {
 
 				String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
 
@@ -180,6 +134,7 @@ public class IniciarSesion extends JFrame {
 						&& !(String.valueOf(cajaContrasenia.getPassword()).isBlank());
 
 				if (Boolean.TRUE.equals(camposCompletos)) {
+					UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
 					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
 							String.valueOf(cajaContrasenia.getPassword()));
 
@@ -203,33 +158,160 @@ public class IniciarSesion extends JFrame {
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
 				}
-			}
 		});
+	}
+	
+	/**
+	 * Create components
+	 */
 
-		/**
-		 * Created method to open "Registrarse" window
-		 */
-
-		btnRegistrarse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Registrarse registrarse = new Registrarse(conn);
-				registrarse.setVisible(true);
-				IniciarSesion.this.dispose();
-			}
-		});
-
-		/**
-		 * Created method to close window
-		 */
-
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-
+	public void ventana() {
+		setUndecorated(true);
+		setResizable(false);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 648, 486);
+		setLocationRelativeTo(null);
 	}
 
+	public JPanel contentPane() {
+		JPanel contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		return contentPane;
+	}
+
+	public JPanel panelPrestabook() {
+		JPanel panelPrestabook = new JPanel();
+		panelPrestabook.setBackground(new Color(0, 64, 128));
+		panelPrestabook.setBounds(0, 0, 648, 100);
+		panelPrestabook.setLayout(null);
+		return panelPrestabook;
+	}
+
+	public JLabel lblPrestaBook() {
+		JLabel lblPrestaBook = new JLabel("PrestaBook");
+		lblPrestaBook.setForeground(new Color(255, 255, 255));
+		lblPrestaBook.setFont(new Font("Verdana", Font.BOLD, 32));
+		lblPrestaBook.setBounds(218, 34, 264, 42);
+		return lblPrestaBook;
+	}
+
+	public JButton btnExit() {
+		JButton btnExit = new JButton("X");
+		btnExit.setBorderPainted(false);
+		btnExit.setBorder(null);
+		btnExit.setFocusPainted(false);
+		btnExit.setFont(new Font("Roboto Black", Font.PLAIN, 12));
+		btnExit.setForeground(new Color(255, 255, 255));
+		btnExit.setBackground(new Color(255, 106, 106));
+		btnExit.setBounds(601, 0, 47, 25);
+		return btnExit;
+	}
+	
+	public JLabel lblIniciarSesion() {
+		JLabel lblIniciarSesion = new JLabel("Iniciar sesión");
+		lblIniciarSesion.setFont(new Font("Verdana", Font.BOLD, 17));
+		lblIniciarSesion.setBounds(258, 130, 161, 23);
+		return lblIniciarSesion;
+	}
+
+	public JLabel lblIngresarComo() {
+		JLabel lblIngresarComo = new JLabel("Ingresar como");
+		lblIngresarComo.setBounds(39, 162, 97, 14);
+		return lblIngresarComo;
+	}
+
+	public JPanel panelIngresarComo() {
+		JPanel panelIngresarComo = new JPanel();
+		panelIngresarComo.setLayout(null);
+		panelIngresarComo.setBorder(new LineBorder(new Color(128, 128, 128)));
+		panelIngresarComo.setBounds(39, 178, 560, 38);
+		return panelIngresarComo;
+	}
+
+	public JRadioButton btnRadioFuncionario() {
+		JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
+		btnRadioFuncionario.setBounds(19, 7, 109, 23);
+		btnRadioFuncionario.setFocusPainted(false);
+		return btnRadioFuncionario;
+	}
+
+	public JRadioButton btnRadioAlumno() {
+		JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
+		btnRadioAlumno.setBounds(171, 7, 101, 23);
+		btnRadioAlumno.setFocusPainted(false);
+		return btnRadioAlumno;
+	}
+
+	public JRadioButton btnRadioDocente() {
+		JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
+		btnRadioDocente.setBounds(308, 7, 108, 23);
+		btnRadioDocente.setFocusPainted(false);
+		return btnRadioDocente;
+	}
+
+	public JRadioButton btnRadioPublicoGeneral() {
+		JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
+		btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
+		btnRadioPublicoGeneral.setFocusPainted(false);
+		return btnRadioPublicoGeneral;
+	}
+
+	public JLabel lblContrasenia() {
+		JLabel lblContrasenia = new JLabel("Contraseña");
+		lblContrasenia.setBounds(239, 314, 66, 14);
+		return lblContrasenia;
+	}
+	
+	public JLabel lblCorreo() {
+		JLabel lblCorreo = new JLabel("Correo");
+		lblCorreo.setBounds(239, 238, 59, 14);
+		return lblCorreo;
+	}
+	
+	public JTextField cajaCorreo() {
+		JTextField cajaCorreo = new JTextField();
+		cajaCorreo.setBackground(new Color(255, 255, 255));
+		cajaCorreo.setForeground(new Color(128, 128, 128));
+		cajaCorreo.setColumns(10);
+		cajaCorreo.setBounds(239, 254, 180, 30);
+		return cajaCorreo;
+	}
+	
+	public JPasswordField cajaContrasenia() {
+		JPasswordField cajaContrasenia = new JPasswordField();
+		cajaContrasenia.setToolTipText("");
+		cajaContrasenia.setBackground(new Color(255, 255, 255));
+		cajaContrasenia.setBounds(239, 329, 180, 30);
+		return cajaContrasenia;
+	}
+	
+	public JButton btnIngresar() {
+		JButton btnIngresar = new JButton("Ingresar");
+		btnIngresar.setForeground(new Color(0, 0, 0));
+		btnIngresar.setBackground(new Color(255, 255, 255));
+		btnIngresar.setBounds(283, 382, 89, 23);
+		return btnIngresar;
+	}
+	
+	public JLabel lblNoRegistrado() {
+		JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
+		lblNoRegistrado.setBounds(224, 432, 141, 14);
+		return lblNoRegistrado;
+	}
+	
+	public JButton btnRegistrarse() {
+		JButton btnRegistrarse = new JButton("Registrarse");
+		btnRegistrarse.setBackground(new Color(255, 255, 255));
+		btnRegistrarse.setBorder(null);
+		btnRegistrarse.setBorderPainted(false);
+		btnRegistrarse.setForeground(new Color(0, 64, 128));
+		btnRegistrarse.setBounds(351, 428, 119, 23);
+		return btnRegistrarse;
+	}
+	
 	/**
 	 * Method created to find the type of user to log in and search the
 	 * corresponding table in the database
