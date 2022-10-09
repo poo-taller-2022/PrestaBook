@@ -14,5 +14,5 @@ public class Prestamo {
 	private String fechaRealDevolucion;
 	private Integer plazoPrestamo;
 	private Boolean fueraDeTermino;
-	
+
 }

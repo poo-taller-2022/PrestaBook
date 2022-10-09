@@ -8,26 +8,26 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.Formato;
 
-public class AreaTematicaDAO implements IAreaTematicaDAO {
+public class FormatoDAO implements IFormatoDAO {
 
 	Connection conn;
 
-	public AreaTematicaDAO(Connection conn) {
+	public FormatoDAO(Connection conn) {
 		this.conn = conn;
 	}
 
 	@Override
-	public List<AreaTematica> findAll() {
-		String sql = "SELECT * FROM AREAS_TEMATICAS";
+	public List<Formato> findAll() {
+		String sql = "SELECT * FROM FORMATO";
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
-			List<AreaTematica> areasTematicas = new LinkedList<>();
+			List<Formato> formato = new LinkedList<>();
 			while (resultados.next()) {
-				areasTematicas.add(toAreaTematica(resultados));
+				formato.add(toFormato(resultados));
 			}
-			return areasTematicas;
+			return formato;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,15 +35,15 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	}
 
 	@Override
-	public AreaTematica findById(Object id) {
-		String sql = String.format("SELECT * FROM AREAS_TEMATICAS WHERE ID = %s", id.toString());
+	public Formato findById(Object id) {
+		String sql = String.format("SELECT * FROM FORMATO WHERE ID = %s", id.toString());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
-			AreaTematica areaTematica = null;
+			Formato formato = null;
 			if (resultados.next()) {
-				areaTematica = toAreaTematica(resultados);
+				formato = toFormato(resultados);
 			}
-			return areaTematica;
+			return formato;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -51,8 +51,8 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	}
 
 	@Override
-	public Integer insert(AreaTematica areaTematica) {
-		String sql = String.format("INSERT INTO AREAS_TEMATICAS (NOMBRE) VALUES ('%s')", areaTematica.getNombre());
+	public Integer insert(Formato formato) {
+		String sql = String.format("INSERT INTO FORMATO (NOMBRE) VALUES ('%s')", formato.getNombre());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
@@ -62,9 +62,9 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	}
 
 	@Override
-	public Integer update(AreaTematica areaTematica) {
-		String sql = String.format("UPDATE AREAS_TEMATICAS SET NOMBRE = '%s' WHERE ID = '%s'", areaTematica.getNombre(),
-				areaTematica.getId());
+	public Integer update(Formato formato) {
+		String sql = String.format("UPDATE FORMATO SET NOMBRE = '%s' WHERE ID = '%s'", formato.getNombre(),
+				formato.getId());
 		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
@@ -74,7 +74,7 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	}
 
 	@Override
-	public Integer delete(AreaTematica areaTematica) {
+	public Integer delete(Formato formato) {
 		return 0;
 	}
 
@@ -82,16 +82,15 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 	 * Receives a ResultSet obtained from a query and transforms it to an entity
 	 * 
 	 * @param resultados The result set from the db
-	 * @return an Area Tematica entity
 	 */
-	private AreaTematica toAreaTematica(ResultSet resultados) {
-		AreaTematica area = new AreaTematica();
+	private Formato toFormato(ResultSet resultados) {
+		Formato formato = new Formato();
 		try {
-			area.setId(resultados.getLong(1));
-			area.setNombre(resultados.getString(2));
+			formato.setId(resultados.getLong(1));
+			formato.setNombre(resultados.getString(2));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return area;
+		return formato;
 	}
 }

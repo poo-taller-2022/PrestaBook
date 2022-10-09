@@ -1,22 +1,38 @@
 package ar.edu.uner.prestabook.model;
 
+import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+
+import ar.edu.uner.prestabook.persistence.FuncionarioDAO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "funcionarios")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Funcionario extends Persona {
 
 	@Id
 	private Long id;
+
+	public void registrarse(Connection conn, Lector lector) {
+		ModelMapper m = new ModelMapper();
+
+		FuncionarioDAO f = new FuncionarioDAO(conn);
+		Funcionario funcionario = m.map(lector, Funcionario.class);
+		f.insert(funcionario);
+	}
 
 	public void prestarADomicilio(Obra obra, Integer plazo) {
 		/*

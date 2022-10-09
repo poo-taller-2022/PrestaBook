@@ -8,16 +8,20 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.TipoObra;
 
 public class TipoObraDAO implements ITipoObraDAO {
 
+	Connection conn;
+
+	public TipoObraDAO(Connection conn) {
+		this.conn = conn;
+	}
+
 	@Override
 	public List<TipoObra> findAll() {
 		String sql = "SELECT * FROM TIPOS_OBRA";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<TipoObra> tiposObra = new LinkedList<>();
 			while (resultados.next()) {
@@ -33,8 +37,7 @@ public class TipoObraDAO implements ITipoObraDAO {
 	@Override
 	public TipoObra findById(Object id) {
 		String sql = String.format("SELECT * FROM TIPOS_OBRA WHERE ID = %s", id.toString());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			TipoObra tiposObras = null;
 			if (resultados.next()) {
@@ -47,12 +50,10 @@ public class TipoObraDAO implements ITipoObraDAO {
 		return null;
 	}
 
-	
-	//@Override
-	public  Integer insert(TipoObra tipoObra) {
+	@Override
+	public Integer insert(TipoObra tipoObra) {
 		String sql = String.format("INSERT INTO TIPOS_OBRA (NOMBRE) VALUES ('%s')", tipoObra.getNombre());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,8 +65,7 @@ public class TipoObraDAO implements ITipoObraDAO {
 	public Integer update(TipoObra tipoObra) {
 		String sql = String.format("UPDATE TIPOS_OBRA SET NOMBRE = '%s' WHERE ID = '%s'", tipoObra.getNombre(),
 				tipoObra.getId());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,7 +78,7 @@ public class TipoObraDAO implements ITipoObraDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	private TipoObra toTipoObra(ResultSet resultados) {
 		TipoObra area = new TipoObra();
 		try {
@@ -89,7 +89,5 @@ public class TipoObraDAO implements ITipoObraDAO {
 		}
 		return area;
 	}
-	
-	
 
 }
