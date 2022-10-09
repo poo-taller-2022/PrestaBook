@@ -185,7 +185,7 @@ public class IniciarSesion extends JFrame {
                     } else {
                         SistemaLector interfazSistemaLector = new SistemaLector();
                         interfazSistemaLector.setVisible(true);
-                        interfazSistemaLector.textUsusario.setText(busquedaNombre);
+                        interfazSistemaLector.textUsuario.setText(busquedaNombre);
                     }
                     IniciarSesion.this.dispose();
 

@@ -51,11 +51,11 @@ public class SistemaFuncionario extends JFrame {
         lblIconCerrarSesion.setBounds(817, 5, 19, 16);
         panelPrestabook.add(lblIconCerrarSesion);
 
-        ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
-                lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
-        lblIconCerrarSesion.setIcon(icon);
-        this.repaint();
+		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
+		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
+				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
+		lblIconCerrarSesion.setIcon(icon);
+		this.repaint();
 
         JLabel lblPrestabook = new JLabel("PrestaBook");
         lblPrestabook.setBounds(399, 30, 267, 42);
@@ -248,10 +248,6 @@ public class SistemaFuncionario extends JFrame {
         lblIconLibreria.setIcon(image2);
         lblIconLibreria.setBounds(548, 292, 605, 493);
         contentPane.add(lblIconLibreria);
-
-        /**
-         * Method created to log out and return to the "IniciarSesion" window
-         */
 
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();

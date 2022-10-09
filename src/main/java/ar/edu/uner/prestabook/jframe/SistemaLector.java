@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -17,7 +18,7 @@ import javax.swing.WindowConstants;
 public class SistemaLector extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public JLabel textUsusario;
+	public JLabel textUsuario;
 
 	/**
 	 * Create the frame.
@@ -75,8 +76,7 @@ public class SistemaLector extends JFrame {
 		lblIconCerrarSesion.setBounds(817, 5, 19, 16);
 		panelPrestabook.add(lblIconCerrarSesion);
 
-		ImageIcon image = new ImageIcon(
-				SistemaLector.class.getResource("/ar/edu/uner/prestabook/jframe/images/Vector.png"));
+		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
 		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
 				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
 		lblIconCerrarSesion.setIcon(icon);
@@ -135,12 +135,12 @@ public class SistemaLector extends JFrame {
 		lblUsuario.setFont(new Font("Verdana", Font.BOLD, 17));
 		lblUsuario.setForeground(new Color(255, 255, 255));
 
-		textUsusario = new JLabel("");
-		textUsusario.setBackground(new Color(0, 128, 0));
-		textUsusario.setBounds(126, 0, 173, 37);
-		panelOpciones.add(textUsusario);
-		textUsusario.setFont(new Font("Verdana", Font.BOLD, 16));
-		textUsusario.setForeground(new Color(255, 255, 255));
+		textUsuario = new JLabel("");
+		textUsuario.setBackground(new Color(0, 128, 0));
+		textUsuario.setBounds(126, 0, 173, 37);
+		panelOpciones.add(textUsuario);
+		textUsuario.setFont(new Font("Verdana", Font.BOLD, 16));
+		textUsuario.setForeground(new Color(255, 255, 255));
 
 		JPanel panel = new JPanel();
 		panel.setBounds(339, 103, 988, 708);
@@ -161,7 +161,7 @@ public class SistemaLector extends JFrame {
 
 		JLabel lblIconLibreria = new JLabel("");
 		lblIconLibreria.setIcon(
-				new ImageIcon(SistemaLector.class.getResource("/ar/edu/uner/prestabook/jframe/images/library.png")));
+				new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
 		lblIconLibreria.setBounds(236, 186, 605, 493);
 		panel.add(lblIconLibreria);
 
