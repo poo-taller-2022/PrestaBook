@@ -1,6 +1,9 @@
 package ar.edu.uner.prestabook.common;
 
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
+import java.sql.Connection;
+
+import ar.edu.uner.prestabook.persistence.impl.AreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
@@ -8,7 +11,6 @@ import ar.edu.uner.prestabook.persistence.ILectorDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import ar.edu.uner.prestabook.persistence.impl.AlumnoDAO;
-import ar.edu.uner.prestabook.persistence.impl.AreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.impl.DocenteDAO;
 import ar.edu.uner.prestabook.persistence.impl.EjemplarDAO;
 import ar.edu.uner.prestabook.persistence.impl.LectorDAO;
@@ -29,7 +31,8 @@ public class DaoFactory {
 
 	/**
 	 * Returns an instance of an Area Tematica DAO
-	 * 
+	 *
+	 *
 	 * @return an Area Tematica DAO
 	 */
 	public static IAreaTematicaDAO getAreaTematicaDAO() {
@@ -88,6 +91,9 @@ public class DaoFactory {
 	 */
 	public static IEjemplarDAO getEjemplarDAO() {
 		return EjemplarDAO.getInstance();
+	}
+	public static IAreaTematicaDAO getAreaTematicaDAO(Connection conn) {
+		return new AreaTematicaDAO(conn);
 	}
 
 }

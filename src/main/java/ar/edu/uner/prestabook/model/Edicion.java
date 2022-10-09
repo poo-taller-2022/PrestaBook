@@ -4,11 +4,15 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "ediciones")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Edicion {
 
 	private Long id;
@@ -20,5 +24,4 @@ public class Edicion {
 	private Integer paginas;
 	private String idioma;
 	private List<Formato> formatos;
-
 }

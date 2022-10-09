@@ -1,8 +1,12 @@
 package ar.edu.uner.prestabook.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class Persona {
 
 	private String nombre;
@@ -18,5 +22,5 @@ public abstract class Persona {
 	private String codigoPostal;
 	private String departamento;
 	private String localidad;
-	
+	private String contrasenia;
 }

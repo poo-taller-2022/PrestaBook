@@ -45,4 +45,5 @@ public interface GenericDAO<T> {
 	 *         statements or null for SQL statements that return nothing
 	 */
 	public Integer delete(T t);
+
 }

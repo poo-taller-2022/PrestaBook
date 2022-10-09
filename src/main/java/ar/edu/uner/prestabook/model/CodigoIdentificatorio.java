@@ -13,5 +13,5 @@ public class CodigoIdentificatorio {
 	private String pasillo;
 	private String estanteria;
 	private String estante;
-	
+
 }

@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
 
@@ -32,12 +31,16 @@ public class LectorDAO implements ILectorDAO {
 	public static LectorDAO getInstance() {
 		return instance;
 	}
+	Connection conn;
+
+	public LectorDAO(Connection conn) {
+		this.conn = conn;
+	}
 
 	@Override
 	public List<Lector> findAll() {
 		String sql = "SELECT * FROM LECTORES";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<Lector> lectores = new LinkedList<>();
 			while (resultados.next()) {
@@ -53,8 +56,7 @@ public class LectorDAO implements ILectorDAO {
 	@Override
 	public Lector findById(Object id) {
 		String sql = String.format("SELECT * FROM LECTORES WHERE ID = %s", id.toString());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			Lector lector = null;
 			if (resultados.next()) {
@@ -73,15 +75,14 @@ public class LectorDAO implements ILectorDAO {
 		String sql = String.format(
 				"INSERT INTO LECTORES (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
 						+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
-						+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD) VALUES ('%s','%s','%s','%s','%s','%s',"
-						+ "'%s','%s','%s','%s','%s','%s','%s')",
+						+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD, CONTRASENIA) VALUES ('%s','%s','%s','%s','%s','%s',"
+						+ "'%s','%s','%s','%s','%s','%s','%s','%s')",
 				lector.getNombre(), lector.getApellido(), lector.getTipoDocumento(), lector.getDocumento(),
 				lector.getEmail(), lector.getCelular(), lector.getFechaNacimiento(), lector.getSexo(),
 				lector.getNacionalidad(), lector.getDomicilio(), lector.getCodigoPostal(), lector.getDepartamento(),
-				lector.getLocalidad());
+				lector.getLocalidad(), lector.getContrasenia());
 
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,8 +102,7 @@ public class LectorDAO implements ILectorDAO {
 				lector.getNacionalidad(), lector.getDomicilio(), lector.getCodigoPostal(), lector.getDepartamento(),
 				lector.getLocalidad(), lector.getId());
 
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

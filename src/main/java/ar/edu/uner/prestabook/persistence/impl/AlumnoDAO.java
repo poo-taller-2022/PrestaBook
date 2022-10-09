@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.Alumno;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 
@@ -33,11 +32,16 @@ public class AlumnoDAO implements IAlumnoDAO {
 		return instance;
 	}
 
+	Connection conn;
+
+	public AlumnoDAO(Connection conn) {
+		this.conn = conn;
+	}
+
 	@Override
 	public List<Alumno> findAll() {
 		String sql = "SELECT * FROM ALUMNOS";
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			List<Alumno> alumnos = new LinkedList<>();
 			while (resultados.next()) {
@@ -54,8 +58,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 	public Alumno findById(Object id) {
 
 		String sql = String.format("SELECT * FROM ALUMNOS WHERE ID = %s", id.toString());
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			ResultSet resultados = statement.executeQuery();
 			Alumno alumno = null;
 			if (resultados.next()) {
@@ -73,15 +76,14 @@ public class AlumnoDAO implements IAlumnoDAO {
 		String sql = String.format(
 				"INSERT INTO ALUMNOS (NOMBRE, APELLIDO, TIPO_DOCUMENTO, DNI,"
 						+ "EMAIL, CELULAR, FECHA_NACIMIENTO, SEXO, NACIONALIDAD, DOMICILIO,"
-						+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD) VALUES ('%s','%s','%s','%s','%s','%s',"
-						+ "'%s','%s','%s','%s','%s','%s','%s')",
+						+ "CODIGO_POSTAL, DEPARTAMENTO, LOCALIDAD, CONTRASENIA) VALUES ('%s','%s','%s','%s','%s','%s',"
+						+ "'%s','%s','%s','%s','%s','%s','%s','%s')",
 				alumno.getNombre(), alumno.getApellido(), alumno.getTipoDocumento(), alumno.getDocumento(),
 				alumno.getEmail(), alumno.getCelular(), alumno.getFechaNacimiento(), alumno.getSexo(),
 				alumno.getNacionalidad(), alumno.getDomicilio(), alumno.getCodigoPostal(), alumno.getDepartamento(),
-				alumno.getLocalidad());
+				alumno.getLocalidad(), alumno.getContrasenia());
 
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,8 +103,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 				alumno.getNacionalidad(), alumno.getDomicilio(), alumno.getCodigoPostal(), alumno.getDepartamento(),
 				alumno.getLocalidad(), alumno.getId());
 
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement statement = conn.prepareStatement(sql)) {
+		try (PreparedStatement statement = conn.prepareStatement(sql)) {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
