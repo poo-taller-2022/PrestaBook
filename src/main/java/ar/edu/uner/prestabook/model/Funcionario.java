@@ -1,12 +1,12 @@
 package ar.edu.uner.prestabook.model;
 
-import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
-import ar.edu.uner.prestabook.persistence.FuncionarioDAO;
+import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -26,10 +26,10 @@ public class Funcionario extends Persona {
 	@Id
 	private Long id;
 
-	public void registrarse(Connection conn, Lector lector) {
+	public void registrarse(Lector lector) {
 		ModelMapper m = new ModelMapper();
 
-		FuncionarioDAO f = new FuncionarioDAO(conn);
+		IFuncionarioDAO f = DaoFactory.getFuncionarioDAO();
 		Funcionario funcionario = m.map(lector, Funcionario.class);
 		f.insert(funcionario);
 	}

@@ -1,54 +1,49 @@
 package ar.edu.uner.prestabook.jframe;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import ar.edu.uner.prestabook.persistence.UsuarioDAO;
-
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.sql.Connection;
-
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
+
+import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 
 public class IniciarSesion extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Launch the application.
-	 */
+    /**
+     * Launch the application.
+     */
 
-	public static void main(Connection conn) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IniciarSesion frame = new IniciarSesion(conn);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void main() {
+        EventQueue.invokeLater(() -> {
+            try {
+                IniciarSesion frame = new IniciarSesion();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
-	/**
-	 * Create the frame.
-	 */
+    /**
+     * Create the frame.
+     */
 
-	public IniciarSesion(Connection conn) {
+    public IniciarSesion() {
 
 		/**
 		 * Create components
@@ -111,7 +106,7 @@ public class IniciarSesion extends JFrame {
 		 */ 
 
 		btnRegistrarse.addActionListener(e ->  {
-				Registrarse registrarse = new Registrarse(conn);
+				Registrarse registrarse = new Registrarse();
 				registrarse.setVisible(true);
 				IniciarSesion.this.dispose();
 		});
@@ -128,29 +123,29 @@ public class IniciarSesion extends JFrame {
 
 		btnIngresar.addActionListener(e -> {
 
-				String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
+            String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
 
-				Boolean camposCompletos = !cajaCorreo.getText().isBlank()
-						&& !(String.valueOf(cajaContrasenia.getPassword()).isBlank());
+            Boolean camposCompletos = !cajaCorreo.getText().isBlank()
+                    && !(String.valueOf(cajaContrasenia.getPassword()).isBlank());
 
 				if (Boolean.TRUE.equals(camposCompletos)) {
-					UsuarioDAO usuariosDAO = new UsuarioDAO(conn);
+					IUsuarioDAO usuariosDAO = DaoFactory.getUsuarioDAO();
 					String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
 							String.valueOf(cajaContrasenia.getPassword()));
 
-					if (busquedaUsuario.equals("usuario encontrado")) {
-						String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
+                if (busquedaUsuario.equals("usuario encontrado")) {
+                    String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
 
-						if ("Funcionarios".equals(tipoDeUsuario)) {
-							SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario(conn);
-							interfazSistemaFuncionario.setVisible(true);
-							interfazSistemaFuncionario.textUsusario.setText(busquedaNombre);
-						} else {
-							SistemaLector interfazSistemaLector = new SistemaLector(conn);
-							interfazSistemaLector.setVisible(true);
-							interfazSistemaLector.textUsusario.setText(busquedaNombre);
-						}
-						IniciarSesion.this.dispose();
+                    if ("Funcionarios".equals(tipoDeUsuario)) {
+                        SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario();
+                        interfazSistemaFuncionario.setVisible(true);
+                        interfazSistemaFuncionario.textUsuario.setText(busquedaNombre);
+                    } else {
+                        SistemaLector interfazSistemaLector = new SistemaLector();
+                        interfazSistemaLector.setVisible(true);
+                        interfazSistemaLector.textUsuario.setText(busquedaNombre);
+                    }
+                    IniciarSesion.this.dispose();
 
 					} else {
 						JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
@@ -317,18 +312,18 @@ public class IniciarSesion extends JFrame {
 	 * corresponding table in the database
 	 */
 
-	public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
-			JRadioButton btnRadioAlumno) {
-		String tipoDeUsuario;
-		if (btnRadioPublicoGeneral.isSelected()) {
-			tipoDeUsuario = "Lectores";
-		} else if (btnRadioDocente.isSelected()) {
-			tipoDeUsuario = "Docentes";
-		} else if (btnRadioAlumno.isSelected()) {
-			tipoDeUsuario = "Alumnos";
-		} else {
-			tipoDeUsuario = "Funcionarios";
-		}
-		return tipoDeUsuario;
-	}
+    public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
+            JRadioButton btnRadioAlumno) {
+        String tipoDeUsuario;
+        if (btnRadioPublicoGeneral.isSelected()) {
+            tipoDeUsuario = "Lectores";
+        } else if (btnRadioDocente.isSelected()) {
+            tipoDeUsuario = "Docentes";
+        } else if (btnRadioAlumno.isSelected()) {
+            tipoDeUsuario = "Alumnos";
+        } else {
+            tipoDeUsuario = "Funcionarios";
+        }
+        return tipoDeUsuario;
+    }
 }

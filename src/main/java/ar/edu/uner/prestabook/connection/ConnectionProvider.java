@@ -35,7 +35,7 @@ public class ConnectionProvider {
 		} catch (ClassNotFoundException e) {
 			throw new SQLException(e);
 		}
-		if (connection == null) {
+		if (connection == null || connection.isClosed()) {
 			connection = DriverManager.getConnection(Configs.getDatasourceUrl());
 		}
 		return connection;

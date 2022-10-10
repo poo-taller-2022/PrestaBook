@@ -1,34 +1,30 @@
 package ar.edu.uner.prestabook.jframe;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.JButton;
 import java.io.File;
-import java.sql.Connection;
-import java.awt.Color;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class SistemaLector extends JFrame {
 
 
 
 	private static final long serialVersionUID = 1L;
-	public JLabel textUsusario;
+	public JLabel textUsuario;
 
 	/**
 	 * Create the frame.
 	 */
 
-	public SistemaLector(Connection conn) {
+	public SistemaLector() {
 
 		/**
 		 * Create components
@@ -79,7 +75,7 @@ public class SistemaLector extends JFrame {
 		 */
 
 		btnCerrarSesion.addActionListener(e -> {
-				IniciarSesion login = new IniciarSesion(conn);
+				IniciarSesion login = new IniciarSesion();
 				login.setVisible(true);
 				SistemaLector.this.dispose();
 		});
@@ -181,12 +177,12 @@ public class SistemaLector extends JFrame {
 	}
 	
 	public JLabel textUsusario() {
-		textUsusario = new JLabel("");
-		textUsusario.setBackground(new Color(0, 128, 0));
-		textUsusario.setBounds(124, 0, 173, 37);
-		textUsusario.setFont(new Font("Verdana", Font.BOLD, 16));
-		textUsusario.setForeground(new Color(255, 255, 255));
-		return textUsusario;
+		textUsuario = new JLabel("");
+		textUsuario.setBackground(new Color(0, 128, 0));
+		textUsuario.setBounds(124, 0, 173, 37);
+		textUsuario.setFont(new Font("Verdana", Font.BOLD, 16));
+		textUsuario.setForeground(new Color(255, 255, 255));
+		return textUsuario;
 	}
 	
 	public JButton btnSolicitudes() {

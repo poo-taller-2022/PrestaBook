@@ -1,8 +1,10 @@
-package ar.edu.uner.prestabook.persistence;
+package ar.edu.uner.prestabook.persistence.impl;
 
 import java.sql.Connection;
 
 import java.util.List;
+
+import ar.edu.uner.prestabook.persistence.IEdicionFormatoDAO;
 
 public class EdicionFormatoDAO implements IEdicionFormatoDAO {
 
