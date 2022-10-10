@@ -36,7 +36,7 @@ public class ObraDAO implements IObraDAO {
 
     @Override
     public List<Obra> findAll() {
-        String sql = "SELECT *,"
+        String sql = "SELECT OBRAS.*,"
                 + "TIPOS_OBRA.id AS 'tipo_id',"
                 + "TIPOS_OBRA.nombre AS 'tipo_nombre',"
                 + "areas_tematicas.id AS 'area_id',"
