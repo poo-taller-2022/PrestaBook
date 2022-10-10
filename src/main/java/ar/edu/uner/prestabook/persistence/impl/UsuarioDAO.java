@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
+import ar.edu.uner.prestabook.security.PasswordEncrypter;
 
 public class UsuarioDAO implements IUsuarioDAO {
 
@@ -31,12 +32,13 @@ public class UsuarioDAO implements IUsuarioDAO {
 
     @Override
     public String buscarUsuarioRegistrado(String tipo, String correo, String contrasenia) {
-        String sql = String.format("SELECT EMAIL, CONTRASENIA FROM %s WHERE EMAIL ='%s' AND CONTRASENIA = '%s'",
-                tipo, correo, contrasenia);
+        String sql = String.format("SELECT EMAIL, CONTRASENIA FROM %s WHERE EMAIL ='%s'",
+                tipo, correo);
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
             ResultSet resultados = statement.executeQuery();
-            if (resultados.next()) {
+            if (resultados.next() && Boolean.TRUE
+                    .equals(PasswordEncrypter.verify(resultados.getString("contrasenia"), contrasenia))) {
                 return "usuario encontrado";
             } else {
                 return "usuario no encontrado";

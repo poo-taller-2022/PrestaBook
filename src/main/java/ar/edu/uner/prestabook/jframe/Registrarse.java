@@ -19,6 +19,7 @@ import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
+import ar.edu.uner.prestabook.security.PasswordEncrypter;
 
 public class Registrarse extends JFrame {
 
@@ -610,7 +611,7 @@ public class Registrarse extends JFrame {
 		lector.setCodigoPostal(textCodigoPostal.getText());
 		lector.setDepartamento(textDepartamento.getText());
 		lector.setLocalidad(textLocalidad.getText());
-		lector.setContrasenia(String.valueOf(((JPasswordField) textContrasenia).getPassword()));
+		lector.setContrasenia(PasswordEncrypter.encrypt((String.valueOf(((JPasswordField) textContrasenia).getPassword()))));
 
 		return lector;
 	}
