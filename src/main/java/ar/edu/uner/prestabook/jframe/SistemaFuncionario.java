@@ -366,19 +366,19 @@ public class SistemaFuncionario extends JFrame {
     }
 
     public JButton btnAplicarMultaALector() {
-        JButton btnAplicarMultaALector = new JButton("etest");
+        JButton btnAplicarMultaALector = new JButton("Aplicar multa a lector");
         btnAplicarMultaALector.setFocusPainted(false);
         btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
         btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
         btnAplicarMultaALector.setFont(new Font("Verdana", Font.BOLD, 12));
         btnAplicarMultaALector.setBorderPainted(false);
         btnAplicarMultaALector.setBounds(22, 755, 293, 31);
-        btnAplicarMultaALector.addActionListener(e -> System.out.println(DaoFactory.getColeccionDAO().findAll()));
         return btnAplicarMultaALector;
     }
 
     public JLabel lblBienvenidaParte1() {
-        JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más grande del mundo");
+        JLabel lblBienvenidaParte1 = new JLabel(
+                "¡Bienvenido al sistema de gestión de préstamos de libros más grande del mundo");
         lblBienvenidaParte1.setForeground(Color.GRAY);
         lblBienvenidaParte1.setFont(new Font("Verdana", Font.BOLD, 21));
         lblBienvenidaParte1.setBounds(476, 109, 775, 136);
