@@ -80,7 +80,7 @@ public class ObraDAO implements IObraDAO {
         String sql = String.format(
                 "INSERT INTO OBRAS (ISBN, TITULO, SUBTITULO, PRIMER_AUTOR, SEGUNDO_AUTOR, TERCER_AUTOR, GENERO, TIPO_OBRA, AREA_TEMATICA) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s', '%s')",
                 obra.getIsbn(), obra.getTitulo(), obra.getSubtitulo(), obra.getPrimerAutor(), obra.getSegundoAutor(),
-                obra.getTercerAutor(), obra.getGenero(), obra.getArea().getId(), obra.getTipo().getId());
+                obra.getTercerAutor(), obra.getGenero(),obra.getTipo().getId(),obra.getArea().getId());
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
             return statement.executeUpdate();
