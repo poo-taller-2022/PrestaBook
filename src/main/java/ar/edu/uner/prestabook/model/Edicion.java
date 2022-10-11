@@ -22,8 +22,8 @@ import lombok.NoArgsConstructor;
 public class Edicion {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
     private Long id;
     private String editorial;
     private String pais;

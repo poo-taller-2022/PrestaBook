@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 public class CodigoIdentificatorio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
-    private Long codigo;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
+    private Long id;
     private Integer pasillo;
     private Integer estanteria;
     private Integer estante;

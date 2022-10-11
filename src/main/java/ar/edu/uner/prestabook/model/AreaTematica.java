@@ -12,15 +12,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "AreaTematica")
+@Entity
 @Table(name = "areas_tematicas")
 @AllArgsConstructor
 @NoArgsConstructor
 public class AreaTematica {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
     private Integer id;
     private String nombre;
 

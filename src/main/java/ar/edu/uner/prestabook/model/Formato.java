@@ -14,8 +14,8 @@ import lombok.Data;
 public class Formato {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
     private Integer id;
     private String nombre;
 

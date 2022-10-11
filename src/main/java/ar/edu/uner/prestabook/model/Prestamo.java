@@ -14,8 +14,8 @@ import lombok.Data;
 public class Prestamo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
     private Long id;
     @Column(name = "fecha_y_hora_prestamo")
     private String fechaYHoraPrestamo;

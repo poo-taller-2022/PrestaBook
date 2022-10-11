@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,9 +16,13 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "obras")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Obra {
 
     @Id
+    @Column(nullable = false, unique = true)
+    private Long id;
+    @Column(nullable = false, unique = true)
     private String isbn;
     @OneToMany
     private List<Ejemplar> ejemplares;
