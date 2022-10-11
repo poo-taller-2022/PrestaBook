@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CodigoIdentificatorio {
 
-	private String codigo;
-	private String pasillo;
-	private String estanteria;
-	private String estante;
+	private Long codigo;
+	private Integer pasillo;
+	private Integer estanteria;
+	private Integer estante;
 
 }

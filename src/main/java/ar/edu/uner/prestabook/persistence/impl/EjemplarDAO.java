@@ -147,9 +147,9 @@ public class EjemplarDAO implements IEjemplarDAO {
             ejemplar.setMotivoBaja(resultados.getString("motivo_baja"));
             ejemplar.setTipo(new TipoObra(resultados.getLong("tipo_id"), resultados.getString("tipo_nombre")));
             ejemplar.setArea(new AreaTematica(resultados.getLong("area_id"), resultados.getString("area_nombre")));
-            ejemplar.setCodigoIdentificatorio(new CodigoIdentificatorio(resultados.getString("codigo"),
-                    resultados.getString("pasillo"), resultados.getString("estanteria"),
-                    resultados.getString("estante")));
+            ejemplar.setCodigoIdentificatorio(new CodigoIdentificatorio(resultados.getLong("codigo"),
+                    resultados.getInt("pasillo"), resultados.getInt("estanteria"),
+                    resultados.getInt("estante")));
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
+import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -41,6 +42,12 @@ public class Funcionario extends Persona {
 		t.insert(obra);
 	}
 	
+	
+	public void cargarCodigoIdentificatorio(CodigoIdentificatorio codigo) {
+		ICodigoIdentificatorioDAO c = DaoFactory.getCodigoIdentificatorioDAO();
+		c.insert(codigo);
+		
+	}
 	
 	public void prestarADomicilio(Obra obra, Integer plazo) {
 		/*
