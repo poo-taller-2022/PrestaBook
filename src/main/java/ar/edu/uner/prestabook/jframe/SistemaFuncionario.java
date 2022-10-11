@@ -373,6 +373,7 @@ public class SistemaFuncionario extends JFrame {
         btnAplicarMultaALector.setFont(new Font("Verdana", Font.BOLD, 12));
         btnAplicarMultaALector.setBorderPainted(false);
         btnAplicarMultaALector.setBounds(22, 755, 293, 31);
+        btnAplicarMultaALector.addActionListener(e -> System.out.println(DaoFactory.getAreaTematicaDAO().findAll()));
         return btnAplicarMultaALector;
     }
 

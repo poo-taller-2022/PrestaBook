@@ -8,11 +8,63 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 
 public class AreaTematicaDAO implements IAreaTematicaDAO {
+    
+    private Session currentSession;
+    
+    private Transaction currentTransaction;
+  
+    public Session openCurrentSession() {
+        currentSession = getSessionFactory().openSession();
+        return currentSession;
+    }
+ 
+    public Session openCurrentSessionwithTransaction() {
+        currentSession = getSessionFactory().openSession();
+        currentTransaction = currentSession.beginTransaction();
+        return currentSession;
+    }
+     
+    public void closeCurrentSession() {
+        currentSession.close();
+    }
+     
+    public void closeCurrentSessionwithTransaction() {
+        currentTransaction.commit();
+        currentSession.close();
+    }
+     
+    private static SessionFactory getSessionFactory() {
+        Configuration configuration = new Configuration().configure();
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().configure();
+        return configuration.buildSessionFactory(builder.build());
+    }
+ 
+    public Session getCurrentSession() {
+        return currentSession;
+    }
+ 
+    public void setCurrentSession(Session currentSession) {
+        this.currentSession = currentSession;
+    }
+ 
+    public Transaction getCurrentTransaction() {
+        return currentTransaction;
+    }
+ 
+    public void setCurrentTransaction(Transaction currentTransaction) {
+        this.currentTransaction = currentTransaction;
+    }
 
     /**
      * Singleton instance of the class
@@ -35,19 +87,21 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
 
     @Override
     public List<AreaTematica> findAll() {
-        String sql = "SELECT * FROM AREAS_TEMATICAS";
-        try (Connection conn = ConnectionProvider.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
-            ResultSet resultados = statement.executeQuery();
-            List<AreaTematica> areasTematicas = new LinkedList<>();
-            while (resultados.next()) {
-                areasTematicas.add(toAreaTematica(resultados));
-            }
-            return areasTematicas;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Collections.emptyList();
+//        String sql = "SELECT * FROM AREAS_TEMATICAS";
+//        try (Connection conn = ConnectionProvider.getConnection();
+//                PreparedStatement statement = conn.prepareStatement(sql)) {
+//            ResultSet resultados = statement.executeQuery();
+//            List<AreaTematica> areasTematicas = new LinkedList<>();
+//            while (resultados.next()) {
+//                areasTematicas.add(toAreaTematica(resultados));
+//            }
+//            return areasTematicas;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return Collections.emptyList();
+        openCurrentSession();
+        return getCurrentSession().createQuery("from AreaTematica", AreaTematica.class).list();
     }
 
     @Override
