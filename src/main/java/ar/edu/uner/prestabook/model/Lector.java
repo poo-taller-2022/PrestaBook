@@ -3,15 +3,16 @@ package ar.edu.uner.prestabook.model;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Lector extends Persona {
 
 	@Id
-	private Long id;
+	private Long dni;
 
 	public void registrarse(String tipoLector, Lector lector) {
 		ModelMapper m = new ModelMapper();

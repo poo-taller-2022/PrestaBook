@@ -13,8 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import ar.edu.uner.prestabook.common.DaoFactory;
-
 public class SistemaFuncionario extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -373,7 +371,6 @@ public class SistemaFuncionario extends JFrame {
         btnAplicarMultaALector.setFont(new Font("Verdana", Font.BOLD, 12));
         btnAplicarMultaALector.setBorderPainted(false);
         btnAplicarMultaALector.setBounds(22, 755, 293, 31);
-        btnAplicarMultaALector.addActionListener(e -> System.out.println(DaoFactory.getAreaTematicaDAO().findAll()));
         return btnAplicarMultaALector;
     }
 
