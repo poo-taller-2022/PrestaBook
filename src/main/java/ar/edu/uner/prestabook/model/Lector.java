@@ -1,6 +1,7 @@
 package ar.edu.uner.prestabook.model;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
+import ar.edu.uner.prestabook.persistence.IObraDAO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -53,8 +55,23 @@ public class Lector extends Persona {
 	public void reservarObra(Obra obra) {
 
 	}
-
+	
+    /**
+     * 
+     * @return list of related Obras by Tema
+     * @param Tema the parameter Tema refers to AreaTematica
+     */
 	public List<Obra> buscarObrasPorTema(String tema) {
-		return Collections.emptyList();
+		IObraDAO obraDAO = DaoFactory.getObraDAO();
+		List<Obra> obras = obraDAO.findAll();
+		List<Obra> obrasFiltradas = new LinkedList<>();
+		
+		for(int i=0; i<obras.size(); i++) {
+			if (obras.get(i).getArea().getNombre().equals(tema) ) {
+				obrasFiltradas.add(obras.get(i));
+			}
+		}
+		return obrasFiltradas;
 	}
+	
 }
