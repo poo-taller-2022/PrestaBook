@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
+import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -34,6 +35,13 @@ public class Funcionario extends Persona {
 		f.insert(funcionario);
 	}
 
+	
+	public void cargarTipoObra(TipoObra obra) {
+		ITipoObraDAO t = DaoFactory.getTipoObraDAO();
+		t.insert(obra);
+	}
+	
+	
 	public void prestarADomicilio(Obra obra, Integer plazo) {
 		/*
 		 * TODO En este metodo deberiamos pasar por parametro tambien al lector, algo
