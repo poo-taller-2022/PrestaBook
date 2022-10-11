@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
+import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import jakarta.persistence.Entity;
@@ -58,7 +59,7 @@ public class Lector extends Persona {
 	
     /**
      * 
-     * @return list of related Obras by Tema
+     * @return list of Obras related by Tema
      * @param Tema the parameter Tema refers to AreaTematica
      */
 	public List<Obra> buscarObrasPorTema(String tema) {
@@ -72,6 +73,17 @@ public class Lector extends Persona {
 			}
 		}
 		return obrasFiltradas;
+	}
+	
+    /**
+     * 
+     * @return list of Ejemplares available
+     * @param Isbn from an Obra
+     */
+	public List<Ejemplar> consultarEjemplares(String isbn) {
+		IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
+		List<Ejemplar> ejemplaresDisponibles = ejemplarDAO.findAllByObraIsbn(isbn);
+		return ejemplaresDisponibles;
 	}
 	
 }
