@@ -375,7 +375,8 @@ public class SistemaFuncionario extends JFrame {
     }
 
     public JLabel lblBienvenidaParte1() {
-        JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
+        JLabel lblBienvenidaParte1 = new JLabel(
+                "¡Bienvenido al sistema de gestión de préstamos de libros más");
         lblBienvenidaParte1.setForeground(Color.GRAY);
         lblBienvenidaParte1.setFont(new Font("Verdana", Font.BOLD, 21));
         lblBienvenidaParte1.setBounds(476, 109, 775, 136);

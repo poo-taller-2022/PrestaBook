@@ -2,8 +2,14 @@ package ar.edu.uner.prestabook.model;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +20,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Edicion {
-
-	private Long id;
-	private String editorial;
-	private String pais;
-	private Integer numero;
-	private Integer anio;
-	private Long volumenes;
-	private Integer paginas;
-	private String idioma;
-	private List<Formato> formatos;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
+    private Long id;
+    private String editorial;
+    private String pais;
+    private Integer numero;
+    private Integer anio;
+    private Long volumenes;
+    private Integer paginas;
+    private String idioma;
+    @ManyToMany
+    private List<Formato> formatos;
 }
