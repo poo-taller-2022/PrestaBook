@@ -4,28 +4,20 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "funcionarios")
-@AllArgsConstructor
-@NoArgsConstructor
 public class Funcionario extends Persona {
-
-	@Id
-	private String dni;
 
 	public void registrarse(Lector lector) {
 		ModelMapper m = new ModelMapper();

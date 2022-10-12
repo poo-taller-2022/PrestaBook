@@ -1,6 +1,7 @@
 package ar.edu.uner.prestabook.model;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,9 @@ public abstract class Persona {
     private String apellido;
     @Column(name = "tipo_documento")
     private String tipoDocumento;
-    private String documento;
+    @Id
+    @Column(nullable = false)
+    private Integer documento;
     private String email;
     private String celular;
     @Column(name = "fecha_nacimiento")
