@@ -11,9 +11,12 @@ import javax.persistence.Table;
 import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
+import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
+import ar.edu.uner.prestabook.persistence.IObraDAO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -49,8 +52,23 @@ public class Lector extends Persona {
     public void reservarObra(Obra obra) {
 
     }
-
+    
     public List<Obra> buscarObrasPorTema(String tema) {
-        return Collections.emptyList();
+    	IAreaTematicaDAO areaDAO = DaoFactory.getAreaTematicaDAO();
+    	IObraDAO obraDAO = DaoFactory.getObraDAO();
+    	Integer id = 0;
+    	
+    	List<AreaTematica> areas = areaDAO.findAll();
+    	
+    	for(int i=0; i<areas.size();i++) {
+    		if(areas.get(i).getNombre().equals(tema)) {
+    			id = areas.get(i).getId();
+    			break;
+    		}
+    	}
+    	
+    	List<Obra> obras = obraDAO.filtrarPorTema(id);
+    	return obras;
     }
+
 }
