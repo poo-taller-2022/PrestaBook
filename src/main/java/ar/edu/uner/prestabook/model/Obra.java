@@ -39,5 +39,7 @@ public class Obra {
     private TipoObra tipo;
     @ManyToOne
     private AreaTematica area;
+    @OneToMany
+    private List<Edicion> edicion;
 
 }
