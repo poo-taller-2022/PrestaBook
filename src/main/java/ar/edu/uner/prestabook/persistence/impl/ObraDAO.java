@@ -60,5 +60,9 @@ public class ObraDAO implements IObraDAO {
     public Integer delete(Obra t) {
         return null;
     }
-
+    
+    public List<Obra> filtrarPorTema(Integer id) {
+    	return HibernateConnection.getCurrentSession().createQuery(String.format("FROM Obra obra WHERE obra.area = %s",id), Obra.class).list();
+    }
+    
 }
