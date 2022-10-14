@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 
 public class IniciarSesion extends JFrame {
@@ -111,17 +112,22 @@ public class IniciarSesion extends JFrame {
 			IniciarSesion.this.dispose();
 		});
 
-		/**
-		 * Created method to close window
-		 */
-
 		btnExit.addActionListener(e -> System.exit(0));
 
-		/**
-		 * Method created to search for user in database
-		 */
+        /**
+         * Created method to close window
+         */
 
-		btnIngresar.addActionListener(e -> {
+        btnExit.addActionListener(e -> {
+            HibernateConnection.closeCurrentSession();
+            System.exit(0);
+        });
+
+        /**
+         * Method created to search for user in database
+         */
+
+        btnIngresar.addActionListener(e -> {
 
 			String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
 
@@ -158,42 +164,34 @@ public class IniciarSesion extends JFrame {
 		});
 	}
 
-	/**
-	 * Create components
-	 */
+    /**
+     * Create components
+     */
 
-	public void ventana() {
-		setUndecorated(true);
-		setResizable(false);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 648, 486);
-		setLocationRelativeTo(null);
-	}
+    public void ventana() {
+        setUndecorated(true);
+        setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(100, 100, 648, 486);
+        setLocationRelativeTo(null);
+    }
 
-	public JPanel contentPane() {
-		JPanel contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		return contentPane;
-	}
+    public JPanel contentPane() {
+        JPanel contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 255, 255));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        return contentPane;
+    }
 
-	public JPanel panelPrestabook() {
-		JPanel panelPrestabook = new JPanel();
-		panelPrestabook.setBackground(new Color(0, 64, 128));
-		panelPrestabook.setBounds(0, 0, 648, 100);
-		panelPrestabook.setLayout(null);
-		return panelPrestabook;
-	}
-
-	public JLabel lblPrestaBook() {
-		JLabel lblPrestaBook = new JLabel("PrestaBook");
-		lblPrestaBook.setForeground(new Color(255, 255, 255));
-		lblPrestaBook.setFont(new Font("Verdana", Font.BOLD, 32));
-		lblPrestaBook.setBounds(218, 34, 264, 42);
-		return lblPrestaBook;
-	}
+    public JPanel panelPrestabook() {
+        JPanel panelPrestabook = new JPanel();
+        panelPrestabook.setBackground(new Color(0, 64, 128));
+        panelPrestabook.setBounds(0, 0, 648, 100);
+        panelPrestabook.setLayout(null);
+        return panelPrestabook;
+    }
 
 	public JButton btnExit() {
 		JButton btnExit = new JButton("X");
@@ -214,47 +212,33 @@ public class IniciarSesion extends JFrame {
 		return lblIniciarSesion;
 	}
 
-	public JLabel lblIngresarComo() {
-		JLabel lblIngresarComo = new JLabel("Ingresar como");
-		lblIngresarComo.setBounds(39, 162, 97, 14);
-		return lblIngresarComo;
-	}
+    public JLabel lblIngresarComo() {
+        JLabel lblIngresarComo = new JLabel("Ingresar como");
+        lblIngresarComo.setBounds(39, 162, 97, 14);
+        return lblIngresarComo;
+    }
 
-	public JPanel panelIngresarComo() {
-		JPanel panelIngresarComo = new JPanel();
-		panelIngresarComo.setLayout(null);
-		panelIngresarComo.setBorder(new LineBorder(new Color(128, 128, 128)));
-		panelIngresarComo.setBounds(39, 178, 560, 38);
-		return panelIngresarComo;
-	}
+    public JPanel panelIngresarComo() {
+        JPanel panelIngresarComo = new JPanel();
+        panelIngresarComo.setLayout(null);
+        panelIngresarComo.setBorder(new LineBorder(new Color(128, 128, 128)));
+        panelIngresarComo.setBounds(39, 178, 560, 38);
+        return panelIngresarComo;
+    }
 
-	public JRadioButton btnRadioFuncionario() {
-		JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
-		btnRadioFuncionario.setBounds(19, 7, 109, 23);
-		btnRadioFuncionario.setFocusPainted(false);
-		return btnRadioFuncionario;
-	}
+    public JRadioButton btnRadioFuncionario() {
+        JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
+        btnRadioFuncionario.setBounds(19, 7, 109, 23);
+        btnRadioFuncionario.setFocusPainted(false);
+        return btnRadioFuncionario;
+    }
 
-	public JRadioButton btnRadioAlumno() {
-		JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
-		btnRadioAlumno.setBounds(171, 7, 101, 23);
-		btnRadioAlumno.setFocusPainted(false);
-		return btnRadioAlumno;
-	}
-
-	public JRadioButton btnRadioDocente() {
-		JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
-		btnRadioDocente.setBounds(308, 7, 108, 23);
-		btnRadioDocente.setFocusPainted(false);
-		return btnRadioDocente;
-	}
-
-	public JRadioButton btnRadioPublicoGeneral() {
-		JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
-		btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
-		btnRadioPublicoGeneral.setFocusPainted(false);
-		return btnRadioPublicoGeneral;
-	}
+    public JRadioButton btnRadioAlumno() {
+        JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
+        btnRadioAlumno.setBounds(171, 7, 101, 23);
+        btnRadioAlumno.setFocusPainted(false);
+        return btnRadioAlumno;
+    }
 
 	public JLabel lblContrasenia() {
 		JLabel lblContrasenia = new JLabel("Contraseña");

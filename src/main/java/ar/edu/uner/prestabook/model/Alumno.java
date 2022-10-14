@@ -1,10 +1,8 @@
 package ar.edu.uner.prestabook.model;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Alumno extends Lector {
 
-	@Id
-	private Long id;
-	private List<String> carreras;
+    //TODO: ver la posibilidad de crear una entidad Carrera
+	private String carreras;
 }

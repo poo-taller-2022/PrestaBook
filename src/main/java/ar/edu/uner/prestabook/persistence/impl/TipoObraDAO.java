@@ -1,14 +1,11 @@
 package ar.edu.uner.prestabook.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
@@ -18,6 +15,7 @@ public class TipoObraDAO implements ITipoObraDAO {
      * Singleton instance of the class
      */
     private static final TipoObraDAO instance = new TipoObraDAO();
+    private final Session session = HibernateConnection.getCurrentSession();
 
     /**
      * Private constructor to avoid instantiation
@@ -35,84 +33,34 @@ public class TipoObraDAO implements ITipoObraDAO {
 
     @Override
     public List<TipoObra> findAll() {
-        String sql = "SELECT * FROM TIPOS_OBRA";
-        try (Connection conn = ConnectionProvider.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
-            ResultSet resultados = statement.executeQuery();
-            List<TipoObra> tiposObra = new LinkedList<>();
-            while (resultados.next()) {
-                tiposObra.add(toTipoObra(resultados));
-            }
-            return tiposObra;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Collections.emptyList();
+        String hql = "from TipoObra";
+        return session.createQuery(hql, TipoObra.class).list();
     }
 
     @Override
     public TipoObra findById(Object id) {
-        String sql = String.format("SELECT * FROM TIPOS_OBRA WHERE ID = %s", id.toString());
-        try (Connection conn = ConnectionProvider.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
-            ResultSet resultados = statement.executeQuery();
-            TipoObra tiposObras = null;
-            if (resultados.next()) {
-                tiposObras = toTipoObra(resultados);
-            }
-            return tiposObras;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return HibernateConnection.getCurrentSession().get(TipoObra.class, (Integer) id);
     }
 
     @Override
     public Integer insert(TipoObra tipoObra) {
-        String sql = String.format("INSERT INTO TIPOS_OBRA (NOMBRE) VALUES ('%s')", tipoObra.getNombre());
-        try (Connection conn = ConnectionProvider.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
-            return statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
+        Integer id = (Integer) HibernateConnection.getCurrentSession().save(tipoObra);
+        tx.commit();
+        return id;
     }
 
     @Override
     public Integer update(TipoObra tipoObra) {
-        String sql = String.format("UPDATE TIPOS_OBRA SET NOMBRE = '%s' WHERE ID = '%s'", tipoObra.getNombre(),
-                tipoObra.getId());
-        try (Connection conn = ConnectionProvider.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
-            return statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
+        HibernateConnection.getCurrentSession().update(tipoObra);
+        tx.commit();
+        return 0;
     }
 
     @Override
     public Integer delete(TipoObra t) {
         return null;
-    }
-
-    /**
-     * Converts a ResultSet into a TipoObra
-     * 
-     * @param resultados the ResultSet with the rows obtained from the database
-     *                   query
-     * @return a TipoObra
-     */
-    private TipoObra toTipoObra(ResultSet resultados) {
-        TipoObra area = new TipoObra();
-        try {
-            area.setId(resultados.getLong(1));
-            area.setNombre(resultados.getString(2));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return area;
     }
 
 }

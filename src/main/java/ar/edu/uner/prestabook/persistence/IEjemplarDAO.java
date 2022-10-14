@@ -8,9 +8,9 @@ import ar.edu.uner.prestabook.model.Ejemplar;
 public interface IEjemplarDAO extends GenericDAO<Ejemplar> {
 
 	/**
-	 * Trae una lista de todos los ejemplares, filtrados por el isbn
-	 * @param isbn de la obra
-	 * @return Una lista con los ejemplares encontrados
+	 * Fetches a list, filtered by their isbn
+	 * @param isbn 
+	 * @return A list with all the copies of the book
 	 */
 	List<Ejemplar> findAllByObraIsbn(String isbn);
 	

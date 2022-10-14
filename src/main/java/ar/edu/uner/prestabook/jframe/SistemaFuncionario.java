@@ -274,7 +274,7 @@ public class SistemaFuncionario extends JFrame {
 			panelFormato.add(btnActualizarFormato);
 
 			/**
-			 * Botón con evento para agregar tipo de obra
+			 * Botón con evento para agregar formatos
 			 */
 
 			btnAgregarFormato.addActionListener(b -> {
@@ -907,7 +907,7 @@ public class SistemaFuncionario extends JFrame {
 
 	/**
 	 * Agrega una fila a la tabla y llama al metodo (actualizarBaseDeDatos) para
-	 * actualizar la misma fila en la base de datos
+	 * actualizar la misma fila en la base de datos. Metodo funcional solo para obra
 	 */
 
 	public void agregarEntidadObraATabla(String isbn, String titulo, String subtitulo, String primerAutor, String segundoAutor,
@@ -936,7 +936,7 @@ public class SistemaFuncionario extends JFrame {
 
 	/**
 	 * Agrega una fila a la tabla y llama al metodo (actualizarBaseDeDatos) para
-	 * actualizar la misma fila en la base de datos
+	 * actualizar la misma fila en la base de datos. Metodo funcional para: Tipo obra, area tematica y formato
 	 */
 
 	public void agregarEntidadATabla(String valorAgregar, String entidad, DefaultTableModel model, Long enumeracion) {
