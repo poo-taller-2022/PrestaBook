@@ -43,9 +43,9 @@ public class ObraDAO implements IObraDAO {
     @Override
     public Integer insert(Obra obra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(obra);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(obra);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override

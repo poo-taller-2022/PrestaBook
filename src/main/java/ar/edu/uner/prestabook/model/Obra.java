@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -20,6 +22,7 @@ import lombok.Data;
 public class Obra {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private Long id;
     @Column(nullable = false, unique = true)
