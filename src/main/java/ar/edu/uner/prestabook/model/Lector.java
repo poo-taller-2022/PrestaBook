@@ -53,6 +53,11 @@ public class Lector extends Persona {
 
     }
     
+    /**
+     * 
+     * @return list of Obras related by Tema
+     * @param Tema the parameter Tema refers to AreaTematica
+     */
     public List<Obra> buscarObrasPorTema(String tema) {
     	IAreaTematicaDAO areaDAO = DaoFactory.getAreaTematicaDAO();
     	IObraDAO obraDAO = DaoFactory.getObraDAO();
