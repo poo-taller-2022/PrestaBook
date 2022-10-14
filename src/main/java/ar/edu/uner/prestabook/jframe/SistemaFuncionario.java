@@ -167,7 +167,7 @@ public class SistemaFuncionario extends JFrame {
 			tableTipoDeObras.setModel(model);
 			model.addColumn("");
 			model.addColumn("Nombre");
- 
+
 			llenarTabla(model, entidad);
 			scrollPane.setViewportView(tableTipoDeObras);
 
@@ -342,7 +342,7 @@ public class SistemaFuncionario extends JFrame {
 				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
 
 				String isbn = modelo.getFieldIsbn();
-				String titulo = modelo.getFieldTitulo(); 
+				String titulo = modelo.getFieldTitulo();
 				String subtitulo = modelo.getFieldSubtitulo();
 				String primerAutor = modelo.getFieldPrimerAutor();
 				String segundoAutor = modelo.getFieldSegundoAutor();
@@ -355,16 +355,19 @@ public class SistemaFuncionario extends JFrame {
 				String fechaAdquisicion = modelo.getFieldFechaAdquisicion();
 				String observaciones = modelo.getFieldObservaciones();
 				Boolean refrescar = modelo.getRefrescar();
-				
-				if (refrescar == null || !refrescar) {
+
+				if (refrescar == null || refrescar == false) {
 					JOptionPane.showInternalMessageDialog(null, "Nada para refrescar");
 				} else {
-					agregarEntidadObraATabla(isbn, titulo, subtitulo, primerAutor, segundoAutor, tercerAutor, genero, tipoObra,
-							areaTematica, formato, formaAdquisicion, fechaAdquisicion, observaciones, entidad, model,
-							enumeracion);
+					agregarEntidadObraATabla(isbn, titulo, subtitulo, primerAutor, segundoAutor, tercerAutor, genero,
+							tipoObra, areaTematica, formato, formaAdquisicion, fechaAdquisicion, observaciones, entidad,
+							model, enumeracion);
+					
+					actualizarBaseDeDatos(model, entidad);
+					
 					modelo.setRefrescar(false);
 				}
-				
+
 			});
 
 			/**
@@ -910,12 +913,11 @@ public class SistemaFuncionario extends JFrame {
 	 * actualizar la misma fila en la base de datos. Metodo funcional solo para obra
 	 */
 
-	public void agregarEntidadObraATabla(String isbn, String titulo, String subtitulo, String primerAutor, String segundoAutor,
-			String tercerAutor, String genero, String tipoObra, String areaTematica, String formato,
-			String formaAdquisicion, String fechaAdquisicion, String observaciones, String entidad,
+	public void agregarEntidadObraATabla(String isbn, String titulo, String subtitulo, String primerAutor,
+			String segundoAutor, String tercerAutor, String genero, String tipoObra, String areaTematica,
+			String formato, String formaAdquisicion, String fechaAdquisicion, String observaciones, String entidad,
 			DefaultTableModel model, Long enumeracion) {
-		Object[] fila = new Object[14];
-
+		Object[] fila = new Object[13];
 		fila[0] = isbn;
 		fila[1] = titulo;
 		fila[2] = subtitulo;
@@ -930,13 +932,12 @@ public class SistemaFuncionario extends JFrame {
 		fila[11] = fechaAdquisicion;
 		fila[12] = observaciones;
 		model.addRow(fila);
-
-		actualizarBaseDeDatos(model, entidad);
 	}
 
 	/**
 	 * Agrega una fila a la tabla y llama al metodo (actualizarBaseDeDatos) para
-	 * actualizar la misma fila en la base de datos. Metodo funcional para: Tipo obra, area tematica y formato
+	 * actualizar la misma fila en la base de datos. Metodo funcional para: Tipo
+	 * obra, area tematica y formato
 	 */
 
 	public void agregarEntidadATabla(String valorAgregar, String entidad, DefaultTableModel model, Long enumeracion) {
@@ -950,9 +951,9 @@ public class SistemaFuncionario extends JFrame {
 			} else {
 				JOptionPane.showInternalMessageDialog(null, "Debe completar el campo para poder agregar tipo de obra");
 			}
-		} 
+		}
 	}
-	
+
 	/**
 	 * Actualiza en la base de datos la fila agregada en la tabla
 	 * 
@@ -995,7 +996,7 @@ public class SistemaFuncionario extends JFrame {
 			obra.setTipo(new TipoObra(null, model.getValueAt(cantidad - 1, 7).toString()));
 			obra.setArea(new AreaTematica(null, model.getValueAt(cantidad - 1, 8).toString()));
 
-			obraDAO.insert(obra); 
+			obraDAO.insert(obra);
 			break;
 		default:
 		}

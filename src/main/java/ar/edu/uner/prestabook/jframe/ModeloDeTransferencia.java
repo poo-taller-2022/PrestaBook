@@ -13,7 +13,7 @@ public class ModeloDeTransferencia {
 	String fieldGenero;
 	String comboBoxTipoObra;
 	String comboBoxAreaTematica;
-	String comboBoxFormato; 
+	String comboBoxFormato;
 	String fieldFormaAdquisicion;
 	String fieldFechaAdquisicion;
 	String fieldObservaciones;

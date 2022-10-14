@@ -4,11 +4,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.JOptionPane;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
+
+import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.Formato;
+import ar.edu.uner.prestabook.model.Obra;
+import ar.edu.uner.prestabook.model.TipoObra;
+import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.IFormatoDAO;
+import ar.edu.uner.prestabook.persistence.IObraDAO;
+import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 import java.awt.Color;
 
@@ -283,24 +296,57 @@ public class AgregarObra extends JFrame {
 	}
 
 	public JComboBox comboBoxTipoObra() {
-		String[] tipos = { "Libro", "ensayo", "revista" };
-		JComboBox comboBoxTipoObra = new JComboBox(tipos);
+		JComboBox comboBoxTipoObra = new JComboBox(llenarListas("Tipo obra"));
 		comboBoxTipoObra.setBounds(235, 268, 166, 29);
 		return comboBoxTipoObra;
 	}
 
 	public JComboBox comboBoxAreaTematica() {
-		String[] areas = { "Matematica", "Lengua", "Programacion" };
-		JComboBox comboBoxAreaTematica = new JComboBox(areas);
+		JComboBox comboBoxAreaTematica = new JComboBox(llenarListas("Area tematica"));
 		comboBoxAreaTematica.setBounds(437, 268, 166, 29);
 		return comboBoxAreaTematica;
 	}
 
 	public JComboBox comboBoxFormato() {
-		String[] formatos = { "dvd", "digital" };
-		JComboBox comboBoxFormato = new JComboBox(formatos);
+		JComboBox comboBoxFormato = new JComboBox(llenarListas("Formato"));
 		comboBoxFormato.setBounds(37, 333, 166, 29);
 		return comboBoxFormato;
+	}
+	
+	public String[] llenarListas(String tipoEntidad) {
+		int i = 0;
+		switch (tipoEntidad) {
+		case "Tipo obra":
+			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
+			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
+			String[] tipos = new String[tiposObra.size()];
+			for (TipoObra tipo : tiposObra) {
+				tipos[i] = tipo.getNombre();
+				i++;
+			}
+			return tipos;
+		case "Area tematica":
+			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
+			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
+			String[] areas = new String[areasTematicas.size()];
+			for (AreaTematica area : areasTematicas) {
+				areas[i] = area.getNombre();
+				i++;
+			}
+			return areas;
+		case "Formato":
+			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
+			java.util.List<Formato> formatos = formatoDAO.findAll();
+			String[] vectorFormatos = new String[formatos.size()];
+			for (Formato formato : formatos) {
+				vectorFormatos[i] = formato.getNombre();
+				i++;
+			}
+			return vectorFormatos;
+		default:
+		}
+		return null;
+
 	}
 
 	public JLabel lblAreaTematica() {
