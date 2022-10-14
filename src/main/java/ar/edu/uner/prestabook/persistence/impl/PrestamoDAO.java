@@ -31,7 +31,7 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     @Override
     public List<Prestamo> findAll() {
-        return HibernateConnection.getCurrentSession().createQuery("from Obra", Prestamo.class).list();
+        return HibernateConnection.getCurrentSession().createQuery("from Prestamo", Prestamo.class).list();
     }
 
     @Override
@@ -41,17 +41,17 @@ public class PrestamoDAO implements IPrestamoDAO {
     }
 
     @Override
-    public Integer insert(Prestamo obra) {
+    public Integer insert(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(obra);
+        Integer id = (Integer) HibernateConnection.getCurrentSession().save(prestamo);
         tx.commit();
         return id;
     }
 
     @Override
-    public Integer update(Prestamo obra) {
+    public Integer update(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        HibernateConnection.getCurrentSession().update(obra);
+        HibernateConnection.getCurrentSession().update(prestamo);
         tx.commit();
         return 0;
     }
