@@ -6,7 +6,7 @@ target/
 bin/
 settings/
 **.db
-
+maven.properties
 
 ### STS ###
 .apt_generated
