@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import lombok.Data;
 
 @Data
@@ -27,5 +29,9 @@ public class Prestamo {
     private Integer plazoPrestamo;
     @Column(name = "fuera_de_termino")
     private Boolean fueraDeTermino;
+    @ManyToOne
+    private Ejemplar ejemplar;
+    @ManyToOne
+    private Lector lector;
 
 }
