@@ -11,11 +11,13 @@ public class ModeloDeTransferencia {
 	String fieldSegundoAutor;
 	String fieldTercerAutor;
 	String fieldGenero;
-	String comboBoxTipoObra;
-	String comboBoxAreaTematica;
-	String comboBoxFormato;
+	String fielTipoObra;
+	String fielAreaTematica;
 	String fieldFormaAdquisicion;
 	String fieldFechaAdquisicion;
 	String fieldObservaciones;
+	Integer idTipoObra;
+	Integer idAreaTematica;
+	Integer idFormato;
 	Boolean refrescar;
 }
