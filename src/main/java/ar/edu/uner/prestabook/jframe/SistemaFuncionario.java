@@ -29,6 +29,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -182,10 +185,13 @@ public class SistemaFuncionario extends JFrame {
 			 */
 
 			btnAgregarTipoObra.addActionListener(b -> {
-				Long enumeracion = ultimaEnumeracion(model);
 
 				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de tipo de obra");
-				agregarEntidadATabla(valorAgregar, entidad, model, enumeracion);
+				actualizarBaseDeDatos(valorAgregar, entidad);
+
+				limpiarTabla(tableTipoDeObras);
+
+				llenarTabla(model, entidad);
 			});
 
 		});
@@ -231,10 +237,14 @@ public class SistemaFuncionario extends JFrame {
 			 */
 
 			btnAreaTematica.addActionListener(b -> {
-				Long enumeracion = ultimaEnumeracion(model);
 
 				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de area tematica");
-				agregarEntidadATabla(valorAgregar, entidad, model, enumeracion);
+
+				actualizarBaseDeDatos(valorAgregar, entidad);
+
+				limpiarTabla(tableAreasTematicas);
+
+				llenarTabla(model, entidad);
 			});
 
 		});
@@ -278,10 +288,13 @@ public class SistemaFuncionario extends JFrame {
 			 */
 
 			btnAgregarFormato.addActionListener(b -> {
-				Long enumeracion = ultimaEnumeracion(model);
 
 				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre del formato");
-				agregarEntidadATabla(valorAgregar, entidad, model, enumeracion);
+				actualizarBaseDeDatos(valorAgregar, entidad);
+
+				limpiarTabla(tableFormatos);
+
+				llenarTabla(model, entidad);
 			});
 
 		});
@@ -323,6 +336,16 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("Forma adquisicion");
 			model.addColumn("Fecha adquisicion");
 			model.addColumn("Observaciones");
+			model.addColumn("idTipoObra");
+			model.addColumn("idAreaTematica");
+
+			tableObras.getColumnModel().getColumn(13).setMaxWidth(0);
+			tableObras.getColumnModel().getColumn(13).setMinWidth(0);
+			tableObras.getColumnModel().getColumn(13).setPreferredWidth(0);
+
+			tableObras.getColumnModel().getColumn(14).setMaxWidth(0);
+			tableObras.getColumnModel().getColumn(14).setMinWidth(0);
+			tableObras.getColumnModel().getColumn(14).setPreferredWidth(0);
 
 			llenarTabla(model, entidad);
 			scrollPane.setViewportView(tableObras);
@@ -337,34 +360,25 @@ public class SistemaFuncionario extends JFrame {
 			panelObra.add(btnRefrescar);
 
 			btnRefrescar.addActionListener(b -> {
-				Long enumeracion = ultimaEnumeracion(model);
 
 				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
-
-				String isbn = modelo.getFieldIsbn();
-				String titulo = modelo.getFieldTitulo();
-				String subtitulo = modelo.getFieldSubtitulo();
-				String primerAutor = modelo.getFieldPrimerAutor();
-				String segundoAutor = modelo.getFieldSegundoAutor();
-				String tercerAutor = modelo.getFieldTercerAutor();
-				String genero = modelo.getFieldGenero();
-				String tipoObra = modelo.getComboBoxTipoObra();
-				String areaTematica = modelo.getComboBoxAreaTematica();
-				String formato = modelo.getComboBoxFormato();
-				String formaAdquisicion = modelo.getFieldFormaAdquisicion();
-				String fechaAdquisicion = modelo.getFieldFechaAdquisicion();
-				String observaciones = modelo.getFieldObservaciones();
 				Boolean refrescar = modelo.getRefrescar();
 
-				if (refrescar == null || refrescar == false) {
+				if (refrescar == null || !refrescar) {
 					JOptionPane.showInternalMessageDialog(null, "Nada para refrescar");
 				} else {
-					agregarEntidadObraATabla(isbn, titulo, subtitulo, primerAutor, segundoAutor, tercerAutor, genero,
-							tipoObra, areaTematica, formato, formaAdquisicion, fechaAdquisicion, observaciones, entidad,
-							model, enumeracion);
-					
-					actualizarBaseDeDatos(model, entidad);
-					
+
+					actualizarObraEnBaseDeDatos(modelo.getFieldIsbn(), modelo.getFieldTitulo(),
+							modelo.getFieldSubtitulo(), modelo.getFieldPrimerAutor(), modelo.getFieldSegundoAutor(),
+							modelo.getFieldTercerAutor(), modelo.getFieldGenero(), modelo.getFielTipoObra(),
+							modelo.getIdTipoObra(), modelo.getFielAreaTematica(), modelo.getIdAreaTematica(),
+							modelo.getIdFormato(), modelo.getFieldFormaAdquisicion(), modelo.getFieldFechaAdquisicion(),
+							modelo.getFieldObservaciones(), model);
+
+					limpiarTabla(tableObras);
+
+					llenarTabla(model, entidad);
+
 					modelo.setRefrescar(false);
 				}
 
@@ -832,7 +846,7 @@ public class SistemaFuncionario extends JFrame {
 	}
 
 	/**
-	 * Llena la tabla con todas las filas cargadas en la base de dato
+	 * Llena la tabla con todas las filas cargadas en la base de datos
 	 */
 
 	public void llenarTabla(DefaultTableModel model, String tipoEntidad) {
@@ -842,52 +856,53 @@ public class SistemaFuncionario extends JFrame {
 			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
 			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
 			for (TipoObra tipo : tiposObra) {
-				Object[] fila = new Object[2];
-				fila[0] = ++i;
-				fila[1] = tipo.getNombre();
-				model.addRow(fila);
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(tipo.getNombre());
+				model.addRow(new Vector<>(fila));
 			}
 			break;
 		case "Area tematica":
 			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
 			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
 			for (AreaTematica area : areasTematicas) {
-				Object[] fila = new Object[2];
-				fila[0] = ++i;
-				fila[1] = area.getNombre();
-				model.addRow(fila);
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(area.getNombre());
+				model.addRow(new Vector<>(fila));
 			}
 			break;
 		case "Formato":
 			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
 			java.util.List<Formato> formatos = formatoDAO.findAll();
 			for (Formato formato : formatos) {
-				Object[] fila = new Object[2];
-				fila[0] = ++i;
-				fila[1] = formato.getNombre();
-				model.addRow(fila);
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(formato.getNombre());
+				model.addRow(new Vector<>(fila));
 			}
 			break;
 		case "Obra":
 			IObraDAO obraDAO = DaoFactory.getObraDAO();
 			java.util.List<Obra> obras = obraDAO.findAll();
 			for (Obra obra : obras) {
-				Object[] fila = new Object[2];
-				fila[0] = ++i;
-				fila[1] = obra.getIsbn();
-				fila[2] = obra.getTitulo();
-				fila[3] = obra.getSubtitulo();
-				fila[4] = obra.getPrimerAutor();
-				fila[5] = obra.getSegundoAutor();
-				fila[6] = obra.getTercerAutor();
-				fila[7] = obra.getGenero();
-				fila[8] = obra.getTipo().getNombre();
-				fila[9] = obra.getArea().getNombre();
-				fila[10] = null;
-				fila[11] = null;
-				fila[12] = null;
-				fila[13] = null;
-				model.addRow(fila);
+				List<Object> fila = new LinkedList<>();
+				fila.add(obra.getIsbn());
+				fila.add(obra.getTitulo());
+				fila.add(obra.getSubtitulo());
+				fila.add(obra.getPrimerAutor());
+				fila.add(obra.getSegundoAutor());
+				fila.add(obra.getTercerAutor());
+				fila.add(obra.getGenero());
+				fila.add(obra.getTipo().getNombre());
+				fila.add(obra.getArea().getNombre());
+				fila.add(null);
+				fila.add(null);
+				fila.add(null);
+				fila.add(null);
+				fila.add(obra.getTipo().getId());
+				fila.add(obra.getArea().getId());
+				model.addRow(new Vector<>(fila));
 			}
 			break;
 		default:
@@ -896,73 +911,11 @@ public class SistemaFuncionario extends JFrame {
 	}
 
 	/**
-	 * Busca la ultima enumeracion de la lista
-	 */
-
-	public Long ultimaEnumeracion(DefaultTableModel model) {
-		Integer cantidad = model.getRowCount();
-		if (cantidad != 0) {
-			return (long) cantidad;
-		} else {
-			return (long) 0;
-		}
-	}
-
-	/**
-	 * Agrega una fila a la tabla y llama al metodo (actualizarBaseDeDatos) para
-	 * actualizar la misma fila en la base de datos. Metodo funcional solo para obra
-	 */
-
-	public void agregarEntidadObraATabla(String isbn, String titulo, String subtitulo, String primerAutor,
-			String segundoAutor, String tercerAutor, String genero, String tipoObra, String areaTematica,
-			String formato, String formaAdquisicion, String fechaAdquisicion, String observaciones, String entidad,
-			DefaultTableModel model, Long enumeracion) {
-		Object[] fila = new Object[13];
-		fila[0] = isbn;
-		fila[1] = titulo;
-		fila[2] = subtitulo;
-		fila[3] = primerAutor;
-		fila[4] = segundoAutor;
-		fila[5] = tercerAutor;
-		fila[6] = genero;
-		fila[7] = tipoObra;
-		fila[8] = areaTematica;
-		fila[9] = formato;
-		fila[10] = formaAdquisicion;
-		fila[11] = fechaAdquisicion;
-		fila[12] = observaciones;
-		model.addRow(fila);
-	}
-
-	/**
-	 * Agrega una fila a la tabla y llama al metodo (actualizarBaseDeDatos) para
-	 * actualizar la misma fila en la base de datos. Metodo funcional para: Tipo
-	 * obra, area tematica y formato
-	 */
-
-	public void agregarEntidadATabla(String valorAgregar, String entidad, DefaultTableModel model, Long enumeracion) {
-		Object[] fila = new Object[2];
-		if (valorAgregar != null) {
-			if (!valorAgregar.isBlank()) {
-				fila[0] = enumeracion + 1;
-				fila[1] = valorAgregar;
-				model.addRow(fila);
-				actualizarBaseDeDatos(model, entidad);
-			} else {
-				JOptionPane.showInternalMessageDialog(null, "Debe completar el campo para poder agregar tipo de obra");
-			}
-		}
-	}
-
-	/**
 	 * Actualiza en la base de datos la fila agregada en la tabla
 	 * 
 	 */
 
-	private void actualizarBaseDeDatos(DefaultTableModel model, String tipoEntidad) {
-
-		Integer cantidad = model.getRowCount();
-		String nombre = model.getValueAt(cantidad - 1, 1).toString();
+	private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
 
 		switch (tipoEntidad) {
 		case "Tipo obra":
@@ -983,24 +936,41 @@ public class SistemaFuncionario extends JFrame {
 			formato.setNombre(nombre);
 			formatoDAO.insert(formato);
 			break;
-		case "Obra":
-			IObraDAO obraDAO = DaoFactory.getObraDAO();
-			Obra obra = new Obra();
-			obra.setIsbn(model.getValueAt(cantidad - 1, 0).toString());
-			obra.setTitulo(model.getValueAt(cantidad - 1, 1).toString());
-			obra.setSubtitulo(model.getValueAt(cantidad - 1, 2).toString());
-			obra.setPrimerAutor(model.getValueAt(cantidad - 1, 3).toString());
-			obra.setSegundoAutor(model.getValueAt(cantidad - 1, 4).toString());
-			obra.setTercerAutor(model.getValueAt(cantidad - 1, 5).toString());
-			obra.setGenero(model.getValueAt(cantidad - 1, 6).toString());
-			obra.setTipo(new TipoObra(null, model.getValueAt(cantidad - 1, 7).toString()));
-			obra.setArea(new AreaTematica(null, model.getValueAt(cantidad - 1, 8).toString()));
-
-			obraDAO.insert(obra);
-			break;
 		default:
 		}
 
+	}
+
+	private void actualizarObraEnBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
+			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
+			String areaTematica, Integer idAreaTematica, Integer idFormato, String formaAdquisicion,
+			String fechaAdquisicion, String observaciones, DefaultTableModel model) {
+
+		Obra obra = new Obra();
+		obra.setIsbn(isbn);
+		obra.setTitulo(titulo);
+		obra.setSubtitulo(subtitulo);
+		obra.setPrimerAutor(primerAutor);
+		obra.setSegundoAutor(segundoAutor);
+		obra.setTercerAutor(tercerAutor);
+		obra.setGenero(genero);
+		obra.setTipo(new TipoObra(idTipoObra, tipoObra));
+		obra.setArea(new AreaTematica(idAreaTematica, areaTematica));
+
+		IObraDAO o = DaoFactory.getObraDAO();
+		o.insert(obra);
+	}
+
+	public void limpiarTabla(JTable tabla) {
+		try {
+			DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+			int filas = tabla.getRowCount();
+			for (int i = 0; filas > i; i++) {
+				modelo.removeRow(0);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+		}
 	}
 
 }
