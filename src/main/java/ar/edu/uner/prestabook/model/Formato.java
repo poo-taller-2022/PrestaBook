@@ -1,8 +1,11 @@
 package ar.edu.uner.prestabook.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.Data;
 
 @Data
@@ -10,8 +13,10 @@ import lombok.Data;
 @Table(name = "formato")
 public class Formato {
 
-	@Id
-	private Long id;
-	private String nombre;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
+    private Integer id;
+    private String nombre;
 
 }

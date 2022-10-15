@@ -1,19 +1,15 @@
 package ar.edu.uner.prestabook.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.uner.prestabook.connection.ConnectionProvider;
+import org.hibernate.Transaction;
+
+import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Coleccion;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
 
 public class ColeccionDAO implements IColeccionDAO {
-    
+
     /**
      * Singleton instance of the class
      */
@@ -35,34 +31,29 @@ public class ColeccionDAO implements IColeccionDAO {
 
     @Override
     public List<Coleccion> findAll() {
-        String sql = "SELECT * FROM colecciones";
-        try (Connection conn = ConnectionProvider.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
-            ResultSet resultados = statement.executeQuery();
-            List<Coleccion> colecciones = new LinkedList<>();
-            while (resultados.next()) {
-                colecciones.add(toColeccion(resultados));
-            }
-            return colecciones;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Collections.emptyList();
+        return HibernateConnection.getCurrentSession().createQuery("from Coleccion", Coleccion.class).list();
+
     }
 
     @Override
-    public Coleccion findById(Object id) {
-        return null;
+    public Coleccion findById(Object isbn) {
+        return HibernateConnection.getCurrentSession().get(Coleccion.class, (String) isbn);
     }
 
     @Override
-    public Integer insert(Coleccion t) {
-        return null;
+    public Integer insert(Coleccion coleccion) {
+        Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
+        Integer id = (Integer) HibernateConnection.getCurrentSession().save(coleccion);
+        tx.commit();
+        return id;
     }
 
     @Override
-    public Integer update(Coleccion t) {
-        return null;
+    public Integer update(Coleccion coleccion) {
+        Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
+        HibernateConnection.getCurrentSession().update(coleccion);
+        tx.commit();
+        return 0;
     }
 
     @Override
@@ -70,14 +61,4 @@ public class ColeccionDAO implements IColeccionDAO {
         return null;
     }
 
-    private Coleccion toColeccion(ResultSet resultados) {
-        Coleccion coleccion = new Coleccion();
-        try {
-            coleccion.setIsbn(resultados.getString("isbn"));
-            coleccion.setTitulo(resultados.getString("titulo"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return coleccion;
-    }
 }
