@@ -336,16 +336,6 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("Forma adquisicion");
 			model.addColumn("Fecha adquisicion");
 			model.addColumn("Observaciones");
-			model.addColumn("idTipoObra");
-			model.addColumn("idAreaTematica");
-
-			tableObras.getColumnModel().getColumn(13).setMaxWidth(0);
-			tableObras.getColumnModel().getColumn(13).setMinWidth(0);
-			tableObras.getColumnModel().getColumn(13).setPreferredWidth(0);
-
-			tableObras.getColumnModel().getColumn(14).setMaxWidth(0);
-			tableObras.getColumnModel().getColumn(14).setMinWidth(0);
-			tableObras.getColumnModel().getColumn(14).setPreferredWidth(0);
 
 			llenarTabla(model, entidad);
 			scrollPane.setViewportView(tableObras);
@@ -900,8 +890,6 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(null);
 				fila.add(null);
 				fila.add(null);
-				fila.add(obra.getTipo().getId());
-				fila.add(obra.getArea().getId());
 				model.addRow(new Vector<>(fila));
 			}
 			break;
