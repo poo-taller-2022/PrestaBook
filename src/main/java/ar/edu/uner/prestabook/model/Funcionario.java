@@ -42,6 +42,8 @@ public class Funcionario extends Persona {
 		
 	}
 	
+	
+	
 	public void prestarADomicilio(Obra obra, Integer plazo) {
 		/*
 		 * TODO En este metodo deberiamos pasar por parametro tambien al lector, algo
