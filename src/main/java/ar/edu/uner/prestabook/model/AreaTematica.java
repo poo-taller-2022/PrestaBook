@@ -18,10 +18,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AreaTematica {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true, nullable = false)
-    private Integer id;
-    private String nombre;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
+	private Integer id;
+	private String nombre;
 
 }
