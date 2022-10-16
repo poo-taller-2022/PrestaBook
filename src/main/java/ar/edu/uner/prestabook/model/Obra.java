@@ -25,7 +25,7 @@ public class Obra {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String isbn;
     @OneToMany
     private List<Ejemplar> ejemplares;
