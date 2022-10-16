@@ -96,6 +96,10 @@ public class SistemaFuncionario extends JFrame {
         panelOpciones.add(btnGestionarPrestamo);
 
         JButton btnGestionarDevolucion = btnGestionarDevolucion();
+        btnGestionarDevolucion.addActionListener(e -> {
+            Devoluciones devoluciones = new Devoluciones();
+            devoluciones.setVisible(true);
+        });
         panelOpciones.add(btnGestionarDevolucion);
 
         JButton btnVerEjemplares = btnVerEjemplares();
@@ -356,7 +360,7 @@ public class SistemaFuncionario extends JFrame {
             model.addColumn(TIPO_OBRA);
             model.addColumn(AREA_TEMATICA);
             model.addColumn(FORMATO);
-            
+
             llenarTabla(model, entidad);
             scrollPane.setViewportView(tableObras);
 
