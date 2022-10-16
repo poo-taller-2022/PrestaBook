@@ -8,11 +8,13 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "ejemplares")
+@ToString(callSuper = true)
 public class Ejemplar extends Obra {
 
     @OneToOne

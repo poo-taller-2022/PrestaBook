@@ -31,7 +31,8 @@ public class ObraDAO implements IObraDAO {
 
     @Override
     public List<Obra> findAll() {
-        return HibernateConnection.getCurrentSession().createQuery("from Obra", Obra.class).list();
+        String hql = String.format("from Obra o where type(o) = %s", Obra.class.getName());
+        return HibernateConnection.getCurrentSession().createQuery(hql, Obra.class).list();
     }
 
     @Override
@@ -43,9 +44,9 @@ public class ObraDAO implements IObraDAO {
     @Override
     public Integer insert(Obra obra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(obra);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(obra);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override
@@ -59,6 +60,11 @@ public class ObraDAO implements IObraDAO {
     @Override
     public Integer delete(Obra t) {
         return null;
+    }
+
+    public List<Obra> filtrarPorTema(Integer id) {
+        return HibernateConnection.getCurrentSession()
+                .createQuery(String.format("FROM Obra obra WHERE obra.area = %s", id), Obra.class).list();
     }
 
 }

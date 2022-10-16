@@ -31,12 +31,13 @@ public class EjemplarDAO implements IEjemplarDAO {
 
     @Override
     public List<Ejemplar> findAll() {
-        return HibernateConnection.getCurrentSession().createQuery("from Ejemplar", Ejemplar.class).list();
+        String hql = String.format("from Ejemplar e where type(e) = %s", Ejemplar.class.getName());
+        return HibernateConnection.getCurrentSession().createQuery(hql, Ejemplar.class).list();
     }
 
     @Override
-    public Ejemplar findById(Object isbn) {
-        return HibernateConnection.getCurrentSession().get(Ejemplar.class, (String) isbn);
+    public Ejemplar findById(Object id) {
+        return HibernateConnection.getCurrentSession().get(Ejemplar.class, (Long) id);
     }
 
     @Override
@@ -62,7 +63,8 @@ public class EjemplarDAO implements IEjemplarDAO {
 
     @Override
     public List<Ejemplar> findAllByObraIsbn(String isbn) {
-        String hql = String.format("from Ejemplar e where e.isbn = %s", isbn);
+        String hql = String.format("from Ejemplar e where type(e) = %s AND e.isbn = %s", Ejemplar.class.getName(),
+                isbn);
         return HibernateConnection.getCurrentSession().createQuery(hql, Ejemplar.class).list();
 
     }
