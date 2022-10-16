@@ -30,22 +30,28 @@ import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.Prestamo;
 
+/**
+ * GUI Designed to display the user interface of a new book loan
+ *
+ */
 public class Prestamos extends JFrame {
 
+    /** Serial number */
     private static final long serialVersionUID = 1L;
+    /** Loan default period */
     private static final Integer PLAZO_PRESTAMO = 4;
 
     /**
-     * Creates the frame.
+     * Class constructor
      */
     public Prestamos() {
         ventana();
         JPanel contentPane = contentPane();
 
-        JPanel panelAgregarObra = panelAgregarObra();
+        JPanel panelAgregarObra = panelNuevoPrestamo();
         contentPane.add(panelAgregarObra);
 
-        JLabel lblAgregarObra = lblAgregarObra();
+        JLabel lblAgregarObra = labelNuevoPrestamo();
         panelAgregarObra.add(lblAgregarObra);
 
         JComboBox<Ejemplar> comboBoxEjemplar = comboBoxEjemplar();
@@ -98,8 +104,6 @@ public class Prestamos extends JFrame {
         contentPane.add(btnCancelar);
 
         btnConfirmar.addActionListener(e -> {
-            System.out.println(calendarFechaYHoraPrestamo.getDateTimePermissive().toString());
-            System.out.println(calendarPactadaevolucion.getDate().toString());
             Boolean camposCompletos = comboBoxObra.getSelectedItem() != null &&
                     comboBoxEjemplar.getSelectedItem() != null &&
                     comboBoxLector.getSelectedItem() != null &&
@@ -127,6 +131,9 @@ public class Prestamos extends JFrame {
         btnCancelar.addActionListener(e -> this.setVisible(false));
     }
 
+    /**
+     * Creates the window
+     */
     public void ventana() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 655, 540);
@@ -135,6 +142,11 @@ public class Prestamos extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
@@ -143,7 +155,12 @@ public class Prestamos extends JFrame {
         return contentPane;
     }
 
-    public JPanel panelAgregarObra() {
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
+    public JPanel panelNuevoPrestamo() {
         JPanel panelAgregarObra = new JPanel();
         panelAgregarObra.setBackground(new Color(0, 64, 128));
         panelAgregarObra.setBounds(0, 0, 655, 98);
@@ -151,14 +168,22 @@ public class Prestamos extends JFrame {
         return panelAgregarObra;
     }
 
-    public JLabel lblAgregarObra() {
-        JLabel lblAgregarObra = new JLabel("Nuevo préstamo");
-        lblAgregarObra.setForeground(new Color(255, 255, 255));
-        lblAgregarObra.setBounds(240, 31, 191, 39);
-        lblAgregarObra.setFont(new Font("Verdana", Font.BOLD, 20));
-        return lblAgregarObra;
+    /**
+     * Creates a label
+     * 
+     * @return a label with the New Loan text
+     */
+    public JLabel labelNuevoPrestamo() {
+        JLabel lblNuevoPrestamo = new JLabel("Nuevo préstamo");
+        lblNuevoPrestamo.setForeground(new Color(255, 255, 255));
+        lblNuevoPrestamo.setBounds(240, 31, 191, 39);
+        lblNuevoPrestamo.setFont(new Font("Verdana", Font.BOLD, 20));
+        return lblNuevoPrestamo;
     }
 
+    /**
+     * Creates a Combo Box with all the Books
+     */
     public JComboBox<Obra> comboBoxObra() {
         JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
         comboBoxObra.setBounds(24, 191, 481, 29);
@@ -167,12 +192,20 @@ public class Prestamos extends JFrame {
         return comboBoxObra;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with the Book text
+     */
     public JLabel labelObra() {
         JLabel labelObra = new JLabel("Obra");
         labelObra.setBounds(24, 177, 46, 14);
         return labelObra;
     }
 
+    /**
+     * Creates a Combo Box with all the Copies of the selected Book
+     */
     public JComboBox<Ejemplar> comboBoxEjemplar() {
         JComboBox<Ejemplar> comboBoxEjemplar = new JComboBox<>(new Vector<>(DaoFactory.getEjemplarDAO().findAll()));
         comboBoxEjemplar.setBounds(528, 191, 69, 29);
@@ -181,12 +214,20 @@ public class Prestamos extends JFrame {
         return comboBoxEjemplar;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with the Copy text
+     */
     public JLabel labelEjemplar() {
         JLabel labelEjemplar = new JLabel("Ejemplar");
         labelEjemplar.setBounds(530, 177, 67, 14);
         return labelEjemplar;
     }
 
+    /**
+     * Creates a Combo Box with all the Readers
+     */
     public JComboBox<Lector> comboBoxLector() {
         JComboBox<Lector> comboBoxLector = new JComboBox<>(new Vector<>(DaoFactory.getLectorDAO().findAll()));
         comboBoxLector.setBounds(26, 256, 271, 29);
@@ -194,12 +235,20 @@ public class Prestamos extends JFrame {
         return comboBoxLector;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with the Reader text
+     */
     public JLabel labelLector() {
         JLabel labelLector = new JLabel("Lector");
         labelLector.setBounds(26, 242, 73, 14);
         return labelLector;
     }
 
+    /**
+     * Creates a Combo Box with all the Employees
+     */
     public JComboBox<Funcionario> comboBoxFuncionario() {
         JComboBox<Funcionario> comboBoxFuncionario = new JComboBox<>(
                 new Vector<>(DaoFactory.getFuncionarioDAO().findAll()));
@@ -208,12 +257,20 @@ public class Prestamos extends JFrame {
         return comboBoxFuncionario;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with the Employee text
+     */
     public JLabel labelFuncionario() {
         JLabel labelFuncionario = new JLabel("Funcionario");
         labelFuncionario.setBounds(326, 242, 83, 14);
         return labelFuncionario;
     }
 
+    /**
+     * Creates a DateTimePicker for the date and time of the loan
+     */
     public DateTimePicker calendarFechaYHoraPrestamo() {
         DateTimePicker calendarFechaYHoraPrestamo = new DateTimePicker();
         calendarFechaYHoraPrestamo.setBounds(24, 320, 271, 29);
@@ -221,12 +278,20 @@ public class Prestamos extends JFrame {
         return calendarFechaYHoraPrestamo;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with the date and time of loan text
+     */
     public JLabel labelFechaYHoraPrestamo() {
         JLabel labelFechaYHoraPrestamo = new JLabel("Fecha y hora de préstamo");
         labelFechaYHoraPrestamo.setBounds(26, 303, 164, 14);
         return labelFechaYHoraPrestamo;
     }
 
+    /**
+     * Creates a DatePicker for the date and time of the return
+     */
     public DatePicker calendarFechaYHoraDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
         calendarFechaYHoraDevolucion.setBounds(326, 320, 271, 29);
@@ -234,18 +299,30 @@ public class Prestamos extends JFrame {
         return calendarFechaYHoraDevolucion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with the return date text
+     */
     public JLabel labelFechaDevolucion() {
         JLabel labelFechaDevolucion = new JLabel("Fecha de devolución");
         labelFechaDevolucion.setBounds(326, 306, 166, 14);
         return labelFechaDevolucion;
     }
 
+    /**
+     * Creates a confirmation button
+     */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton("Confirmar");
         btnConfirmar.setBounds(163, 490, 120, 23);
         return btnConfirmar;
     }
 
+    /**
+     * Creates a cancel button
+     * 
+     */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setBounds(358, 490, 120, 23);

@@ -539,7 +539,7 @@ public class SistemaFuncionario extends JFrame {
         btnAgregarFormato.setForeground(new Color(0, 64, 128));
         btnAgregarFormato.setFont(new Font("Verdana", Font.BOLD, 12));
         btnAgregarFormato.setBorderPainted(false);
-        btnAgregarFormato.setBounds(23, 176, 293, 31);
+        btnAgregarFormato.setBounds(23, 169, 293, 31);
         return btnAgregarFormato;
     }
 
@@ -550,7 +550,7 @@ public class SistemaFuncionario extends JFrame {
 		btnGestionarDevolucion.setForeground(new Color(0, 64, 128));
 		btnGestionarDevolucion.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnGestionarDevolucion.setBorderPainted(false);
-		btnGestionarDevolucion.setBounds(23, 169, 293, 31);
+		btnGestionarDevolucion.setBounds(23, 221, 293, 31);
 		return btnGestionarDevolucion;
 	}
 
@@ -561,7 +561,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarLectoresMorosos.setForeground(new Color(0, 64, 128));
 		btnListarLectoresMorosos.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarLectoresMorosos.setBorderPainted(false);
-		btnListarLectoresMorosos.setBounds(23, 222, 293, 31);
+		btnListarLectoresMorosos.setBounds(23, 273, 293, 31);
 		return btnListarLectoresMorosos;
 	}
 
@@ -572,7 +572,7 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorAlumnoDocente.setForeground(new Color(0, 64, 128));
 		btnMasBuscadasPorAlumnoDocente.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnMasBuscadasPorAlumnoDocente.setBorderPainted(false);
-		btnMasBuscadasPorAlumnoDocente.setBounds(23, 271, 293, 31);
+		btnMasBuscadasPorAlumnoDocente.setBounds(23, 325, 293, 31);
 		return btnMasBuscadasPorAlumnoDocente;
 	}
 
@@ -583,7 +583,7 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorPublicoGeneral.setForeground(new Color(0, 64, 128));
 		btnMasBuscadasPorPublicoGeneral.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnMasBuscadasPorPublicoGeneral.setBorderPainted(false);
-		btnMasBuscadasPorPublicoGeneral.setBounds(23, 324, 293, 31);
+		btnMasBuscadasPorPublicoGeneral.setBounds(23, 377, 293, 31);
 		return btnMasBuscadasPorPublicoGeneral;
 	}
 
@@ -594,7 +594,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarEjemplaresDisponiblesPorArea.setForeground(new Color(0, 64, 128));
 		btnListarEjemplaresDisponiblesPorArea.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarEjemplaresDisponiblesPorArea.setBorderPainted(false);
-		btnListarEjemplaresDisponiblesPorArea.setBounds(23, 379, 293, 31);
+		btnListarEjemplaresDisponiblesPorArea.setBounds(23, 429, 293, 31);
 		return btnListarEjemplaresDisponiblesPorArea;
 	}
 
@@ -605,7 +605,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
 		btnListarEjemplaresDisponiblesPorFecha.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
-		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 432, 293, 31);
+		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
 		return btnListarEjemplaresDisponiblesPorFecha;
 	}
 
@@ -616,7 +616,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
 		btnListarLectoresMultadosPorPeriodo.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
-		btnListarLectoresMultadosPorPeriodo.setBounds(23, 489, 293, 31);
+		btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
 		return btnListarLectoresMultadosPorPeriodo;
 	}
 
@@ -627,7 +627,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
 		btnListarRankingDeMultados.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarRankingDeMultados.setBorderPainted(false);
-		btnListarRankingDeMultados.setBounds(23, 542, 293, 31);
+		btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
 		return btnListarRankingDeMultados;
 	}
 
@@ -638,7 +638,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
 		btnListarObrasPorEditorial.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarObrasPorEditorial.setBorderPainted(false);
-		btnListarObrasPorEditorial.setBounds(23, 598, 293, 31);
+		btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
 		return btnListarObrasPorEditorial;
 	}
 
@@ -649,7 +649,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
 		btnAplicarMultaALector.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnAplicarMultaALector.setBorderPainted(false);
-		btnAplicarMultaALector.setBounds(23, 652, 293, 31);
+		btnAplicarMultaALector.setBounds(23, 689, 293, 31);
 		return btnAplicarMultaALector;
 	}
 
