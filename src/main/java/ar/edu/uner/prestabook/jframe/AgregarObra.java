@@ -3,6 +3,7 @@ package ar.edu.uner.prestabook.jframe;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 
 import javax.swing.JTextField;
@@ -12,10 +13,8 @@ import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
-import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
-import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 import java.awt.Color;
@@ -87,36 +86,18 @@ public class AgregarObra extends JFrame {
 
 		JLabel lblAreaTematica = lblAreaTematica();
 		contentPane.add(lblAreaTematica);
-
-		JLabel lblFormato = lblFormato();
-		contentPane.add(lblFormato);
-
-		JTextField fieldFormaAdquisicion = fieldFormaAdquisicion();
-		contentPane.add(fieldFormaAdquisicion);
-
-		JTextField fieldFechaAdquisicion = fieldFechaAdquisicion();
-		contentPane.add(fieldFechaAdquisicion);
-
-		JLabel lblFormaAdquisicion = lblFormaAdquisicion();
-		contentPane.add(lblFormaAdquisicion);
-
-		JLabel lblFechaAdquisicion = lblFechaAdquisicion();
-		contentPane.add(lblFechaAdquisicion);
-
-		JTextField fieldObservaciones = fieldObservaciones();
-		contentPane.add(fieldObservaciones);
-
-		JLabel lblObservaciones = lblObservaciones();
-		contentPane.add(lblObservaciones);
+		
+		JButton btnAñadirEjemplar = btnAñadirEjemplar();
+		contentPane.add(btnAñadirEjemplar);
+		
+		JButton btnAñadirEdicion = btnAñadirEdicion();
+		contentPane.add(btnAñadirEdicion);
 
 		JButton btnAgregar = btnAgregar();
 		contentPane.add(btnAgregar);
 
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
-
-		JComboBox<Object> comboBoxFormato = comboBoxFormato();
-		contentPane.add(comboBoxFormato);
 
 		JComboBox<Object> comboBoxTipoObra = comboBoxTipoObra();
 		contentPane.add(comboBoxTipoObra);
@@ -129,8 +110,7 @@ public class AgregarObra extends JFrame {
 			Boolean camposCompletos = !(fieldIsbn.getText().isBlank() || fieldTitulo.getText().isBlank()
 					|| fieldSubtitulo.getText().isBlank() || fieldPrimerAutor.getText().isBlank()
 					|| fieldSegundoAutor.getText().isBlank() || fieldTercerAutor.getText().isBlank()
-					|| fieldGenero.getText().isBlank() || fieldFormaAdquisicion.getText().isBlank()
-					|| fieldFechaAdquisicion.getText().isBlank() || fieldObservaciones.getText().isBlank());
+					|| fieldGenero.getText().isBlank());
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
@@ -147,11 +127,6 @@ public class AgregarObra extends JFrame {
 				Items itemAreaTematica = (Items) comboBoxAreaTematica.getSelectedItem();
 				modelo.setFielAreaTematica(itemAreaTematica.getValor());
 				modelo.setIdAreaTematica(itemAreaTematica.getId());
-				Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
-				modelo.setIdFormato(itemFormato.getId());
-				modelo.setFieldFormaAdquisicion(fieldFormaAdquisicion.getText());
-				modelo.setFieldFechaAdquisicion(fieldFechaAdquisicion.getText());
-				modelo.setFieldObservaciones(fieldObservaciones.getText());
 				modelo.setRefrescar(true);
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
@@ -164,11 +139,21 @@ public class AgregarObra extends JFrame {
 		btnCancelar.addActionListener(e -> {
 			this.setVisible(false);
 		});
+		
+		btnAñadirEdicion.addActionListener(e ->  {
+			AgregarEdicion agregarEdicion = new AgregarEdicion();
+			agregarEdicion.setVisible(true);
+		});
+		
+		btnAñadirEjemplar.addActionListener(e -> {
+			AñadirEjemplar añadirEjemplar = new AñadirEjemplar();
+			añadirEjemplar.setVisible(true);
+		});
 	}
 
 	public void ventana() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 655, 540);
+		setBounds(100, 100, 655, 448);
 		setUndecorated(true);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -180,6 +165,18 @@ public class AgregarObra extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		return contentPane;
+	}
+	
+	public JButton btnAñadirEjemplar() {
+		JButton btnAñadirEjemplar = new JButton("Añadir ejemplar");
+		btnAñadirEjemplar.setBounds(365, 338, 127, 23);
+		return btnAñadirEjemplar;
+	}
+	
+	public JButton btnAñadirEdicion() {
+		JButton btnAñadirEdicion = new JButton("Añadir edición");
+		btnAñadirEdicion.setBounds(166, 338, 127, 23);
+		return btnAñadirEdicion;
 	}
 
 	public JPanel panelAgregarObra() {
@@ -307,72 +304,21 @@ public class AgregarObra extends JFrame {
 		return comboBoxAreaTematica;
 	}
 
-	public JComboBox<Object> comboBoxFormato() {
-		JComboBox<Object> comboBoxFormato = cargarComboBox("Formato");
-		comboBoxFormato.setBounds(37, 333, 166, 29);
-		return comboBoxFormato;
-	}
-
 	public JLabel lblAreaTematica() {
 		JLabel lblAreaTematica = new JLabel("Área temática");
 		lblAreaTematica.setBounds(437, 249, 89, 14);
 		return lblAreaTematica;
 	}
 
-	public JLabel lblFormato() {
-		JLabel lblFormato = new JLabel("Formato");
-		lblFormato.setBounds(37, 316, 83, 14);
-		return lblFormato;
-	}
-
-	public JTextField fieldFormaAdquisicion() {
-		JTextField fieldFormaAdquisicion = new JTextField();
-		fieldFormaAdquisicion.setColumns(10);
-		fieldFormaAdquisicion.setBounds(235, 333, 166, 29);
-		return fieldFormaAdquisicion;
-	}
-
-	public JTextField fieldFechaAdquisicion() {
-		JTextField fieldFechaAdquisicion = new JTextField();
-		fieldFechaAdquisicion.setColumns(10);
-		fieldFechaAdquisicion.setBounds(437, 333, 166, 29);
-		return fieldFechaAdquisicion;
-	}
-
-	public JLabel lblFormaAdquisicion() {
-		JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
-		lblFormaAdquisicion.setBounds(235, 316, 127, 14);
-		return lblFormaAdquisicion;
-	}
-
-	public JLabel lblFechaAdquisicion() {
-		JLabel lblFechaAdquisicion = new JLabel("Fecha de adquisición");
-		lblFechaAdquisicion.setBounds(437, 316, 133, 14);
-		return lblFechaAdquisicion;
-	}
-
-	public JTextField fieldObservaciones() {
-		JTextField fieldObservaciones = new JTextField();
-		fieldObservaciones.setColumns(10);
-		fieldObservaciones.setBounds(235, 397, 166, 29);
-		return fieldObservaciones;
-	}
-
-	public JLabel lblObservaciones() {
-		JLabel lblObservaciones = new JLabel("Observaciones");
-		lblObservaciones.setBounds(235, 384, 133, 14);
-		return lblObservaciones;
-	}
-
 	public JButton btnAgregar() {
 		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(194, 490, 89, 23);
+		btnAgregar.setBounds(204, 396, 89, 23);
 		return btnAgregar;
 	}
 
 	public JButton btnCancelar() {
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(358, 490, 89, 23);
+		btnCancelar.setBounds(365, 396, 89, 23);
 		return btnCancelar;
 	}
 
@@ -393,16 +339,8 @@ public class AgregarObra extends JFrame {
 				comboBox.addItem(new Items(area.getId(), area.getNombre()));
 			}
 			return comboBox;
-		case "Formato":
-			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-			java.util.List<Formato> formatos = formatoDAO.findAll();
-			for (Formato formato : formatos) {
-				comboBox.addItem(new Items(formato.getId(), formato.getNombre()));
-			}
-			return comboBox;
 		default:
 		}
 		return null;
 	}
-
 }

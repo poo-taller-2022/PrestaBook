@@ -7,10 +7,15 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
+import ar.edu.uner.prestabook.model.Edicion;
+import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.IEdicionDAO;
+import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
@@ -372,8 +377,10 @@ public class SistemaFuncionario extends JFrame {
 							modelo.getFieldSubtitulo(), modelo.getFieldPrimerAutor(), modelo.getFieldSegundoAutor(),
 							modelo.getFieldTercerAutor(), modelo.getFieldGenero(), modelo.getFielTipoObra(),
 							modelo.getIdTipoObra(), modelo.getFielAreaTematica(), modelo.getIdAreaTematica(),
-							modelo.getIdFormato(), modelo.getFieldFormaAdquisicion(), modelo.getFieldFechaAdquisicion(),
-							modelo.getFieldObservaciones(), model);
+							modelo.getFieldeditorial(), modelo.getFieldpais(), modelo.getFieldnumero(),
+							modelo.getFieldanio(), modelo.getFieldvolumenes(), modelo.getFieldpaginas(),
+							modelo.getFieldidioma(), modelo.getFielformato(), modelo.getIdFormato(), modelo.getFieldFormaAdquisicion(),
+							modelo.getFieldFechaAdquisicion(), modelo.getFieldObservaciones(), model);
 
 					limpiarTabla(tableObras);
 
@@ -896,6 +903,15 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(obra.getGenero());
 				fila.add(obra.getTipo().getNombre());
 				fila.add(obra.getArea().getNombre());
+				List<Edicion> ediciones = obra.getEdicion();
+				String concatenarFormatos = "";
+				for (Edicion edicion : ediciones) {
+					List<Formato> formatos1 = edicion.getFormatos();
+					for (Formato formato : formatos1) {
+						concatenarFormatos += formato.getNombre() + ", ";
+					}
+				}
+				fila.add(concatenarFormatos);
 				fila.add(null);
 				fila.add(null);
 				fila.add(null);
@@ -943,9 +959,11 @@ public class SistemaFuncionario extends JFrame {
 
 	private void actualizarObraEnBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
 			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
-			String areaTematica, Integer idAreaTematica, Integer idFormato, String formaAdquisicion,
+			String areaTematica, Integer idAreaTematica, String editorial, String pais, String numero, String anio,
+			String volumenes, String paginas, String idioma, String formato,Integer idFormato, String formaAdquisicion,
 			String fechaAdquisicion, String observaciones, DefaultTableModel model) {
 
+		
 		Obra obra = new Obra();
 		obra.setIsbn(isbn);
 		obra.setTitulo(titulo);
@@ -956,9 +974,69 @@ public class SistemaFuncionario extends JFrame {
 		obra.setGenero(genero);
 		obra.setTipo(new TipoObra(idTipoObra, tipoObra));
 		obra.setArea(new AreaTematica(idAreaTematica, areaTematica));
-
+		
+		List<Edicion> ediciones = new LinkedList<>();
+		Edicion edicion1 = new Edicion();
+		edicion1.setId((long) 1);
+		edicion1.setAnio(Integer.parseInt(anio));
+		edicion1.setEditorial(editorial);
+		edicion1.setIdioma(idioma);
+		edicion1.setNumero(Integer.parseInt(numero));
+		edicion1.setPaginas(Integer.parseInt(paginas));
+		edicion1.setPais(pais);
+		edicion1.setVolumenes(Long.parseLong(volumenes));
+		
+		IEdicionDAO e = DaoFactory.getEdicionDAO();
+		e.insert(edicion1);
+		
+		edicion1.setId(edicion1.getId());
+		
+		List<Formato> formatos = new LinkedList<>();
+		Formato formato1 = new Formato();
+		formato1.setId(idFormato);
+		formato1.setNombre(formato);
+		formatos.add(formato1);
+		edicion1.setFormatos(formatos);
+		
+		ediciones.add(edicion1);
+		System.out.println(ediciones);
+		obra.setEdicion(ediciones);
+		
+		List<Ejemplar> ejemplares = new LinkedList<>();
+		Ejemplar ejemplar1 = new Ejemplar();
+		ejemplar1.setIsbn(isbn);
+		ejemplar1.setTitulo(titulo);
+		ejemplar1.setSubtitulo(subtitulo);
+		ejemplar1.setPrimerAutor(primerAutor);
+		ejemplar1.setSegundoAutor(segundoAutor);
+		ejemplar1.setTercerAutor(tercerAutor);
+		ejemplar1.setGenero(genero);
+		ejemplar1.setTipo(new TipoObra(idTipoObra, tipoObra));
+		ejemplar1.setArea(new AreaTematica(idAreaTematica, areaTematica));
+		ejemplar1.setId((long) 1);
+		ejemplar1.setFormaAdquisicion(formaAdquisicion);
+		ejemplar1.setFechaAdquisicion(fechaAdquisicion);
+		ejemplar1.setObservaciones(observaciones);
+		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
+		codigoIden.setId((long) 1);
+		codigoIden.setEstante(2);
+		codigoIden.setEstanteria(4);
+		codigoIden.setPasillo(7);
+		ejemplar1.setCodigoIdentificatorio(codigoIden);
+		ejemplares.add(ejemplar1);
+		
+		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
+		ej.insert(ejemplar1);
+		
+		ejemplar1.setId(ejemplar1.getId());
+		
+		obra.setEjemplares(ejemplares);
+		
+		
 		IObraDAO o = DaoFactory.getObraDAO();
 		o.insert(obra);
+		
+		
 	}
 
 	public void limpiarTabla(JTable tabla) {

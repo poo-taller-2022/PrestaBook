@@ -42,9 +42,9 @@ public class EjemplarDAO implements IEjemplarDAO {
     @Override
     public Integer insert(Ejemplar ejemplar) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(ejemplar);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(ejemplar);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override
