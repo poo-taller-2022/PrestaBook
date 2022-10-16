@@ -36,6 +36,8 @@ import ar.edu.uner.prestabook.model.Prestamo;
  */
 public class Prestamos extends JFrame {
 
+    private static final String PRESTAMO_A_DOMICILIO = "A Domicilio";
+    private static final String PRESTAMO_EN_SALA = "En Sala";
     /** Serial number */
     private static final long serialVersionUID = 1L;
     /** Loan default period */
@@ -91,11 +93,31 @@ public class Prestamos extends JFrame {
         JLabel labelFechaYHoraPrestamo = labelFechaYHoraPrestamo();
         contentPane.add(labelFechaYHoraPrestamo);
 
-        DatePicker calendarPactadaevolucion = calendarFechaYHoraDevolucion();
-        contentPane.add(calendarPactadaevolucion);
+        DatePicker calendarPactadaDevolucion = calendarFechaPactadaDevolucion();
+        contentPane.add(calendarPactadaDevolucion);
 
         JLabel labelFechaDevolucion = labelFechaDevolucion();
         contentPane.add(labelFechaDevolucion);
+
+        JLabel labelTipoPrestamo = labelTipoPrestamo();
+        contentPane.add(labelTipoPrestamo);
+
+        JComboBox<String> comboBoxTipoPrestamo = comboBoxTipoPrestamo();
+        comboBoxTipoPrestamo.addItemListener(e -> {
+            if (e.getItem().equals(PRESTAMO_EN_SALA)) {
+                labelFechaYHoraPrestamo.setVisible(false);
+                labelFechaDevolucion.setVisible(false);
+                calendarFechaYHoraPrestamo.setVisible(false);
+                calendarPactadaDevolucion.setVisible(false);
+            }
+            if (e.getItem().equals(PRESTAMO_A_DOMICILIO)) {
+                labelFechaYHoraPrestamo.setVisible(true);
+                labelFechaDevolucion.setVisible(true);
+                calendarFechaYHoraPrestamo.setVisible(true);
+                calendarPactadaDevolucion.setVisible(true);
+            }
+        });
+        contentPane.add(comboBoxTipoPrestamo);
 
         JButton btnConfirmar = btnConfirmar();
         contentPane.add(btnConfirmar);
@@ -109,7 +131,7 @@ public class Prestamos extends JFrame {
                     comboBoxLector.getSelectedItem() != null &&
                     comboBoxFuncionario.getSelectedItem() != null &&
                     calendarFechaYHoraPrestamo.getDateTimePermissive() != null &&
-                    calendarPactadaevolucion.getDate() != null;
+                    calendarPactadaDevolucion.getDate() != null;
 
             if (Boolean.TRUE.equals(camposCompletos)) {
                 Prestamo prestamo = new Prestamo();
@@ -117,7 +139,7 @@ public class Prestamos extends JFrame {
                 prestamo.setLector((Lector) comboBoxLector.getSelectedItem());
                 prestamo.setFuncionario((Funcionario) comboBoxFuncionario.getSelectedItem());
                 prestamo.setFechaYHoraPrestamo(calendarFechaYHoraPrestamo.getDateTimePermissive().toString());
-                prestamo.setFechaPactadaDevolucion(calendarPactadaevolucion.getDate().toString());
+                prestamo.setFechaPactadaDevolucion(calendarPactadaDevolucion.getDate().toString());
                 prestamo.setPlazoPrestamo(PLAZO_PRESTAMO);
                 DaoFactory.getPrestamoDAO().insert(prestamo);
 
@@ -179,6 +201,29 @@ public class Prestamos extends JFrame {
         lblNuevoPrestamo.setBounds(240, 31, 191, 39);
         lblNuevoPrestamo.setFont(new Font("Verdana", Font.BOLD, 20));
         return lblNuevoPrestamo;
+    }
+
+    /**
+     * Creates a label
+     * 
+     * @return a label with the type of Loan text
+     */
+    public JLabel labelTipoPrestamo() {
+        JLabel lblNuevoPrestamo = new JLabel("Tipo de préstamo");
+        lblNuevoPrestamo.setBounds(24, 126, 227, 14);
+        return lblNuevoPrestamo;
+    }
+
+    /**
+     * Creates a Combo Box with the type of loans
+     * 
+     */
+    public JComboBox<String> comboBoxTipoPrestamo() {
+        JComboBox<String> comboBoxTipoPrestamo = new JComboBox<>(
+                new Vector<>(List.of(PRESTAMO_EN_SALA, PRESTAMO_A_DOMICILIO)));
+        comboBoxTipoPrestamo.setBounds(24, 141, 227, 29);
+        comboBoxTipoPrestamo.setSelectedItem(null);
+        return comboBoxTipoPrestamo;
     }
 
     /**
@@ -292,7 +337,7 @@ public class Prestamos extends JFrame {
     /**
      * Creates a DatePicker for the date and time of the return
      */
-    public DatePicker calendarFechaYHoraDevolucion() {
+    public DatePicker calendarFechaPactadaDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
         calendarFechaYHoraDevolucion.setBounds(326, 320, 271, 29);
         calendarFechaYHoraDevolucion.setDate(LocalDate.now().plus(PLAZO_PRESTAMO, ChronoUnit.DAYS));
