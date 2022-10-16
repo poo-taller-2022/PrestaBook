@@ -9,7 +9,9 @@ import javax.persistence.Table;
 import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
+import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,6 +29,21 @@ public class Funcionario extends Persona {
 		f.insert(funcionario);
 	}
 
+	
+	public void cargarTipoObra(TipoObra obra) {
+		ITipoObraDAO t = DaoFactory.getTipoObraDAO();
+		t.insert(obra);
+	}
+	
+	
+	public void cargarCodigoIdentificatorio(CodigoIdentificatorio codigo) {
+		ICodigoIdentificatorioDAO c = DaoFactory.getCodigoIdentificatorioDAO();
+		c.insert(codigo);
+		
+	}
+	
+	
+	
 	public void prestarADomicilio(Obra obra, Integer plazo) {
 		/*
 		 * TODO En este metodo deberiamos pasar por parametro tambien al lector, algo

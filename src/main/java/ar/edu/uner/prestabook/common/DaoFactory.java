@@ -2,6 +2,7 @@ package ar.edu.uner.prestabook.common;
 
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
@@ -13,6 +14,7 @@ import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 import ar.edu.uner.prestabook.persistence.impl.AlumnoDAO;
 import ar.edu.uner.prestabook.persistence.impl.AreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.impl.CodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.impl.ColeccionDAO;
 import ar.edu.uner.prestabook.persistence.impl.DocenteDAO;
 import ar.edu.uner.prestabook.persistence.impl.EjemplarDAO;
@@ -134,4 +136,14 @@ public class DaoFactory {
     public static IColeccionDAO getColeccionDAO() {
         return ColeccionDAO.getInstance();
     }
+    
+    /**
+     * Returns an instance of a CodigoIdentificatorio DAO
+     * 
+     * @return an CodigoIdentificatorio DAO
+     */
+    public static ICodigoIdentificatorioDAO getCodigoIdentificatorioDAO() {
+        return CodigoIdentificatorioDAO.getInstance();
+    }
+    
 }
