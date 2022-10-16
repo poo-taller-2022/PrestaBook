@@ -12,6 +12,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import lombok.Data;
 
@@ -22,7 +23,8 @@ import lombok.Data;
 public class Obra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @TableGenerator(name = "pb_sequence")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
     @Column(nullable = false, unique = true)
     private Long id;
     @Column(nullable = false)

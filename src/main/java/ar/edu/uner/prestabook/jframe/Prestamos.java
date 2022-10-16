@@ -24,6 +24,7 @@ import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.render.EjemplarRenderer;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.jframe.render.PersonaRenderer;
+import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
@@ -222,7 +223,7 @@ public class Prestamos extends JFrame {
         JComboBox<String> comboBoxTipoPrestamo = new JComboBox<>(
                 new Vector<>(List.of(PRESTAMO_EN_SALA, PRESTAMO_A_DOMICILIO)));
         comboBoxTipoPrestamo.setBounds(24, 141, 227, 29);
-        comboBoxTipoPrestamo.setSelectedItem(null);
+        comboBoxTipoPrestamo.setSelectedItem(PRESTAMO_A_DOMICILIO);
         return comboBoxTipoPrestamo;
     }
 
@@ -320,6 +321,7 @@ public class Prestamos extends JFrame {
         DateTimePicker calendarFechaYHoraPrestamo = new DateTimePicker();
         calendarFechaYHoraPrestamo.setBounds(24, 320, 271, 29);
         calendarFechaYHoraPrestamo.setDateTimePermissive(LocalDateTime.now());
+        calendarFechaYHoraPrestamo.datePicker.setSettings(DateSettings.getDatePickerSettings());
         return calendarFechaYHoraPrestamo;
     }
 
@@ -341,6 +343,7 @@ public class Prestamos extends JFrame {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
         calendarFechaYHoraDevolucion.setBounds(326, 320, 271, 29);
         calendarFechaYHoraDevolucion.setDate(LocalDate.now().plus(PLAZO_PRESTAMO, ChronoUnit.DAYS));
+        calendarFechaYHoraDevolucion.setSettings(DateSettings.getDatePickerSettings());
         return calendarFechaYHoraDevolucion;
     }
 

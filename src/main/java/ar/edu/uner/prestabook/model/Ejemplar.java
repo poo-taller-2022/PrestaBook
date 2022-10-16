@@ -2,9 +2,12 @@ package ar.edu.uner.prestabook.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,8 +18,10 @@ import lombok.ToString;
 @Entity
 @Table(name = "ejemplares")
 @ToString(callSuper = true)
+@TableGenerator(name = "pb_sequence")
 public class Ejemplar extends Obra {
 
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
     @OneToOne
     @JoinColumn(name = "codigo_identificatorio")
     private CodigoIdentificatorio codigoIdentificatorio;

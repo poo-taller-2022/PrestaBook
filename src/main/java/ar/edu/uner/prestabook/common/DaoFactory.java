@@ -9,6 +9,7 @@ import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
+import ar.edu.uner.prestabook.persistence.IMultaDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.IPrestamoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
@@ -22,6 +23,7 @@ import ar.edu.uner.prestabook.persistence.impl.EjemplarDAO;
 import ar.edu.uner.prestabook.persistence.impl.FormatoDAO;
 import ar.edu.uner.prestabook.persistence.impl.FuncionarioDAO;
 import ar.edu.uner.prestabook.persistence.impl.LectorDAO;
+import ar.edu.uner.prestabook.persistence.impl.MultaDAO;
 import ar.edu.uner.prestabook.persistence.impl.ObraDAO;
 import ar.edu.uner.prestabook.persistence.impl.PrestamoDAO;
 import ar.edu.uner.prestabook.persistence.impl.TipoObraDAO;
@@ -154,6 +156,14 @@ public class DaoFactory {
      */
     public static ICodigoIdentificatorioDAO getCodigoIdentificatorioDAO() {
         return CodigoIdentificatorioDAO.getInstance();
+    }
+    /**
+     * Returns an instance of a Multa DAO
+     *
+     * @return a Multa DAO
+     */
+    public static IMultaDAO getMultaDAO() {
+        return MultaDAO.getInstance();
     }
 
 }
