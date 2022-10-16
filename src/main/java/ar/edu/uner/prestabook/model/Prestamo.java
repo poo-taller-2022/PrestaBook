@@ -33,5 +33,7 @@ public class Prestamo {
     private Ejemplar ejemplar;
     @ManyToOne
     private Lector lector;
+    @ManyToOne
+    private Funcionario funcionario;
 
 }

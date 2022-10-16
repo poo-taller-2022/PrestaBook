@@ -22,310 +22,309 @@ import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 
 public class IniciarSesion extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Launch the application.
-	 */
+    /**
+     * Launches the application.
+     */
+    public static void main() {
+        EventQueue.invokeLater(() -> {
+            try {
+                IniciarSesion frame = new IniciarSesion();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
-	public static void main() {
-		EventQueue.invokeLater(() -> {
-			try {
-				IniciarSesion frame = new IniciarSesion();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
+    /**
+     * Creates the frame for log in
+     */
 
-	/**
-	 * Create the frame.
-	 */
+    public IniciarSesion() {
 
-	public IniciarSesion() {
+        /**
+         * Create components
+         */
 
-		/**
-		 * Create components
-		 */
+        ventana();
+        JPanel contentPane = contentPane();
 
-		ventana();
-		JPanel contentPane = contentPane();
+        JPanel panelPrestabook = panelPrestabook();
+        contentPane.add(panelPrestabook);
 
-		JPanel panelPrestabook = panelPrestabook();
-		contentPane.add(panelPrestabook);
+        panelPrestabook.add(lblPrestaBook());
 
-		panelPrestabook.add(lblPrestaBook());
+        JButton btnExit = btnExit();
+        panelPrestabook.add(btnExit);
 
-		JButton btnExit = btnExit();
-		panelPrestabook.add(btnExit);
+        contentPane.add(lblIniciarSesion());
+        contentPane.add(lblIngresarComo());
 
-		contentPane.add(lblIniciarSesion());
-		contentPane.add(lblIngresarComo());
+        JPanel panelIngresarComo = panelIngresarComo();
+        contentPane.add(panelIngresarComo);
 
-		JPanel panelIngresarComo = panelIngresarComo();
-		contentPane.add(panelIngresarComo);
+        ButtonGroup buttonGroupTipo = new ButtonGroup();
 
-		ButtonGroup buttonGroupTipo = new ButtonGroup();
+        JRadioButton btnRadioFuncionario = btnRadioFuncionario();
+        buttonGroupTipo.add(btnRadioFuncionario);
+        panelIngresarComo.add(btnRadioFuncionario);
 
-		JRadioButton btnRadioFuncionario = btnRadioFuncionario();
-		buttonGroupTipo.add(btnRadioFuncionario);
-		panelIngresarComo.add(btnRadioFuncionario);
+        JRadioButton btnRadioAlumno = btnRadioAlumno();
+        buttonGroupTipo.add(btnRadioAlumno);
+        panelIngresarComo.add(btnRadioAlumno);
 
-		JRadioButton btnRadioAlumno = btnRadioAlumno();
-		buttonGroupTipo.add(btnRadioAlumno);
-		panelIngresarComo.add(btnRadioAlumno);
+        JRadioButton btnRadioDocente = btnRadioDocente();
+        buttonGroupTipo.add(btnRadioDocente);
+        panelIngresarComo.add(btnRadioDocente);
 
-		JRadioButton btnRadioDocente = btnRadioDocente();
-		buttonGroupTipo.add(btnRadioDocente);
-		panelIngresarComo.add(btnRadioDocente);
+        JRadioButton btnRadioPublicoGeneral = btnRadioPublicoGeneral();
+        buttonGroupTipo.add(btnRadioPublicoGeneral);
+        panelIngresarComo.add(btnRadioPublicoGeneral);
 
-		JRadioButton btnRadioPublicoGeneral = btnRadioPublicoGeneral();
-		buttonGroupTipo.add(btnRadioPublicoGeneral);
-		panelIngresarComo.add(btnRadioPublicoGeneral);
+        contentPane.add(lblContrasenia());
+        contentPane.add(lblCorreo());
 
-		contentPane.add(lblContrasenia());
-		contentPane.add(lblCorreo());
+        JTextField cajaCorreo = cajaCorreo();
+        contentPane.add(cajaCorreo);
 
-		JTextField cajaCorreo = cajaCorreo();
-		contentPane.add(cajaCorreo);
+        JPasswordField cajaContrasenia = cajaContrasenia();
+        contentPane.add(cajaContrasenia);
 
-		JPasswordField cajaContrasenia = cajaContrasenia();
-		contentPane.add(cajaContrasenia);
+        JButton btnIngresar = btnIngresar();
+        contentPane.add(btnIngresar);
 
-		JButton btnIngresar = btnIngresar();
-		contentPane.add(btnIngresar);
+        contentPane.add(lblNoRegistrado());
 
-		contentPane.add(lblNoRegistrado());
+        JButton btnRegistrarse = btnRegistrarse();
+        contentPane.add(btnRegistrarse);
 
-		JButton btnRegistrarse = btnRegistrarse();
-		contentPane.add(btnRegistrarse);
+        /**
+         * Created method to open "Registrarse" window
+         */
 
-		/**
-		 * Created method to open "Registrarse" window
-		 */
+        btnRegistrarse.addActionListener(e -> {
+            Registrarse registrarse = new Registrarse();
+            registrarse.setVisible(true);
+            IniciarSesion.this.dispose();
+        });
 
-		btnRegistrarse.addActionListener(e -> {
-			Registrarse registrarse = new Registrarse();
-			registrarse.setVisible(true);
-			IniciarSesion.this.dispose();
-		});
+        /**
+         * Created method to close window
+         */
 
-		/**
-		 * Created method to close window
-		 */
+        btnExit.addActionListener(e -> System.exit(0));
 
-		btnExit.addActionListener(e -> System.exit(0));
+        /**
+         * Method created to search for user in database
+         */
 
-		/**
-		 * Method created to search for user in database
-		 */
+        btnIngresar.addActionListener(e -> {
 
-		btnIngresar.addActionListener(e -> {
+            String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
 
-			String tipoDeUsuario = encontrarTipoDeUsuario(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno);
+            Boolean camposCompletos = (!cajaCorreo.getText().isBlank())
+                    && (!(String.valueOf(cajaContrasenia.getPassword()).isBlank())
+                            && (btnRadioPublicoGeneral.isSelected() || btnRadioDocente.isSelected()
+                                    || btnRadioAlumno.isSelected() || btnRadioFuncionario.isSelected()));
 
-			Boolean camposCompletos = (!cajaCorreo.getText().isBlank())
-					&& (!(String.valueOf(cajaContrasenia.getPassword()).isBlank())
-							&& (btnRadioPublicoGeneral.isSelected() || btnRadioDocente.isSelected()
-									|| btnRadioAlumno.isSelected() || btnRadioFuncionario.isSelected()));
+            if (Boolean.TRUE.equals(camposCompletos)) {
+                IUsuarioDAO usuariosDAO = DaoFactory.getUsuarioDAO();
+                String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
+                        String.valueOf(cajaContrasenia.getPassword()));
 
-			if (Boolean.TRUE.equals(camposCompletos)) {
-				IUsuarioDAO usuariosDAO = DaoFactory.getUsuarioDAO();
-				String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
-						String.valueOf(cajaContrasenia.getPassword()));
+                if (busquedaUsuario.equals("usuario encontrado")) {
+                    String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
 
-				if (busquedaUsuario.equals("usuario encontrado")) {
-					String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
+                    if ("Funcionarios".equals(tipoDeUsuario)) {
+                        SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario();
+                        interfazSistemaFuncionario.setVisible(true);
+                        interfazSistemaFuncionario.textUsario.setText(busquedaNombre);
+                    } else {
+                        SistemaLector interfazSistemaLector = new SistemaLector();
+                        interfazSistemaLector.setVisible(true);
+                        interfazSistemaLector.textUsuario.setText(busquedaNombre);
+                    }
+                    IniciarSesion.this.dispose();
 
-					if ("Funcionarios".equals(tipoDeUsuario)) {
-						SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario();
-						interfazSistemaFuncionario.setVisible(true);
-						interfazSistemaFuncionario.textUsusario.setText(busquedaNombre);
-					} else {
-						SistemaLector interfazSistemaLector = new SistemaLector();
-						interfazSistemaLector.setVisible(true);
-						interfazSistemaLector.textUsuario.setText(busquedaNombre);
-					}
-					IniciarSesion.this.dispose();
+                } else {
+                    JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
+                }
+            } else {
+                JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
+            }
+        });
+    }
 
-				} else {
-					JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
-				}
-			} else {
-				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
-			}
-		});
-	}
+    /**
+     * Create components
+     */
 
-	/**
-	 * Create components
-	 */
+    public void ventana() {
+        setUndecorated(true);
+        setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(100, 100, 648, 486);
+        setLocationRelativeTo(null);
+    }
 
-	public void ventana() {
-		setUndecorated(true);
-		setResizable(false);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 648, 486);
-		setLocationRelativeTo(null);
-	}
+    public JPanel contentPane() {
+        JPanel contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 255, 255));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        return contentPane;
+    }
 
-	public JPanel contentPane() {
-		JPanel contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		return contentPane;
-	}
+    public JPanel panelPrestabook() {
+        JPanel panelPrestabook = new JPanel();
+        panelPrestabook.setBackground(new Color(0, 64, 128));
+        panelPrestabook.setBounds(0, 0, 648, 100);
+        panelPrestabook.setLayout(null);
+        return panelPrestabook;
+    }
 
-	public JPanel panelPrestabook() {
-		JPanel panelPrestabook = new JPanel();
-		panelPrestabook.setBackground(new Color(0, 64, 128));
-		panelPrestabook.setBounds(0, 0, 648, 100);
-		panelPrestabook.setLayout(null);
-		return panelPrestabook;
-	}
+    public JLabel lblPrestaBook() {
+        JLabel lblPrestaBook = new JLabel("PrestaBook");
+        lblPrestaBook.setForeground(new Color(255, 255, 255));
+        lblPrestaBook.setFont(new Font("Verdana", Font.BOLD, 32));
+        lblPrestaBook.setBounds(218, 34, 264, 42);
+        return lblPrestaBook;
+    }
 
-	public JLabel lblPrestaBook() {
-		JLabel lblPrestaBook = new JLabel("PrestaBook");
-		lblPrestaBook.setForeground(new Color(255, 255, 255));
-		lblPrestaBook.setFont(new Font("Verdana", Font.BOLD, 32));
-		lblPrestaBook.setBounds(218, 34, 264, 42);
-		return lblPrestaBook;
-	}
+    public JButton btnExit() {
+        JButton btnExit = new JButton("X");
+        btnExit.setBorderPainted(false);
+        btnExit.setBorder(null);
+        btnExit.setFocusPainted(false);
+        btnExit.setFont(new Font("Roboto Black", Font.PLAIN, 12));
+        btnExit.setForeground(new Color(255, 255, 255));
+        btnExit.setBackground(new Color(255, 106, 106));
+        btnExit.setBounds(601, 0, 47, 25);
+        return btnExit;
+    }
 
-	public JButton btnExit() {
-		JButton btnExit = new JButton("X");
-		btnExit.setBorderPainted(false);
-		btnExit.setBorder(null);
-		btnExit.setFocusPainted(false);
-		btnExit.setFont(new Font("Roboto Black", Font.PLAIN, 12));
-		btnExit.setForeground(new Color(255, 255, 255));
-		btnExit.setBackground(new Color(255, 106, 106));
-		btnExit.setBounds(601, 0, 47, 25);
-		return btnExit;
-	}
+    public JLabel lblIniciarSesion() {
+        JLabel lblIniciarSesion = new JLabel("Iniciar sesión");
+        lblIniciarSesion.setFont(new Font("Verdana", Font.BOLD, 17));
+        lblIniciarSesion.setBounds(258, 130, 161, 23);
+        return lblIniciarSesion;
+    }
 
-	public JLabel lblIniciarSesion() {
-		JLabel lblIniciarSesion = new JLabel("Iniciar sesión");
-		lblIniciarSesion.setFont(new Font("Verdana", Font.BOLD, 17));
-		lblIniciarSesion.setBounds(258, 130, 161, 23);
-		return lblIniciarSesion;
-	}
+    public JLabel lblIngresarComo() {
+        JLabel lblIngresarComo = new JLabel("Ingresar como");
+        lblIngresarComo.setBounds(39, 162, 97, 14);
+        return lblIngresarComo;
+    }
 
-	public JLabel lblIngresarComo() {
-		JLabel lblIngresarComo = new JLabel("Ingresar como");
-		lblIngresarComo.setBounds(39, 162, 97, 14);
-		return lblIngresarComo;
-	}
+    public JPanel panelIngresarComo() {
+        JPanel panelIngresarComo = new JPanel();
+        panelIngresarComo.setLayout(null);
+        panelIngresarComo.setBorder(new LineBorder(new Color(128, 128, 128)));
+        panelIngresarComo.setBounds(39, 178, 560, 38);
+        return panelIngresarComo;
+    }
 
-	public JPanel panelIngresarComo() {
-		JPanel panelIngresarComo = new JPanel();
-		panelIngresarComo.setLayout(null);
-		panelIngresarComo.setBorder(new LineBorder(new Color(128, 128, 128)));
-		panelIngresarComo.setBounds(39, 178, 560, 38);
-		return panelIngresarComo;
-	}
+    public JRadioButton btnRadioFuncionario() {
+        JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
+        btnRadioFuncionario.setBounds(19, 7, 109, 23);
+        btnRadioFuncionario.setFocusPainted(false);
+        return btnRadioFuncionario;
+    }
 
-	public JRadioButton btnRadioFuncionario() {
-		JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
-		btnRadioFuncionario.setBounds(19, 7, 109, 23);
-		btnRadioFuncionario.setFocusPainted(false);
-		return btnRadioFuncionario;
-	}
+    public JRadioButton btnRadioAlumno() {
+        JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
+        btnRadioAlumno.setBounds(171, 7, 101, 23);
+        btnRadioAlumno.setFocusPainted(false);
+        return btnRadioAlumno;
+    }
 
-	public JRadioButton btnRadioAlumno() {
-		JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
-		btnRadioAlumno.setBounds(171, 7, 101, 23);
-		btnRadioAlumno.setFocusPainted(false);
-		return btnRadioAlumno;
-	}
+    public JRadioButton btnRadioDocente() {
+        JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
+        btnRadioDocente.setBounds(308, 7, 108, 23);
+        btnRadioDocente.setFocusPainted(false);
+        return btnRadioDocente;
+    }
 
-	public JRadioButton btnRadioDocente() {
-		JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
-		btnRadioDocente.setBounds(308, 7, 108, 23);
-		btnRadioDocente.setFocusPainted(false);
-		return btnRadioDocente;
-	}
+    public JRadioButton btnRadioPublicoGeneral() {
+        JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
+        btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
+        btnRadioPublicoGeneral.setFocusPainted(false);
+        return btnRadioPublicoGeneral;
+    }
 
-	public JRadioButton btnRadioPublicoGeneral() {
-		JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
-		btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
-		btnRadioPublicoGeneral.setFocusPainted(false);
-		return btnRadioPublicoGeneral;
-	}
+    public JLabel lblContrasenia() {
+        JLabel lblContrasenia = new JLabel("Contraseña");
+        lblContrasenia.setBounds(239, 314, 66, 14);
+        return lblContrasenia;
+    }
 
-	public JLabel lblContrasenia() {
-		JLabel lblContrasenia = new JLabel("Contraseña");
-		lblContrasenia.setBounds(239, 314, 66, 14);
-		return lblContrasenia;
-	}
+    public JLabel lblCorreo() {
+        JLabel lblCorreo = new JLabel("Correo");
+        lblCorreo.setBounds(239, 238, 59, 14);
+        return lblCorreo;
+    }
 
-	public JLabel lblCorreo() {
-		JLabel lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(239, 238, 59, 14);
-		return lblCorreo;
-	}
+    public JTextField cajaCorreo() {
+        JTextField cajaCorreo = new JTextField();
+        cajaCorreo.setBackground(new Color(255, 255, 255));
+        cajaCorreo.setForeground(new Color(128, 128, 128));
+        cajaCorreo.setColumns(10);
+        cajaCorreo.setBounds(239, 254, 180, 30);
+        return cajaCorreo;
+    }
 
-	public JTextField cajaCorreo() {
-		JTextField cajaCorreo = new JTextField();
-		cajaCorreo.setBackground(new Color(255, 255, 255));
-		cajaCorreo.setForeground(new Color(128, 128, 128));
-		cajaCorreo.setColumns(10);
-		cajaCorreo.setBounds(239, 254, 180, 30);
-		return cajaCorreo;
-	}
+    public JPasswordField cajaContrasenia() {
+        JPasswordField cajaContrasenia = new JPasswordField();
+        cajaContrasenia.setToolTipText("");
+        cajaContrasenia.setBackground(new Color(255, 255, 255));
+        cajaContrasenia.setBounds(239, 329, 180, 30);
+        return cajaContrasenia;
+    }
 
-	public JPasswordField cajaContrasenia() {
-		JPasswordField cajaContrasenia = new JPasswordField();
-		cajaContrasenia.setToolTipText("");
-		cajaContrasenia.setBackground(new Color(255, 255, 255));
-		cajaContrasenia.setBounds(239, 329, 180, 30);
-		return cajaContrasenia;
-	}
+    public JButton btnIngresar() {
+        JButton btnIngresar = new JButton("Ingresar");
+        btnIngresar.setForeground(new Color(0, 0, 0));
+        btnIngresar.setBackground(new Color(255, 255, 255));
+        btnIngresar.setBounds(283, 382, 89, 23);
+        return btnIngresar;
+    }
 
-	public JButton btnIngresar() {
-		JButton btnIngresar = new JButton("Ingresar");
-		btnIngresar.setForeground(new Color(0, 0, 0));
-		btnIngresar.setBackground(new Color(255, 255, 255));
-		btnIngresar.setBounds(283, 382, 89, 23);
-		return btnIngresar;
-	}
+    public JLabel lblNoRegistrado() {
+        JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
+        lblNoRegistrado.setBounds(224, 432, 141, 14);
+        return lblNoRegistrado;
+    }
 
-	public JLabel lblNoRegistrado() {
-		JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
-		lblNoRegistrado.setBounds(224, 432, 141, 14);
-		return lblNoRegistrado;
-	}
+    public JButton btnRegistrarse() {
+        JButton btnRegistrarse = new JButton("Registrarse");
+        btnRegistrarse.setBackground(new Color(255, 255, 255));
+        btnRegistrarse.setBorder(null);
+        btnRegistrarse.setBorderPainted(false);
+        btnRegistrarse.setForeground(new Color(0, 64, 128));
+        btnRegistrarse.setBounds(351, 428, 119, 23);
+        return btnRegistrarse;
+    }
 
-	public JButton btnRegistrarse() {
-		JButton btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBackground(new Color(255, 255, 255));
-		btnRegistrarse.setBorder(null);
-		btnRegistrarse.setBorderPainted(false);
-		btnRegistrarse.setForeground(new Color(0, 64, 128));
-		btnRegistrarse.setBounds(351, 428, 119, 23);
-		return btnRegistrarse;
-	}
+    /**
+     * Method created to find the type of user to log in and search the
+     * corresponding table in the database
+     */
 
-	/**
-	 * Method created to find the type of user to log in and search the
-	 * corresponding table in the database
-	 */
-
-	public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
-			JRadioButton btnRadioAlumno) {
-		String tipoDeUsuario;
-		if (btnRadioPublicoGeneral.isSelected()) {
-			tipoDeUsuario = "Lectores";
-		} else if (btnRadioDocente.isSelected()) {
-			tipoDeUsuario = "Docentes";
-		} else if (btnRadioAlumno.isSelected()) {
-			tipoDeUsuario = "Alumnos";
-		} else {
-			tipoDeUsuario = "Funcionarios";
-		}
-		return tipoDeUsuario;
-	}
+    public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
+            JRadioButton btnRadioAlumno) {
+        String tipoDeUsuario;
+        if (btnRadioPublicoGeneral.isSelected()) {
+            tipoDeUsuario = "Lectores";
+        } else if (btnRadioDocente.isSelected()) {
+            tipoDeUsuario = "Docentes";
+        } else if (btnRadioAlumno.isSelected()) {
+            tipoDeUsuario = "Alumnos";
+        } else {
+            tipoDeUsuario = "Funcionarios";
+        }
+        return tipoDeUsuario;
+    }
 }
