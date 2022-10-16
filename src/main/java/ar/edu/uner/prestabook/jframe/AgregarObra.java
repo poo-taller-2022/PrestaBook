@@ -1,13 +1,16 @@
 package ar.edu.uner.prestabook.jframe;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import javax.swing.JOptionPane;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
@@ -17,11 +20,6 @@ import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
-
-import java.awt.Color;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 
 public class AgregarObra extends JFrame {
 

@@ -43,9 +43,9 @@ public class PrestamoDAO implements IPrestamoDAO {
     @Override
     public Integer insert(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(prestamo);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(prestamo);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override

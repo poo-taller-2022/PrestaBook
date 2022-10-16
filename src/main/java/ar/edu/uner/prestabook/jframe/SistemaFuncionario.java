@@ -1,7 +1,25 @@
 package ar.edu.uner.prestabook.jframe;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,174 +33,160 @@ import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
-import java.awt.Color;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-
 public class SistemaFuncionario extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	public JLabel textUsusario;
+    private static final long serialVersionUID = 1L;
+    public JLabel textUsuario;
 
-	/**
-	 * Create the frame.
-	 */
+    /**
+     * Create the frame.
+     */
 
-	public SistemaFuncionario() {
+    public SistemaFuncionario() {
 
-		/**
-		 * Create components
-		 */
+        /**
+         * Create components
+         */
 
-		ventana();
+        ventana();
 
-		JPanel contentPane = contentPane();
+        JPanel contentPane = contentPane();
 
-		JPanel panelPrestabook = panelPrestabook();
-		contentPane.add(panelPrestabook);
+        JPanel panelPrestabook = panelPrestabook();
+        contentPane.add(panelPrestabook);
 
-		JLabel lblIconCerrarSesion = lblIconCerrarSesion();
-		panelPrestabook.add(lblIconCerrarSesion);
-		JLabelImage(lblIconCerrarSesion);
+        JLabel lblIconCerrarSesion = lblIconCerrarSesion();
+        panelPrestabook.add(lblIconCerrarSesion);
+        JLabelImage(lblIconCerrarSesion);
 
-		panelPrestabook.add(lblPrestabook());
+        panelPrestabook.add(lblPrestabook());
 
-		JButton btnExit = btnExit();
-		panelPrestabook.add(btnExit);
+        JButton btnExit = btnExit();
+        panelPrestabook.add(btnExit);
 
-		JButton btnCerrarSesion = btnCerrarSesion();
-		panelPrestabook.add(btnCerrarSesion);
+        JButton btnCerrarSesion = btnCerrarSesion();
+        panelPrestabook.add(btnCerrarSesion);
 
-		JPanel panelOpciones = panelOpciones();
-		contentPane.add(panelOpciones);
+        JPanel panelOpciones = panelOpciones();
+        contentPane.add(panelOpciones);
 
-		JButton btnSolicitudes = btnSolicitudes();
-		panelOpciones.add(btnSolicitudes);
+        JButton btnSolicitudes = btnSolicitudes();
+        panelOpciones.add(btnSolicitudes);
 
-		panelOpciones.add(lblUsuario());
-		panelOpciones.add(textUsusario());
-		panelOpciones.add(panelSeparador());
-		panelOpciones.add(lblOpciones());
+        panelOpciones.add(lblUsuario());
+        panelOpciones.add(textUsuario());
+        panelOpciones.add(panelSeparador());
+        panelOpciones.add(lblOpciones());
 
-		JButton btnGestionarDevolucion = btnGestionarDevolucion();
-		panelOpciones.add(btnGestionarDevolucion);
+        JButton btnGestionarPrestamo = btnGestionarPrestamo();
+        btnGestionarPrestamo.addActionListener(e -> {
+            Prestamos prestamos = new Prestamos();
+            prestamos.setVisible(true);
+        });
+        panelOpciones.add(btnGestionarPrestamo);
+        
+        JButton btnGestionarDevolucion = btnGestionarDevolucion();
+        panelOpciones.add(btnGestionarDevolucion);
 
-		JButton btnListarLectoresMorosos = btnListarLectoresMorosos();
-		panelOpciones.add(btnListarLectoresMorosos);
+        JButton btnListarLectoresMorosos = btnListarLectoresMorosos();
+        panelOpciones.add(btnListarLectoresMorosos);
 
-		JButton btnMasBuscadasPorAlumnoDocente = btnMasBuscadasPorAlumnoDocente();
-		panelOpciones.add(btnMasBuscadasPorAlumnoDocente);
+        JButton btnMasBuscadasPorAlumnoDocente = btnMasBuscadasPorAlumnoDocente();
+        panelOpciones.add(btnMasBuscadasPorAlumnoDocente);
 
-		JButton btnMasBuscadasPorPublicoGeneral = btnMasBuscadasPorPublicoGeneral();
-		panelOpciones.add(btnMasBuscadasPorPublicoGeneral);
+        JButton btnMasBuscadasPorPublicoGeneral = btnMasBuscadasPorPublicoGeneral();
+        panelOpciones.add(btnMasBuscadasPorPublicoGeneral);
 
-		JButton btnListarEjemplaresDisponiblesPorArea = btnListarEjemplaresDisponiblesPorArea();
-		panelOpciones.add(btnListarEjemplaresDisponiblesPorArea);
+        JButton btnListarEjemplaresDisponiblesPorArea = btnListarEjemplaresDisponiblesPorArea();
+        panelOpciones.add(btnListarEjemplaresDisponiblesPorArea);
 
-		JButton btnListarEjemplaresDisponiblesPorFecha = btnListarEjemplaresDisponiblesPorFecha();
-		panelOpciones.add(btnListarEjemplaresDisponiblesPorFecha);
+        JButton btnListarEjemplaresDisponiblesPorFecha = btnListarEjemplaresDisponiblesPorFecha();
+        panelOpciones.add(btnListarEjemplaresDisponiblesPorFecha);
 
-		JButton btnListarLectoresMultadosPorPeriodo = btnListarLectoresMultadosPorPeriodo();
-		panelOpciones.add(btnListarLectoresMultadosPorPeriodo);
+        JButton btnListarLectoresMultadosPorPeriodo = btnListarLectoresMultadosPorPeriodo();
+        panelOpciones.add(btnListarLectoresMultadosPorPeriodo);
 
-		JButton btnListarRankingDeMultados = btnListarRankingDeMultados();
-		panelOpciones.add(btnListarRankingDeMultados);
+        JButton btnListarRankingDeMultados = btnListarRankingDeMultados();
+        panelOpciones.add(btnListarRankingDeMultados);
 
-		JButton btnListarObrasPorEditorial = btnListarObrasPorEditorial();
-		panelOpciones.add(btnListarObrasPorEditorial);
+        JButton btnListarObrasPorEditorial = btnListarObrasPorEditorial();
+        panelOpciones.add(btnListarObrasPorEditorial);
 
-		JButton btnAplicarMultaALector = btnAplicarMultaALector();
-		panelOpciones.add(btnAplicarMultaALector);
+        JButton btnAplicarMultaALector = btnAplicarMultaALector();
+        panelOpciones.add(btnAplicarMultaALector);
 
-		JPanel panelBienvenida = panelBienvenida();
-		contentPane.add(panelBienvenida);
+        JPanel panelBienvenida = panelBienvenida();
+        contentPane.add(panelBienvenida);
 
-		panelBienvenida.add(lblBienvenidaParte1());
-		panelBienvenida.add(lblBienvenidaParte2());
-		panelBienvenida.add(lblIconLibreria());
+        panelBienvenida.add(lblBienvenidaParte1());
+        panelBienvenida.add(lblBienvenidaParte2());
+        panelBienvenida.add(lblIconLibreria());
 
-		/**
-		 * Menu bar Administrar
-		 */
+        /**
+         * Menu bar Administrar
+         */
 
-		JMenuBar menuBarAdministrar = menuBarAdministrar();
-		panelPrestabook.add(menuBarAdministrar);
+        JMenuBar menuBarAdministrar = menuBarAdministrar();
+        panelPrestabook.add(menuBarAdministrar);
 
-		JMenu menuAdministrar = menuAdministrar();
-		menuBarAdministrar.add(menuAdministrar);
+        JMenu menuAdministrar = menuAdministrar();
+        menuBarAdministrar.add(menuAdministrar);
 
-		JMenuItem MenuItemTipoObra = new JMenuItem("Tipos de obras");
-		menuAdministrar.add(MenuItemTipoObra);
+        JMenuItem MenuItemTipoObra = new JMenuItem("Tipos de obras");
+        menuAdministrar.add(MenuItemTipoObra);
 
-		JMenuItem MenuItemAreaTematica = new JMenuItem("Áreas temáticas");
-		menuAdministrar.add(MenuItemAreaTematica);
+        JMenuItem MenuItemAreaTematica = new JMenuItem("Áreas temáticas");
+        menuAdministrar.add(MenuItemAreaTematica);
 
-		JMenuItem MenuItemFormato = new JMenuItem("Formatos");
-		menuAdministrar.add(MenuItemFormato);
+        JMenuItem MenuItemFormato = new JMenuItem("Formatos");
+        menuAdministrar.add(MenuItemFormato);
 
-		JMenuItem MenuItemObra = new JMenuItem("Obras");
-		menuAdministrar.add(MenuItemObra);
+        JMenuItem MenuItemObra = new JMenuItem("Obras");
+        menuAdministrar.add(MenuItemObra);
 
-		JPanel panelTipoObra = panelEntidades();
-		JPanel panelAreaTematica = panelEntidades();
-		JPanel panelFormato = panelEntidades();
-		JPanel panelObra = panelEntidades();
+        JPanel panelTipoObra = panelEntidades();
+        JPanel panelAreaTematica = panelEntidades();
+        JPanel panelFormato = panelEntidades();
+        JPanel panelObra = panelEntidades();
 
-		/**
-		 * Crea el panel para administrar tipos de obras
-		 */
+        /**
+         * Crea el panel para administrar tipos de obras
+         */
 
-		MenuItemTipoObra.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelObra.setVisible(false);
-			panelTipoObra.setVisible(true);
+        MenuItemTipoObra.addActionListener(e -> {
+            panelBienvenida.setVisible(false);
+            panelAreaTematica.setVisible(false);
+            panelFormato.setVisible(false);
+            panelObra.setVisible(false);
+            panelTipoObra.setVisible(true);
 
-			contentPane.add(panelTipoObra);
-			String entidad = "Tipo obra";
+            contentPane.add(panelTipoObra);
+            String entidad = "Tipo obra";
 
-			panelTipoObra.add(lblTituloEntidades("Tipos de obras"));
+            panelTipoObra.add(lblTituloEntidades("Tipos de obras"));
 
-			JScrollPane scrollPane = scrollPane();
-			panelTipoObra.add(scrollPane);
+            JScrollPane scrollPane = scrollPane();
+            panelTipoObra.add(scrollPane);
 
-			JTable tableTipoDeObras = new JTable();
+            JTable tableTipoDeObras = new JTable();
 
-			DefaultTableModel model = new DefaultTableModel();
-			tableTipoDeObras.setModel(model);
-			model.addColumn("");
-			model.addColumn("Nombre");
+            DefaultTableModel model = new DefaultTableModel();
+            tableTipoDeObras.setModel(model);
+            model.addColumn("");
+            model.addColumn("Nombre");
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableTipoDeObras);
+            llenarTabla(model, entidad);
+            scrollPane.setViewportView(tableTipoDeObras);
 
-			JButton btnAgregarTipoObra = btnAgregarTipoObra();
-			panelTipoObra.add(btnAgregarTipoObra);
+            JButton btnAgregarTipoObra = btnAgregarTipoObra();
+            panelTipoObra.add(btnAgregarTipoObra);
 
-			JButton btnActualizarTipoObra = btnActualizarTipoObra();
-			panelTipoObra.add(btnActualizarTipoObra);
+            JButton btnActualizarTipoObra = btnActualizarTipoObra();
+            panelTipoObra.add(btnActualizarTipoObra);
 
-			/**
-			 * Botón con evento para agregar tipo de obra
-			 */
+            /**
+             * Botón con evento para agregar tipo de obra
+             */
 
 			btnAgregarTipoObra.addActionListener(b -> {
 
@@ -194,47 +198,47 @@ public class SistemaFuncionario extends JFrame {
 				llenarTabla(model, entidad);
 			});
 
-		});
+        });
 
-		/**
-		 * Crea el panel para administrar Areas temáticas
-		 */
+        /**
+         * Crea el panel para administrar Areas temáticas
+         */
 
-		MenuItemAreaTematica.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelFormato.setVisible(false);
-			panelObra.setVisible(false);
-			panelAreaTematica.setVisible(true);
+        MenuItemAreaTematica.addActionListener(e -> {
+            panelBienvenida.setVisible(false);
+            panelTipoObra.setVisible(false);
+            panelFormato.setVisible(false);
+            panelObra.setVisible(false);
+            panelAreaTematica.setVisible(true);
 
-			String entidad = "Area tematica";
+            String entidad = "Area tematica";
 
-			contentPane.add(panelAreaTematica);
+            contentPane.add(panelAreaTematica);
 
-			panelAreaTematica.add(lblTituloEntidades("Áreas temáticas"));
+            panelAreaTematica.add(lblTituloEntidades("Áreas temáticas"));
 
-			JScrollPane scrollPane = scrollPane();
-			panelAreaTematica.add(scrollPane);
+            JScrollPane scrollPane = scrollPane();
+            panelAreaTematica.add(scrollPane);
 
-			JTable tableAreasTematicas = new JTable();
+            JTable tableAreasTematicas = new JTable();
 
-			DefaultTableModel model = new DefaultTableModel();
-			tableAreasTematicas.setModel(model);
-			model.addColumn("");
-			model.addColumn("Nombre");
+            DefaultTableModel model = new DefaultTableModel();
+            tableAreasTematicas.setModel(model);
+            model.addColumn("");
+            model.addColumn("Nombre");
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableAreasTematicas);
+            llenarTabla(model, entidad);
+            scrollPane.setViewportView(tableAreasTematicas);
 
-			JButton btnAreaTematica = btnAgregarAreaTematica();
-			panelAreaTematica.add(btnAreaTematica);
+            JButton btnAreaTematica = btnAgregarAreaTematica();
+            panelAreaTematica.add(btnAreaTematica);
 
-			JButton btnActualizarAreaTematica = btnActualizarAreaTematica();
-			panelAreaTematica.add(btnActualizarAreaTematica);
+            JButton btnActualizarAreaTematica = btnActualizarAreaTematica();
+            panelAreaTematica.add(btnActualizarAreaTematica);
 
-			/**
-			 * Botón con evento para agregar area tematica
-			 */
+            /**
+             * Botón con evento para agregar area tematica
+             */
 
 			btnAreaTematica.addActionListener(b -> {
 
@@ -247,45 +251,45 @@ public class SistemaFuncionario extends JFrame {
 				llenarTabla(model, entidad);
 			});
 
-		});
+        });
 
-		/**
-		 * Crea el panel para administrar formatos
-		 */
+        /**
+         * Crea el panel para administrar formatos
+         */
 
-		MenuItemFormato.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelObra.setVisible(false);
-			panelFormato.setVisible(true);
-			contentPane.add(panelFormato);
-			String entidad = "Formato";
+        MenuItemFormato.addActionListener(e -> {
+            panelBienvenida.setVisible(false);
+            panelAreaTematica.setVisible(false);
+            panelTipoObra.setVisible(false);
+            panelObra.setVisible(false);
+            panelFormato.setVisible(true);
+            contentPane.add(panelFormato);
+            String entidad = "Formato";
 
-			panelFormato.add(lblTituloEntidades("Formatos"));
+            panelFormato.add(lblTituloEntidades("Formatos"));
 
-			JScrollPane scrollPane = scrollPane();
-			panelFormato.add(scrollPane);
+            JScrollPane scrollPane = scrollPane();
+            panelFormato.add(scrollPane);
 
-			JTable tableFormatos = new JTable();
+            JTable tableFormatos = new JTable();
 
-			DefaultTableModel model = new DefaultTableModel();
-			tableFormatos.setModel(model);
-			model.addColumn("");
-			model.addColumn("Nombre");
+            DefaultTableModel model = new DefaultTableModel();
+            tableFormatos.setModel(model);
+            model.addColumn("");
+            model.addColumn("Nombre");
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableFormatos);
+            llenarTabla(model, entidad);
+            scrollPane.setViewportView(tableFormatos);
 
-			JButton btnAgregarFormato = btnAgregarFormato();
-			panelFormato.add(btnAgregarFormato);
+            JButton btnAgregarFormato = btnAgregarFormato();
+            panelFormato.add(btnAgregarFormato);
 
-			JButton btnActualizarFormato = btnActualizarFormato();
-			panelFormato.add(btnActualizarFormato);
+            JButton btnActualizarFormato = btnActualizarFormato();
+            panelFormato.add(btnActualizarFormato);
 
-			/**
-			 * Botón con evento para agregar formatos
-			 */
+            /**
+             * Botón con evento para agregar formatos
+             */
 
 			btnAgregarFormato.addActionListener(b -> {
 
@@ -297,25 +301,25 @@ public class SistemaFuncionario extends JFrame {
 				llenarTabla(model, entidad);
 			});
 
-		});
+        });
 
-		/**
-		 * Crea el panel para administrar obras
-		 */
+        /**
+         * Crea el panel para administrar obras
+         */
 
-		MenuItemObra.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelObra.setVisible(true);
+        MenuItemObra.addActionListener(e -> {
+            panelBienvenida.setVisible(false);
+            panelAreaTematica.setVisible(false);
+            panelFormato.setVisible(false);
+            panelTipoObra.setVisible(false);
+            panelObra.setVisible(true);
 
-			contentPane.add(panelObra);
-			String entidad = "Obra";
+            contentPane.add(panelObra);
+            String entidad = "Obra";
 
-			panelObra.add(lblTituloEntidades("Obras"));
+            panelObra.add(lblTituloEntidades("Obras"));
 
-			JScrollPane scrollPane = scrollPane();
+            JScrollPane scrollPane = scrollPane();
 			panelObra.add(scrollPane);
 
 			JTable tableObras = new JTable();
@@ -492,13 +496,13 @@ public class SistemaFuncionario extends JFrame {
 		return lblUsuario;
 	}
 
-	public JLabel textUsusario() {
-		textUsusario = new JLabel("");
-		textUsusario.setBackground(new Color(0, 128, 0));
-		textUsusario.setBounds(118, 0, 173, 37);
-		textUsusario.setFont(new Font("Verdana", Font.BOLD, 16));
-		textUsusario.setForeground(new Color(255, 255, 255));
-		return textUsusario;
+	public JLabel textUsuario() {
+		textUsuario = new JLabel("");
+		textUsuario.setBackground(new Color(0, 128, 0));
+		textUsuario.setBounds(118, 0, 173, 37);
+		textUsuario.setFont(new Font("Verdana", Font.BOLD, 16));
+		textUsuario.setForeground(new Color(255, 255, 255));
+		return textUsuario;
 	}
 
 	public JButton btnSolicitudes() {
@@ -528,6 +532,17 @@ public class SistemaFuncionario extends JFrame {
 		return lblOpciones;
 	}
 
+    private JButton btnGestionarPrestamo() {
+        JButton btnAgregarFormato = new JButton("Gestionar Préstamo");
+        btnAgregarFormato.setFocusPainted(false);
+        btnAgregarFormato.setBackground(new Color(255, 255, 255));
+        btnAgregarFormato.setForeground(new Color(0, 64, 128));
+        btnAgregarFormato.setFont(new Font("Verdana", Font.BOLD, 12));
+        btnAgregarFormato.setBorderPainted(false);
+        btnAgregarFormato.setBounds(23, 169, 293, 31);
+        return btnAgregarFormato;
+    }
+
 	public JButton btnGestionarDevolucion() {
 		JButton btnGestionarDevolucion = new JButton("Gestionar devolución de obra");
 		btnGestionarDevolucion.setFocusPainted(false);
@@ -535,7 +550,7 @@ public class SistemaFuncionario extends JFrame {
 		btnGestionarDevolucion.setForeground(new Color(0, 64, 128));
 		btnGestionarDevolucion.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnGestionarDevolucion.setBorderPainted(false);
-		btnGestionarDevolucion.setBounds(23, 169, 293, 31);
+		btnGestionarDevolucion.setBounds(23, 221, 293, 31);
 		return btnGestionarDevolucion;
 	}
 
@@ -546,7 +561,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarLectoresMorosos.setForeground(new Color(0, 64, 128));
 		btnListarLectoresMorosos.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarLectoresMorosos.setBorderPainted(false);
-		btnListarLectoresMorosos.setBounds(23, 222, 293, 31);
+		btnListarLectoresMorosos.setBounds(23, 273, 293, 31);
 		return btnListarLectoresMorosos;
 	}
 
@@ -557,7 +572,7 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorAlumnoDocente.setForeground(new Color(0, 64, 128));
 		btnMasBuscadasPorAlumnoDocente.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnMasBuscadasPorAlumnoDocente.setBorderPainted(false);
-		btnMasBuscadasPorAlumnoDocente.setBounds(23, 271, 293, 31);
+		btnMasBuscadasPorAlumnoDocente.setBounds(23, 325, 293, 31);
 		return btnMasBuscadasPorAlumnoDocente;
 	}
 
@@ -568,7 +583,7 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorPublicoGeneral.setForeground(new Color(0, 64, 128));
 		btnMasBuscadasPorPublicoGeneral.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnMasBuscadasPorPublicoGeneral.setBorderPainted(false);
-		btnMasBuscadasPorPublicoGeneral.setBounds(23, 324, 293, 31);
+		btnMasBuscadasPorPublicoGeneral.setBounds(23, 377, 293, 31);
 		return btnMasBuscadasPorPublicoGeneral;
 	}
 
@@ -579,7 +594,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarEjemplaresDisponiblesPorArea.setForeground(new Color(0, 64, 128));
 		btnListarEjemplaresDisponiblesPorArea.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarEjemplaresDisponiblesPorArea.setBorderPainted(false);
-		btnListarEjemplaresDisponiblesPorArea.setBounds(23, 379, 293, 31);
+		btnListarEjemplaresDisponiblesPorArea.setBounds(23, 429, 293, 31);
 		return btnListarEjemplaresDisponiblesPorArea;
 	}
 
@@ -590,7 +605,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
 		btnListarEjemplaresDisponiblesPorFecha.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
-		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 432, 293, 31);
+		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
 		return btnListarEjemplaresDisponiblesPorFecha;
 	}
 
@@ -601,7 +616,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
 		btnListarLectoresMultadosPorPeriodo.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
-		btnListarLectoresMultadosPorPeriodo.setBounds(23, 489, 293, 31);
+		btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
 		return btnListarLectoresMultadosPorPeriodo;
 	}
 
@@ -612,7 +627,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
 		btnListarRankingDeMultados.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarRankingDeMultados.setBorderPainted(false);
-		btnListarRankingDeMultados.setBounds(23, 542, 293, 31);
+		btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
 		return btnListarRankingDeMultados;
 	}
 
@@ -623,7 +638,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
 		btnListarObrasPorEditorial.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnListarObrasPorEditorial.setBorderPainted(false);
-		btnListarObrasPorEditorial.setBounds(23, 598, 293, 31);
+		btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
 		return btnListarObrasPorEditorial;
 	}
 
@@ -634,7 +649,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
 		btnAplicarMultaALector.setFont(new Font("Verdana", Font.BOLD, 12));
 		btnAplicarMultaALector.setBorderPainted(false);
-		btnAplicarMultaALector.setBounds(23, 652, 293, 31);
+		btnAplicarMultaALector.setBounds(23, 689, 293, 31);
 		return btnAplicarMultaALector;
 	}
 

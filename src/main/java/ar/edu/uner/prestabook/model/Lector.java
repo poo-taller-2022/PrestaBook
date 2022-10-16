@@ -1,6 +1,5 @@
 package ar.edu.uner.prestabook.model;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.Table;
 import org.modelmapper.ModelMapper;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
-import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
@@ -19,8 +17,10 @@ import ar.edu.uner.prestabook.persistence.ILectorDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "lectores")

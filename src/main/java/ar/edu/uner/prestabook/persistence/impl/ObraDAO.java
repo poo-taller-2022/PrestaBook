@@ -31,7 +31,8 @@ public class ObraDAO implements IObraDAO {
 
     @Override
     public List<Obra> findAll() {
-        return HibernateConnection.getCurrentSession().createQuery("from Obra", Obra.class).list();
+        String hql = String.format("from Obra o where type(o) = %s", Obra.class.getName());
+        return HibernateConnection.getCurrentSession().createQuery(hql, Obra.class).list();
     }
 
     @Override
@@ -60,9 +61,10 @@ public class ObraDAO implements IObraDAO {
     public Integer delete(Obra t) {
         return null;
     }
-    
+
     public List<Obra> filtrarPorTema(Integer id) {
-    	return HibernateConnection.getCurrentSession().createQuery(String.format("FROM Obra obra WHERE obra.area = %s",id), Obra.class).list();
+        return HibernateConnection.getCurrentSession()
+                .createQuery(String.format("FROM Obra obra WHERE obra.area = %s", id), Obra.class).list();
     }
-    
+
 }

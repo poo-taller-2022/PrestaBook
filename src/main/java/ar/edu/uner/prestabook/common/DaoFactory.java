@@ -10,6 +10,7 @@ import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
+import ar.edu.uner.prestabook.persistence.IPrestamoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 import ar.edu.uner.prestabook.persistence.impl.AlumnoDAO;
@@ -22,6 +23,7 @@ import ar.edu.uner.prestabook.persistence.impl.FormatoDAO;
 import ar.edu.uner.prestabook.persistence.impl.FuncionarioDAO;
 import ar.edu.uner.prestabook.persistence.impl.LectorDAO;
 import ar.edu.uner.prestabook.persistence.impl.ObraDAO;
+import ar.edu.uner.prestabook.persistence.impl.PrestamoDAO;
 import ar.edu.uner.prestabook.persistence.impl.TipoObraDAO;
 import ar.edu.uner.prestabook.persistence.impl.UsuarioDAO;
 
@@ -49,7 +51,7 @@ public class DaoFactory {
 
     /**
      * Returns an instance of an Alumno DAO
-     * 
+     *
      * @return an Alumno DAO
      */
     public static IAlumnoDAO getAlumnoDAO() {
@@ -58,7 +60,7 @@ public class DaoFactory {
 
     /**
      * Returns an instance of a Docente DAO
-     * 
+     *
      * @return a Docente DAO
      */
     public static IDocenteDAO getDocenteDAO() {
@@ -67,7 +69,7 @@ public class DaoFactory {
 
     /**
      * Returns an instance of a Lector DAO
-     * 
+     *
      * @return a Lector DAO
      */
     public static ILectorDAO getLectorDAO() {
@@ -76,7 +78,7 @@ public class DaoFactory {
 
     /**
      * Returns an instance of an Obra DAO
-     * 
+     *
      * @return an Obra DAO
      */
     public static IObraDAO getObraDAO() {
@@ -85,7 +87,7 @@ public class DaoFactory {
 
     /**
      * Returns an instance of a Tipo Obra DAO
-     * 
+     *
      * @return a Tipo Obra DAO
      */
     public static ITipoObraDAO getTipoObraDAO() {
@@ -94,7 +96,7 @@ public class DaoFactory {
 
     /**
      * Returns an instance of an Ejemplar DAO
-     * 
+     *
      * @return an Ejemplar DAO
      */
     public static IEjemplarDAO getEjemplarDAO() {
@@ -103,47 +105,55 @@ public class DaoFactory {
 
     /**
      * Returns an instance of a Formato DAO
-     * 
-     * @return an Formato DAO
+     *
+     * @return a Formato DAO
      */
     public static IFormatoDAO getFormatoDAO() {
         return FormatoDAO.getInstance();
     }
-    
+
     /**
      * Returns an instance of a Funcionario DAO
-     * 
-     * @return an Funcionario DAO
+     *
+     * @return a Funcionario DAO
      */
     public static IFuncionarioDAO getFuncionarioDAO() {
         return FuncionarioDAO.getInstance();
     }
-    
+
     /**
      * Returns an instance of a Usuario DAO
-     * 
+     *
      * @return an Usuario DAO
      */
     public static IUsuarioDAO getUsuarioDAO() {
         return UsuarioDAO.getInstance();
     }
-    
+
     /**
-     * Returns an instance of a Usuario DAO
-     * 
-     * @return an Usuario DAO
+     * Returns an instance of a Coleccion DAO
+     *
+     * @return a Coleccion DAO
      */
     public static IColeccionDAO getColeccionDAO() {
         return ColeccionDAO.getInstance();
     }
-    
+
+    /**
+     * Returns an instance of a Prestamo DAO
+     *
+     * @return a Prestamo DAO
+     */
+    public static IPrestamoDAO getPrestamoDAO() {
+        return PrestamoDAO.getInstance();
+    }
     /**
      * Returns an instance of a CodigoIdentificatorio DAO
-     * 
-     * @return an CodigoIdentificatorio DAO
+     *
+     * @return a CodigoIdentificatorio DAO
      */
     public static ICodigoIdentificatorioDAO getCodigoIdentificatorioDAO() {
         return CodigoIdentificatorioDAO.getInstance();
     }
-    
+
 }

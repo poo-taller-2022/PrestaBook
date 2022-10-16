@@ -50,9 +50,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.toedter</groupId>
-			<artifactId>jcalendar</artifactId>
-			<version>1.4</version>
+			<groupId>com.github.lgooddatepicker</groupId>
+			<artifactId>LGoodDatePicker</artifactId>
+			<version>11.2.1</version>
 		</dependency>
 
 		<dependency>
@@ -62,7 +62,6 @@
 		</dependency>
 
 	</dependencies>
-
 
 	<build>
 		<plugins>
