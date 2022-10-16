@@ -63,7 +63,7 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     @Override
     public List<Prestamo> findAllByLectorId(Integer idLector) {
-        String hql = String.format("from Prestamo p where p.lector = %s", idLector);
+        String hql = String.format("from Prestamo p where p.lector = '%s'", idLector);
         return HibernateConnection.getCurrentSession().createQuery(hql, Prestamo.class).list();
 
     }

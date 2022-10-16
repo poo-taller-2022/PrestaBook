@@ -43,9 +43,9 @@ public class MultaDAO implements IMultaDAO {
     @Override
     public Integer insert(Multa multa) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(multa);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(multa);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override

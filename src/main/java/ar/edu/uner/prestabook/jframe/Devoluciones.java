@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Vector;
 
@@ -27,6 +26,7 @@ import ar.edu.uner.prestabook.jframe.render.PersonaRenderer;
 import ar.edu.uner.prestabook.jframe.render.PrestamoRenderer;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.model.Lector;
+import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.model.Prestamo;
 
 /**
@@ -35,6 +35,7 @@ import ar.edu.uner.prestabook.model.Prestamo;
  */
 public class Devoluciones extends JFrame {
 
+    private static final String CONFIRMAR = "Confirmar";
     /** Serial number */
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +49,7 @@ public class Devoluciones extends JFrame {
         JPanel panelAgregarObra = panelNuevoPrestamo();
         contentPane.add(panelAgregarObra);
 
-        JLabel lblAgregarObra = labelNuevoPrestamo();
+        JLabel lblAgregarObra = labelPrestamosVigentes();
         panelAgregarObra.add(lblAgregarObra);
 
         JTextField textEjemplar = textEjemplar();
@@ -84,25 +85,6 @@ public class Devoluciones extends JFrame {
         JLabel labelFechaPactadaDevolucion = labelFechaPactadaDevolucion();
         contentPane.add(labelFechaPactadaDevolucion);
 
-        JButton btnMultar = btnMultar();
-        btnMultar.addActionListener(e -> {
-            System.out.println("JAja multado pete");
-        });
-        contentPane.add(btnMultar);
-
-        DatePicker calendarFechaRealDevolucion = calendarFechaRealDevolucion();
-        calendarFechaRealDevolucion.addDateChangeListener(e -> {
-            LocalDate fechaReal = e.getNewDate();
-            LocalDate fechaPactada = calendarPactadaDevolucion.getDate();
-            if (fechaReal.isAfter(fechaPactada.plusDays(4))) {
-                btnMultar.setEnabled(true);
-                contentPane.revalidate();
-                contentPane.repaint();
-            }
-
-        });
-        contentPane.add(calendarFechaRealDevolucion);
-
         JLabel labelFechaRealDevolucion = labelFechaRealDevolucion();
         contentPane.add(labelFechaRealDevolucion);
 
@@ -130,10 +112,43 @@ public class Devoluciones extends JFrame {
             Lector lector = (Lector) e.getItem();
             List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAllByLectorId(lector.getDocumento());
             for (Prestamo prestamo : prestamos) {
-                comboBoxPrestamo.addItem(prestamo);
+                if (prestamo.getFechaRealDevolucion() == null)
+                    comboBoxPrestamo.addItem(prestamo);
             }
         });
         contentPane.add(comboBoxLector);
+
+        JButton btnMultar = btnMultar();
+        btnMultar.addActionListener(e -> {
+            Integer seleccion = JOptionPane.showConfirmDialog(null, "¿Registrar devolución y aplicar multa?",
+                    CONFIRMAR, JOptionPane.YES_NO_OPTION);
+            if (seleccion == JOptionPane.YES_OPTION) {
+                Prestamo prestamo = (Prestamo) comboBoxPrestamo.getSelectedItem();
+                Integer plazoMulta = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingresar días de multa",
+                        "Días de multa", JOptionPane.OK_CANCEL_OPTION));
+                Multa multa = new Multa();
+                String fechaDevolucion = LocalDate.now().toString();
+                prestamo.setFechaRealDevolucion(fechaDevolucion);
+                prestamo.setFueraDeTermino(true);
+                DaoFactory.getPrestamoDAO().update(prestamo);
+                multa.setFecha(fechaDevolucion);
+                multa.setLector((Lector) comboBoxLector.getSelectedItem());
+                multa.setPrestamo(prestamo);
+                multa.setPlazo(plazoMulta);
+                DaoFactory.getMultaDAO().insert(multa);
+                JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+                this.setVisible(false);
+            }
+        });
+        contentPane.add(btnMultar);
+
+        DatePicker calendarFechaRealDevolucion = calendarFechaRealDevolucion();
+        calendarFechaRealDevolucion.addDateChangeListener(e -> {
+            LocalDate fechaReal = e.getNewDate();
+            LocalDate fechaPactada = calendarPactadaDevolucion.getDate();
+            btnMultar.setEnabled(fechaReal.isAfter(fechaPactada.plusDays(4)));
+        });
+        contentPane.add(calendarFechaRealDevolucion);
 
         JButton btnConfirmar = btnConfirmar();
         contentPane.add(btnConfirmar);
@@ -150,17 +165,17 @@ public class Devoluciones extends JFrame {
                     calendarFechaRealDevolucion.getDate() != null;
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-//                Prestamo prestamo = new Prestamo();
-//                prestamo.setEjemplar((Ejemplar) textEjemplar.getText());
-//                prestamo.setLector((Lector) comboBoxLector.getSelectedItem());
-//                prestamo.setFuncionario((Funcionario) textFuncionario.getText());
-//                prestamo.setFechaYHoraPrestamo(calendarFechaYHoraPrestamo.getDateTimePermissive().toString());
-//                prestamo.setFechaPactadaDevolucion(calendarFechaRealDevolucion.getDate().toString());
-//                prestamo.setPlazoPrestamo(PLAZO_PRESTAMO);
-//                DaoFactory.getPrestamoDAO().insert(prestamo);
-
-                JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
-                this.setVisible(false);
+                Integer seleccion = JOptionPane.showConfirmDialog(null, "¿Registrar devolución?", CONFIRMAR,
+                        JOptionPane.YES_NO_OPTION);
+                if (seleccion == JOptionPane.YES_OPTION) {
+                    Prestamo prestamo = (Prestamo) comboBoxPrestamo.getSelectedItem();
+                    String fechaDevolucion = LocalDate.now().toString();
+                    prestamo.setFechaRealDevolucion(fechaDevolucion);
+                    prestamo.setFueraDeTermino(false);
+                    DaoFactory.getPrestamoDAO().update(prestamo);
+                    JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+                    this.setVisible(false);
+                }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
             }
@@ -209,12 +224,12 @@ public class Devoluciones extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with the New Loan text
+     * @return a label with the current loans text
      */
-    public JLabel labelNuevoPrestamo() {
-        JLabel lblDevolucion = new JLabel("Devolución");
+    public JLabel labelPrestamosVigentes() {
+        JLabel lblDevolucion = new JLabel("Préstamos Vigentes");
         lblDevolucion.setForeground(new Color(255, 255, 255));
-        lblDevolucion.setBounds(240, 31, 191, 39);
+        lblDevolucion.setBounds(202, 30, 251, 39);
         lblDevolucion.setFont(new Font("Verdana", Font.BOLD, 20));
         return lblDevolucion;
     }
@@ -378,6 +393,7 @@ public class Devoluciones extends JFrame {
         DatePicker calendarFechaRealDevolucion = new DatePicker();
         calendarFechaRealDevolucion.setBounds(326, 310, 271, 29);
         calendarFechaRealDevolucion.setSettings(DateSettings.getDatePickerSettings());
+        calendarFechaRealDevolucion.setEnabled(false);
         return calendarFechaRealDevolucion;
     }
 
@@ -406,7 +422,7 @@ public class Devoluciones extends JFrame {
      * Creates a confirmation button
      */
     public JButton btnConfirmar() {
-        JButton btnConfirmar = new JButton("Confirmar");
+        JButton btnConfirmar = new JButton(CONFIRMAR);
         btnConfirmar.setBounds(163, 490, 120, 23);
         return btnConfirmar;
     }

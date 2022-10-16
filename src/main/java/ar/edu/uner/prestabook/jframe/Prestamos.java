@@ -223,7 +223,7 @@ public class Prestamos extends JFrame {
         JComboBox<String> comboBoxTipoPrestamo = new JComboBox<>(
                 new Vector<>(List.of(PRESTAMO_EN_SALA, PRESTAMO_A_DOMICILIO)));
         comboBoxTipoPrestamo.setBounds(24, 141, 227, 29);
-        comboBoxTipoPrestamo.setSelectedItem(null);
+        comboBoxTipoPrestamo.setSelectedItem(PRESTAMO_A_DOMICILIO);
         return comboBoxTipoPrestamo;
     }
 

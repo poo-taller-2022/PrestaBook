@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import lombok.Data;
 
@@ -16,7 +17,8 @@ import lombok.Data;
 public class Multa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @TableGenerator(name = "pb_sequence")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
     @Column(unique = true, nullable = false)
     private Long id;
     private Integer plazo;
