@@ -25,11 +25,12 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.Edicion;
+import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
-import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
@@ -363,6 +364,8 @@ public class SistemaFuncionario extends JFrame {
 
 			JScrollPane scrollPane = scrollPane();
 			panelObra.add(scrollPane);
+			
+			JTable tableObras = new JTable();
 
             DefaultTableModel model = new DefaultTableModel() {
                 @Override
@@ -1067,7 +1070,7 @@ public class SistemaFuncionario extends JFrame {
 	public void llenarTabla(DefaultTableModel model, String tipoEntidad) {
 		Integer i = 0;
 		switch (tipoEntidad) {
-		case "Tipo obra":
+		case TIPO_OBRA:
 			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
 			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
 			for (TipoObra tipo : tiposObra) {
@@ -1077,7 +1080,7 @@ public class SistemaFuncionario extends JFrame {
 				model.addRow(new Vector<>(fila));
 			}
 			break;
-		case "Area tematica":
+		case AREA_TEMATICA:
 			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
 			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
 			for (AreaTematica area : areasTematicas) {
@@ -1087,7 +1090,7 @@ public class SistemaFuncionario extends JFrame {
 				model.addRow(new Vector<>(fila));
 			}
 			break;
-		case "Formato":
+		case FORMATO:
 			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
 			java.util.List<Formato> formatos = formatoDAO.findAll();
 			for (Formato formato : formatos) {
@@ -1097,7 +1100,7 @@ public class SistemaFuncionario extends JFrame {
 				model.addRow(new Vector<>(fila));
 			}
 			break;
-		case "Obra":
+		case OBRA:
 			IObraDAO obraDAO = DaoFactory.getObraDAO();
 			java.util.List<Obra> obras = obraDAO.findAll();
 			for (Obra obra : obras) {
@@ -1121,7 +1124,7 @@ public class SistemaFuncionario extends JFrame {
 				model.addRow(new Vector<>(fila));
 			}
 			break;
-		case "Ejemplar":
+		case EJEMPLAR:
 			IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
 			java.util.List<Ejemplar> ejemplares = ejemplarDAO.findAll();
 			for (Ejemplar ejemplar : ejemplares) {
@@ -1141,7 +1144,7 @@ public class SistemaFuncionario extends JFrame {
 				model.addRow(new Vector<>(fila));
 			}
 			break;
-		case "Edicion":
+		case EDICION:
 			IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
 			java.util.List<Edicion> ediciones = edicionDAO.findAll();
 			String concatenarFormatos = "";
@@ -1166,11 +1169,14 @@ public class SistemaFuncionario extends JFrame {
 			break;
 		default:
 		}
+	}
 
 	/**
 	 * Actualiza en la base de datos la fila agregada en la tabla
 	 * 
 	 */
+	private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
+
 		switch (tipoEntidad) {
 		case TIPO_OBRA:
 			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
