@@ -23,8 +23,8 @@ public class CodigoIdentificatorio {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
     @Column(unique = true, nullable = false)
     private Long id;
+    private Integer codigo;
     private Integer pasillo;
     private Integer estanteria;
     private Integer estante;
-
 }

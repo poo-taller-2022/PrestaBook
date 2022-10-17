@@ -5,6 +5,7 @@ import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
+import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
@@ -19,6 +20,7 @@ import ar.edu.uner.prestabook.persistence.impl.AreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.impl.CodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.impl.ColeccionDAO;
 import ar.edu.uner.prestabook.persistence.impl.DocenteDAO;
+import ar.edu.uner.prestabook.persistence.impl.EdicionDAO;
 import ar.edu.uner.prestabook.persistence.impl.EjemplarDAO;
 import ar.edu.uner.prestabook.persistence.impl.FormatoDAO;
 import ar.edu.uner.prestabook.persistence.impl.FuncionarioDAO;
@@ -158,6 +160,14 @@ public class DaoFactory {
         return CodigoIdentificatorioDAO.getInstance();
     }
     /**
+     * Returns an instance of a Edicion DAO
+     *
+     * @return a Edicion DAO
+     */
+    public static IEdicionDAO getEdicionDAO() {
+        return EdicionDAO.getInstance();
+    }
+    /**
      * Returns an instance of a Multa DAO
      *
      * @return a Multa DAO
@@ -165,5 +175,6 @@ public class DaoFactory {
     public static IMultaDAO getMultaDAO() {
         return MultaDAO.getInstance();
     }
+
 
 }
