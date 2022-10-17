@@ -16,7 +16,6 @@ import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.Edicion;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
@@ -24,7 +23,6 @@ import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 import javax.swing.JButton;
-
 
 public class AgregarEdicion extends JFrame {
 
@@ -39,13 +37,13 @@ public class AgregarEdicion extends JFrame {
 	public AgregarEdicion() {
 		ventana();
 		JPanel contentPane = contentPane();
-		
+
 		JPanel panelAgregarEdicion = panelAgregarEdicion();
 		contentPane.add(panelAgregarEdicion);
-		
+
 		JLabel lblAgregarEdicion = lblAgregarEdicion();
 		panelAgregarEdicion.add(lblAgregarEdicion);
-		
+
 		JTextField fieldEditorial = fieldEditorial();
 		contentPane.add(fieldEditorial);
 
@@ -90,57 +88,58 @@ public class AgregarEdicion extends JFrame {
 
 		JLabel lblFormato = lblFormato();
 		contentPane.add(lblFormato);
-		
+
 		JComboBox<Object> comboBoxFormato = comboBoxFormato();
 		contentPane.add(comboBoxFormato);
-		
+
 		JButton btnAgregar = btnAgregar();
 		contentPane.add(btnAgregar);
-		
+
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
-		
+
 		JComboBox<Object> comboBoxObras = comboBoxObras();
 		contentPane.add(comboBoxObras);
-		
+
 		JLabel lblObra = lblObra();
 		contentPane.add(lblObra);
-		
+
 		btnCancelar.addActionListener(e -> {
 			this.setVisible(false);
 		});
-		
+
 		btnAgregar.addActionListener(e -> {
-			Boolean camposCompletos = !(fieldEditorial.getText().isBlank() || fieldPais.getText().isBlank() || fieldNumero.getText().isBlank()
-					|| fieldAnio.getText().isBlank() || fieldVolumenes.getText().isBlank() || fieldPaginas.getText().isBlank()
+			Boolean camposCompletos = !(fieldEditorial.getText().isBlank() || fieldPais.getText().isBlank()
+					|| fieldNumero.getText().isBlank() || fieldAnio.getText().isBlank()
+					|| fieldVolumenes.getText().isBlank() || fieldPaginas.getText().isBlank()
 					|| fieldIdioma.getText().isBlank());
-			
+
 			if (Boolean.TRUE.equals(camposCompletos)) {
-	
+
 				Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
 				List<Formato> formatos = new LinkedList<>();
 				Formato formato1 = new Formato();
 				formato1.setId(itemFormato.getId());
 				formato1.setNombre(itemFormato.getValor());
 				formatos.add(formato1);
-				
+
 				Items itemObra = (Items) comboBoxObras.getSelectedItem();
-				
+
 				actualizarBaseDeDatos(fieldEditorial.getText(), fieldPais.getText(), fieldNumero.getText(),
-						fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(),
-						fieldIdioma.getText(), formatos, itemObra.getId());
-				
+						fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(), fieldIdioma.getText(),
+						formatos, itemObra.getId());
+
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
-				
+
 			} else {
 				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
 			}
 		});
 	}
 
-	private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio,
-			String volumenes, String paginas, String idioma, List<Formato> formatos, Integer idObra) {
+	private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio, String volumenes,
+			String paginas, String idioma, List<Formato> formatos, Integer idObra) {
 		IObraDAO o = DaoFactory.getObraDAO();
 		Obra obra = o.findById((long) idObra);
 		Edicion edicion = new Edicion();
@@ -157,12 +156,12 @@ public class AgregarEdicion extends JFrame {
 
 		IEdicionDAO e = DaoFactory.getEdicionDAO();
 		e.insert(edicion);
-		
+
 		List<Edicion> ediciones = new LinkedList<>();
 		ediciones.add(edicion);
 		obra.setEdicion(ediciones);
 		o.insert(obra);
-		
+
 	}
 
 	private JPanel contentPane() {
@@ -172,19 +171,19 @@ public class AgregarEdicion extends JFrame {
 		contentPane.setLayout(null);
 		return contentPane;
 	}
-	
+
 	public JLabel lblObra() {
 		JLabel lblObra = new JLabel("Obra");
 		lblObra.setBounds(130, 133, 46, 14);
 		return lblObra;
 	}
-	
+
 	public JButton btnAgregar() {
 		JButton btnAgregar = new JButton("Agregar");
 		btnAgregar.setBounds(94, 454, 89, 23);
 		return btnAgregar;
 	}
-	
+
 	public JButton btnCancelar() {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(260, 454, 89, 23);
@@ -198,7 +197,7 @@ public class AgregarEdicion extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 	}
-	
+
 	public JPanel panelAgregarEdicion() {
 		JPanel panelAgregarEdicion = new JPanel();
 		panelAgregarEdicion.setBackground(new Color(0, 64, 128));
@@ -214,7 +213,7 @@ public class AgregarEdicion extends JFrame {
 		lblAgregarEdicion.setFont(new Font("Verdana", Font.BOLD, 20));
 		return lblAgregarEdicion;
 	}
-	
+
 	public JTextField fieldEditorial() {
 		JTextField fieldEditorial = new JTextField();
 		fieldEditorial.setBounds(37, 219, 166, 29);
@@ -317,7 +316,7 @@ public class AgregarEdicion extends JFrame {
 		comboBoxFormato.setBounds(237, 387, 166, 29);
 		return comboBoxFormato;
 	}
-	
+
 	public JComboBox<Object> cargarComboBoxFormato() {
 		JComboBox<Object> comboBox = new JComboBox<>();
 
@@ -328,13 +327,13 @@ public class AgregarEdicion extends JFrame {
 		}
 		return comboBox;
 	}
-	
+
 	public JComboBox<Object> comboBoxObras() {
 		JComboBox<Object> comboBoxObras = cargarComboBoxObra();
 		comboBoxObras.setBounds(130, 148, 166, 29);
 		return comboBoxObras;
 	}
-	
+
 	public JComboBox<Object> cargarComboBoxObra() {
 		JComboBox<Object> comboBox = new JComboBox<>();
 

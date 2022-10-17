@@ -34,7 +34,7 @@ public class Registrarse extends JFrame {
 
 	public Registrarse() {
 
-		/** 
+		/**
 		 * Create components
 		 */
 

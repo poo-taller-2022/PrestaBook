@@ -108,12 +108,12 @@ public class SistemaFuncionario extends JFrame {
 		});
 		panelOpciones.add(btnGestionarPrestamo);
 
-        JButton btnGestionarDevolucion = btnGestionarDevolucion();
-        btnGestionarDevolucion.addActionListener(e -> {
-            Devoluciones devoluciones = new Devoluciones();
-            devoluciones.setVisible(true);
-        });
-        panelOpciones.add(btnGestionarDevolucion);
+		JButton btnGestionarDevolucion = btnGestionarDevolucion();
+		btnGestionarDevolucion.addActionListener(e -> {
+			Devoluciones devoluciones = new Devoluciones();
+			devoluciones.setVisible(true);
+		});
+		panelOpciones.add(btnGestionarDevolucion);
 
 		JButton btnVerEjemplares = btnVerEjemplares();
 		btnVerEjemplares.addActionListener(e -> {
@@ -168,7 +168,7 @@ public class SistemaFuncionario extends JFrame {
 
 		JMenuItem menuItemAreaTematica = new JMenuItem(AREAS_TEMATICAS);
 		menuAdministrar.add(menuItemAreaTematica);
-		
+
 		JMenuItem menuItemColeccion = new JMenuItem(COLECCIONES);
 		menuAdministrar.add(menuItemColeccion);
 
@@ -376,44 +376,44 @@ public class SistemaFuncionario extends JFrame {
 
 			JScrollPane scrollPane = scrollPane();
 			panelObra.add(scrollPane);
-			
+
 			JTable tableObras = new JTable();
 
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-            tableObras.setModel(model);
+			DefaultTableModel model = new DefaultTableModel() {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			tableObras.setModel(model);
 			model.addColumn("");
-            model.addColumn("Isbn");
-            model.addColumn("Titulo");
-            model.addColumn("Subitulo");
-            model.addColumn("1° autor");
-            model.addColumn("2° autor");
-            model.addColumn("3° autor");
-            model.addColumn("Género");
-            model.addColumn(TIPO_OBRA);
-            model.addColumn(AREA_TEMATICA);
+			model.addColumn("Isbn");
+			model.addColumn("Titulo");
+			model.addColumn("Subitulo");
+			model.addColumn("1° autor");
+			model.addColumn("2° autor");
+			model.addColumn("3° autor");
+			model.addColumn("Género");
+			model.addColumn(TIPO_OBRA);
+			model.addColumn(AREA_TEMATICA);
 
-            llenarTabla(model, entidad);
-            scrollPane.setViewportView(tableObras);
+			llenarTabla(model, entidad);
+			scrollPane.setViewportView(tableObras);
 
-            JButton btnAgregarObra = btnAgregarObra();
-            panelObra.add(btnAgregarObra);
+			JButton btnAgregarObra = btnAgregarObra();
+			panelObra.add(btnAgregarObra);
 
-            JButton btnRefrescar = btnRefrescar();
-            panelObra.add(btnRefrescar);
+			JButton btnRefrescar = btnRefrescar();
+			panelObra.add(btnRefrescar);
 
-            btnAgregarObra.addActionListener(b -> {
+			btnAgregarObra.addActionListener(b -> {
 
 				AgregarObra agregarObra = new AgregarObra();
-				
+
 				agregarObra.setVisible(true);
 
 			});
-			
+
 			btnRefrescar.addActionListener(b -> {
 
 				limpiarTabla(tableObras);
@@ -470,7 +470,7 @@ public class SistemaFuncionario extends JFrame {
 
 			JButton btnAgregarEjemplar = btnAgregarEjemplar();
 			panelEjemplar.add(btnAgregarEjemplar);
-			
+
 			JButton btnRefrescar = btnRefrescar();
 			panelEjemplar.add(btnRefrescar);
 
@@ -482,7 +482,7 @@ public class SistemaFuncionario extends JFrame {
 				AgregarEjemplar agregarEjemplar = new AgregarEjemplar();
 				agregarEjemplar.setVisible(true);
 			});
-			
+
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaEjemplares);
 
@@ -538,7 +538,7 @@ public class SistemaFuncionario extends JFrame {
 
 			JButton btnAgregarEdicion = btnAgregarEdicion();
 			panelEdicion.add(btnAgregarEdicion);
-			
+
 			JButton btnRefrescar = btnRefrescar();
 			panelEdicion.add(btnRefrescar);
 
@@ -550,16 +550,15 @@ public class SistemaFuncionario extends JFrame {
 				AgregarEdicion agregarEdicion = new AgregarEdicion();
 				agregarEdicion.setVisible(true);
 			});
-			
+
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaEdiciones);
 
 				llenarTabla(model, entidad);
 			});
 
-
 		});
-		
+
 		/**
 		 * Crea el panel para administrar colecciones
 		 */
@@ -593,22 +592,22 @@ public class SistemaFuncionario extends JFrame {
 			};
 			tablaColecciones.setModel(model);
 			model.addColumn("");
-            model.addColumn("Isbn");
-            model.addColumn("Titulo");
-            model.addColumn("Subitulo");
-            model.addColumn("1° autor");
-            model.addColumn("2° autor");
-            model.addColumn("3° autor");
-            model.addColumn("Género");
-            model.addColumn(TIPO_OBRA);
-            model.addColumn(AREA_TEMATICA);
+			model.addColumn("Isbn");
+			model.addColumn("Titulo");
+			model.addColumn("Subitulo");
+			model.addColumn("1° autor");
+			model.addColumn("2° autor");
+			model.addColumn("3° autor");
+			model.addColumn("Género");
+			model.addColumn(TIPO_OBRA);
+			model.addColumn(AREA_TEMATICA);
 
 			llenarTabla(model, entidad);
 			scrollPane.setViewportView(tablaColecciones);
 
 			JButton btnAgregarEdicion = btnAgregarEdicion();
 			panelColeccion.add(btnAgregarEdicion);
-			
+
 			JButton btnRefrescar = btnRefrescar();
 			panelColeccion.add(btnRefrescar);
 
@@ -620,31 +619,30 @@ public class SistemaFuncionario extends JFrame {
 				AgregarColeccion agregarColeccion = new AgregarColeccion();
 				agregarColeccion.setVisible(true);
 			});
-			
+
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaColecciones);
 
 				llenarTabla(model, entidad);
 			});
 
-
 		});
 
-        btnCerrarSesion.addActionListener(e ->
+		btnCerrarSesion.addActionListener(e ->
 
-        {
-            IniciarSesion login = new IniciarSesion();
-            login.setVisible(true);
-            SistemaFuncionario.this.dispose();
-        });
+		{
+			IniciarSesion login = new IniciarSesion();
+			login.setVisible(true);
+			SistemaFuncionario.this.dispose();
+		});
 
-        /**
-         * Created method to close window
-         */
+		/**
+		 * Created method to close window
+		 */
 
-        btnExit.addActionListener(e -> System.exit(0));
+		btnExit.addActionListener(e -> System.exit(0));
 
-    }
+	}
 
 	/**
 	 * Create components
@@ -1101,7 +1099,6 @@ public class SistemaFuncionario extends JFrame {
 		return lblTituloEntidades;
 	}
 
-
 	/**
 	 * Llena la tabla con todas las filas cargadas en la base de datos
 	 */
@@ -1248,8 +1245,6 @@ public class SistemaFuncionario extends JFrame {
 		}
 
 	}
-
-	
 
 	public void limpiarTabla(JTable tabla) {
 		try {

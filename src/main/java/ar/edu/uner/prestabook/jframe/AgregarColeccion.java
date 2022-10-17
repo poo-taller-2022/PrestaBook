@@ -16,19 +16,13 @@ import javax.swing.border.MatteBorder;
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Coleccion;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 
-import ar.edu.uner.prestabook.model.Obra;
-import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
-import javax.swing.JCheckBox;
-import java.util.LinkedList;
-import java.util.List;
 
 public class AgregarColeccion extends JFrame {
 
@@ -115,20 +109,15 @@ public class AgregarColeccion extends JFrame {
 					|| fieldGenero.getText().isBlank());
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
-				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
 
 				Items itemTipoObra = (Items) comboBoxTipoObra.getSelectedItem();
-				modelo.setFielTipoObra(itemTipoObra.getValor());
-				modelo.setIdTipoObra(itemTipoObra.getId());
+
 				Items itemAreaTematica = (Items) comboBoxAreaTematica.getSelectedItem();
-				modelo.setFielAreaTematica(itemAreaTematica.getValor());
-				modelo.setIdAreaTematica(itemAreaTematica.getId());
-				modelo.setRefrescar(true);
-				
-				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(),
-						fieldSubtitulo.getText(), fieldPrimerAutor.getText(), fieldSegundoAutor.getText(),
-						fieldTercerAutor.getText(), fieldGenero.getText(), itemTipoObra.getValor(),
-						itemTipoObra.getId(), itemAreaTematica.getValor(), itemAreaTematica.getId());
+
+				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
+						fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
+						fieldGenero.getText(), itemTipoObra.getValor(), itemTipoObra.getId(),
+						itemAreaTematica.getValor(), itemAreaTematica.getId());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -143,12 +132,12 @@ public class AgregarColeccion extends JFrame {
 
 	}
 
-	private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo,
-			String primerAutor, String segundoAutor, String tercerAutor, String genero,
-			String tipoObra, Integer idTipoObra, String areaTematica, Integer idAreaTematica) {
+	private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
+			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
+			String areaTematica, Integer idAreaTematica) {
 		Coleccion coleccion = new Coleccion();
 		IColeccionDAO c = DaoFactory.getColeccionDAO();
-		
+
 		coleccion.setGenero(genero);
 		coleccion.setIsbn(isbn);
 		coleccion.setTitulo(titulo);
@@ -158,7 +147,7 @@ public class AgregarColeccion extends JFrame {
 		coleccion.setTercerAutor(tercerAutor);
 		coleccion.setTipo(new TipoObra(idTipoObra, tipoObra));
 		coleccion.setArea(new AreaTematica(idAreaTematica, areaTematica));
-		
+
 		c.insert(coleccion);
 	}
 
@@ -177,7 +166,7 @@ public class AgregarColeccion extends JFrame {
 		contentPane.setLayout(null);
 		return contentPane;
 	}
-	
+
 	public JButton btnAñadirEdicion() {
 		JButton btnAñadirEdicion = new JButton("Añadir edición");
 		btnAñadirEdicion.setBounds(166, 338, 127, 23);
@@ -314,7 +303,6 @@ public class AgregarColeccion extends JFrame {
 		lblAreaTematica.setBounds(437, 249, 89, 14);
 		return lblAreaTematica;
 	}
-
 
 	public JButton btnAgregar() {
 		JButton btnAgregar = new JButton("Agregar");
