@@ -112,12 +112,11 @@ public class AgregarEjemplar extends JFrame {
 			if(Boolean.TRUE.equals(camposCompletos)) {
 				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
 				
-				Items itemFormato = (Items) comboBoxObras.getSelectedItem();
+				Items itemObra = (Items) comboBoxObras.getSelectedItem();
 				
-				actualizarBaseDeDatos(modelo.getObraSeleccionada(),
-						fieldFormaAdquisicion.getText(), fieldFechaAdquisicion.getText(),
+				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), fieldFechaAdquisicion.getText(),
 						fieldObservaciones.getText(), fieldCodigo.getText(), fieldPasillo.getText(),
-						fieldEstanteria.getText(), fieldEstante.getText(), itemFormato.getId());
+						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getId());
 				
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -127,7 +126,7 @@ public class AgregarEjemplar extends JFrame {
 		});
 	}
 	
-	private void actualizarBaseDeDatos(Obra obraSeleccionada, String formaAdquisicion,
+	private void actualizarBaseDeDatos(String formaAdquisicion,
 			String fechaAdquisicion, String observaciones, String codigo, String pasillo,
 			String estanteria, String estante, Integer idObra) {
 		IObraDAO o = DaoFactory.getObraDAO();

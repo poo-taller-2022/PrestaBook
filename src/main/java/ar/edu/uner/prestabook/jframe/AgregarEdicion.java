@@ -16,6 +16,7 @@ import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.Edicion;
+import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
@@ -115,20 +116,19 @@ public class AgregarEdicion extends JFrame {
 					|| fieldIdioma.getText().isBlank());
 			
 			if (Boolean.TRUE.equals(camposCompletos)) {
-				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
 	
+				Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
 				List<Formato> formatos = new LinkedList<>();
 				Formato formato1 = new Formato();
-				formato1.setId(1);
-				formato1.setNombre("Dvd");
+				formato1.setId(itemFormato.getId());
+				formato1.setNombre(itemFormato.getValor());
 				formatos.add(formato1);
-				//Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
-				//modelo.setFielformato(itemFormato.getValor());
-				//modelo.setIdFormato(itemFormato.getId());
+				
+				Items itemObra = (Items) comboBoxObras.getSelectedItem();
 				
 				actualizarBaseDeDatos(fieldEditorial.getText(), fieldPais.getText(), fieldNumero.getText(),
 						fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(),
-						fieldIdioma.getText(), formatos, modelo.getObraSeleccionada());
+						fieldIdioma.getText(), formatos, itemObra.getId());
 				
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -140,8 +140,9 @@ public class AgregarEdicion extends JFrame {
 	}
 
 	private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio,
-			String volumenes, String paginas, String idioma, List<Formato> formatos,
-			Obra obraSeleccionada) {
+			String volumenes, String paginas, String idioma, List<Formato> formatos, Integer idObra) {
+		IObraDAO o = DaoFactory.getObraDAO();
+		Obra obra = o.findById((long) idObra);
 		Edicion edicion = new Edicion();
 		edicion.setId((long) 1);
 		edicion.setAnio(Integer.parseInt(anio));
@@ -156,6 +157,11 @@ public class AgregarEdicion extends JFrame {
 
 		IEdicionDAO e = DaoFactory.getEdicionDAO();
 		e.insert(edicion);
+		
+		List<Edicion> ediciones = new LinkedList<>();
+		ediciones.add(edicion);
+		obra.setEdicion(ediciones);
+		o.insert(obra);
 		
 	}
 

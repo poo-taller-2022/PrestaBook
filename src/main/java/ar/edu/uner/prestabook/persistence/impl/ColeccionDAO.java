@@ -36,16 +36,16 @@ public class ColeccionDAO implements IColeccionDAO {
     }
 
     @Override
-    public Coleccion findById(Object isbn) {
-        return HibernateConnection.getCurrentSession().get(Coleccion.class, (String) isbn);
+    public Coleccion findById(Object id) {
+        return HibernateConnection.getCurrentSession().get(Coleccion.class, (Long) id);
     }
 
     @Override
     public Integer insert(Coleccion coleccion) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(coleccion);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(coleccion);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override

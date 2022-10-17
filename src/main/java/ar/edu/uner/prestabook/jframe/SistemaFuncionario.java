@@ -25,12 +25,14 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.Coleccion;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.IColeccionDAO;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
@@ -54,6 +56,8 @@ public class SistemaFuncionario extends JFrame {
 	private static final String EJEMPLAR = "Ejemplar";
 	private static final String EDICIONES = "Ediciones";
 	private static final String EDICION = "Edicion";
+	private static final String COLECCION = "Coleccion";
+	private static final String COLECCIONES = "Colecciones";
 	private static final long serialVersionUID = 1L;
 	public static JLabel textUsuario;
 
@@ -164,6 +168,9 @@ public class SistemaFuncionario extends JFrame {
 
 		JMenuItem menuItemAreaTematica = new JMenuItem(AREAS_TEMATICAS);
 		menuAdministrar.add(menuItemAreaTematica);
+		
+		JMenuItem menuItemColeccion = new JMenuItem(COLECCIONES);
+		menuAdministrar.add(menuItemColeccion);
 
 		JMenuItem menuItemObra = new JMenuItem(OBRAS);
 		menuAdministrar.add(menuItemObra);
@@ -183,6 +190,7 @@ public class SistemaFuncionario extends JFrame {
 		JPanel panelObra = panelEntidades();
 		JPanel panelEjemplar = panelEntidades();
 		JPanel panelEdicion = panelEntidades();
+		JPanel panelColeccion = panelEntidades();
 
 		/**
 		 * Crea el panel para administrar tipos de obras
@@ -195,6 +203,7 @@ public class SistemaFuncionario extends JFrame {
 			panelObra.setVisible(false);
 			panelEjemplar.setVisible(false);
 			panelEdicion.setVisible(false);
+			panelColeccion.setVisible(false);
 			panelTipoObra.setVisible(true);
 
 			contentPane.add(panelTipoObra);
@@ -248,6 +257,7 @@ public class SistemaFuncionario extends JFrame {
 			panelObra.setVisible(false);
 			panelEjemplar.setVisible(false);
 			panelEdicion.setVisible(false);
+			panelColeccion.setVisible(false);
 			panelAreaTematica.setVisible(true);
 
 			String entidad = AREA_TEMATICA;
@@ -303,6 +313,7 @@ public class SistemaFuncionario extends JFrame {
 			panelObra.setVisible(false);
 			panelEjemplar.setVisible(false);
 			panelEdicion.setVisible(false);
+			panelColeccion.setVisible(false);
 			panelFormato.setVisible(true);
 			contentPane.add(panelFormato);
 			String entidad = FORMATO;
@@ -355,6 +366,7 @@ public class SistemaFuncionario extends JFrame {
 			panelTipoObra.setVisible(false);
 			panelEjemplar.setVisible(false);
 			panelEdicion.setVisible(false);
+			panelColeccion.setVisible(false);
 			panelObra.setVisible(true);
 
 			contentPane.add(panelObra);
@@ -391,9 +403,6 @@ public class SistemaFuncionario extends JFrame {
             JButton btnAgregarObra = btnAgregarObra();
             panelObra.add(btnAgregarObra);
 
-            JButton btnActualizarObra = btnActualizarObra();
-            panelObra.add(btnActualizarObra);
-
             JButton btnRefrescar = btnRefrescar();
             panelObra.add(btnRefrescar);
 
@@ -425,6 +434,7 @@ public class SistemaFuncionario extends JFrame {
 			panelTipoObra.setVisible(false);
 			panelObra.setVisible(false);
 			panelEdicion.setVisible(false);
+			panelColeccion.setVisible(false);
 			panelEjemplar.setVisible(true);
 
 			contentPane.add(panelEjemplar);
@@ -450,9 +460,6 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("Forma de adquisicion");
 			model.addColumn("Fecha de adquisicion");
 			model.addColumn("Observaciones");
-			model.addColumn("Fecha de baja");
-			model.addColumn("Motivo de baja");
-			model.addColumn("Ubicacion");
 			model.addColumn("Codigo");
 			model.addColumn("Pasillo");
 			model.addColumn("Estantería");
@@ -463,9 +470,6 @@ public class SistemaFuncionario extends JFrame {
 
 			JButton btnAgregarEjemplar = btnAgregarEjemplar();
 			panelEjemplar.add(btnAgregarEjemplar);
-
-			JButton btnActualizarEjemplar = btnActualizarEjemplar();
-			panelEjemplar.add(btnActualizarEjemplar);
 			
 			JButton btnRefrescar = btnRefrescar();
 			panelEjemplar.add(btnRefrescar);
@@ -498,6 +502,7 @@ public class SistemaFuncionario extends JFrame {
 			panelTipoObra.setVisible(false);
 			panelObra.setVisible(false);
 			panelEjemplar.setVisible(false);
+			panelColeccion.setVisible(false);
 			panelEdicion.setVisible(true);
 
 			contentPane.add(panelEdicion);
@@ -533,9 +538,6 @@ public class SistemaFuncionario extends JFrame {
 
 			JButton btnAgregarEdicion = btnAgregarEdicion();
 			panelEdicion.add(btnAgregarEdicion);
-
-			JButton btnActualizarEdicion = btnActualizarEdicion();
-			panelEdicion.add(btnActualizarEdicion);
 			
 			JButton btnRefrescar = btnRefrescar();
 			panelEdicion.add(btnRefrescar);
@@ -551,6 +553,76 @@ public class SistemaFuncionario extends JFrame {
 			
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaEdiciones);
+
+				llenarTabla(model, entidad);
+			});
+
+
+		});
+		
+		/**
+		 * Crea el panel para administrar colecciones
+		 */
+
+		menuItemColeccion.addActionListener(e -> {
+			panelBienvenida.setVisible(false);
+			panelAreaTematica.setVisible(false);
+			panelFormato.setVisible(false);
+			panelTipoObra.setVisible(false);
+			panelObra.setVisible(false);
+			panelEjemplar.setVisible(false);
+			panelEdicion.setVisible(false);
+			panelColeccion.setVisible(true);
+
+			contentPane.add(panelColeccion);
+			String entidad = COLECCION;
+
+			panelColeccion.add(lblTituloEntidades(COLECCIONES));
+
+			JScrollPane scrollPane = scrollPane();
+			panelColeccion.add(scrollPane);
+
+			JTable tablaColecciones = new JTable();
+			tablaColecciones.setSize(1000, 1600);
+
+			DefaultTableModel model = new DefaultTableModel() {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			tablaColecciones.setModel(model);
+			model.addColumn("");
+            model.addColumn("Isbn");
+            model.addColumn("Titulo");
+            model.addColumn("Subitulo");
+            model.addColumn("1° autor");
+            model.addColumn("2° autor");
+            model.addColumn("3° autor");
+            model.addColumn("Género");
+            model.addColumn(TIPO_OBRA);
+            model.addColumn(AREA_TEMATICA);
+
+			llenarTabla(model, entidad);
+			scrollPane.setViewportView(tablaColecciones);
+
+			JButton btnAgregarEdicion = btnAgregarEdicion();
+			panelColeccion.add(btnAgregarEdicion);
+			
+			JButton btnRefrescar = btnRefrescar();
+			panelColeccion.add(btnRefrescar);
+
+			/**
+			 * Botón con evento para agregar obra
+			 */
+
+			btnAgregarEdicion.addActionListener(b -> {
+				AgregarColeccion agregarColeccion = new AgregarColeccion();
+				agregarColeccion.setVisible(true);
+			});
+			
+			btnRefrescar.addActionListener(b -> {
+				limpiarTabla(tablaColecciones);
 
 				llenarTabla(model, entidad);
 			});
@@ -879,17 +951,6 @@ public class SistemaFuncionario extends JFrame {
 		return btnActualizarTipoObra;
 	}
 
-	private JButton btnActualizarEdicion() {
-		JButton btnActualizarEdicion = new JButton("Actualizar edición");
-		btnActualizarEdicion.setFocusPainted(false);
-		btnActualizarEdicion.setBackground(new Color(0, 64, 128));
-		btnActualizarEdicion.setForeground(new Color(255, 255, 255));
-		btnActualizarEdicion.setFont(new Font(FONT, Font.BOLD, 12));
-		btnActualizarEdicion.setBorderPainted(false);
-		btnActualizarEdicion.setBounds(600, 500, 210, 20);
-		return btnActualizarEdicion;
-	}
-
 	private JButton btnAgregarEdicion() {
 		JButton btnAgregarEdicion = new JButton("Agregar edición");
 		btnAgregarEdicion.setFocusPainted(false);
@@ -899,17 +960,6 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarEdicion.setBorderPainted(false);
 		btnAgregarEdicion.setBounds(210, 500, 210, 20);
 		return btnAgregarEdicion;
-	}
-
-	private JButton btnActualizarEjemplar() {
-		JButton btnActualizarEjemplar = new JButton("Actualizar ejemplar");
-		btnActualizarEjemplar.setFocusPainted(false);
-		btnActualizarEjemplar.setBackground(new Color(0, 64, 128));
-		btnActualizarEjemplar.setForeground(new Color(255, 255, 255));
-		btnActualizarEjemplar.setFont(new Font(FONT, Font.BOLD, 12));
-		btnActualizarEjemplar.setBorderPainted(false);
-		btnActualizarEjemplar.setBounds(600, 500, 210, 20);
-		return btnActualizarEjemplar;
 	}
 
 	private JButton btnAgregarEjemplar() {
@@ -976,17 +1026,6 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarFormato.setBorderPainted(false);
 		btnAgregarFormato.setBounds(50, 500, 210, 20);
 		return btnAgregarFormato;
-	}
-
-	private JButton btnActualizarObra() {
-		JButton btnActualizarFormato = new JButton("Actualizar obra");
-		btnActualizarFormato.setFocusPainted(false);
-		btnActualizarFormato.setBackground(new Color(0, 64, 128));
-		btnActualizarFormato.setForeground(new Color(255, 255, 255));
-		btnActualizarFormato.setFont(new Font(FONT, Font.BOLD, 12));
-		btnActualizarFormato.setBorderPainted(false);
-		btnActualizarFormato.setBounds(400, 500, 210, 20);
-		return btnActualizarFormato;
 	}
 
 	private JButton btnRefrescar() {
@@ -1100,6 +1139,24 @@ public class SistemaFuncionario extends JFrame {
 				model.addRow(new Vector<>(fila));
 			}
 			break;
+		case COLECCION:
+			IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
+			java.util.List<Coleccion> colecciones = coleccionDAO.findAll();
+			for (Coleccion coleccion : colecciones) {
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(coleccion.getIsbn());
+				fila.add(coleccion.getTitulo());
+				fila.add(coleccion.getSubtitulo());
+				fila.add(coleccion.getPrimerAutor());
+				fila.add(coleccion.getSegundoAutor());
+				fila.add(coleccion.getTercerAutor());
+				fila.add(coleccion.getGenero());
+				fila.add(coleccion.getTipo().getNombre());
+				fila.add(coleccion.getArea().getNombre());
+				model.addRow(new Vector<>(fila));
+			}
+			break;
 		case OBRA:
 			IObraDAO obraDAO = DaoFactory.getObraDAO();
 			java.util.List<Obra> obras = obraDAO.findAll();
@@ -1115,12 +1172,6 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(obra.getGenero());
 				fila.add(obra.getTipo().getNombre());
 				fila.add(obra.getArea().getNombre());
-				fila.add(null);
-				fila.add(null);
-				fila.add(null);
-				fila.add(null);
-				fila.add(obra.getTipo().getId());
-				fila.add(obra.getArea().getId());
 				model.addRow(new Vector<>(fila));
 			}
 			break;
@@ -1134,9 +1185,6 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(ejemplar.getFormaAdquisicion());
 				fila.add(ejemplar.getFechaAdquisicion());
 				fila.add(ejemplar.getObservaciones());
-				fila.add(ejemplar.getFechaBaja());
-				fila.add(ejemplar.getMotivoBaja());
-				fila.add(ejemplar.getUbicacion());
 				fila.add(ejemplar.getCodigoIdentificatorio().getCodigo());
 				fila.add(ejemplar.getCodigoIdentificatorio().getPasillo());
 				fila.add(ejemplar.getCodigoIdentificatorio().getEstanteria());
@@ -1147,8 +1195,8 @@ public class SistemaFuncionario extends JFrame {
 		case EDICION:
 			IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
 			java.util.List<Edicion> ediciones = edicionDAO.findAll();
-			String concatenarFormatos = "";
 			for (Edicion edicion : ediciones) {
+				String concatenarFormatos = "";
 				List<Object> fila = new LinkedList<>();
 				fila.add(++i);
 				fila.add(edicion.getEditorial());

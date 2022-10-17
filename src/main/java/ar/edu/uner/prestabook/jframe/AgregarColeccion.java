@@ -30,22 +30,22 @@ import javax.swing.JCheckBox;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AgregarObra extends JFrame {
+public class AgregarColeccion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the frame.
 	 */
-	public AgregarObra() {
+	public AgregarColeccion() {
 		ventana();
 		JPanel contentPane = contentPane();
 
-		JPanel panelAgregarObra = panelAgregarObra();
-		contentPane.add(panelAgregarObra);
+		JPanel panelAgregarColeccion = panelAgregarColeccion();
+		contentPane.add(panelAgregarColeccion);
 
-		JLabel lblAgregarObra = lblAgregarObra();
-		panelAgregarObra.add(lblAgregarObra);
+		JLabel lblAgregarColeccion = lblAgregarColeccion();
+		panelAgregarColeccion.add(lblAgregarColeccion);
 
 		JTextField fieldIsbn = fieldIsbn();
 		contentPane.add(fieldIsbn);
@@ -106,25 +106,6 @@ public class AgregarObra extends JFrame {
 
 		JComboBox<Object> comboBoxAreaTematica = comboBoxAreaTematica();
 		contentPane.add(comboBoxAreaTematica);
-		
-		JCheckBox checkBoxColeccion = checkBoxColeccion();
-		contentPane.add(checkBoxColeccion);
-		
-		JLabel lblIsbnDeColeccion = lblIsbnDeColeccion();
-		contentPane.add(lblIsbnDeColeccion);
-		
-		JComboBox<Object> comboBoxIsbnColeccion = comboBoxIsbnColeccion();
-		contentPane.add(comboBoxIsbnColeccion);
-
-		checkBoxColeccion.addActionListener(e -> {
-			if (checkBoxColeccion.isSelected()) {
-				lblIsbnDeColeccion.setEnabled(true);
-				comboBoxIsbnColeccion.setEnabled(true);
-			} else {
-				lblIsbnDeColeccion.setEnabled(false);
-				comboBoxIsbnColeccion.setEnabled(false);
-			}
-		});
 
 		btnAgregar.addActionListener(e -> {
 
@@ -137,18 +118,17 @@ public class AgregarObra extends JFrame {
 				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
 
 				Items itemTipoObra = (Items) comboBoxTipoObra.getSelectedItem();
-				
+				modelo.setFielTipoObra(itemTipoObra.getValor());
+				modelo.setIdTipoObra(itemTipoObra.getId());
 				Items itemAreaTematica = (Items) comboBoxAreaTematica.getSelectedItem();
-				
-				Items itemColeccion = (Items) comboBoxIsbnColeccion.getSelectedItem();
-
+				modelo.setFielAreaTematica(itemAreaTematica.getValor());
+				modelo.setIdAreaTematica(itemAreaTematica.getId());
 				modelo.setRefrescar(true);
 				
 				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(),
 						fieldSubtitulo.getText(), fieldPrimerAutor.getText(), fieldSegundoAutor.getText(),
 						fieldTercerAutor.getText(), fieldGenero.getText(), itemTipoObra.getValor(),
-						itemTipoObra.getId(), itemAreaTematica.getValor(), itemAreaTematica.getId(),
-						itemColeccion.getId());
+						itemTipoObra.getId(), itemAreaTematica.getValor(), itemAreaTematica.getId());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -165,36 +145,26 @@ public class AgregarObra extends JFrame {
 
 	private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo,
 			String primerAutor, String segundoAutor, String tercerAutor, String genero,
-			String tipoObra, Integer idTipoObra, String areaTematica, Integer idAreaTematica, Integer idColeccion) {
+			String tipoObra, Integer idTipoObra, String areaTematica, Integer idAreaTematica) {
+		Coleccion coleccion = new Coleccion();
 		IColeccionDAO c = DaoFactory.getColeccionDAO();
 		
-		Coleccion coleccion = c.findById((long) idColeccion);
+		coleccion.setGenero(genero);
+		coleccion.setIsbn(isbn);
+		coleccion.setTitulo(titulo);
+		coleccion.setSubtitulo(subtitulo);
+		coleccion.setPrimerAutor(primerAutor);
+		coleccion.setSegundoAutor(segundoAutor);
+		coleccion.setTercerAutor(tercerAutor);
+		coleccion.setTipo(new TipoObra(idTipoObra, tipoObra));
+		coleccion.setArea(new AreaTematica(idAreaTematica, areaTematica));
 		
-		Obra obra = new Obra();
-		obra.setIsbn(isbn);
-		obra.setTitulo(titulo);
-		obra.setSubtitulo(subtitulo);
-		obra.setPrimerAutor(primerAutor);
-		obra.setSegundoAutor(segundoAutor);
-		obra.setTercerAutor(tercerAutor);
-		obra.setGenero(genero);
-		obra.setTipo(new TipoObra(idTipoObra, tipoObra));
-		obra.setArea(new AreaTematica(idAreaTematica, areaTematica));
-		IObraDAO o = DaoFactory.getObraDAO();
-		o.insert(obra);
-		
-		obra.setId(obra.getId());
-		
-		List<Obra> obras = new LinkedList<>();
-		obras.add(obra);
-
-		coleccion.setObras(obras);
 		c.insert(coleccion);
 	}
 
 	public void ventana() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 655, 449);
+		setBounds(100, 100, 655, 390);
 		setUndecorated(true);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -208,46 +178,26 @@ public class AgregarObra extends JFrame {
 		return contentPane;
 	}
 	
-	public JCheckBox checkBoxColeccion() {
-		JCheckBox checkBoxColeccion = new JCheckBox("Pertenece a una colección");
-		checkBoxColeccion.setBounds(157, 346, 192, 23);
-		return checkBoxColeccion;
-	}
-	
-	public JComboBox<Object> comboBoxIsbnColeccion() {
-		JComboBox<Object> comboBoxIsbnColeccion = cargarComboBox("Coleccion");
-		comboBoxIsbnColeccion.setEnabled(false);
-		comboBoxIsbnColeccion.setBounds(374, 343, 166, 29);
-		return comboBoxIsbnColeccion;
-	}
-	
-	public JLabel lblIsbnDeColeccion() {
-		JLabel lblIsbnDeColeccion = new JLabel("Isbn de colección");
-		lblIsbnDeColeccion.setEnabled(false);
-		lblIsbnDeColeccion.setBounds(375, 323, 114, 14);
-		return lblIsbnDeColeccion;
-	}
-	
 	public JButton btnAñadirEdicion() {
 		JButton btnAñadirEdicion = new JButton("Añadir edición");
 		btnAñadirEdicion.setBounds(166, 338, 127, 23);
 		return btnAñadirEdicion;
 	}
 
-	public JPanel panelAgregarObra() {
-		JPanel panelAgregarObra = new JPanel();
-		panelAgregarObra.setBackground(new Color(0, 64, 128));
-		panelAgregarObra.setBounds(0, 0, 655, 98);
-		panelAgregarObra.setLayout(null);
-		return panelAgregarObra;
+	public JPanel panelAgregarColeccion() {
+		JPanel panelAgregarColeccion = new JPanel();
+		panelAgregarColeccion.setBackground(new Color(0, 64, 128));
+		panelAgregarColeccion.setBounds(0, 0, 655, 98);
+		panelAgregarColeccion.setLayout(null);
+		return panelAgregarColeccion;
 	}
 
-	public JLabel lblAgregarObra() {
-		JLabel lblAgregarObra = new JLabel("Agregar Obra");
-		lblAgregarObra.setForeground(new Color(255, 255, 255));
-		lblAgregarObra.setBounds(240, 31, 191, 39);
-		lblAgregarObra.setFont(new Font("Verdana", Font.BOLD, 20));
-		return lblAgregarObra;
+	public JLabel lblAgregarColeccion() {
+		JLabel lblAgregarColeccion = new JLabel("Agregar coleccion");
+		lblAgregarColeccion.setForeground(new Color(255, 255, 255));
+		lblAgregarColeccion.setBounds(227, 31, 241, 39);
+		lblAgregarColeccion.setFont(new Font("Verdana", Font.BOLD, 20));
+		return lblAgregarColeccion;
 	}
 
 	public JTextField fieldIsbn() {
@@ -258,7 +208,7 @@ public class AgregarObra extends JFrame {
 	}
 
 	public JLabel lblIsbn() {
-		JLabel lblIsbn = new JLabel("Isbn de obra");
+		JLabel lblIsbn = new JLabel("Isbn de coleccion");
 		lblIsbn.setBounds(37, 120, 105, 14);
 		return lblIsbn;
 	}
@@ -271,8 +221,8 @@ public class AgregarObra extends JFrame {
 	}
 
 	public JLabel lblTitulo() {
-		JLabel lblTitulo = new JLabel("Título");
-		lblTitulo.setBounds(237, 120, 46, 14);
+		JLabel lblTitulo = new JLabel("Título de coleccion");
+		lblTitulo.setBounds(237, 120, 112, 14);
 		return lblTitulo;
 	}
 
@@ -368,13 +318,13 @@ public class AgregarObra extends JFrame {
 
 	public JButton btnAgregar() {
 		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(194, 404, 89, 23);
+		btnAgregar.setBounds(196, 332, 89, 23);
 		return btnAgregar;
 	}
 
 	public JButton btnCancelar() {
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(353, 404, 89, 23);
+		btnCancelar.setBounds(344, 332, 89, 23);
 		return btnCancelar;
 	}
 
@@ -400,13 +350,6 @@ public class AgregarObra extends JFrame {
 			java.util.List<Formato> formatos = formatoDAO.findAll();
 			for (Formato formato : formatos) {
 				comboBox.addItem(new Items(formato.getId(), formato.getNombre()));
-			}
-			return comboBox;
-		case "Coleccion":
-			IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
-			java.util.List<Coleccion> colecciones = coleccionDAO.findAll();
-			for (Coleccion coleccion : colecciones) {
-				comboBox.addItem(new Items(coleccion.getId().intValue(), coleccion.getTitulo()));
 			}
 			return comboBox;
 		default:
