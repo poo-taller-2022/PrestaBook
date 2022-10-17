@@ -1178,7 +1178,7 @@ public class SistemaFuncionario extends JFrame {
 			for (Ejemplar ejemplar : ejemplares) {
 				List<Object> fila = new LinkedList<>();
 				fila.add(++i);
-				fila.add(ejemplar.getIsbn());
+				fila.add(ejemplar.getId());
 				fila.add(ejemplar.getFormaAdquisicion());
 				fila.add(ejemplar.getFechaAdquisicion());
 				fila.add(ejemplar.getObservaciones());

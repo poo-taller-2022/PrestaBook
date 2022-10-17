@@ -18,7 +18,7 @@ public class Multa {
 
     @Id
     @TableGenerator(name = "pb_sequence")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
+       @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
     private Integer plazo;

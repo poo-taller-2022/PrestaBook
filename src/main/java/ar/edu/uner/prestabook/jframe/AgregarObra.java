@@ -143,7 +143,7 @@ public class AgregarObra extends JFrame {
 				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
 						fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
 						fieldGenero.getText(), itemTipoObra.getValor(), itemTipoObra.getId(),
-						itemAreaTematica.getValor(), itemAreaTematica.getId(), itemColeccion.getId());
+						itemAreaTematica.getValor(), itemAreaTematica.getId(), itemColeccion.getId().toString());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -160,10 +160,10 @@ public class AgregarObra extends JFrame {
 
 	private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
 			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
-			String areaTematica, Integer idAreaTematica, Integer idColeccion) {
+			String areaTematica, Integer idAreaTematica, String idColeccion) {
 		IColeccionDAO c = DaoFactory.getColeccionDAO();
 
-		Coleccion coleccion = c.findById((long) idColeccion);
+		Coleccion coleccion = c.findById(idColeccion);
 
 		Obra obra = new Obra();
 		obra.setIsbn(isbn);
@@ -178,7 +178,7 @@ public class AgregarObra extends JFrame {
 		IObraDAO o = DaoFactory.getObraDAO();
 		o.insert(obra);
 
-		obra.setId(obra.getId());
+		//obra.setId(obra.getId());
 
 		List<Obra> obras = new LinkedList<>();
 		obras.add(obra);
@@ -400,7 +400,7 @@ public class AgregarObra extends JFrame {
 			IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
 			java.util.List<Coleccion> colecciones = coleccionDAO.findAll();
 			for (Coleccion coleccion : colecciones) {
-				comboBox.addItem(new Items(coleccion.getId().intValue(), coleccion.getTitulo()));
+				comboBox.addItem(new Items(Integer.valueOf(coleccion.getIsbn()), coleccion.getTitulo()));
 			}
 			return comboBox;
 		default:

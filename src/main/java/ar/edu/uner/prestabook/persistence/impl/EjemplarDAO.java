@@ -31,7 +31,7 @@ public class EjemplarDAO implements IEjemplarDAO {
 
     @Override
     public List<Ejemplar> findAll() {
-        String hql = String.format("from Ejemplar e where type(e) = %s", Ejemplar.class.getName());
+        String hql = String.format("from Ejemplar", Ejemplar.class.getName());
         return HibernateConnection.getCurrentSession().createQuery(hql, Ejemplar.class).list();
     }
 

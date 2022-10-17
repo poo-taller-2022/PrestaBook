@@ -31,7 +31,7 @@ public class ObraDAO implements IObraDAO {
 
     @Override
     public List<Obra> findAll() {
-        String hql = String.format("from Obra o where type(o) = %s", Obra.class.getName());
+        String hql = String.format("from Obra", Obra.class.getName());
         return HibernateConnection.getCurrentSession().createQuery(hql, Obra.class).list();
     }
 
@@ -44,9 +44,9 @@ public class ObraDAO implements IObraDAO {
     @Override
     public Integer insert(Obra obra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Long id = (Long) HibernateConnection.getCurrentSession().save(obra);
+        String id = (String) HibernateConnection.getCurrentSession().save(obra);
         tx.commit();
-        return id.intValue();
+        return Integer.valueOf(id);
     }
 
     @Override

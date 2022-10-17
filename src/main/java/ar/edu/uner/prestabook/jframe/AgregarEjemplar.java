@@ -97,7 +97,7 @@ public class AgregarEjemplar extends JFrame {
 		JLabel lblObra = lblObra();
 		contentPane.add(lblObra);
 
-		JComboBox<Object> comboBoxObras = comboBoxObras();
+		JComboBox<Obra> comboBoxObras = comboBoxObras();
 		contentPane.add(comboBoxObras);
 
 		btnCancelar.addActionListener(e -> {
@@ -132,7 +132,7 @@ public class AgregarEjemplar extends JFrame {
 		Obra obra = o.findById((long) idObra);
 
 		Ejemplar ejemplar = new Ejemplar();
-		ejemplar.setIsbn(obra.getIsbn());
+		ejemplar.setIsbnObra(obra.getIsbn());
 		ejemplar.setTitulo(obra.getTitulo());
 		ejemplar.setSubtitulo(obra.getSubtitulo());
 		ejemplar.setPrimerAutor(obra.getPrimerAutor());
@@ -147,16 +147,13 @@ public class AgregarEjemplar extends JFrame {
 		ejemplar.setObservaciones(observaciones);
 
 		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
-		codigoIden.setId((long) 1);
-		codigoIden.setCodigo(Integer.parseInt(codigo));
+		codigoIden.setCodigo(Long.valueOf(codigo));
 		codigoIden.setEstante(Integer.parseInt(estante));
 		codigoIden.setEstanteria(Integer.parseInt(estanteria));
 		codigoIden.setPasillo(Integer.parseInt(pasillo));
 
 		ICodigoIdentificatorioDAO co = DaoFactory.getCodigoIdentificatorioDAO();
 		co.insert(codigoIden);
-		codigoIden.setId(codigoIden.getId());
-
 		ejemplar.setCodigoIdentificatorio(codigoIden);
 
 		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
@@ -312,19 +309,19 @@ public class AgregarEjemplar extends JFrame {
 		return lblObra;
 	}
 
-	public JComboBox<Object> comboBoxObras() {
-		JComboBox<Object> comboBoxObras = cargarComboBoxObra();
+	public JComboBox<Obra> comboBoxObras() {
+		JComboBox<Obra> comboBoxObras = cargarComboBoxObra();
 		comboBoxObras.setBounds(41, 163, 166, 29);
 		return comboBoxObras;
 	}
 
-	public JComboBox<Object> cargarComboBoxObra() {
-		JComboBox<Object> comboBox = new JComboBox<>();
+	public JComboBox<Obra> cargarComboBoxObra() {
+		JComboBox<Obra> comboBox = new JComboBox<>();
 
 		IObraDAO obraDAO = DaoFactory.getObraDAO();
 		java.util.List<Obra> obras = obraDAO.findAll();
 		for (Obra obra : obras) {
-			comboBox.addItem(new Items(obra.getId().intValue(), obra.getIsbn()));
+			comboBox.addItem(obra);
 		}
 		return comboBox;
 	}

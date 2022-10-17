@@ -182,7 +182,7 @@ public class Ejemplares extends JFrame {
 			if (Boolean.TRUE.equals(camposCompletos)) {
 				Ejemplar ejemplar = (Ejemplar) comboBoxEjemplar.getSelectedItem();
 				CodigoIdentificatorio codigo = new CodigoIdentificatorio();
-				codigo.setId(ejemplar.getId());
+				codigo.setCodigo(ejemplar.getId());
 				codigo.setPasillo(Integer.valueOf(textPasillo.getText()));
 				codigo.setEstante(Integer.valueOf(textEstante.getText()));
 				codigo.setEstanteria(Integer.valueOf(textEstanteria.getText()));

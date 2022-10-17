@@ -15,6 +15,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
@@ -98,7 +99,7 @@ public class AgregarEdicion extends JFrame {
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
 
-		JComboBox<Object> comboBoxObras = comboBoxObras();
+		JComboBox<Obra> comboBoxObras = comboBoxObras();
 		contentPane.add(comboBoxObras);
 
 		JLabel lblObra = lblObra();
@@ -328,19 +329,20 @@ public class AgregarEdicion extends JFrame {
 		return comboBox;
 	}
 
-	public JComboBox<Object> comboBoxObras() {
-		JComboBox<Object> comboBoxObras = cargarComboBoxObra();
+	public JComboBox<Obra> comboBoxObras() {
+		JComboBox<Obra> comboBoxObras = cargarComboBoxObra();
 		comboBoxObras.setBounds(130, 148, 166, 29);
+		comboBoxObras.setRenderer(new ObraRenderer());
 		return comboBoxObras;
 	}
 
-	public JComboBox<Object> cargarComboBoxObra() {
-		JComboBox<Object> comboBox = new JComboBox<>();
+	public JComboBox<Obra> cargarComboBoxObra() {
+		JComboBox<Obra> comboBox = new JComboBox<>();
 
 		IObraDAO obraDAO = DaoFactory.getObraDAO();
 		java.util.List<Obra> obras = obraDAO.findAll();
 		for (Obra obra : obras) {
-			comboBox.addItem(new Items(obra.getId().intValue(), obra.getIsbn()));
+			comboBox.addItem(obra);
 		}
 		return comboBox;
 	}

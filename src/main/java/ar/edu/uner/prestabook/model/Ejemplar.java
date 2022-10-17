@@ -4,10 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,10 +18,12 @@ import lombok.ToString;
 @Entity
 @Table(name = "ejemplares")
 @ToString(callSuper = true)
-@TableGenerator(name = "pb_sequence")
-public class Ejemplar extends Obra {
+public class Ejemplar extends ObraAbstract {
 
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, unique = true)
+    private Long id;
     @OneToOne
     @JoinColumn(name = "codigo_identificatorio")
     private CodigoIdentificatorio codigoIdentificatorio;
@@ -34,7 +36,9 @@ public class Ejemplar extends Obra {
     private String fechaBaja;
     @Column(name = "motivo_baja")
     private String motivoBaja;
-    private String ubicacion;
-
+    @Column(name = "isbn_obra")
+    private String isbnObra;
+//    @ManyToOne
+//    private Obra obra;
 
 }
