@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 import lombok.Data;
 
@@ -17,8 +16,7 @@ import lombok.Data;
 public class Prestamo {
 
     @Id
-    @TableGenerator(name = "pb_sequence")
-       @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
     @Column(name = "fecha_y_hora_prestamo")

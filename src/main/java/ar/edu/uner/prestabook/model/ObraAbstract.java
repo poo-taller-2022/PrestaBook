@@ -1,11 +1,8 @@
 package ar.edu.uner.prestabook.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +27,5 @@ public abstract class ObraAbstract {
     private TipoObra tipo;
     @ManyToOne
     private AreaTematica area;
-    @OneToMany
-    private List<Edicion> edicion;
+
 }

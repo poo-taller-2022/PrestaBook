@@ -2,9 +2,12 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,8 +25,6 @@ import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
-
-import javax.swing.JButton;
 
 public class AgregarEdicion extends JFrame {
 
@@ -118,7 +119,7 @@ public class AgregarEdicion extends JFrame {
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
 				Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
-				List<Formato> formatos = new LinkedList<>();
+				Set<Formato> formatos = new HashSet<>();
 				Formato formato1 = new Formato();
 				formato1.setId(itemFormato.getId());
 				formato1.setNombre(itemFormato.getValor());
@@ -140,7 +141,7 @@ public class AgregarEdicion extends JFrame {
 	}
 
 	private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio, String volumenes,
-			String paginas, String idioma, List<Formato> formatos, Integer idObra) {
+			String paginas, String idioma, Set<Formato> formatos, Integer idObra) {
 		IObraDAO o = DaoFactory.getObraDAO();
 		Obra obra = o.findById((long) idObra);
 		Edicion edicion = new Edicion();
@@ -151,7 +152,7 @@ public class AgregarEdicion extends JFrame {
 		edicion.setNumero(Integer.parseInt(numero));
 		edicion.setPaginas(Integer.parseInt(paginas));
 		edicion.setPais(pais);
-		edicion.setVolumenes(Long.parseLong(volumenes));
+		edicion.setVolumenes(Integer.parseInt(volumenes));
 
 		edicion.setFormatos(formatos);
 

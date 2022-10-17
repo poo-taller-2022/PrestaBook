@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.Icon;
@@ -1203,7 +1204,7 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(edicion.getVolumenes());
 				fila.add(edicion.getPaginas());
 				fila.add(edicion.getIdioma());
-				List<Formato> formatos1 = edicion.getFormatos();
+				Set<Formato> formatos1 = edicion.getFormatos();
 				for (Formato formato : formatos1) {
 					concatenarFormatos += formato.getNombre() + ", ";
 				}
