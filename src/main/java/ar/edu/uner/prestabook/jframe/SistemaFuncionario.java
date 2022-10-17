@@ -397,7 +397,7 @@ public class SistemaFuncionario extends JFrame {
             JButton btnRefrescar = btnRefrescar();
             panelObra.add(btnRefrescar);
 
-            btnRefrescar.addActionListener(b -> {
+            btnAgregarObra.addActionListener(b -> {
 
 				AgregarObra agregarObra = new AgregarObra();
 				

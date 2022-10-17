@@ -43,9 +43,9 @@ public class EdicionDAO implements IEdicionDAO {
     @Override
     public Integer insert(Edicion edicion) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(edicion);
+        Long id = (Long) HibernateConnection.getCurrentSession().save(edicion);
         tx.commit();
-        return id;
+        return id.intValue();
     }
 
     @Override

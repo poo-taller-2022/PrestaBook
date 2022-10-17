@@ -22,8 +22,6 @@ import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 
 import ar.edu.uner.prestabook.model.Obra;
-import ar.edu.uner.prestabook.model.TipoObra;
-import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
@@ -92,35 +90,11 @@ public class AgregarObra extends JFrame {
 		JLabel lblAreaTematica = lblAreaTematica();
 		contentPane.add(lblAreaTematica);
 
-		JLabel lblFormato = lblFormato();
-		contentPane.add(lblFormato);
-
-		JTextField fieldFormaAdquisicion = fieldFormaAdquisicion();
-		contentPane.add(fieldFormaAdquisicion);
-
-		JTextField fieldFechaAdquisicion = fieldFechaAdquisicion();
-		contentPane.add(fieldFechaAdquisicion);
-
-		JLabel lblFormaAdquisicion = lblFormaAdquisicion();
-		contentPane.add(lblFormaAdquisicion);
-
-		JLabel lblFechaAdquisicion = lblFechaAdquisicion();
-		contentPane.add(lblFechaAdquisicion);
-
-		JTextField fieldObservaciones = fieldObservaciones();
-		contentPane.add(fieldObservaciones);
-
-		JLabel lblObservaciones = lblObservaciones();
-		contentPane.add(lblObservaciones);
-
 		JButton btnAgregar = btnAgregar();
 		contentPane.add(btnAgregar);
 
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
-
-		JComboBox<Object> comboBoxFormato = comboBoxFormato();
-		contentPane.add(comboBoxFormato);
 
 		JComboBox<Object> comboBoxTipoObra = comboBoxTipoObra();
 		contentPane.add(comboBoxTipoObra);
@@ -133,8 +107,7 @@ public class AgregarObra extends JFrame {
 			Boolean camposCompletos = !(fieldIsbn.getText().isBlank() || fieldTitulo.getText().isBlank()
 					|| fieldSubtitulo.getText().isBlank() || fieldPrimerAutor.getText().isBlank()
 					|| fieldSegundoAutor.getText().isBlank() || fieldTercerAutor.getText().isBlank()
-					|| fieldGenero.getText().isBlank() || fieldFormaAdquisicion.getText().isBlank()
-					|| fieldFechaAdquisicion.getText().isBlank() || fieldObservaciones.getText().isBlank());
+					|| fieldGenero.getText().isBlank());
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
@@ -145,7 +118,6 @@ public class AgregarObra extends JFrame {
 				Items itemAreaTematica = (Items) comboBoxAreaTematica.getSelectedItem();
 				modelo.setFielAreaTematica(itemAreaTematica.getValor());
 				modelo.setIdAreaTematica(itemAreaTematica.getId());
-				Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
 				modelo.setRefrescar(true);
 				
 				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(),
@@ -185,7 +157,7 @@ public class AgregarObra extends JFrame {
 
 	public void ventana() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 655, 540);
+		setBounds(100, 100, 655, 431);
 		setUndecorated(true);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -330,72 +302,22 @@ public class AgregarObra extends JFrame {
 		return comboBoxAreaTematica;
 	}
 
-	public JComboBox<Object> comboBoxFormato() {
-		JComboBox<Object> comboBoxFormato = cargarComboBox("Formato");
-		comboBoxFormato.setBounds(37, 333, 166, 29);
-		return comboBoxFormato;
-	}
-
 	public JLabel lblAreaTematica() {
 		JLabel lblAreaTematica = new JLabel("Área temática");
 		lblAreaTematica.setBounds(437, 249, 89, 14);
 		return lblAreaTematica;
 	}
 
-	public JLabel lblFormato() {
-		JLabel lblFormato = new JLabel("Formato");
-		lblFormato.setBounds(37, 316, 83, 14);
-		return lblFormato;
-	}
-
-	public JTextField fieldFormaAdquisicion() {
-		JTextField fieldFormaAdquisicion = new JTextField();
-		fieldFormaAdquisicion.setColumns(10);
-		fieldFormaAdquisicion.setBounds(235, 333, 166, 29);
-		return fieldFormaAdquisicion;
-	}
-
-	public JTextField fieldFechaAdquisicion() {
-		JTextField fieldFechaAdquisicion = new JTextField();
-		fieldFechaAdquisicion.setColumns(10);
-		fieldFechaAdquisicion.setBounds(437, 333, 166, 29);
-		return fieldFechaAdquisicion;
-	}
-
-	public JLabel lblFormaAdquisicion() {
-		JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
-		lblFormaAdquisicion.setBounds(235, 316, 127, 14);
-		return lblFormaAdquisicion;
-	}
-
-	public JLabel lblFechaAdquisicion() {
-		JLabel lblFechaAdquisicion = new JLabel("Fecha de adquisición");
-		lblFechaAdquisicion.setBounds(437, 316, 133, 14);
-		return lblFechaAdquisicion;
-	}
-
-	public JTextField fieldObservaciones() {
-		JTextField fieldObservaciones = new JTextField();
-		fieldObservaciones.setColumns(10);
-		fieldObservaciones.setBounds(235, 397, 166, 29);
-		return fieldObservaciones;
-	}
-
-	public JLabel lblObservaciones() {
-		JLabel lblObservaciones = new JLabel("Observaciones");
-		lblObservaciones.setBounds(235, 384, 133, 14);
-		return lblObservaciones;
-	}
 
 	public JButton btnAgregar() {
 		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(194, 490, 89, 23);
+		btnAgregar.setBounds(189, 357, 89, 23);
 		return btnAgregar;
 	}
 
 	public JButton btnCancelar() {
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(358, 490, 89, 23);
+		btnCancelar.setBounds(353, 357, 89, 23);
 		return btnCancelar;
 	}
 

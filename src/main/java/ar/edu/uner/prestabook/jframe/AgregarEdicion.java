@@ -2,7 +2,6 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.geom.Area;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.Edicion;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
@@ -153,14 +151,6 @@ public class AgregarEdicion extends JFrame {
 		edicion.setPaginas(Integer.parseInt(paginas));
 		edicion.setPais(pais);
 		edicion.setVolumenes(Long.parseLong(volumenes));
-
-		IFormatoDAO f = DaoFactory.getFormatoDAO();
-		for (Formato formato : formatos) {
-			Formato formato1 = new Formato();
-			formato1.setId(formato.getId());
-			formato1.setNombre(formato.getNombre());
-			f.insert(formato1);
-		}
 
 		edicion.setFormatos(formatos);
 
