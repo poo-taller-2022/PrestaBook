@@ -25,5 +25,6 @@ public class Obra extends ObraAbstract {
     private String isbn;
     @OneToMany(mappedBy = "isbnObra")
     private List<Ejemplar> ejemplares;
+    private String isbnColeccion;
 
 }

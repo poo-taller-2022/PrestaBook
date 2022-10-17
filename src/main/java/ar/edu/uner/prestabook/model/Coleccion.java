@@ -21,7 +21,7 @@ public class Coleccion extends ObraAbstract {
     @Id
     @Column(nullable = false, unique = true)
     private String isbn;
-    @OneToMany
-	private List<Obra> obras;
+    @OneToMany(mappedBy = "isbnColeccion")
+    private List<Obra> obras;
 
 }
