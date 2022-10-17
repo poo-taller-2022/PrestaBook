@@ -1194,7 +1194,7 @@ public class SistemaFuncionario extends JFrame {
 			IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
 			java.util.List<Edicion> ediciones = edicionDAO.findAll();
 			for (Edicion edicion : ediciones) {
-				String concatenarFormatos = "";
+			    StringBuilder concatenarFormatos = new StringBuilder();
 				List<Object> fila = new LinkedList<>();
 				fila.add(++i);
 				fila.add(edicion.getEditorial());
@@ -1206,9 +1206,9 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(edicion.getIdioma());
 				Set<Formato> formatos1 = edicion.getFormatos();
 				for (Formato formato : formatos1) {
-					concatenarFormatos += formato.getNombre() + ", ";
+					 concatenarFormatos.append(formato.getNombre() + ", ");
 				}
-				fila.add(concatenarFormatos);
+				fila.add(concatenarFormatos.toString());
 				fila.add(edicion.getFormatos());
 				model.addRow(new Vector<>(fila));
 			}

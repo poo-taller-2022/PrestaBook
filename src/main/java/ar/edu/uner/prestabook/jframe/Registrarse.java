@@ -615,7 +615,7 @@ public class Registrarse extends JFrame {
 		lector.setNombre(textNombre.getText());
 		lector.setApellido(textApellido.getText());
 		lector.setTipoDocumento(textTipoDeDocumento.getText());
-		lector.setDocumento(Integer.valueOf(textNumeroDeDocumento.getText()));
+		lector.setDocumento(Long.valueOf(textNumeroDeDocumento.getText()));
 		lector.setEmail(textEmail.getText());
 		lector.setCelular(textNumeroDeTelefono.getText());
 		lector.setFechaNacimiento(textFechaDeNacimiento.getText());

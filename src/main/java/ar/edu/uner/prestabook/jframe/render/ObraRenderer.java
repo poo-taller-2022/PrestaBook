@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import ar.edu.uner.prestabook.model.Obra;
+import ar.edu.uner.prestabook.model.ObraAbstract;
 
 public class ObraRenderer extends BasicComboBoxRenderer {
 
@@ -14,7 +14,7 @@ public class ObraRenderer extends BasicComboBoxRenderer {
             int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected,
                 cellHasFocus);
-        Obra item = (Obra) value;
+        ObraAbstract item = (ObraAbstract) value;
         if (item != null)
             setText(item.getTitulo());
         return this;

@@ -40,19 +40,20 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
     }
 
     @Override
-    public Integer insert(AreaTematica areaTematica) {
+    public AreaTematica insert(AreaTematica areaTematica) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         Integer id = (Integer) HibernateConnection.getCurrentSession().save(areaTematica);
         tx.commit();
-        return id;
+        areaTematica.setId(id);
+        return areaTematica;
     }
 
     @Override
-    public Integer update(AreaTematica areaTematica) {
+    public AreaTematica update(AreaTematica areaTematica) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(areaTematica);
         tx.commit();
-        return 0;
+        return areaTematica;
     }
 
     @Override

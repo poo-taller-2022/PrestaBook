@@ -42,19 +42,20 @@ public class LectorDAO implements ILectorDAO {
     }
 
     @Override
-    public Integer insert(Lector lector) {
+    public Lector insert(Lector lector) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(lector);
+        Long documento = (Long) HibernateConnection.getCurrentSession().save(lector);
         tx.commit();
-        return id;
+        lector.setDocumento(documento);
+        return lector;
     }
 
     @Override
-    public Integer update(Lector lector) {
+    public Lector update(Lector lector) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(lector);
         tx.commit();
-        return 0;
+        return lector;
     }
 
     @Override

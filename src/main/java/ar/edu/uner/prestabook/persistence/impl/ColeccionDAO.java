@@ -41,19 +41,20 @@ public class ColeccionDAO implements IColeccionDAO {
     }
 
     @Override
-    public Integer insert(Coleccion coleccion) {
+    public Coleccion insert(Coleccion coleccion) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        String id = (String) HibernateConnection.getCurrentSession().save(coleccion);
+        String isbn = (String) HibernateConnection.getCurrentSession().save(coleccion);
         tx.commit();
-        return Integer.valueOf(id);
+        coleccion.setIsbn(isbn);
+        return coleccion;
     }
 
     @Override
-    public Integer update(Coleccion coleccion) {
+    public Coleccion update(Coleccion coleccion) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(coleccion);
         tx.commit();
-        return 0;
+        return coleccion;
     }
 
     @Override

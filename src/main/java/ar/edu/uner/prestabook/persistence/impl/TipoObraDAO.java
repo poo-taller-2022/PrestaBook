@@ -43,19 +43,20 @@ public class TipoObraDAO implements ITipoObraDAO {
     }
 
     @Override
-    public Integer insert(TipoObra tipoObra) {
+    public TipoObra insert(TipoObra tipoObra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         Integer id = (Integer) HibernateConnection.getCurrentSession().save(tipoObra);
         tx.commit();
-        return id;
+        tipoObra.setId(id);
+        return tipoObra;
     }
 
     @Override
-    public Integer update(TipoObra tipoObra) {
+    public TipoObra update(TipoObra tipoObra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(tipoObra);
         tx.commit();
-        return 0;
+        return tipoObra;
     }
 
     @Override

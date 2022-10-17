@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,6 +16,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
 import ar.edu.uner.prestabook.model.Ejemplar;
@@ -22,9 +25,6 @@ import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 
 public class AgregarEjemplar extends JFrame {
 
@@ -112,11 +112,11 @@ public class AgregarEjemplar extends JFrame {
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
-				Items itemObra = (Items) comboBoxObras.getSelectedItem();
+				Obra itemObra = (Obra) comboBoxObras.getSelectedItem();
 
 				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), fieldFechaAdquisicion.getText(),
 						fieldObservaciones.getText(), fieldCodigo.getText(), fieldPasillo.getText(),
-						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getId());
+						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getIsbn());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -127,9 +127,9 @@ public class AgregarEjemplar extends JFrame {
 	}
 
 	private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
-			String codigo, String pasillo, String estanteria, String estante, Integer idObra) {
+			String codigo, String pasillo, String estanteria, String estante, String isbnObra) {
 		IObraDAO o = DaoFactory.getObraDAO();
-		Obra obra = o.findById((long) idObra);
+		Obra obra = o.findById(isbnObra);
 
 		Ejemplar ejemplar = new Ejemplar();
 		ejemplar.setIsbnObra(obra.getIsbn());
@@ -311,6 +311,7 @@ public class AgregarEjemplar extends JFrame {
 
 	public JComboBox<Obra> comboBoxObras() {
 		JComboBox<Obra> comboBoxObras = cargarComboBoxObra();
+		comboBoxObras.setRenderer(new ObraRenderer());
 		comboBoxObras.setBounds(41, 163, 166, 29);
 		return comboBoxObras;
 	}

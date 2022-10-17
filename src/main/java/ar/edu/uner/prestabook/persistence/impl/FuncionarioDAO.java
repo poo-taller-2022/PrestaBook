@@ -42,19 +42,20 @@ public class FuncionarioDAO implements IFuncionarioDAO {
     }
 
     @Override
-    public Integer insert(Funcionario funcionario) {
+    public Funcionario insert(Funcionario funcionario) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(funcionario);
+        Long documento = (Long) HibernateConnection.getCurrentSession().save(funcionario);
         tx.commit();
-        return id;
+        funcionario.setDocumento(documento);
+        return funcionario;
     }
 
     @Override
-    public Integer update(Funcionario funcionario) {
+    public Funcionario update(Funcionario funcionario) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(funcionario);
         tx.commit();
-        return 0;
+        return funcionario;
     }
 
     @Override

@@ -31,30 +31,30 @@ public class ObraDAO implements IObraDAO {
 
     @Override
     public List<Obra> findAll() {
-        String hql = String.format("from Obra", Obra.class.getName());
-        return HibernateConnection.getCurrentSession().createQuery(hql, Obra.class).list();
+        return HibernateConnection.getCurrentSession().createQuery("from Obra", Obra.class).list();
     }
 
     @Override
     public Obra findById(Object id) {
-        return HibernateConnection.getCurrentSession().get(Obra.class, (Long) id);
+        return HibernateConnection.getCurrentSession().get(Obra.class, (String) id);
 
     }
 
     @Override
-    public Integer insert(Obra obra) {
+    public Obra insert(Obra obra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        String id = (String) HibernateConnection.getCurrentSession().save(obra);
+        String isbn = (String) HibernateConnection.getCurrentSession().save(obra);
         tx.commit();
-        return Integer.valueOf(id);
+        obra.setIsbn(isbn);
+        return obra;
     }
 
     @Override
-    public Integer update(Obra obra) {
+    public Obra update(Obra obra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(obra);
         tx.commit();
-        return 0;
+        return obra;
     }
 
     @Override
