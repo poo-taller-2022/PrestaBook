@@ -13,11 +13,19 @@ public class ModeloDeTransferencia {
 	String fieldGenero;
 	String fielTipoObra;
 	String fielAreaTematica;
+	Integer idTipoObra;
+	Integer idAreaTematica;
+	String fieldeditorial;
+	String fieldpais;
+	String fieldnumero;
+	String fieldanio;
+	String fieldvolumenes;
+	String fieldpaginas;
+	String fieldidioma;
+	String fielformato;
+	Integer idFormato;
 	String fieldFormaAdquisicion;
 	String fieldFechaAdquisicion;
 	String fieldObservaciones;
-	Integer idTipoObra;
-	Integer idAreaTematica;
-	Integer idFormato;
 	Boolean refrescar;
 }

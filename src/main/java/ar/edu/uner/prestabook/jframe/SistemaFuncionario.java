@@ -25,10 +25,15 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
+import ar.edu.uner.prestabook.model.Edicion;
+import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.IEdicionDAO;
+import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
@@ -364,70 +369,77 @@ public class SistemaFuncionario extends JFrame {
             llenarTabla(model, entidad);
             scrollPane.setViewportView(tableObras);
 
-            JButton btnAgregarObra = btnAgregarObra();
-            panelObra.add(btnAgregarObra);
+			tableObras.getColumnModel().getColumn(14).setMaxWidth(0);
+			tableObras.getColumnModel().getColumn(14).setMinWidth(0);
+			tableObras.getColumnModel().getColumn(14).setPreferredWidth(0);
 
-            JButton btnActualizarObra = btnActualizarObra();
-            panelObra.add(btnActualizarObra);
+			llenarTabla(model, entidad);
+			scrollPane.setViewportView(tableObras);
 
-            JButton btnRefrescar = btnRefrescar();
-            panelObra.add(btnRefrescar);
+			JButton btnAgregarObra = btnAgregarObra();
+			panelObra.add(btnAgregarObra);
 
-            btnRefrescar.addActionListener(b -> {
+			JButton btnActualizarObra = btnActualizarObra();
+			panelObra.add(btnActualizarObra);
 
-                ModeloDeTransferencia modelo = General.modeloDeTransferencia;
-                Boolean refrescar = modelo.getRefrescar();
+			JButton btnRefrescar = btnRefrescar();
+			panelObra.add(btnRefrescar);
 
-                if (refrescar == null || !refrescar) {
-                    JOptionPane.showInternalMessageDialog(null, "Nada para refrescar");
-                } else {
+			btnRefrescar.addActionListener(b -> {
 
-                    actualizarObraEnBaseDeDatos(modelo.getFieldIsbn(), modelo.getFieldTitulo(),
-                            modelo.getFieldSubtitulo(), modelo.getFieldPrimerAutor(), modelo.getFieldSegundoAutor(),
-                            modelo.getFieldTercerAutor(), modelo.getFieldGenero(), modelo.getFielTipoObra(),
-                            modelo.getIdTipoObra(), modelo.getFielAreaTematica(), modelo.getIdAreaTematica(),
-                            modelo.getIdFormato(), modelo.getFieldFormaAdquisicion(), modelo.getFieldFechaAdquisicion(),
-                            modelo.getFieldObservaciones(), model);
+				ModeloDeTransferencia modelo = General.modeloDeTransferencia;
+				Boolean refrescar = modelo.getRefrescar();
 
-                    limpiarTabla(tableObras);
+				if (refrescar == null || !refrescar) {
+					JOptionPane.showInternalMessageDialog(null, "Nada para refrescar");
+				} else {
 
-                    llenarTabla(model, entidad);
+					actualizarObraEnBaseDeDatos(modelo.getFieldIsbn(), modelo.getFieldTitulo(),
+							modelo.getFieldSubtitulo(), modelo.getFieldPrimerAutor(), modelo.getFieldSegundoAutor(),
+							modelo.getFieldTercerAutor(), modelo.getFieldGenero(), modelo.getFielTipoObra(),
+							modelo.getIdTipoObra(), modelo.getFielAreaTematica(), modelo.getIdAreaTematica(),
+							modelo.getFieldeditorial(), modelo.getFieldpais(), modelo.getFieldnumero(),
+							modelo.getFieldanio(), modelo.getFieldvolumenes(), modelo.getFieldpaginas(),
+							modelo.getFieldidioma(), modelo.getFielformato(), modelo.getIdFormato(), modelo.getFieldFormaAdquisicion(),
+							modelo.getFieldFechaAdquisicion(), modelo.getFieldObservaciones(), model);
 
-                    modelo.setRefrescar(false);
-                }
+					limpiarTabla(tableObras);
 
-            });
+					llenarTabla(model, entidad);
 
-            /**
-             * Botón con evento para agregar obra
-             */
+					modelo.setRefrescar(false);
+				}
 
-            btnAgregarObra.addActionListener(b -> {
-                AgregarObra agregarObra = new AgregarObra();
-                agregarObra.setVisible(true);
-            });
+			});
 
-        });
+			/**
+			 * Botón con evento para agregar obra
+			 */
 
-        /**
-         * Method created to log out and return to the "IniciarSesion" window
-         */
+			btnAgregarObra.addActionListener(b -> {
+				AgregarObra agregarObra = new AgregarObra();
+				agregarObra.setVisible(true);
+			});
 
-        btnCerrarSesion.addActionListener(e ->
+		});
 
-        {
-            IniciarSesion login = new IniciarSesion();
-            login.setVisible(true);
-            SistemaFuncionario.this.dispose();
-        });
+		/**
+		 * Method created to log out and return to the "IniciarSesion" window
+		 */
 
-        /**
-         * Created method to close window
-         */
+		btnCerrarSesion.addActionListener(e -> {
+			IniciarSesion login = new IniciarSesion();
+			login.setVisible(true);
+			SistemaFuncionario.this.dispose();
+		});
 
-        btnExit.addActionListener(e -> System.exit(0));
+		/**
+		 * Created method to close window
+		 */
 
-    }
+		btnExit.addActionListener(e -> System.exit(0));
+
+	}
 
     /**
      * Create components
@@ -873,72 +885,86 @@ public class SistemaFuncionario extends JFrame {
         return lblTituloEntidades;
     }
 
-    /**
-     * Llena la tabla con todas las filas cargadas en la base de datos
-     */
+	/**
+	 * Llena la tabla con todas las filas cargadas en la base de datos
+	 */
 
-    public void llenarTabla(DefaultTableModel model, String tipoEntidad) {
-        Integer i = 0;
-        switch (tipoEntidad) {
-            case TIPO_OBRA:
-                ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-                List<TipoObra> tiposObra = tipoObraDAO.findAll();
-                for (TipoObra tipo : tiposObra) {
-                    List<Object> fila = new LinkedList<>();
-                    fila.add(++i);
-                    fila.add(tipo.getNombre());
-                    model.addRow(new Vector<>(fila));
-                }
-                break;
-            case AREA_TEMATICA:
-                IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-                List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
-                for (AreaTematica area : areasTematicas) {
-                    List<Object> fila = new LinkedList<>();
-                    fila.add(++i);
-                    fila.add(area.getNombre());
-                    model.addRow(new Vector<>(fila));
-                }
-                break;
-            case FORMATO:
-                IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-                List<Formato> formatos = formatoDAO.findAll();
-                for (Formato formato : formatos) {
-                    List<Object> fila = new LinkedList<>();
-                    fila.add(++i);
-                    fila.add(formato.getNombre());
-                    model.addRow(new Vector<>(fila));
-                }
-                break;
-            case "Obra":
-                IObraDAO obraDAO = DaoFactory.getObraDAO();
-                List<Obra> obras = obraDAO.findAll();
-                for (Obra obra : obras) {
-                    List<Object> fila = new LinkedList<>();
-                    fila.add(obra.getIsbn());
-                    fila.add(obra.getTitulo());
-                    fila.add(obra.getSubtitulo());
-                    fila.add(obra.getPrimerAutor());
-                    fila.add(obra.getSegundoAutor());
-                    fila.add(obra.getTercerAutor());
-                    fila.add(obra.getGenero());
-                    fila.add(obra.getTipo().getNombre());
-                    fila.add(obra.getArea().getNombre());
-                    fila.add(null);
-                    model.addRow(new Vector<>(fila));
-                }
-                break;
-            default:
-        }
+	public void llenarTabla(DefaultTableModel model, String tipoEntidad) {
+		Integer i = 0;
+		switch (tipoEntidad) {
+		case "Tipo obra":
+			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
+			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
+			for (TipoObra tipo : tiposObra) {
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(tipo.getNombre());
+				model.addRow(new Vector<>(fila));
+			}
+			break;
+		case "Area tematica":
+			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
+			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
+			for (AreaTematica area : areasTematicas) {
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(area.getNombre());
+				model.addRow(new Vector<>(fila));
+			}
+			break;
+		case "Formato":
+			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
+			java.util.List<Formato> formatos = formatoDAO.findAll();
+			for (Formato formato : formatos) {
+				List<Object> fila = new LinkedList<>();
+				fila.add(++i);
+				fila.add(formato.getNombre());
+				model.addRow(new Vector<>(fila));
+			}
+			break;
+		case "Obra":
+			IObraDAO obraDAO = DaoFactory.getObraDAO();
+			java.util.List<Obra> obras = obraDAO.findAll();
+			for (Obra obra : obras) {
+				List<Object> fila = new LinkedList<>();
+				fila.add(obra.getIsbn());
+				fila.add(obra.getTitulo());
+				fila.add(obra.getSubtitulo());
+				fila.add(obra.getPrimerAutor());
+				fila.add(obra.getSegundoAutor());
+				fila.add(obra.getTercerAutor());
+				fila.add(obra.getGenero());
+				fila.add(obra.getTipo().getNombre());
+				fila.add(obra.getArea().getNombre());
+				List<Edicion> ediciones = obra.getEdicion();
+				String concatenarFormatos = "";
+				for (Edicion edicion : ediciones) {
+					List<Formato> formatos1 = edicion.getFormatos();
+					for (Formato formato : formatos1) {
+						concatenarFormatos += formato.getNombre() + ", ";
+					}
+				}
+				fila.add(concatenarFormatos);
+				fila.add(null);
+				fila.add(null);
+				fila.add(null);
+				fila.add(null);
+				fila.add(obra.getTipo().getId());
+				fila.add(obra.getArea().getId());
+				model.addRow(new Vector<>(fila));
+			}
+			break;
+		default:
+		}
 
-    }
+	}
 
-    /**
+	/**
      * Actualiza en la base de datos la fila agregada en la tabla
      * 
      */
 
-    private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
+	private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
 
         switch (tipoEntidad) {
             case TIPO_OBRA:
@@ -963,28 +989,91 @@ public class SistemaFuncionario extends JFrame {
         }
 
     }
+	
 
-    private void actualizarObraEnBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
-            String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
-            String areaTematica, Integer idAreaTematica, Integer idFormato, String formaAdquisicion,
-            String fechaAdquisicion, String observaciones, DefaultTableModel model) {
+	private void actualizarObraEnBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
+			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
+			String areaTematica, Integer idAreaTematica, String editorial, String pais, String numero, String anio,
+			String volumenes, String paginas, String idioma, String formato,Integer idFormato, String formaAdquisicion,
+			String fechaAdquisicion, String observaciones, DefaultTableModel model) {
 
-        Obra obra = new Obra();
-        obra.setIsbn(isbn);
-        obra.setTitulo(titulo);
-        obra.setSubtitulo(subtitulo);
-        obra.setPrimerAutor(primerAutor);
-        obra.setSegundoAutor(segundoAutor);
-        obra.setTercerAutor(tercerAutor);
-        obra.setGenero(genero);
-        obra.setTipo(new TipoObra(idTipoObra, tipoObra));
-        obra.setArea(new AreaTematica(idAreaTematica, areaTematica));
+		
+		Obra obra = new Obra();
+		obra.setIsbn(isbn);
+		obra.setTitulo(titulo);
+		obra.setSubtitulo(subtitulo);
+		obra.setPrimerAutor(primerAutor);
+		obra.setSegundoAutor(segundoAutor);
+		obra.setTercerAutor(tercerAutor);
+		obra.setGenero(genero);
+		obra.setTipo(new TipoObra(idTipoObra, tipoObra));
+		obra.setArea(new AreaTematica(idAreaTematica, areaTematica));
+		
+		List<Edicion> ediciones = new LinkedList<>();
+		Edicion edicion1 = new Edicion();
+		edicion1.setId((long) 1);
+		edicion1.setAnio(Integer.parseInt(anio));
+		edicion1.setEditorial(editorial);
+		edicion1.setIdioma(idioma);
+		edicion1.setNumero(Integer.parseInt(numero));
+		edicion1.setPaginas(Integer.parseInt(paginas));
+		edicion1.setPais(pais);
+		edicion1.setVolumenes(Long.parseLong(volumenes));
+		
+		IEdicionDAO e = DaoFactory.getEdicionDAO();
+		e.insert(edicion1);
+		
+		edicion1.setId(edicion1.getId());
+		
+		List<Formato> formatos = new LinkedList<>();
+		Formato formato1 = new Formato();
+		formato1.setId(idFormato);
+		formato1.setNombre(formato);
+		formatos.add(formato1);
+		edicion1.setFormatos(formatos);
+		
+		ediciones.add(edicion1);
+		System.out.println(ediciones);
+		obra.setEdicion(ediciones);
+		
+		List<Ejemplar> ejemplares = new LinkedList<>();
+		Ejemplar ejemplar1 = new Ejemplar();
+		ejemplar1.setIsbn(isbn);
+		ejemplar1.setTitulo(titulo);
+		ejemplar1.setSubtitulo(subtitulo);
+		ejemplar1.setPrimerAutor(primerAutor);
+		ejemplar1.setSegundoAutor(segundoAutor);
+		ejemplar1.setTercerAutor(tercerAutor);
+		ejemplar1.setGenero(genero);
+		ejemplar1.setTipo(new TipoObra(idTipoObra, tipoObra));
+		ejemplar1.setArea(new AreaTematica(idAreaTematica, areaTematica));
+		ejemplar1.setId((long) 1);
+		ejemplar1.setFormaAdquisicion(formaAdquisicion);
+		ejemplar1.setFechaAdquisicion(fechaAdquisicion);
+		ejemplar1.setObservaciones(observaciones);
+		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
+		codigoIden.setId((long) 1);
+		codigoIden.setEstante(2);
+		codigoIden.setEstanteria(4);
+		codigoIden.setPasillo(7);
+		ejemplar1.setCodigoIdentificatorio(codigoIden);
+		ejemplares.add(ejemplar1);
+		
+		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
+		ej.insert(ejemplar1);
+		
+		ejemplar1.setId(ejemplar1.getId());
+		
+		obra.setEjemplares(ejemplares);
+		
+		
+		IObraDAO o = DaoFactory.getObraDAO();
+		o.insert(obra);
+		
+		
+	}
 
-        IObraDAO o = DaoFactory.getObraDAO();
-        o.insert(obra);
-    }
-
-    public void limpiarTabla(JTable tabla) {
+	public void limpiarTabla(JTable tabla) {
         try {
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             int filas = tabla.getRowCount();
@@ -995,5 +1084,4 @@ public class SistemaFuncionario extends JFrame {
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
-
 }
