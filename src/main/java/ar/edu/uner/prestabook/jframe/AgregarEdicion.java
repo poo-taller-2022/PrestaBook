@@ -8,12 +8,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
@@ -28,319 +31,325 @@ import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 
 public class AgregarEdicion extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the frame.
-	 */
-	public AgregarEdicion() {
-		ventana();
-		JPanel contentPane = contentPane();
+    /**
+     * Create the frame.
+     */
+    public AgregarEdicion() {
+        ventana();
+        JPanel contentPane = contentPane();
 
-		JPanel panelAgregarEdicion = panelAgregarEdicion();
-		contentPane.add(panelAgregarEdicion);
+        JPanel panelAgregarEdicion = panelAgregarEdicion();
+        contentPane.add(panelAgregarEdicion);
 
-		JLabel lblAgregarEdicion = lblAgregarEdicion();
-		panelAgregarEdicion.add(lblAgregarEdicion);
+        JTextField fieldPais = fieldPais();
+        contentPane.add(fieldPais);
+        
+        JLabel lblPais = lblPais();
+        contentPane.add(lblPais);
 
-		JTextField fieldEditorial = fieldEditorial();
-		contentPane.add(fieldEditorial);
+        JLabel lblAgregarEdicion = lblAgregarEdicion();
+        panelAgregarEdicion.add(lblAgregarEdicion);
 
-		JLabel lblEditorial = lblEditorial();
-		contentPane.add(lblEditorial);
+        JTextField fieldEditorial = fieldEditorial();
+        contentPane.add(fieldEditorial);
 
-		JTextField fieldPais = fieldPais();
-		contentPane.add(fieldPais);
+        JLabel lblEditorial = lblEditorial();
+        contentPane.add(lblEditorial);
 
-		JLabel lblPais = lblPais();
-		contentPane.add(lblPais);
+        JTextField fieldVolumenes = fieldVolumenes();
+        contentPane.add(fieldVolumenes);
+        
+        JLabel lblVolumenes = lblVolumenes();
+        contentPane.add(lblVolumenes);
 
-		JTextField fieldNumero = fieldNumero();
-		contentPane.add(fieldNumero);
+        JTextField fieldAnio = fieldAnio();
+        contentPane.add(fieldAnio);
 
-		JLabel lblNumero = lblNumero();
-		contentPane.add(lblNumero);
+        JLabel lblAnio = lblAnio();
+        contentPane.add(lblAnio);
 
-		JTextField fieldAnio = fieldAnio();
-		contentPane.add(fieldAnio);
+        JTextField fieldPaginas = fieldPaginas();
+        contentPane.add(fieldPaginas);
 
-		JLabel lblAnio = lblAnio();
-		contentPane.add(lblAnio);
+        JLabel lblPaginas = lblPaginas();
+        contentPane.add(lblPaginas);
 
-		JTextField fieldVolumenes = fieldVolumenes();
-		contentPane.add(fieldVolumenes);
+        JTextField fieldNumero = fieldNumero();
+        contentPane.add(fieldNumero);
+        
+        JLabel lblNumero = lblNumero();
+        contentPane.add(lblNumero);
+        
+        JTextField fieldIdioma = fieldIdioma();
+        contentPane.add(fieldIdioma);
 
-		JLabel lblVolumenes = lblVolumenes();
-		contentPane.add(lblVolumenes);
+        JLabel lblIdioma = lblIdioma();
+        contentPane.add(lblIdioma);
 
-		JTextField fieldPaginas = fieldPaginas();
-		contentPane.add(fieldPaginas);
+        JLabel lblFormato = lblFormato();
+        contentPane.add(lblFormato);
 
-		JLabel lblPaginas = lblPaginas();
-		contentPane.add(lblPaginas);
+        JScrollPane scrollPaneFormatos = jListFormatos();
+        contentPane.add(scrollPaneFormatos);
 
-		JTextField fieldIdioma = fieldIdioma();
-		contentPane.add(fieldIdioma);
+        JButton btnAgregar = btnAgregar();
+        contentPane.add(btnAgregar);
 
-		JLabel lblIdioma = lblIdioma();
-		contentPane.add(lblIdioma);
+        JButton btnCancelar = btnCancelar();
+        contentPane.add(btnCancelar);
 
-		JLabel lblFormato = lblFormato();
-		contentPane.add(lblFormato);
+        JComboBox<Obra> comboBoxObras = comboBoxObras();
+        contentPane.add(comboBoxObras);
 
-		JComboBox<Formato> comboBoxFormato = comboBoxFormatos();
-		contentPane.add(comboBoxFormato);
+        JLabel lblObra = lblObra();
+        contentPane.add(lblObra);
 
-		JButton btnAgregar = btnAgregar();
-		contentPane.add(btnAgregar);
+        btnCancelar.addActionListener(e -> this.setVisible(false));
 
-		JButton btnCancelar = btnCancelar();
-		contentPane.add(btnCancelar);
+        btnAgregar.addActionListener(e -> {
+            Boolean camposCompletos = !(fieldEditorial.getText().isBlank() || fieldPais.getText().isBlank()
+                    || fieldNumero.getText().isBlank() || fieldAnio.getText().isBlank()
+                    || fieldVolumenes.getText().isBlank() || fieldPaginas.getText().isBlank()
+                    || fieldIdioma.getText().isBlank());
 
-		JComboBox<Obra> comboBoxObras = comboBoxObras();
-		contentPane.add(comboBoxObras);
+            if (Boolean.TRUE.equals(camposCompletos)) {
 
-		JLabel lblObra = lblObra();
-		contentPane.add(lblObra);
+                @SuppressWarnings("unchecked")
+                JList<Formato> jListFormatos = (JList<Formato>) scrollPaneFormatos.getViewport().getView();
+                Set<Formato> formatos = new HashSet<>(jListFormatos.getSelectedValuesList());
 
-		btnCancelar.addActionListener(e -> {
-			this.setVisible(false);
-		});
+                Obra obra = (Obra) comboBoxObras.getSelectedItem();
 
-		btnAgregar.addActionListener(e -> {
-			Boolean camposCompletos = !(fieldEditorial.getText().isBlank() || fieldPais.getText().isBlank()
-					|| fieldNumero.getText().isBlank() || fieldAnio.getText().isBlank()
-					|| fieldVolumenes.getText().isBlank() || fieldPaginas.getText().isBlank()
-					|| fieldIdioma.getText().isBlank());
+                actualizarBaseDeDatos(fieldEditorial.getText(), fieldPais.getText(), fieldNumero.getText(),
+                        fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(), fieldIdioma.getText(),
+                        formatos, obra.getIsbn());
 
-			if (Boolean.TRUE.equals(camposCompletos)) {
+                JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+                this.setVisible(false);
 
-				Formato formato = (Formato) comboBoxFormato.getSelectedItem();
-				Set<Formato> formatos = new HashSet<>();
-				Formato formato1 = new Formato();
-				formato1.setId(formato.getId());
-				formato1.setNombre(formato.getNombre());
-				formatos.add(formato1);
+            } else {
+                JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
+            }
+        });
+    }
 
-				Obra obra = (Obra) comboBoxObras.getSelectedItem();
+    private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio, String volumenes,
+            String paginas, String idioma, Set<Formato> formatos, String isbnObra) {
+        Edicion edicion = new Edicion();
+        edicion.setAnio(Integer.parseInt(anio));
+        edicion.setEditorial(editorial);
+        edicion.setIdioma(idioma);
+        edicion.setNumero(Integer.parseInt(numero));
+        edicion.setPaginas(Integer.parseInt(paginas));
+        edicion.setPais(pais);
+        edicion.setVolumenes(Integer.parseInt(volumenes));
+        edicion.setFormatos(formatos);
+        edicion.setIsbnObra(isbnObra);
 
-				actualizarBaseDeDatos(fieldEditorial.getText(), fieldPais.getText(), fieldNumero.getText(),
-						fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(), fieldIdioma.getText(),
-						formatos, obra.getIsbn());
+        IEdicionDAO e = DaoFactory.getEdicionDAO();
+        e.insert(edicion);
+    }
 
-				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
-				this.setVisible(false);
+    private JPanel contentPane() {
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        return contentPane;
+    }
 
-			} else {
-				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
-			}
-		});
-	}
+    public JLabel lblObra() {
+        JLabel lblObra = new JLabel("Obra");
+        lblObra.setBounds(37, 139, 46, 14);
+        return lblObra;
+    }
 
-	private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio, String volumenes,
-			String paginas, String idioma, Set<Formato> formatos, String isbnObra) {
-		Edicion edicion = new Edicion();
-		edicion.setAnio(Integer.parseInt(anio));
-		edicion.setEditorial(editorial);
-		edicion.setIdioma(idioma);
-		edicion.setNumero(Integer.parseInt(numero));
-		edicion.setPaginas(Integer.parseInt(paginas));
-		edicion.setPais(pais);
-		edicion.setVolumenes(Integer.parseInt(volumenes));
-		edicion.setFormatos(formatos);
-		edicion.setIsbnObra(isbnObra);
+    public JButton btnAgregar() {
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(94, 454, 89, 23);
+        return btnAgregar;
+    }
 
-		IEdicionDAO e = DaoFactory.getEdicionDAO();
-		e.insert(edicion);
-	}
+    public JButton btnCancelar() {
+        JButton btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBounds(260, 454, 89, 23);
+        return btnCancelar;
+    }
 
-	private JPanel contentPane() {
-		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 64, 128)));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		return contentPane;
-	}
+    private void ventana() {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(100, 100, 439, 508);
+        setUndecorated(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+    }
 
-	public JLabel lblObra() {
-		JLabel lblObra = new JLabel("Obra");
-		lblObra.setBounds(130, 133, 46, 14);
-		return lblObra;
-	}
+    public JPanel panelAgregarEdicion() {
+        JPanel panelAgregarEdicion = new JPanel();
+        panelAgregarEdicion.setBackground(new Color(0, 64, 128));
+        panelAgregarEdicion.setBounds(0, 0, 439, 98);
+        panelAgregarEdicion.setLayout(null);
+        return panelAgregarEdicion;
+    }
 
-	public JButton btnAgregar() {
-		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(94, 454, 89, 23);
-		return btnAgregar;
-	}
+    public JLabel lblAgregarEdicion() {
+        JLabel lblAgregarEdicion = new JLabel("Agregar edición");
+        lblAgregarEdicion.setForeground(new Color(255, 255, 255));
+        lblAgregarEdicion.setBounds(136, 25, 191, 39);
+        lblAgregarEdicion.setFont(new Font("Verdana", Font.BOLD, 20));
+        return lblAgregarEdicion;
+    }
 
-	public JButton btnCancelar() {
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(260, 454, 89, 23);
-		return btnCancelar;
-	}
+    public JTextField fieldEditorial() {
+        JTextField fieldEditorial = new JTextField();
+        fieldEditorial.setBounds(37, 219, 166, 29);
+        fieldEditorial.setColumns(10);
+        return fieldEditorial;
+    }
 
-	private void ventana() {
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 439, 508);
-		setUndecorated(true);
-		setResizable(false);
-		setLocationRelativeTo(null);
-	}
+    public JLabel lblEditorial() {
+        JLabel lblEditorial = new JLabel("Editorial");
+        lblEditorial.setBounds(38, 205, 46, 14);
+        return lblEditorial;
+    }
 
-	public JPanel panelAgregarEdicion() {
-		JPanel panelAgregarEdicion = new JPanel();
-		panelAgregarEdicion.setBackground(new Color(0, 64, 128));
-		panelAgregarEdicion.setBounds(0, 0, 439, 98);
-		panelAgregarEdicion.setLayout(null);
-		return panelAgregarEdicion;
-	}
+    public JTextField fieldPais() {
+        JTextField fieldPais = new JTextField();
+        fieldPais.setColumns(10);
+        fieldPais.setBounds(237, 154, 166, 29);
+        return fieldPais;
+    }
 
-	public JLabel lblAgregarEdicion() {
-		JLabel lblAgregarEdicion = new JLabel("Agregar edición");
-		lblAgregarEdicion.setForeground(new Color(255, 255, 255));
-		lblAgregarEdicion.setBounds(136, 25, 191, 39);
-		lblAgregarEdicion.setFont(new Font("Verdana", Font.BOLD, 20));
-		return lblAgregarEdicion;
-	}
+    public JLabel lblPais() {
+        JLabel lblPais = new JLabel("Pais");
+        lblPais.setBounds(237, 139, 46, 14);
+        return lblPais;
+    }
 
-	public JTextField fieldEditorial() {
-		JTextField fieldEditorial = new JTextField();
-		fieldEditorial.setBounds(37, 219, 166, 29);
-		fieldEditorial.setColumns(10);
-		return fieldEditorial;
-	}
+    public JTextField fieldNumero() {
+        JTextField fieldNumero = new JTextField();
+        fieldNumero.setColumns(10);
+        fieldNumero.setBounds(37, 332, 166, 29);
+        fieldNumero.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldNumero.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldNumero;
+    }
 
-	public JLabel lblEditorial() {
-		JLabel lblEditorial = new JLabel("Editorial");
-		lblEditorial.setBounds(38, 205, 46, 14);
-		return lblEditorial;
-	}
+    public JLabel lblNumero() {
+        JLabel lblNumero = new JLabel("Numero");
+        lblNumero.setBounds(37, 314, 73, 14);
+        return lblNumero;
+    }
 
-	public JTextField fieldPais() {
-		JTextField fieldPais = new JTextField();
-		fieldPais.setColumns(10);
-		fieldPais.setBounds(237, 219, 166, 29);
-		return fieldPais;
-	}
+    public JTextField fieldAnio() {
+        JTextField fieldAnio = new JTextField();
+        fieldAnio.setColumns(10);
+        fieldAnio.setBounds(37, 274, 166, 29);
+        fieldAnio.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldAnio.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldAnio;
+    }
 
-	public JLabel lblPais() {
-		JLabel lblPais = new JLabel("Pais");
-		lblPais.setBounds(237, 205, 46, 14);
-		return lblPais;
-	}
+    public JLabel lblAnio() {
+        JLabel lblAnio = new JLabel("Año");
+        lblAnio.setBounds(39, 256, 83, 14);
+        return lblAnio;
+    }
 
-	public JTextField fieldNumero() {
-		JTextField fieldNumero = new JTextField();
-		fieldNumero.setColumns(10);
-		fieldNumero.setBounds(37, 332, 166, 29);
-		fieldNumero.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldNumero.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldNumero;
-	}
+    public JTextField fieldVolumenes() {
+        JTextField fieldVolumenes = new JTextField();
+        fieldVolumenes.setColumns(10);
+        fieldVolumenes.setBounds(237, 219, 166, 29);
+        fieldVolumenes.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldVolumenes.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldVolumenes;
+    }
 
-	public JLabel lblNumero() {
-		JLabel lblNumero = new JLabel("Numero");
-		lblNumero.setBounds(37, 314, 73, 14);
-		return lblNumero;
-	}
+    public JLabel lblVolumenes() {
+        JLabel lblVolumenes = new JLabel("Volúmenes");
+        lblVolumenes.setBounds(237, 205, 112, 14);
+        return lblVolumenes;
+    }
 
-	public JTextField fieldAnio() {
-		JTextField fieldAnio = new JTextField();
-		fieldAnio.setColumns(10);
-		fieldAnio.setBounds(37, 274, 166, 29);
-		fieldAnio.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldAnio.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldAnio;
-	}
+    public JTextField fieldPaginas() {
+        JTextField fieldPaginas = new JTextField();
+        fieldPaginas.setColumns(10);
+        fieldPaginas.setBounds(237, 274, 166, 29);
+        fieldPaginas.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldPaginas.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldPaginas;
+    }
 
-	public JLabel lblAnio() {
-		JLabel lblAnio = new JLabel("Anio");
-		lblAnio.setBounds(39, 259, 83, 14);
-		return lblAnio;
-	}
+    public JLabel lblPaginas() {
+        JLabel lblPaginas = new JLabel("Páginas");
+        lblPaginas.setBounds(237, 256, 83, 14);
+        return lblPaginas;
+    }
 
-	public JTextField fieldVolumenes() {
-		JTextField fieldVolumenes = new JTextField();
-		fieldVolumenes.setColumns(10);
-		fieldVolumenes.setBounds(237, 274, 166, 29);
-		fieldVolumenes.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldVolumenes.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldVolumenes;
-	}
+    public JTextField fieldIdioma() {
+        JTextField fieldIdioma = new JTextField();
+        fieldIdioma.setColumns(10);
+        fieldIdioma.setBounds(37, 387, 166, 29);
+        return fieldIdioma;
+    }
 
-	public JLabel lblVolumenes() {
-		JLabel lblVolumenes = new JLabel("Volúmenes");
-		lblVolumenes.setBounds(237, 259, 112, 14);
-		return lblVolumenes;
-	}
+    public JLabel lblIdioma() {
+        JLabel lblIdioma = new JLabel("Idioma");
+        lblIdioma.setBounds(37, 372, 64, 14);
+        return lblIdioma;
+    }
 
-	public JTextField fieldPaginas() {
-		JTextField fieldPaginas = new JTextField();
-		fieldPaginas.setColumns(10);
-		fieldPaginas.setBounds(237, 332, 166, 29);
-		fieldPaginas.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldPaginas.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldPaginas;
-	}
+    public JLabel lblFormato() {
+        JLabel lblFormato = new JLabel("Formatos");
+        lblFormato.setBounds(237, 314, 83, 14);
+        return lblFormato;
+    }
 
-	public JLabel lblPaginas() {
-		JLabel lblPaginas = new JLabel("Páginas");
-		lblPaginas.setBounds(237, 314, 83, 14);
-		return lblPaginas;
-	}
+    public JComboBox<Obra> comboBoxObras() {
+        JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
+        comboBoxObra.setBounds(37, 154, 166, 29);
+        comboBoxObra.setRenderer(new ObraRenderer());
+        comboBoxObra.setSelectedItem(null);
+        return comboBoxObra;
+    }
 
-	public JTextField fieldIdioma() {
-		JTextField fieldIdioma = new JTextField();
-		fieldIdioma.setColumns(10);
-		fieldIdioma.setBounds(37, 387, 166, 29);
-		return fieldIdioma;
-	}
-
-	public JLabel lblIdioma() {
-		JLabel lblIdioma = new JLabel("Idioma");
-		lblIdioma.setBounds(37, 372, 64, 14);
-		return lblIdioma;
-	}
-
-	public JLabel lblFormato() {
-		JLabel lblFormato = new JLabel("Formato");
-		lblFormato.setBounds(237, 372, 83, 14);
-		return lblFormato;
-	}
-
-	public JComboBox<Obra> comboBoxObras() {
-		JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
-		comboBoxObra.setBounds(130, 148, 166, 29);
-		comboBoxObra.setRenderer(new ObraRenderer());
-		comboBoxObra.setSelectedItem(null);
-		return comboBoxObra;
-	}
-
-	public JComboBox<Formato> comboBoxFormatos() {
-		JComboBox<Formato> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getFormatoDAO().findAll()));
-		comboBoxObra.setBounds(237, 387, 166, 29);
-		comboBoxObra.setRenderer(new FormatoRenderer());
-		comboBoxObra.setSelectedItem(null);
-		return comboBoxObra;
-	}
+    public JScrollPane jListFormatos() {
+        JList<Formato> jListFormatos = new JList<>(new Vector<>(DaoFactory.getFormatoDAO().findAll()));
+        jListFormatos.setCellRenderer(new FormatoRenderer());
+        jListFormatos.setVisibleRowCount(2);
+        jListFormatos.setSelectionModel(new DefaultListSelectionModel() {
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+                if (super.isSelectedIndex(index0)) {
+                    super.removeSelectionInterval(index0, index1);
+                } else {
+                    super.addSelectionInterval(index0, index1);
+                }
+            }
+        });
+        JScrollPane scrollPane = new JScrollPane(jListFormatos);
+        scrollPane.setBounds(237, 332, 166, 84);
+        return scrollPane;
+    }
 }

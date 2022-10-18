@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -21,11 +22,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "ediciones")
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Edicion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private Long id;
     private String editorial;
     private String pais;
