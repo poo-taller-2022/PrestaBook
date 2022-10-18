@@ -13,6 +13,7 @@ import ar.edu.uner.prestabook.model.Coleccion;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
+import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
@@ -51,6 +52,9 @@ public class Tabla {
                 break;
             case Constants.EDICION:
                 loadEdicion(model, i);
+                break;
+            case Constants.LECTOR:
+                loadLector(model, i);
                 break;
             default:
         }
@@ -165,6 +169,21 @@ public class Tabla {
             List<Object> fila = new LinkedList<>();
             fila.add(++i);
             fila.add(tipo.getNombre());
+            model.addRow(new Vector<>(fila));
+        }
+    }
+
+    private static void loadLector(DefaultTableModel model, Integer i) {
+        List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
+        for (Lector lector : lectores) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(lector.getNombre());
+            fila.add(lector.getApellido());
+            fila.add(lector.getEmail());
+            fila.add(lector.getDomicilio());
+            fila.add(lector.getFechaNacimiento());
+            fila.add(DaoFactory.getLectorDAO().countFinesById(lector.getDocumento()));
             model.addRow(new Vector<>(fila));
         }
     }

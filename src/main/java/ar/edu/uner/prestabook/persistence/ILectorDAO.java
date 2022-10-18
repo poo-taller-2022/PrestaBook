@@ -5,4 +5,6 @@ import ar.edu.uner.prestabook.model.Lector;
 
 public interface ILectorDAO extends GenericDAO<Lector> {
 
+    public Long countFinesById(Long documento);
+
 }

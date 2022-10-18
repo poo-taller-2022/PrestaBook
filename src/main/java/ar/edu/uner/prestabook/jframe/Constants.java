@@ -17,6 +17,8 @@ public class Constants {
     public static final String EJEMPLAR = "Ejemplar";
     public static final String EDICIONES = "Ediciones";
     public static final String EDICION = "Edicion";
-    public static final String COLECCION = "Coleccion";
+    public static final String COLECCION = "Colección";
     public static final String COLECCIONES = "Colecciones";
+    public static final String LECTOR = "Lector";
+    public static final String LECTORES = "Lectores";
 }
