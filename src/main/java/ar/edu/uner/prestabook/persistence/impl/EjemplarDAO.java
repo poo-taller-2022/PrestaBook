@@ -63,8 +63,7 @@ public class EjemplarDAO implements IEjemplarDAO {
 
     @Override
     public List<Ejemplar> findAllByObraIsbn(String isbn) {
-        String hql = String.format("from Ejemplar e where type(e) = %s AND e.isbn = '%s'", Ejemplar.class.getName(),
-                isbn);
+        String hql = String.format("from Ejemplar e where e.isbnObra = '%s'", isbn);
         return HibernateConnection.getCurrentSession().createQuery(hql, Ejemplar.class).list();
 
     }
