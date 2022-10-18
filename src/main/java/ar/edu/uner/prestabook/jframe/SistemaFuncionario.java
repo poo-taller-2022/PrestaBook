@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,1248 +23,1079 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
-import ar.edu.uner.prestabook.model.Coleccion;
-import ar.edu.uner.prestabook.model.Edicion;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
-import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
-import ar.edu.uner.prestabook.persistence.IColeccionDAO;
-import ar.edu.uner.prestabook.persistence.IEdicionDAO;
-import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
-import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
+import lombok.Getter;
 
 public class SistemaFuncionario extends JFrame {
 
-	private static final String FONT = "Verdana";
-	private static final String OPCIONES = "Opciones";
-	private static final String FORMATO = "Formato";
-	private static final String AREA_TEMATICA = "Area tematica";
-	private static final String NOMBRE = "Nombre";
-	private static final String TIPO_OBRA = "Tipo obra";
-	private static final String OBRA = "Obra";
-	private static final String OBRAS = "Obras";
-	private static final String FORMATOS = "Formatos";
-	private static final String AREAS_TEMATICAS = "Áreas temáticas";
-	private static final String TIPOS_DE_OBRAS = "Tipos de obras";
-	private static final String EJEMPLARES = "Ejemplares";
-	private static final String EJEMPLAR = "Ejemplar";
-	private static final String EDICIONES = "Ediciones";
-	private static final String EDICION = "Edicion";
-	private static final String COLECCION = "Coleccion";
-	private static final String COLECCIONES = "Colecciones";
-	private static final long serialVersionUID = 1L;
-	public static JLabel textUsuario;
-
-	/**
-	 * Create the frame.
-	 */
-
-	public SistemaFuncionario() {
-
-		/**
-		 * Create components
-		 */
-
-		ventana();
+    private static final long serialVersionUID = 1L;
+    @Getter
+    private JLabel textUsuario;
+    private JPanel panelAreaTematica = panelEntidades();
+    private JPanel panelBienvenida = panelBienvenida();
+    private JPanel panelColeccion = panelEntidades();
+    private JPanel panelEdicion = panelEntidades();
+    private JPanel panelEjemplar = panelEntidades();
+    private JPanel panelFormato = panelEntidades();
+    private JPanel panelLectores = panelEntidades();
+    private JPanel panelObra = panelEntidades();
+    private JPanel panelTipoObra = panelEntidades();
+    private List<JPanel> paneles = List.of(panelAreaTematica, panelBienvenida, panelColeccion, panelEdicion,
+            panelEjemplar, panelFormato, panelLectores, panelObra, panelTipoObra);
+
+    /**
+     * Create the frame.
+     */
+
+    public SistemaFuncionario() {
 
-		JPanel contentPane = contentPane();
-
-		JPanel panelPrestabook = panelPrestabook();
-		contentPane.add(panelPrestabook);
+        /**
+         * Create components
+         */
+        textUsuario = new JLabel("");
+        ventana();
 
-		JLabel lblIconCerrarSesion = lblIconCerrarSesion();
-		panelPrestabook.add(lblIconCerrarSesion);
-		jLabelImage(lblIconCerrarSesion);
+        JPanel contentPane = contentPane();
 
-		panelPrestabook.add(lblPrestabook());
+        JPanel panelPrestabook = panelPrestabook();
+        contentPane.add(panelPrestabook);
 
-		JButton btnExit = btnExit();
-		panelPrestabook.add(btnExit);
+        JLabel lblIconCerrarSesion = lblIconCerrarSesion();
+        panelPrestabook.add(lblIconCerrarSesion);
+        jLabelImage(lblIconCerrarSesion);
 
-		JButton btnCerrarSesion = btnCerrarSesion();
-		panelPrestabook.add(btnCerrarSesion);
+        panelPrestabook.add(lblPrestabook());
 
-		JPanel panelOpciones = panelOpciones();
-		contentPane.add(panelOpciones);
+        JButton btnExit = btnExit();
+        panelPrestabook.add(btnExit);
 
-		JButton btnSolicitudes = btnSolicitudes();
-		panelOpciones.add(btnSolicitudes);
-
-		panelOpciones.add(lblUsuario());
-		panelOpciones.add(textUsuario());
-		panelOpciones.add(panelSeparador());
-		panelOpciones.add(lblOpciones());
-
-		JButton btnGestionarPrestamo = btnGestionarPrestamo();
-		btnGestionarPrestamo.addActionListener(e -> {
-			Prestamos prestamos = new Prestamos();
-			prestamos.setVisible(true);
-		});
-		panelOpciones.add(btnGestionarPrestamo);
-
-		JButton btnGestionarDevolucion = btnGestionarDevolucion();
-		btnGestionarDevolucion.addActionListener(e -> {
-			Devoluciones devoluciones = new Devoluciones();
-			devoluciones.setVisible(true);
-		});
-		panelOpciones.add(btnGestionarDevolucion);
-
-		JButton btnVerEjemplares = btnVerEjemplares();
-		btnVerEjemplares.addActionListener(e -> {
-			Ejemplares ejemplares = new Ejemplares();
-			ejemplares.setVisible(true);
-		});
-		panelOpciones.add(btnVerEjemplares);
+        JButton btnCerrarSesion = btnCerrarSesion();
+        panelPrestabook.add(btnCerrarSesion);
 
-		JButton btnMasBuscadasPorAlumnoDocente = btnMasBuscadasPorAlumnoDocente();
-		panelOpciones.add(btnMasBuscadasPorAlumnoDocente);
+        JPanel panelOpciones = panelOpciones();
+        contentPane.add(panelOpciones);
 
-		JButton btnMasBuscadasPorPublicoGeneral = btnMasBuscadasPorPublicoGeneral();
-		panelOpciones.add(btnMasBuscadasPorPublicoGeneral);
+        JButton btnSolicitudes = btnSolicitudes();
+        panelOpciones.add(btnSolicitudes);
 
-		JButton btnListarEjemplaresDisponiblesPorArea = btnListarEjemplaresDisponiblesPorArea();
-		panelOpciones.add(btnListarEjemplaresDisponiblesPorArea);
+        panelOpciones.add(lblUsuario());
+        panelOpciones.add(textUsuario());
+        panelOpciones.add(panelSeparador());
+        panelOpciones.add(lblOpciones());
 
-		JButton btnListarEjemplaresDisponiblesPorFecha = btnListarEjemplaresDisponiblesPorFecha();
-		panelOpciones.add(btnListarEjemplaresDisponiblesPorFecha);
+        JButton btnGestionarPrestamo = btnGestionarPrestamo();
+        btnGestionarPrestamo.addActionListener(e -> {
+            Prestamos prestamos = new Prestamos();
+            prestamos.setVisible(true);
+        });
+        panelOpciones.add(btnGestionarPrestamo);
 
-		JButton btnListarLectoresMultadosPorPeriodo = btnListarLectoresMultadosPorPeriodo();
-		panelOpciones.add(btnListarLectoresMultadosPorPeriodo);
+        JButton btnGestionarDevolucion = btnGestionarDevolucion();
+        btnGestionarDevolucion.addActionListener(e -> {
+            Devoluciones devoluciones = new Devoluciones();
+            devoluciones.setVisible(true);
+        });
+        panelOpciones.add(btnGestionarDevolucion);
 
-		JButton btnListarRankingDeMultados = btnListarRankingDeMultados();
-		panelOpciones.add(btnListarRankingDeMultados);
+        JButton btnVerEjemplares = btnVerEjemplares();
+        btnVerEjemplares.addActionListener(e -> {
+            Ejemplares ejemplares = new Ejemplares();
+            ejemplares.setVisible(true);
+        });
+        panelOpciones.add(btnVerEjemplares);
 
-		JButton btnListarObrasPorEditorial = btnListarObrasPorEditorial();
-		panelOpciones.add(btnListarObrasPorEditorial);
+        JButton btnMasBuscadasPorAlumnoDocente = btnMasBuscadasPorAlumnoDocente();
+        panelOpciones.add(btnMasBuscadasPorAlumnoDocente);
 
-		JButton btnAplicarMultaALector = btnAplicarMultaALector();
-		panelOpciones.add(btnAplicarMultaALector);
+        JButton btnMasBuscadasPorPublicoGeneral = btnMasBuscadasPorPublicoGeneral();
+        panelOpciones.add(btnMasBuscadasPorPublicoGeneral);
 
-		JPanel panelBienvenida = panelBienvenida();
-		contentPane.add(panelBienvenida);
+        JButton btnListarEjemplaresDisponiblesPorArea = btnListarEjemplaresDisponiblesPorArea();
+        panelOpciones.add(btnListarEjemplaresDisponiblesPorArea);
 
-		panelBienvenida.add(lblBienvenidaParte1());
-		panelBienvenida.add(lblBienvenidaParte2());
-		panelBienvenida.add(lblIconLibreria());
+        JButton btnListarEjemplaresDisponiblesPorFecha = btnListarEjemplaresDisponiblesPorFecha();
+        panelOpciones.add(btnListarEjemplaresDisponiblesPorFecha);
 
-		/**
-		 * Menu bar Administrar
-		 */
+        JButton btnListarLectores = btnListarLectores();
+        panelOpciones.add(btnListarLectores);
 
-		JMenuBar menuBarAdministrar = menuBarAdministrar();
-		panelPrestabook.add(menuBarAdministrar);
+        JButton btnListarRankingDeMultados = btnListarRankingDeMultados();
+        panelOpciones.add(btnListarRankingDeMultados);
 
-		JMenu menuAdministrar = menuAdministrar();
-		menuBarAdministrar.add(menuAdministrar);
+        JButton btnListarObrasPorEditorial = btnListarObrasPorEditorial();
+        panelOpciones.add(btnListarObrasPorEditorial);
 
-		JMenuItem menuItemTipoObra = new JMenuItem(TIPOS_DE_OBRAS);
-		menuAdministrar.add(menuItemTipoObra);
+        JButton btnAplicarMultaALector = btnAplicarMultaALector();
+        panelOpciones.add(btnAplicarMultaALector);
 
-		JMenuItem menuItemAreaTematica = new JMenuItem(AREAS_TEMATICAS);
-		menuAdministrar.add(menuItemAreaTematica);
+        contentPane.add(panelBienvenida);
 
-		JMenuItem menuItemColeccion = new JMenuItem(COLECCIONES);
-		menuAdministrar.add(menuItemColeccion);
+        panelBienvenida.add(lblBienvenidaParte1());
+        panelBienvenida.add(lblBienvenidaParte2());
+        panelBienvenida.add(lblIconLibreria());
 
-		JMenuItem menuItemObra = new JMenuItem(OBRAS);
-		menuAdministrar.add(menuItemObra);
+        /**
+         * Menu bar Administrar
+         */
 
-		JMenuItem menuItemFormato = new JMenuItem(FORMATOS);
-		menuAdministrar.add(menuItemFormato);
+        JMenuBar menuBarAdministrar = menuBarAdministrar();
+        panelPrestabook.add(menuBarAdministrar);
 
-		JMenuItem menuItemEdicion = new JMenuItem(EDICIONES);
-		menuAdministrar.add(menuItemEdicion);
+        JMenu menuAdministrar = menuAdministrar();
+        menuBarAdministrar.add(menuAdministrar);
 
-		JMenuItem menuItemEjemplar = new JMenuItem(EJEMPLARES);
-		menuAdministrar.add(menuItemEjemplar);
+        JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
+        menuAdministrar.add(menuItemTipoObra);
 
-		JPanel panelTipoObra = panelEntidades();
-		JPanel panelAreaTematica = panelEntidades();
-		JPanel panelFormato = panelEntidades();
-		JPanel panelObra = panelEntidades();
-		JPanel panelEjemplar = panelEntidades();
-		JPanel panelEdicion = panelEntidades();
-		JPanel panelColeccion = panelEntidades();
+        JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
+        menuAdministrar.add(menuItemAreaTematica);
 
-		/**
-		 * Crea el panel para administrar tipos de obras
-		 */
+        JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
+        menuAdministrar.add(menuItemColeccion);
 
-		menuItemTipoObra.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelObra.setVisible(false);
-			panelEjemplar.setVisible(false);
-			panelEdicion.setVisible(false);
-			panelColeccion.setVisible(false);
-			panelTipoObra.setVisible(true);
+        JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
+        menuAdministrar.add(menuItemObra);
 
-			contentPane.add(panelTipoObra);
-			String entidad = TIPO_OBRA;
+        JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
+        menuAdministrar.add(menuItemFormato);
 
-			panelTipoObra.add(lblTituloEntidades(TIPOS_DE_OBRAS));
+        JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
+        menuAdministrar.add(menuItemEdicion);
 
-			JScrollPane scrollPane = scrollPane();
-			panelTipoObra.add(scrollPane);
+        JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
+        menuAdministrar.add(menuItemEjemplar);
 
-			JTable tableTipoDeObras = new JTable();
+        /**
+         * Crea el panel para administrar tipos de obras
+         */
 
-			DefaultTableModel model = new DefaultTableModel();
-			tableTipoDeObras.setModel(model);
-			model.addColumn("");
-			model.addColumn(NOMBRE);
+        menuItemTipoObra.addActionListener(e -> {
+            ocultarPaneles();
+            panelTipoObra.setVisible(true);
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableTipoDeObras);
+            contentPane.add(panelTipoObra);
 
-			JButton btnAgregarTipoObra = btnAgregarTipoObra();
-			panelTipoObra.add(btnAgregarTipoObra);
+            panelTipoObra.add(lblTituloEntidades(Constants.TIPOS_DE_OBRAS));
 
-			JButton btnActualizarTipoObra = btnActualizarTipoObra();
-			panelTipoObra.add(btnActualizarTipoObra);
+            JScrollPane scrollPane = scrollPane();
+            panelTipoObra.add(scrollPane);
 
-			/**
-			 * Botón con evento para agregar tipo de obra
-			 */
+            JTable tableTipoDeObras = new JTable();
 
-			btnAgregarTipoObra.addActionListener(b -> {
+            DefaultTableModel model = new DefaultTableModel();
+            tableTipoDeObras.setModel(model);
+            model.addColumn("");
+            model.addColumn(Constants.NOMBRE);
 
-				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de tipo de obra");
-				actualizarBaseDeDatos(valorAgregar, entidad);
+            Tabla.fill(model, Constants.TIPO_OBRA);
+            scrollPane.setViewportView(tableTipoDeObras);
 
-				limpiarTabla(tableTipoDeObras);
+            JButton btnAgregarTipoObra = btnAgregarTipoObra();
+            panelTipoObra.add(btnAgregarTipoObra);
 
-				llenarTabla(model, entidad);
-			});
+            JButton btnActualizarTipoObra = btnActualizarTipoObra();
+            panelTipoObra.add(btnActualizarTipoObra);
 
-		});
+            /**
+             * Botón con evento para agregar tipo de obra
+             */
 
-		/**
-		 * Crea el panel para administrar Areas temáticas
-		 */
+            btnAgregarTipoObra.addActionListener(b -> {
 
-		menuItemAreaTematica.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelFormato.setVisible(false);
-			panelObra.setVisible(false);
-			panelEjemplar.setVisible(false);
-			panelEdicion.setVisible(false);
-			panelColeccion.setVisible(false);
-			panelAreaTematica.setVisible(true);
+                String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de tipo de obra");
+                actualizarBaseDeDatos(valorAgregar, Constants.TIPO_OBRA);
 
-			String entidad = AREA_TEMATICA;
+                limpiarTabla(tableTipoDeObras);
 
-			contentPane.add(panelAreaTematica);
+                Tabla.fill(model, Constants.TIPO_OBRA);
+            });
 
-			panelAreaTematica.add(lblTituloEntidades(AREAS_TEMATICAS));
+        });
 
-			JScrollPane scrollPane = scrollPane();
-			panelAreaTematica.add(scrollPane);
+        /**
+         * Crea el panel para administrar Areas temáticas
+         */
 
-			JTable tableAreasTematicas = new JTable();
+        menuItemAreaTematica.addActionListener(e -> {
+            ocultarPaneles();
+            panelAreaTematica.setVisible(true);
 
-			DefaultTableModel model = new DefaultTableModel();
-			tableAreasTematicas.setModel(model);
-			model.addColumn("");
-			model.addColumn(NOMBRE);
+            contentPane.add(panelAreaTematica);
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableAreasTematicas);
+            panelAreaTematica.add(lblTituloEntidades(Constants.AREAS_TEMATICAS));
 
-			JButton btnAreaTematica = btnAgregarAreaTematica();
-			panelAreaTematica.add(btnAreaTematica);
+            JScrollPane scrollPane = scrollPane();
+            panelAreaTematica.add(scrollPane);
 
-			JButton btnActualizarAreaTematica = btnActualizarAreaTematica();
-			panelAreaTematica.add(btnActualizarAreaTematica);
+            JTable tableAreasTematicas = new JTable();
 
-			/**
-			 * Botón con evento para agregar area tematica
-			 */
+            DefaultTableModel model = new DefaultTableModel();
+            tableAreasTematicas.setModel(model);
+            model.addColumn("");
+            model.addColumn(Constants.NOMBRE);
 
-			btnAreaTematica.addActionListener(b -> {
+            Tabla.fill(model, Constants.AREA_TEMATICA);
+            scrollPane.setViewportView(tableAreasTematicas);
 
-				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de area tematica");
+            JButton btnAreaTematica = btnAgregarAreaTematica();
+            panelAreaTematica.add(btnAreaTematica);
 
-				actualizarBaseDeDatos(valorAgregar, entidad);
+            JButton btnActualizarAreaTematica = btnActualizarAreaTematica();
+            panelAreaTematica.add(btnActualizarAreaTematica);
 
-				limpiarTabla(tableAreasTematicas);
+            /**
+             * Botón con evento para agregar area tematica
+             */
 
-				llenarTabla(model, entidad);
-			});
+            btnAreaTematica.addActionListener(b -> {
+                String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de area tematica");
+                actualizarBaseDeDatos(valorAgregar, Constants.AREA_TEMATICA);
+                limpiarTabla(tableAreasTematicas);
+                Tabla.fill(model, Constants.AREA_TEMATICA);
+            });
 
-		});
+        });
 
-		/**
-		 * Crea el panel para administrar formatos
-		 */
+        /**
+         * Crea el panel para administrar formatos
+         */
 
-		menuItemFormato.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelObra.setVisible(false);
-			panelEjemplar.setVisible(false);
-			panelEdicion.setVisible(false);
-			panelColeccion.setVisible(false);
-			panelFormato.setVisible(true);
-			contentPane.add(panelFormato);
-			String entidad = FORMATO;
+        menuItemFormato.addActionListener(e -> {
+            ocultarPaneles();
+            panelFormato.setVisible(true);
+            contentPane.add(panelFormato);
 
-			panelFormato.add(lblTituloEntidades(FORMATOS));
+            panelFormato.add(lblTituloEntidades(Constants.FORMATOS));
 
-			JScrollPane scrollPane = scrollPane();
-			panelFormato.add(scrollPane);
+            JScrollPane scrollPane = scrollPane();
+            panelFormato.add(scrollPane);
 
-			JTable tableFormatos = new JTable();
+            JTable tableFormatos = new JTable();
 
-			DefaultTableModel model = new DefaultTableModel();
-			tableFormatos.setModel(model);
-			model.addColumn("");
-			model.addColumn(NOMBRE);
+            DefaultTableModel model = new DefaultTableModel();
+            tableFormatos.setModel(model);
+            model.addColumn("");
+            model.addColumn(Constants.NOMBRE);
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableFormatos);
+            Tabla.fill(model, Constants.FORMATO);
+            scrollPane.setViewportView(tableFormatos);
 
-			JButton btnAgregarFormato = btnAgregarFormato();
-			panelFormato.add(btnAgregarFormato);
+            JButton btnAgregarFormato = btnAgregarFormato();
+            panelFormato.add(btnAgregarFormato);
 
-			JButton btnActualizarFormato = btnActualizarFormato();
-			panelFormato.add(btnActualizarFormato);
+            JButton btnActualizarFormato = btnActualizarFormato();
+            panelFormato.add(btnActualizarFormato);
 
-			/**
-			 * Botón con evento para agregar formatos
-			 */
+            /**
+             * Botón con evento para agregar formatos
+             */
 
-			btnAgregarFormato.addActionListener(b -> {
+            btnAgregarFormato.addActionListener(b -> {
+                String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre del formato");
+                actualizarBaseDeDatos(valorAgregar, Constants.FORMATO);
+                limpiarTabla(tableFormatos);
+                Tabla.fill(model, Constants.FORMATO);
+            });
 
-				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre del formato");
-				actualizarBaseDeDatos(valorAgregar, entidad);
+        });
 
-				limpiarTabla(tableFormatos);
+        /**
+         * Crea el panel para administrar obras
+         */
 
-				llenarTabla(model, entidad);
-			});
+        menuItemObra.addActionListener(e -> {
+            ocultarPaneles();
+            panelObra.setVisible(true);
+            contentPane.add(panelObra);
 
-		});
+            panelObra.add(lblTituloEntidades(Constants.OBRAS));
+            JScrollPane scrollPane = scrollPane();
+            panelObra.add(scrollPane);
 
-		/**
-		 * Crea el panel para administrar obras
-		 */
+            JTable tableObras = new JTable();
 
-		menuItemObra.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelEjemplar.setVisible(false);
-			panelEdicion.setVisible(false);
-			panelColeccion.setVisible(false);
-			panelObra.setVisible(true);
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tableObras.setModel(model);
+            model.addColumn("");
+            model.addColumn("Isbn");
+            model.addColumn("Titulo");
+            model.addColumn("Subitulo");
+            model.addColumn("1° autor");
+            model.addColumn("2° autor");
+            model.addColumn("3° autor");
+            model.addColumn("Género");
+            model.addColumn(Constants.TIPO_OBRA);
+            model.addColumn(Constants.AREA_TEMATICA);
 
-			contentPane.add(panelObra);
-			String entidad = "Obra";
+            Tabla.fill(model, Constants.OBRA);
+            scrollPane.setViewportView(tableObras);
 
-			panelObra.add(lblTituloEntidades(OBRAS));
+            JButton btnAgregarObra = btnAgregarObra();
+            panelObra.add(btnAgregarObra);
 
-			JScrollPane scrollPane = scrollPane();
-			panelObra.add(scrollPane);
+            JButton btnRefrescar = btnRefrescar();
+            panelObra.add(btnRefrescar);
 
-			JTable tableObras = new JTable();
+            btnAgregarObra.addActionListener(b -> {
+                AgregarObra agregarObra = new AgregarObra();
+                agregarObra.setVisible(true);
+            });
+            btnRefrescar.addActionListener(b -> {
+                limpiarTabla(tableObras);
+                Tabla.fill(model, Constants.OBRA);
+            });
+        });
 
-			DefaultTableModel model = new DefaultTableModel() {
-				@Override
-				public boolean isCellEditable(int row, int column) {
-					return false;
-				}
-			};
-			tableObras.setModel(model);
-			model.addColumn("");
-			model.addColumn("Isbn");
-			model.addColumn("Titulo");
-			model.addColumn("Subitulo");
-			model.addColumn("1° autor");
-			model.addColumn("2° autor");
-			model.addColumn("3° autor");
-			model.addColumn("Género");
-			model.addColumn(TIPO_OBRA);
-			model.addColumn(AREA_TEMATICA);
+        /**
+         * Crea el panel para administrar ejemplares
+         */
 
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tableObras);
+        menuItemEjemplar.addActionListener(e -> {
+            ocultarPaneles();
+            panelEjemplar.setVisible(true);
+            contentPane.add(panelEjemplar);
 
-			JButton btnAgregarObra = btnAgregarObra();
-			panelObra.add(btnAgregarObra);
+            panelEjemplar.add(lblTituloEntidades(Constants.EJEMPLARES));
 
-			JButton btnRefrescar = btnRefrescar();
-			panelObra.add(btnRefrescar);
+            JScrollPane scrollPane = scrollPane();
+            panelEjemplar.add(scrollPane);
 
-			btnAgregarObra.addActionListener(b -> {
+            JTable tablaEjemplares = new JTable();
+            tablaEjemplares.setSize(1000, 1600);
 
-				AgregarObra agregarObra = new AgregarObra();
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tablaEjemplares.setModel(model);
+            model.addColumn("");
+            model.addColumn("Isbn de obra");
+            model.addColumn("Forma de adquisicion");
+            model.addColumn("Fecha de adquisicion");
+            model.addColumn("Observaciones");
+            model.addColumn("Codigo");
+            model.addColumn("Pasillo");
+            model.addColumn("Estantería");
+            model.addColumn("Estante");
 
-				agregarObra.setVisible(true);
+            Tabla.fill(model, Constants.EJEMPLAR);
+            scrollPane.setViewportView(tablaEjemplares);
 
-			});
+            JButton btnAgregarEjemplar = btnAgregarEjemplar();
+            panelEjemplar.add(btnAgregarEjemplar);
 
-			btnRefrescar.addActionListener(b -> {
+            JButton btnRefrescar = btnRefrescar();
+            panelEjemplar.add(btnRefrescar);
 
-				limpiarTabla(tableObras);
+            /**
+             * Botón con evento para agregar obra
+             */
+
+            btnAgregarEjemplar.addActionListener(b -> {
+                AgregarEjemplar agregarEjemplar = new AgregarEjemplar();
+                agregarEjemplar.setVisible(true);
+            });
+
+            btnRefrescar.addActionListener(b -> {
+                limpiarTabla(tablaEjemplares);
+                Tabla.fill(model, Constants.EJEMPLAR);
+            });
+
+        });
+
+        /**
+         * Crea el panel para administrar ediciones
+         */
+
+        menuItemEdicion.addActionListener(e -> {
+            ocultarPaneles();
+            panelEdicion.setVisible(true);
+            contentPane.add(panelEdicion);
+
+            panelEdicion.add(lblTituloEntidades(Constants.EDICIONES));
+
+            JScrollPane scrollPane = scrollPane();
+            panelEdicion.add(scrollPane);
+
+            JTable tablaEdiciones = new JTable();
+            tablaEdiciones.setSize(1000, 1600);
+
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tablaEdiciones.setModel(model);
+            model.addColumn("");
+            model.addColumn("Editorial");
+            model.addColumn("Pais");
+            model.addColumn("Numero");
+            model.addColumn("Año");
+            model.addColumn("Volumenes");
+            model.addColumn("Paginas");
+            model.addColumn("Idioma");
+            model.addColumn("Formato");
 
-				llenarTabla(model, entidad);
-
-			});
-		});
-
-		/**
-		 * Crea el panel para administrar ejemplares
-		 */
-
-		menuItemEjemplar.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelObra.setVisible(false);
-			panelEdicion.setVisible(false);
-			panelColeccion.setVisible(false);
-			panelEjemplar.setVisible(true);
-
-			contentPane.add(panelEjemplar);
-			String entidad = EJEMPLAR;
-
-			panelEjemplar.add(lblTituloEntidades(EJEMPLARES));
-
-			JScrollPane scrollPane = scrollPane();
-			panelEjemplar.add(scrollPane);
-
-			JTable tablaEjemplares = new JTable();
-			tablaEjemplares.setSize(1000, 1600);
-
-			DefaultTableModel model = new DefaultTableModel() {
-				@Override
-				public boolean isCellEditable(int row, int column) {
-					return false;
-				}
-			};
-			tablaEjemplares.setModel(model);
-			model.addColumn("");
-			model.addColumn("Isbn de obra");
-			model.addColumn("Forma de adquisicion");
-			model.addColumn("Fecha de adquisicion");
-			model.addColumn("Observaciones");
-			model.addColumn("Codigo");
-			model.addColumn("Pasillo");
-			model.addColumn("Estantería");
-			model.addColumn("Estante");
-
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tablaEjemplares);
-
-			JButton btnAgregarEjemplar = btnAgregarEjemplar();
-			panelEjemplar.add(btnAgregarEjemplar);
-
-			JButton btnRefrescar = btnRefrescar();
-			panelEjemplar.add(btnRefrescar);
-
-			/**
-			 * Botón con evento para agregar obra
-			 */
-
-			btnAgregarEjemplar.addActionListener(b -> {
-				AgregarEjemplar agregarEjemplar = new AgregarEjemplar();
-				agregarEjemplar.setVisible(true);
-			});
-
-			btnRefrescar.addActionListener(b -> {
-				limpiarTabla(tablaEjemplares);
-
-				llenarTabla(model, entidad);
-			});
-
-		});
-
-		/**
-		 * Crea el panel para administrar ediciones
-		 */
-
-		menuItemEdicion.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelObra.setVisible(false);
-			panelEjemplar.setVisible(false);
-			panelColeccion.setVisible(false);
-			panelEdicion.setVisible(true);
-
-			contentPane.add(panelEdicion);
-			String entidad = EDICION;
-
-			panelEdicion.add(lblTituloEntidades(EDICIONES));
-
-			JScrollPane scrollPane = scrollPane();
-			panelEdicion.add(scrollPane);
-
-			JTable tablaEdiciones = new JTable();
-			tablaEdiciones.setSize(1000, 1600);
-
-			DefaultTableModel model = new DefaultTableModel() {
-				@Override
-				public boolean isCellEditable(int row, int column) {
-					return false;
-				}
-			};
-			tablaEdiciones.setModel(model);
-			model.addColumn("");
-			model.addColumn("Editorial");
-			model.addColumn("Pais");
-			model.addColumn("Numero");
-			model.addColumn("Año");
-			model.addColumn("Volumenes");
-			model.addColumn("Paginas");
-			model.addColumn("Idioma");
-			model.addColumn("Formato");
-
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tablaEdiciones);
-
-			JButton btnAgregarEdicion = btnAgregarEdicion();
-			panelEdicion.add(btnAgregarEdicion);
-
-			JButton btnRefrescar = btnRefrescar();
-			panelEdicion.add(btnRefrescar);
-
-			/**
-			 * Botón con evento para agregar obra
-			 */
-
-			btnAgregarEdicion.addActionListener(b -> {
-				AgregarEdicion agregarEdicion = new AgregarEdicion();
-				agregarEdicion.setVisible(true);
-			});
-
-			btnRefrescar.addActionListener(b -> {
-				limpiarTabla(tablaEdiciones);
-
-				llenarTabla(model, entidad);
-			});
-
-		});
-
-		/**
-		 * Crea el panel para administrar colecciones
-		 */
-
-		menuItemColeccion.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelAreaTematica.setVisible(false);
-			panelFormato.setVisible(false);
-			panelTipoObra.setVisible(false);
-			panelObra.setVisible(false);
-			panelEjemplar.setVisible(false);
-			panelEdicion.setVisible(false);
-			panelColeccion.setVisible(true);
-
-			contentPane.add(panelColeccion);
-			String entidad = COLECCION;
-
-			panelColeccion.add(lblTituloEntidades(COLECCIONES));
-
-			JScrollPane scrollPane = scrollPane();
-			panelColeccion.add(scrollPane);
-
-			JTable tablaColecciones = new JTable();
-			tablaColecciones.setSize(1000, 1600);
-
-			DefaultTableModel model = new DefaultTableModel() {
-				@Override
-				public boolean isCellEditable(int row, int column) {
-					return false;
-				}
-			};
-			tablaColecciones.setModel(model);
-			model.addColumn("");
-			model.addColumn("Isbn");
-			model.addColumn("Titulo");
-			model.addColumn("Subitulo");
-			model.addColumn("1° autor");
-			model.addColumn("2° autor");
-			model.addColumn("3° autor");
-			model.addColumn("Género");
-			model.addColumn(TIPO_OBRA);
-			model.addColumn(AREA_TEMATICA);
-
-			llenarTabla(model, entidad);
-			scrollPane.setViewportView(tablaColecciones);
-
-			JButton btnAgregarColeccion = btnAgregarColeccion();
-			panelColeccion.add(btnAgregarColeccion);
-
-			JButton btnRefrescar = btnRefrescar();
-			panelColeccion.add(btnRefrescar);
-
-			/**
-			 * Botón con evento para agregar obra
-			 */
-
-			btnAgregarColeccion.addActionListener(b -> {
-				AgregarColeccion agregarColeccion = new AgregarColeccion();
-				agregarColeccion.setVisible(true);
-			});
-
-			btnRefrescar.addActionListener(b -> {
-				limpiarTabla(tablaColecciones);
-
-				llenarTabla(model, entidad);
-			});
-
-		});
-
-		btnCerrarSesion.addActionListener(e ->
-
-		{
-			IniciarSesion login = new IniciarSesion();
-			login.setVisible(true);
-			SistemaFuncionario.this.dispose();
-		});
-
-		/**
-		 * Created method to close window
-		 */
-
-		btnExit.addActionListener(e -> System.exit(0));
-
-	}
-
-	/**
-	 * Create components
-	 */
-
-	public void ventana() {
-		setUndecorated(true);
-		setResizable(false);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle(OPCIONES);
-		setBounds(100, 100, 1390, 811);
-		setLocationRelativeTo(null);
-	}
-
-	public JPanel contentPane() {
-		JPanel contentPane = new JPanel();
-		contentPane.setBorder(null);
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		return contentPane;
-	}
-
-	public JPanel panelPrestabook() {
-		JPanel panelPrestabook = new JPanel();
-		panelPrestabook.setBounds(339, 0, 1061, 103);
-		panelPrestabook.setBorder(null);
-		panelPrestabook.setBackground(new Color(0, 64, 128));
-		panelPrestabook.setLayout(null);
-		return panelPrestabook;
-	}
-
-	public JLabel lblIconCerrarSesion() {
-		JLabel lblIconCerrarSesion = new JLabel("");
-		lblIconCerrarSesion.setBounds(817, 5, 19, 16);
-		return lblIconCerrarSesion;
-	}
-
-	public void jLabelImage(JLabel lblIconCerrarSesion) {
-		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
-		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
-				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
-		lblIconCerrarSesion.setIcon(icon);
-		this.repaint();
-	}
-
-	public JLabel lblPrestabook() {
-		JLabel lblPrestabook = new JLabel("PrestaBook");
-		lblPrestabook.setBounds(399, 30, 267, 42);
-		lblPrestabook.setForeground(Color.WHITE);
-		lblPrestabook.setFont(new Font(FONT, Font.BOLD, 32));
-		return lblPrestabook;
-	}
-
-	public JButton btnExit() {
-		JButton btnExit = new JButton("X");
-		btnExit.setForeground(Color.WHITE);
-		btnExit.setFont(new Font(FONT, Font.BOLD, 12));
-		btnExit.setBackground(new Color(255, 106, 106));
-		btnExit.setBounds(1004, 1, 47, 25);
-		return btnExit;
-	}
-
-	public JButton btnCerrarSesion() {
-		JButton btnCerrarSesion = new JButton("Cerrar Sesión");
-		btnCerrarSesion.setFont(new Font(FONT, Font.BOLD, 11));
-		btnCerrarSesion.setFocusPainted(false);
-		btnCerrarSesion.setBorderPainted(false);
-		btnCerrarSesion.setBorder(null);
-		btnCerrarSesion.setBounds(893, 2, 101, 23);
-		btnCerrarSesion.setForeground(new Color(255, 255, 255));
-		btnCerrarSesion.setBackground(new Color(0, 64, 128));
-		return btnCerrarSesion;
-	}
-
-	public JPanel panelOpciones() {
-		JPanel panelOpciones = new JPanel();
-		panelOpciones.setBounds(0, 0, 341, 811);
-		panelOpciones.setBackground(new Color(0, 45, 89));
-		panelOpciones.setLayout(null);
-		return panelOpciones;
-	}
-
-	public JLabel lblUsuario() {
-		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(27, 0, 122, 37);
-		lblUsuario.setFont(new Font(FONT, Font.BOLD, 17));
-		lblUsuario.setForeground(new Color(255, 255, 255));
-		return lblUsuario;
-	}
-
-	public JLabel textUsuario() {
-		textUsuario = new JLabel("");
-		textUsuario.setBackground(new Color(0, 128, 0));
-		textUsuario.setBounds(118, 0, 173, 37);
-		textUsuario.setFont(new Font(FONT, Font.BOLD, 16));
-		textUsuario.setForeground(new Color(255, 255, 255));
-		return textUsuario;
-	}
-
-	public JButton btnSolicitudes() {
-		JButton btnSolicitudes = new JButton("Solicitudes");
-		btnSolicitudes.setVerifyInputWhenFocusTarget(false);
-		btnSolicitudes.setForeground(new Color(0, 64, 128));
-		btnSolicitudes.setFont(new Font(FONT, Font.BOLD, 12));
-		btnSolicitudes.setFocusPainted(false);
-		btnSolicitudes.setBorderPainted(false);
-		btnSolicitudes.setBorder(null);
-		btnSolicitudes.setBackground(Color.WHITE);
-		btnSolicitudes.setBounds(23, 74, 293, 31);
-		return btnSolicitudes;
-	}
-
-	public JPanel panelSeparador() {
-		JPanel panelSeparador = new JPanel();
-		panelSeparador.setBounds(23, 121, 292, 3);
-		return panelSeparador;
-	}
-
-	public JLabel lblOpciones() {
-		JLabel lblOpciones = new JLabel(OPCIONES);
-		lblOpciones.setForeground(new Color(255, 255, 255));
-		lblOpciones.setFont(new Font(FONT, Font.BOLD, 16));
-		lblOpciones.setBounds(133, 135, 105, 23);
-		return lblOpciones;
-	}
-
-	private JButton btnGestionarPrestamo() {
-		JButton btnAgregarFormato = new JButton("Gestionar Préstamo");
-		btnAgregarFormato.setFocusPainted(false);
-		btnAgregarFormato.setBackground(new Color(255, 255, 255));
-		btnAgregarFormato.setForeground(new Color(0, 64, 128));
-		btnAgregarFormato.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarFormato.setBorderPainted(false);
-		btnAgregarFormato.setBounds(23, 169, 293, 31);
-		return btnAgregarFormato;
-	}
-
-	public JButton btnGestionarDevolucion() {
-		JButton btnGestionarDevolucion = new JButton("Gestionar devolución de obra");
-		btnGestionarDevolucion.setFocusPainted(false);
-		btnGestionarDevolucion.setBackground(new Color(255, 255, 255));
-		btnGestionarDevolucion.setForeground(new Color(0, 64, 128));
-		btnGestionarDevolucion.setFont(new Font(FONT, Font.BOLD, 12));
-		btnGestionarDevolucion.setBorderPainted(false);
-		btnGestionarDevolucion.setBounds(23, 221, 293, 31);
-		return btnGestionarDevolucion;
-	}
-
-	public JButton btnVerEjemplares() {
-		JButton btnVerEjemplares = new JButton("Ver Ejemplares");
-		btnVerEjemplares.setFocusPainted(false);
-		btnVerEjemplares.setBackground(new Color(255, 255, 255));
-		btnVerEjemplares.setForeground(new Color(0, 64, 128));
-		btnVerEjemplares.setFont(new Font(FONT, Font.BOLD, 12));
-		btnVerEjemplares.setBorderPainted(false);
-		btnVerEjemplares.setBounds(23, 273, 293, 31);
-		btnVerEjemplares.addActionListener(null);
-		return btnVerEjemplares;
-	}
-
-	public JButton btnMasBuscadasPorAlumnoDocente() {
-		JButton btnMasBuscadasPorAlumnoDocente = new JButton("Mas buscadas por alumnos y docentes");
-		btnMasBuscadasPorAlumnoDocente.setFocusPainted(false);
-		btnMasBuscadasPorAlumnoDocente.setBackground(new Color(255, 255, 255));
-		btnMasBuscadasPorAlumnoDocente.setForeground(new Color(0, 64, 128));
-		btnMasBuscadasPorAlumnoDocente.setFont(new Font(FONT, Font.BOLD, 12));
-		btnMasBuscadasPorAlumnoDocente.setBorderPainted(false);
-		btnMasBuscadasPorAlumnoDocente.setBounds(23, 325, 293, 31);
-		return btnMasBuscadasPorAlumnoDocente;
-	}
-
-	public JButton btnMasBuscadasPorPublicoGeneral() {
-		JButton btnMasBuscadasPorPublicoGeneral = new JButton("Mas buscadas por publico en general");
-		btnMasBuscadasPorPublicoGeneral.setFocusPainted(false);
-		btnMasBuscadasPorPublicoGeneral.setBackground(new Color(255, 255, 255));
-		btnMasBuscadasPorPublicoGeneral.setForeground(new Color(0, 64, 128));
-		btnMasBuscadasPorPublicoGeneral.setFont(new Font(FONT, Font.BOLD, 12));
-		btnMasBuscadasPorPublicoGeneral.setBorderPainted(false);
-		btnMasBuscadasPorPublicoGeneral.setBounds(23, 377, 293, 31);
-		return btnMasBuscadasPorPublicoGeneral;
-	}
-
-	public JButton btnListarEjemplaresDisponiblesPorArea() {
-		JButton btnListarEjemplaresDisponiblesPorArea = new JButton("Listar ejemplares disponibles por area");
-		btnListarEjemplaresDisponiblesPorArea.setFocusPainted(false);
-		btnListarEjemplaresDisponiblesPorArea.setBackground(new Color(255, 255, 255));
-		btnListarEjemplaresDisponiblesPorArea.setForeground(new Color(0, 64, 128));
-		btnListarEjemplaresDisponiblesPorArea.setFont(new Font(FONT, Font.BOLD, 12));
-		btnListarEjemplaresDisponiblesPorArea.setBorderPainted(false);
-		btnListarEjemplaresDisponiblesPorArea.setBounds(23, 429, 293, 31);
-		return btnListarEjemplaresDisponiblesPorArea;
-	}
-
-	public JButton btnListarEjemplaresDisponiblesPorFecha() {
-		JButton btnListarEjemplaresDisponiblesPorFecha = new JButton("Listar ejemplares disponibles por fecha");
-		btnListarEjemplaresDisponiblesPorFecha.setFocusPainted(false);
-		btnListarEjemplaresDisponiblesPorFecha.setBackground(new Color(255, 255, 255));
-		btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
-		btnListarEjemplaresDisponiblesPorFecha.setFont(new Font(FONT, Font.BOLD, 12));
-		btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
-		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
-		return btnListarEjemplaresDisponiblesPorFecha;
-	}
-
-	public JButton btnListarLectoresMultadosPorPeriodo() {
-		JButton btnListarLectoresMultadosPorPeriodo = new JButton("Listar lectores multados por periodo");
-		btnListarLectoresMultadosPorPeriodo.setFocusPainted(false);
-		btnListarLectoresMultadosPorPeriodo.setBackground(new Color(255, 255, 255));
-		btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
-		btnListarLectoresMultadosPorPeriodo.setFont(new Font(FONT, Font.BOLD, 12));
-		btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
-		btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
-		return btnListarLectoresMultadosPorPeriodo;
-	}
-
-	public JButton btnListarRankingDeMultados() {
-		JButton btnListarRankingDeMultados = new JButton("Listar ranking de multados");
-		btnListarRankingDeMultados.setFocusPainted(false);
-		btnListarRankingDeMultados.setBackground(new Color(255, 255, 255));
-		btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
-		btnListarRankingDeMultados.setFont(new Font(FONT, Font.BOLD, 12));
-		btnListarRankingDeMultados.setBorderPainted(false);
-		btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
-		return btnListarRankingDeMultados;
-	}
-
-	public JButton btnListarObrasPorEditorial() {
-		JButton btnListarObrasPorEditorial = new JButton("Listar obras por editorial ");
-		btnListarObrasPorEditorial.setFocusPainted(false);
-		btnListarObrasPorEditorial.setBackground(new Color(255, 255, 255));
-		btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
-		btnListarObrasPorEditorial.setFont(new Font(FONT, Font.BOLD, 12));
-		btnListarObrasPorEditorial.setBorderPainted(false);
-		btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
-		return btnListarObrasPorEditorial;
-	}
-
-	public JButton btnAplicarMultaALector() {
-		JButton btnAplicarMultaALector = new JButton("Aplicar multa a lector");
-		btnAplicarMultaALector.setFocusPainted(false);
-		btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
-		btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
-		btnAplicarMultaALector.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAplicarMultaALector.setBorderPainted(false);
-		btnAplicarMultaALector.setBounds(23, 689, 293, 31);
-		return btnAplicarMultaALector;
-	}
-
-	public JPanel panelBienvenida() {
-		JPanel panelBienvenida = new JPanel();
-		panelBienvenida.setBounds(339, 104, 1061, 707);
-		panelBienvenida.setLayout(null);
-		return panelBienvenida;
-	}
-
-	public JPanel panelAdministrarEntidades() {
-		JPanel panelAdministrarEntidades = new JPanel();
-		panelAdministrarEntidades.setBounds(339, 104, 987, 707);
-		panelAdministrarEntidades.setLayout(null);
-		return panelAdministrarEntidades;
-	}
-
-	public JLabel lblAdministrarEntidades() {
-		JLabel lblBienvenidaParte1 = new JLabel("Administrador de entidades");
-		lblBienvenidaParte1.setBounds(330, 0, 369, 136);
-		lblBienvenidaParte1.setForeground(Color.GRAY);
-		lblBienvenidaParte1.setFont(new Font(FONT, Font.BOLD, 21));
-		return lblBienvenidaParte1;
-	}
-
-	public JLabel lblTiposDeObras() {
-		JLabel lblTiposDeObras = new JLabel(TIPOS_DE_OBRAS);
-		lblTiposDeObras.setBounds(410, 70, 369, 136);
-		lblTiposDeObras.setForeground(Color.GRAY);
-		lblTiposDeObras.setFont(new Font(FONT, Font.BOLD, 19));
-		return lblTiposDeObras;
-	}
-
-	public JScrollPane scrollPane() {
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 158, 1030, 300);
-		return scrollPane;
-	}
-
-	private JButton btnAgregarTipoObra() {
-		JButton btnAgregarTipoObra = new JButton("Agregar tipo obra");
-		btnAgregarTipoObra.setFocusPainted(false);
-		btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
-		btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
-		btnAgregarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarTipoObra.setBorderPainted(false);
-		btnAgregarTipoObra.setBounds(210, 500, 210, 20);
-		return btnAgregarTipoObra;
-	}
-
-	private JButton btnActualizarTipoObra() {
-		JButton btnActualizarTipoObra = new JButton("Actualizar tipo obra");
-		btnActualizarTipoObra.setFocusPainted(false);
-		btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
-		btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
-		btnActualizarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
-		btnActualizarTipoObra.setBorderPainted(false);
-		btnActualizarTipoObra.setBounds(600, 500, 210, 20);
-		return btnActualizarTipoObra;
-	}
-
-	private JButton btnAgregarColeccion() {
-		JButton btnAgregarColeccion = new JButton("Agregar colección");
-		btnAgregarColeccion.setFocusPainted(false);
-		btnAgregarColeccion.setBackground(new Color(0, 64, 128));
-		btnAgregarColeccion.setForeground(new Color(255, 255, 255));
-		btnAgregarColeccion.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarColeccion.setBorderPainted(false);
-		btnAgregarColeccion.setBounds(210, 500, 210, 20);
-		return btnAgregarColeccion;
-	}
-
-	private JButton btnAgregarEdicion() {
-		JButton btnAgregarEdicion = new JButton("Agregar edición");
-		btnAgregarEdicion.setFocusPainted(false);
-		btnAgregarEdicion.setBackground(new Color(0, 64, 128));
-		btnAgregarEdicion.setForeground(new Color(255, 255, 255));
-		btnAgregarEdicion.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarEdicion.setBorderPainted(false);
-		btnAgregarEdicion.setBounds(210, 500, 210, 20);
-		return btnAgregarEdicion;
-	}
-
-	private JButton btnAgregarEjemplar() {
-		JButton btnAgregarEjemplar = new JButton("Agregar ejemplar");
-		btnAgregarEjemplar.setFocusPainted(false);
-		btnAgregarEjemplar.setBackground(new Color(0, 64, 128));
-		btnAgregarEjemplar.setForeground(new Color(255, 255, 255));
-		btnAgregarEjemplar.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarEjemplar.setBorderPainted(false);
-		btnAgregarEjemplar.setBounds(210, 500, 210, 20);
-		return btnAgregarEjemplar;
-	}
-
-	private JButton btnAgregarAreaTematica() {
-		JButton btnAgregarTipoObra = new JButton("Agregar area tematica");
-		btnAgregarTipoObra.setFocusPainted(false);
-		btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
-		btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
-		btnAgregarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarTipoObra.setBorderPainted(false);
-		btnAgregarTipoObra.setBounds(210, 500, 210, 20);
-		return btnAgregarTipoObra;
-	}
-
-	private JButton btnActualizarAreaTematica() {
-		JButton btnActualizarTipoObra = new JButton("Actualizar area tematica");
-		btnActualizarTipoObra.setFocusPainted(false);
-		btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
-		btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
-		btnActualizarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
-		btnActualizarTipoObra.setBorderPainted(false);
-		btnActualizarTipoObra.setBounds(600, 500, 210, 20);
-		return btnActualizarTipoObra;
-	}
-
-	private JButton btnAgregarFormato() {
-		JButton btnAgregarFormato = new JButton("Agregar formato");
-		btnAgregarFormato.setFocusPainted(false);
-		btnAgregarFormato.setBackground(new Color(0, 64, 128));
-		btnAgregarFormato.setForeground(new Color(255, 255, 255));
-		btnAgregarFormato.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarFormato.setBorderPainted(false);
-		btnAgregarFormato.setBounds(210, 500, 210, 20);
-		return btnAgregarFormato;
-	}
-
-	private JButton btnActualizarFormato() {
-		JButton btnActualizarFormato = new JButton("Actualizar formato");
-		btnActualizarFormato.setFocusPainted(false);
-		btnActualizarFormato.setBackground(new Color(0, 64, 128));
-		btnActualizarFormato.setForeground(new Color(255, 255, 255));
-		btnActualizarFormato.setFont(new Font(FONT, Font.BOLD, 12));
-		btnActualizarFormato.setBorderPainted(false);
-		btnActualizarFormato.setBounds(600, 500, 210, 20);
-		return btnActualizarFormato;
-	}
-
-	private JButton btnAgregarObra() {
-		JButton btnAgregarFormato = new JButton("Agregar obra");
-		btnAgregarFormato.setFocusPainted(false);
-		btnAgregarFormato.setBackground(new Color(0, 64, 128));
-		btnAgregarFormato.setForeground(new Color(255, 255, 255));
-		btnAgregarFormato.setFont(new Font(FONT, Font.BOLD, 12));
-		btnAgregarFormato.setBorderPainted(false);
-		btnAgregarFormato.setBounds(50, 500, 210, 20);
-		return btnAgregarFormato;
-	}
-
-	private JButton btnRefrescar() {
-		JButton btnRefrescar = new JButton("Refrescar");
-		btnRefrescar.setFocusPainted(false);
-		btnRefrescar.setBackground(new Color(0, 64, 128));
-		btnRefrescar.setForeground(new Color(255, 255, 255));
-		btnRefrescar.setFont(new Font(FONT, Font.BOLD, 12));
-		btnRefrescar.setBorderPainted(false);
-		btnRefrescar.setBounds(700, 500, 210, 20);
-		return btnRefrescar;
-	}
-
-	public JLabel lblBienvenidaParte1() {
-		JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
-		lblBienvenidaParte1.setBounds(161, 0, 775, 136);
-		lblBienvenidaParte1.setForeground(Color.GRAY);
-		lblBienvenidaParte1.setFont(new Font(FONT, Font.BOLD, 21));
-		return lblBienvenidaParte1;
-	}
-
-	public JLabel lblBienvenidaParte2() {
-		JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
-		lblBienvenidaParte2.setBounds(397, 64, 369, 136);
-		lblBienvenidaParte2.setForeground(Color.GRAY);
-		lblBienvenidaParte2.setFont(new Font(FONT, Font.BOLD, 21));
-		return lblBienvenidaParte2;
-	}
-
-	public JLabel lblIconLibreria() {
-		JLabel lblIconLibreria = new JLabel("");
-		lblIconLibreria.setBounds(225, 169, 605, 493);
-		lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
-		return lblIconLibreria;
-	}
-
-	/**
-	 * Menu bar Administrar
-	 */
-
-	public JMenuBar menuBarAdministrar() {
-		JMenuBar menuBarAdministrar = new JMenuBar();
-		menuBarAdministrar.setBounds(10, 6, 75, 22);
-		menuBarAdministrar.setBackground(new Color(255, 255, 255));
-		return menuBarAdministrar;
-	}
-
-	public JMenu menuAdministrar() {
-		JMenu menuAdministrar = new JMenu("Administrar");
-		menuAdministrar.setBackground(new Color(255, 255, 255));
-		menuAdministrar.setOpaque(true);
-		return menuAdministrar;
-	}
-
-	/**
-	 * Paneles de entidades
-	 * 
-	 * @return
-	 */
-
-	public JPanel panelEntidades() {
-		JPanel panelEntidades = new JPanel();
-		panelEntidades.setBounds(339, 104, 1061, 707);
-		panelEntidades.setLayout(null);
-		return panelEntidades;
-	}
-
-	public JLabel lblTituloEntidades(String text) {
-		JLabel lblTituloEntidades = new JLabel(text);
-		lblTituloEntidades.setBounds(440, 70, 369, 136);
-		lblTituloEntidades.setForeground(Color.GRAY);
-		lblTituloEntidades.setFont(new Font(FONT, Font.BOLD, 19));
-		return lblTituloEntidades;
-	}
-
-	/**
-	 * Llena la tabla con todas las filas cargadas en la base de datos
-	 */
-
-	public void llenarTabla(DefaultTableModel model, String tipoEntidad) {
-		Integer i = 0;
-		switch (tipoEntidad) {
-		case TIPO_OBRA:
-			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
-			for (TipoObra tipo : tiposObra) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(tipo.getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case AREA_TEMATICA:
-			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
-			for (AreaTematica area : areasTematicas) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(area.getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case FORMATO:
-			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-			java.util.List<Formato> formatos = formatoDAO.findAll();
-			for (Formato formato : formatos) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(formato.getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case COLECCION:
-			IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
-			java.util.List<Coleccion> colecciones = coleccionDAO.findAll();
-			for (Coleccion coleccion : colecciones) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(coleccion.getIsbn());
-				fila.add(coleccion.getTitulo());
-				fila.add(coleccion.getSubtitulo());
-				fila.add(coleccion.getPrimerAutor());
-				fila.add(coleccion.getSegundoAutor());
-				fila.add(coleccion.getTercerAutor());
-				fila.add(coleccion.getGenero());
-				fila.add(coleccion.getTipo().getNombre());
-				fila.add(coleccion.getArea().getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case OBRA:
-			IObraDAO obraDAO = DaoFactory.getObraDAO();
-			java.util.List<Obra> obras = obraDAO.findAll();
-			for (Obra obra : obras) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(obra.getIsbn());
-				fila.add(obra.getTitulo());
-				fila.add(obra.getSubtitulo());
-				fila.add(obra.getPrimerAutor());
-				fila.add(obra.getSegundoAutor());
-				fila.add(obra.getTercerAutor());
-				fila.add(obra.getGenero());
-				fila.add(obra.getTipo().getNombre());
-				fila.add(obra.getArea().getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case EJEMPLAR:
-			IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
-			java.util.List<Ejemplar> ejemplares = ejemplarDAO.findAll();
-			for (Ejemplar ejemplar : ejemplares) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(ejemplar.getIsbnObra());
-				fila.add(ejemplar.getFormaAdquisicion());
-				fila.add(ejemplar.getFechaAdquisicion());
-				fila.add(ejemplar.getObservaciones());
-				fila.add(ejemplar.getCodigoIdentificatorio().getCodigo());
-				fila.add(ejemplar.getCodigoIdentificatorio().getPasillo());
-				fila.add(ejemplar.getCodigoIdentificatorio().getEstanteria());
-				fila.add(ejemplar.getCodigoIdentificatorio().getEstante());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case EDICION:
-			IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-			java.util.List<Edicion> ediciones = edicionDAO.findAll();
-			for (Edicion edicion : ediciones) {
-			    StringBuilder concatenarFormatos = new StringBuilder();
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(edicion.getEditorial());
-				fila.add(edicion.getPais());
-				fila.add(edicion.getNumero());
-				fila.add(edicion.getAnio());
-				fila.add(edicion.getVolumenes());
-				fila.add(edicion.getPaginas());
-				fila.add(edicion.getIdioma());
-				Set<Formato> formatos1 = edicion.getFormatos();
-				for (Formato formato : formatos1) {
-					 concatenarFormatos.append(formato.getNombre() + ", ");
-				}
-				fila.add(concatenarFormatos.toString());
-				fila.add(edicion.getFormatos());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		default:
-		}
-	}
-
-	/**
-	 * Actualiza en la base de datos la fila agregada en la tabla
-	 * 
-	 */
-	private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
-
-		switch (tipoEntidad) {
-		case TIPO_OBRA:
-			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-			TipoObra tipoObra = new TipoObra();
-			tipoObra.setNombre(nombre);
-			tipoObraDAO.insert(tipoObra);
-			break;
-		case AREA_TEMATICA:
-			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-			AreaTematica areaTematica = new AreaTematica();
-			areaTematica.setNombre(nombre);
-			areaTematicaDAO.insert(areaTematica);
-			break;
-		case FORMATO:
-			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-			Formato formato = new Formato();
-			formato.setNombre(nombre);
-			formatoDAO.insert(formato);
-			break;
-		default:
-		}
-
-	}
-
-	public void limpiarTabla(JTable tabla) {
-		try {
-			DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-			int filas = tabla.getRowCount();
-			for (int i = 0; filas > i; i++) {
-				modelo.removeRow(0);
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
-		}
-	}
+            Tabla.fill(model, Constants.EDICION);
+            scrollPane.setViewportView(tablaEdiciones);
+
+            JButton btnAgregarEdicion = btnAgregarEdicion();
+            panelEdicion.add(btnAgregarEdicion);
+
+            JButton btnRefrescar = btnRefrescar();
+            panelEdicion.add(btnRefrescar);
+
+            /**
+             * Botón con evento para agregar obra
+             */
+
+            btnAgregarEdicion.addActionListener(b -> {
+                AgregarEdicion agregarEdicion = new AgregarEdicion();
+                agregarEdicion.setVisible(true);
+            });
+            btnRefrescar.addActionListener(b -> {
+                limpiarTabla(tablaEdiciones);
+                Tabla.fill(model, Constants.EDICION);
+            });
+
+        });
+
+        /**
+         * Crea el panel para administrar colecciones
+         */
+
+        menuItemColeccion.addActionListener(e -> {
+            ocultarPaneles();
+            panelColeccion.setVisible(true);
+            contentPane.add(panelColeccion);
+
+            panelColeccion.add(lblTituloEntidades(Constants.COLECCIONES));
+
+            JScrollPane scrollPane = scrollPane();
+            panelColeccion.add(scrollPane);
+
+            JTable tablaColecciones = new JTable();
+            tablaColecciones.setSize(1000, 1600);
+
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tablaColecciones.setModel(model);
+            model.addColumn("");
+            model.addColumn("Isbn");
+            model.addColumn("Titulo");
+            model.addColumn("Subitulo");
+            model.addColumn("1° autor");
+            model.addColumn("2° autor");
+            model.addColumn("3° autor");
+            model.addColumn("Género");
+            model.addColumn(Constants.TIPO_OBRA);
+            model.addColumn(Constants.AREA_TEMATICA);
+
+            Tabla.fill(model, Constants.COLECCION);
+            scrollPane.setViewportView(tablaColecciones);
+
+            JButton btnAgregarColeccion = btnAgregarColeccion();
+            panelColeccion.add(btnAgregarColeccion);
+
+            JButton btnRefrescar = btnRefrescar();
+            panelColeccion.add(btnRefrescar);
+
+            /**
+             * Botón con evento para agregar obra
+             */
+
+            btnAgregarColeccion.addActionListener(b -> {
+                AgregarColeccion agregarColeccion = new AgregarColeccion();
+                agregarColeccion.setVisible(true);
+            });
+
+            btnRefrescar.addActionListener(b -> {
+                limpiarTabla(tablaColecciones);
+                Tabla.fill(model, Constants.COLECCION);
+            });
+
+        });
+
+        btnListarLectores.addActionListener(e -> {
+            ocultarPaneles();
+            panelLectores.setVisible(true);
+            contentPane.add(panelLectores);
+
+            panelLectores.add(lblTituloEntidades(Constants.LECTORES));
+
+            JScrollPane scrollPane = scrollPane();
+            panelLectores.add(scrollPane);
+
+            JTable tablaLectores = new JTable();
+            tablaLectores.setSize(1000, 1600);
+
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tablaLectores.setModel(model);
+            tablaLectores.setAutoCreateRowSorter(true);
+
+            model.addColumn("");
+            model.addColumn("Nombre");
+            model.addColumn("Apellido");
+            model.addColumn("E-mail");
+            model.addColumn("Dirección");
+            model.addColumn("Fecha de nacimiento");
+            model.addColumn("Multas");
+
+            Tabla.fill(model, Constants.LECTOR);
+
+            scrollPane.setViewportView(tablaLectores);
+
+            JButton btnRefrescar = btnRefrescar();
+            panelLectores.add(btnRefrescar);
+
+            btnRefrescar.addActionListener(b -> {
+                limpiarTabla(tablaLectores);
+                Tabla.fill(model, Constants.LECTOR);
+            });
+        });
+
+        btnCerrarSesion.addActionListener(e -> {
+            IniciarSesion login = new IniciarSesion();
+            login.setVisible(true);
+            SistemaFuncionario.this.dispose();
+        });
+
+        btnExit.addActionListener(e -> System.exit(0));
+
+    }
+
+    /**
+     * Create components
+     */
+
+    public void ventana() {
+        setUndecorated(true);
+        setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle(Constants.OPCIONES);
+        setBounds(100, 100, 1390, 811);
+        setLocationRelativeTo(null);
+    }
+
+    public JPanel contentPane() {
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(null);
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        return contentPane;
+    }
+
+    public JPanel panelPrestabook() {
+        JPanel panelPrestabook = new JPanel();
+        panelPrestabook.setBounds(339, 0, 1061, 103);
+        panelPrestabook.setBorder(null);
+        panelPrestabook.setBackground(new Color(0, 64, 128));
+        panelPrestabook.setLayout(null);
+        return panelPrestabook;
+    }
+
+    public JLabel lblIconCerrarSesion() {
+        JLabel lblIconCerrarSesion = new JLabel("");
+        lblIconCerrarSesion.setBounds(817, 5, 19, 16);
+        return lblIconCerrarSesion;
+    }
+
+    public void jLabelImage(JLabel lblIconCerrarSesion) {
+        ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
+        Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
+                lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
+        lblIconCerrarSesion.setIcon(icon);
+        this.repaint();
+    }
+
+    public JLabel lblPrestabook() {
+        JLabel lblPrestabook = new JLabel("PrestaBook");
+        lblPrestabook.setBounds(399, 30, 267, 42);
+        lblPrestabook.setForeground(Color.WHITE);
+        lblPrestabook.setFont(new Font(Constants.FONT, Font.BOLD, 32));
+        return lblPrestabook;
+    }
+
+    public JButton btnExit() {
+        JButton btnExit = new JButton("X");
+        btnExit.setForeground(Color.WHITE);
+        btnExit.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnExit.setBackground(new Color(255, 106, 106));
+        btnExit.setBounds(1004, 1, 47, 25);
+        return btnExit;
+    }
+
+    public JButton btnCerrarSesion() {
+        JButton btnCerrarSesion = new JButton("Cerrar Sesión");
+        btnCerrarSesion.setFont(new Font(Constants.FONT, Font.BOLD, 11));
+        btnCerrarSesion.setFocusPainted(false);
+        btnCerrarSesion.setBorderPainted(false);
+        btnCerrarSesion.setBorder(null);
+        btnCerrarSesion.setBounds(893, 2, 101, 23);
+        btnCerrarSesion.setForeground(new Color(255, 255, 255));
+        btnCerrarSesion.setBackground(new Color(0, 64, 128));
+        return btnCerrarSesion;
+    }
+
+    public JPanel panelOpciones() {
+        JPanel panelOpciones = new JPanel();
+        panelOpciones.setBounds(0, 0, 341, 811);
+        panelOpciones.setBackground(new Color(0, 45, 89));
+        panelOpciones.setLayout(null);
+        return panelOpciones;
+    }
+
+    public JLabel lblUsuario() {
+        JLabel lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setBounds(27, 0, 122, 37);
+        lblUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 17));
+        lblUsuario.setForeground(new Color(255, 255, 255));
+        return lblUsuario;
+    }
+
+    public JLabel textUsuario() {
+        textUsuario.setBackground(new Color(0, 128, 0));
+        textUsuario.setBounds(118, 0, 173, 37);
+        textUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 16));
+        textUsuario.setForeground(new Color(255, 255, 255));
+        return textUsuario;
+    }
+
+    public JButton btnSolicitudes() {
+        JButton btnSolicitudes = new JButton("Solicitudes");
+        btnSolicitudes.setVerifyInputWhenFocusTarget(false);
+        btnSolicitudes.setForeground(new Color(0, 64, 128));
+        btnSolicitudes.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnSolicitudes.setFocusPainted(false);
+        btnSolicitudes.setBorderPainted(false);
+        btnSolicitudes.setBorder(null);
+        btnSolicitudes.setBackground(Color.WHITE);
+        btnSolicitudes.setBounds(23, 74, 293, 31);
+        return btnSolicitudes;
+    }
+
+    public JPanel panelSeparador() {
+        JPanel panelSeparador = new JPanel();
+        panelSeparador.setBounds(23, 121, 292, 3);
+        return panelSeparador;
+    }
+
+    public JLabel lblOpciones() {
+        JLabel lblOpciones = new JLabel(Constants.OPCIONES);
+        lblOpciones.setForeground(new Color(255, 255, 255));
+        lblOpciones.setFont(new Font(Constants.FONT, Font.BOLD, 16));
+        lblOpciones.setBounds(133, 135, 105, 23);
+        return lblOpciones;
+    }
+
+    private JButton btnGestionarPrestamo() {
+        JButton btnAgregarFormato = new JButton("Gestionar Préstamo");
+        btnAgregarFormato.setFocusPainted(false);
+        btnAgregarFormato.setBackground(new Color(255, 255, 255));
+        btnAgregarFormato.setForeground(new Color(0, 64, 128));
+        btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarFormato.setBorderPainted(false);
+        btnAgregarFormato.setBounds(23, 169, 293, 31);
+        return btnAgregarFormato;
+    }
+
+    public JButton btnGestionarDevolucion() {
+        JButton btnGestionarDevolucion = new JButton("Gestionar devolución de obra");
+        btnGestionarDevolucion.setFocusPainted(false);
+        btnGestionarDevolucion.setBackground(new Color(255, 255, 255));
+        btnGestionarDevolucion.setForeground(new Color(0, 64, 128));
+        btnGestionarDevolucion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnGestionarDevolucion.setBorderPainted(false);
+        btnGestionarDevolucion.setBounds(23, 221, 293, 31);
+        return btnGestionarDevolucion;
+    }
+
+    public JButton btnVerEjemplares() {
+        JButton btnVerEjemplares = new JButton("Ver Ejemplares");
+        btnVerEjemplares.setFocusPainted(false);
+        btnVerEjemplares.setBackground(new Color(255, 255, 255));
+        btnVerEjemplares.setForeground(new Color(0, 64, 128));
+        btnVerEjemplares.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnVerEjemplares.setBorderPainted(false);
+        btnVerEjemplares.setBounds(23, 273, 293, 31);
+        btnVerEjemplares.addActionListener(null);
+        return btnVerEjemplares;
+    }
+
+    public JButton btnMasBuscadasPorAlumnoDocente() {
+        JButton btnMasBuscadasPorAlumnoDocente = new JButton("Mas buscadas por alumnos y docentes");
+        btnMasBuscadasPorAlumnoDocente.setFocusPainted(false);
+        btnMasBuscadasPorAlumnoDocente.setBackground(new Color(255, 255, 255));
+        btnMasBuscadasPorAlumnoDocente.setForeground(new Color(0, 64, 128));
+        btnMasBuscadasPorAlumnoDocente.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnMasBuscadasPorAlumnoDocente.setBorderPainted(false);
+        btnMasBuscadasPorAlumnoDocente.setBounds(23, 325, 293, 31);
+        return btnMasBuscadasPorAlumnoDocente;
+    }
+
+    public JButton btnMasBuscadasPorPublicoGeneral() {
+        JButton btnMasBuscadasPorPublicoGeneral = new JButton("Mas buscadas por publico en general");
+        btnMasBuscadasPorPublicoGeneral.setFocusPainted(false);
+        btnMasBuscadasPorPublicoGeneral.setBackground(new Color(255, 255, 255));
+        btnMasBuscadasPorPublicoGeneral.setForeground(new Color(0, 64, 128));
+        btnMasBuscadasPorPublicoGeneral.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnMasBuscadasPorPublicoGeneral.setBorderPainted(false);
+        btnMasBuscadasPorPublicoGeneral.setBounds(23, 377, 293, 31);
+        return btnMasBuscadasPorPublicoGeneral;
+    }
+
+    public JButton btnListarEjemplaresDisponiblesPorArea() {
+        JButton btnListarEjemplaresDisponiblesPorArea = new JButton("Listar ejemplares disponibles por area");
+        btnListarEjemplaresDisponiblesPorArea.setFocusPainted(false);
+        btnListarEjemplaresDisponiblesPorArea.setBackground(new Color(255, 255, 255));
+        btnListarEjemplaresDisponiblesPorArea.setForeground(new Color(0, 64, 128));
+        btnListarEjemplaresDisponiblesPorArea.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnListarEjemplaresDisponiblesPorArea.setBorderPainted(false);
+        btnListarEjemplaresDisponiblesPorArea.setBounds(23, 429, 293, 31);
+        return btnListarEjemplaresDisponiblesPorArea;
+    }
+
+    public JButton btnListarEjemplaresDisponiblesPorFecha() {
+        JButton btnListarEjemplaresDisponiblesPorFecha = new JButton("Listar ejemplares disponibles por fecha");
+        btnListarEjemplaresDisponiblesPorFecha.setFocusPainted(false);
+        btnListarEjemplaresDisponiblesPorFecha.setBackground(new Color(255, 255, 255));
+        btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
+        btnListarEjemplaresDisponiblesPorFecha.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
+        btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
+        return btnListarEjemplaresDisponiblesPorFecha;
+    }
+
+    public JButton btnListarLectores() {
+        JButton btnListarLectoresMultadosPorPeriodo = new JButton("Ver Lectores");
+        btnListarLectoresMultadosPorPeriodo.setFocusPainted(false);
+        btnListarLectoresMultadosPorPeriodo.setBackground(new Color(255, 255, 255));
+        btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
+        btnListarLectoresMultadosPorPeriodo.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
+        btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
+        return btnListarLectoresMultadosPorPeriodo;
+    }
+
+    public JButton btnListarRankingDeMultados() {
+        JButton btnListarRankingDeMultados = new JButton("Listar ranking de multados");
+        btnListarRankingDeMultados.setFocusPainted(false);
+        btnListarRankingDeMultados.setBackground(new Color(255, 255, 255));
+        btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
+        btnListarRankingDeMultados.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnListarRankingDeMultados.setBorderPainted(false);
+        btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
+        return btnListarRankingDeMultados;
+    }
+
+    public JButton btnListarObrasPorEditorial() {
+        JButton btnListarObrasPorEditorial = new JButton("Listar obras por editorial");
+        btnListarObrasPorEditorial.setFocusPainted(false);
+        btnListarObrasPorEditorial.setBackground(new Color(255, 255, 255));
+        btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
+        btnListarObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnListarObrasPorEditorial.setBorderPainted(false);
+        btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
+        return btnListarObrasPorEditorial;
+    }
+
+    public JButton btnAplicarMultaALector() {
+        JButton btnAplicarMultaALector = new JButton("Aplicar multa a lector");
+        btnAplicarMultaALector.setFocusPainted(false);
+        btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
+        btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
+        btnAplicarMultaALector.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAplicarMultaALector.setBorderPainted(false);
+        btnAplicarMultaALector.setBounds(23, 689, 293, 31);
+        return btnAplicarMultaALector;
+    }
+
+    public JPanel panelBienvenida() {
+        JPanel panel = new JPanel();
+        panel.setBounds(339, 104, 1061, 707);
+        panel.setLayout(null);
+        return panel;
+    }
+
+    public JPanel panelAdministrarEntidades() {
+        JPanel panelAdministrarEntidades = new JPanel();
+        panelAdministrarEntidades.setBounds(339, 104, 987, 707);
+        panelAdministrarEntidades.setLayout(null);
+        return panelAdministrarEntidades;
+    }
+
+    public JLabel lblAdministrarEntidades() {
+        JLabel lblBienvenidaParte1 = new JLabel("Administrador de entidades");
+        lblBienvenidaParte1.setBounds(330, 0, 369, 136);
+        lblBienvenidaParte1.setForeground(Color.GRAY);
+        lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
+        return lblBienvenidaParte1;
+    }
+
+    public JLabel lblTiposDeObras() {
+        JLabel lblTiposDeObras = new JLabel(Constants.TIPOS_DE_OBRAS);
+        lblTiposDeObras.setBounds(410, 70, 369, 136);
+        lblTiposDeObras.setForeground(Color.GRAY);
+        lblTiposDeObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
+        return lblTiposDeObras;
+    }
+
+    public JScrollPane scrollPane() {
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 158, 1030, 300);
+        return scrollPane;
+    }
+
+    private JButton btnAgregarTipoObra() {
+        JButton btnAgregarTipoObra = new JButton("Agregar tipo obra");
+        btnAgregarTipoObra.setFocusPainted(false);
+        btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
+        btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
+        btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarTipoObra.setBorderPainted(false);
+        btnAgregarTipoObra.setBounds(210, 500, 210, 20);
+        return btnAgregarTipoObra;
+    }
+
+    private JButton btnActualizarTipoObra() {
+        JButton btnActualizarTipoObra = new JButton("Actualizar tipo obra");
+        btnActualizarTipoObra.setFocusPainted(false);
+        btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
+        btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
+        btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnActualizarTipoObra.setBorderPainted(false);
+        btnActualizarTipoObra.setBounds(600, 500, 210, 20);
+        return btnActualizarTipoObra;
+    }
+
+    private JButton btnAgregarColeccion() {
+        JButton btnAgregarColeccion = new JButton("Agregar colección");
+        btnAgregarColeccion.setFocusPainted(false);
+        btnAgregarColeccion.setBackground(new Color(0, 64, 128));
+        btnAgregarColeccion.setForeground(new Color(255, 255, 255));
+        btnAgregarColeccion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarColeccion.setBorderPainted(false);
+        btnAgregarColeccion.setBounds(210, 500, 210, 20);
+        return btnAgregarColeccion;
+    }
+
+    private JButton btnAgregarEdicion() {
+        JButton btnAgregarEdicion = new JButton("Agregar edición");
+        btnAgregarEdicion.setFocusPainted(false);
+        btnAgregarEdicion.setBackground(new Color(0, 64, 128));
+        btnAgregarEdicion.setForeground(new Color(255, 255, 255));
+        btnAgregarEdicion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarEdicion.setBorderPainted(false);
+        btnAgregarEdicion.setBounds(210, 500, 210, 20);
+        return btnAgregarEdicion;
+    }
+
+    private JButton btnAgregarEjemplar() {
+        JButton btnAgregarEjemplar = new JButton("Agregar ejemplar");
+        btnAgregarEjemplar.setFocusPainted(false);
+        btnAgregarEjemplar.setBackground(new Color(0, 64, 128));
+        btnAgregarEjemplar.setForeground(new Color(255, 255, 255));
+        btnAgregarEjemplar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarEjemplar.setBorderPainted(false);
+        btnAgregarEjemplar.setBounds(210, 500, 210, 20);
+        return btnAgregarEjemplar;
+    }
+
+    private JButton btnAgregarAreaTematica() {
+        JButton btnAgregarTipoObra = new JButton("Agregar area tematica");
+        btnAgregarTipoObra.setFocusPainted(false);
+        btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
+        btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
+        btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarTipoObra.setBorderPainted(false);
+        btnAgregarTipoObra.setBounds(210, 500, 210, 20);
+        return btnAgregarTipoObra;
+    }
+
+    private JButton btnActualizarAreaTematica() {
+        JButton btnActualizarTipoObra = new JButton("Actualizar area tematica");
+        btnActualizarTipoObra.setFocusPainted(false);
+        btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
+        btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
+        btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnActualizarTipoObra.setBorderPainted(false);
+        btnActualizarTipoObra.setBounds(600, 500, 210, 20);
+        return btnActualizarTipoObra;
+    }
+
+    private JButton btnAgregarFormato() {
+        JButton btnAgregarFormato = new JButton("Agregar formato");
+        btnAgregarFormato.setFocusPainted(false);
+        btnAgregarFormato.setBackground(new Color(0, 64, 128));
+        btnAgregarFormato.setForeground(new Color(255, 255, 255));
+        btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarFormato.setBorderPainted(false);
+        btnAgregarFormato.setBounds(210, 500, 210, 20);
+        return btnAgregarFormato;
+    }
+
+    private JButton btnActualizarFormato() {
+        JButton btnActualizarFormato = new JButton("Actualizar formato");
+        btnActualizarFormato.setFocusPainted(false);
+        btnActualizarFormato.setBackground(new Color(0, 64, 128));
+        btnActualizarFormato.setForeground(new Color(255, 255, 255));
+        btnActualizarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnActualizarFormato.setBorderPainted(false);
+        btnActualizarFormato.setBounds(600, 500, 210, 20);
+        return btnActualizarFormato;
+    }
+
+    private JButton btnAgregarObra() {
+        JButton btnAgregarFormato = new JButton("Agregar obra");
+        btnAgregarFormato.setFocusPainted(false);
+        btnAgregarFormato.setBackground(new Color(0, 64, 128));
+        btnAgregarFormato.setForeground(new Color(255, 255, 255));
+        btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAgregarFormato.setBorderPainted(false);
+        btnAgregarFormato.setBounds(50, 500, 210, 20);
+        return btnAgregarFormato;
+    }
+
+    private JButton btnRefrescar() {
+        JButton btnRefrescar = new JButton("Refrescar");
+        btnRefrescar.setFocusPainted(false);
+        btnRefrescar.setBackground(new Color(0, 64, 128));
+        btnRefrescar.setForeground(new Color(255, 255, 255));
+        btnRefrescar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnRefrescar.setBorderPainted(false);
+        btnRefrescar.setBounds(700, 500, 210, 20);
+        return btnRefrescar;
+    }
+
+    public JLabel lblBienvenidaParte1() {
+        JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
+        lblBienvenidaParte1.setBounds(161, 0, 775, 136);
+        lblBienvenidaParte1.setForeground(Color.GRAY);
+        lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
+        return lblBienvenidaParte1;
+    }
+
+    public JLabel lblBienvenidaParte2() {
+        JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
+        lblBienvenidaParte2.setBounds(397, 64, 369, 136);
+        lblBienvenidaParte2.setForeground(Color.GRAY);
+        lblBienvenidaParte2.setFont(new Font(Constants.FONT, Font.BOLD, 21));
+        return lblBienvenidaParte2;
+    }
+
+    public JLabel lblIconLibreria() {
+        JLabel lblIconLibreria = new JLabel("");
+        lblIconLibreria.setBounds(225, 169, 605, 493);
+        lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
+        return lblIconLibreria;
+    }
+
+    /**
+     * Menu bar Administrar
+     */
+
+    public JMenuBar menuBarAdministrar() {
+        JMenuBar menuBarAdministrar = new JMenuBar();
+        menuBarAdministrar.setBounds(10, 6, 75, 22);
+        menuBarAdministrar.setBackground(new Color(255, 255, 255));
+        return menuBarAdministrar;
+    }
+
+    public JMenu menuAdministrar() {
+        JMenu menuAdministrar = new JMenu("Administrar");
+        menuAdministrar.setBackground(new Color(255, 255, 255));
+        menuAdministrar.setOpaque(true);
+        return menuAdministrar;
+    }
+
+    /**
+     * Paneles de entidades
+     * 
+     * @return
+     */
+
+    public JPanel panelEntidades() {
+        JPanel panelEntidades = new JPanel();
+        panelEntidades.setBounds(339, 104, 1061, 707);
+        panelEntidades.setLayout(null);
+        return panelEntidades;
+    }
+
+    public JLabel lblTituloEntidades(String text) {
+        JLabel lblTituloEntidades = new JLabel(text);
+        lblTituloEntidades.setBounds(440, 70, 369, 136);
+        lblTituloEntidades.setForeground(Color.GRAY);
+        lblTituloEntidades.setFont(new Font(Constants.FONT, Font.BOLD, 19));
+        return lblTituloEntidades;
+    }
+
+    /**
+     * Actualiza en la base de datos la fila agregada en la tabla
+     * 
+     */
+    private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
+
+        switch (tipoEntidad) {
+            case Constants.TIPO_OBRA:
+                ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
+                TipoObra tipoObra = new TipoObra();
+                tipoObra.setNombre(nombre);
+                tipoObraDAO.insert(tipoObra);
+                break;
+            case Constants.AREA_TEMATICA:
+                IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
+                AreaTematica areaTematica = new AreaTematica();
+                areaTematica.setNombre(nombre);
+                areaTematicaDAO.insert(areaTematica);
+                break;
+            case Constants.FORMATO:
+                IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
+                Formato formato = new Formato();
+                formato.setNombre(nombre);
+                formatoDAO.insert(formato);
+                break;
+            default:
+        }
+
+    }
+
+    public void limpiarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
+
+    private void ocultarPaneles() {
+        for (JPanel panel : paneles) {
+            panel.setVisible(false);
+        }
+    }
 
 }

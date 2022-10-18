@@ -2,6 +2,8 @@ package ar.edu.uner.prestabook.persistence.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Transaction;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
@@ -61,6 +63,13 @@ public class LectorDAO implements ILectorDAO {
     @Override
     public Integer delete(Lector lector) {
         return 0;
+    }
+
+    @Override
+    public Long countFinesById(Long documento) {
+        Query query = HibernateConnection.getCurrentSession().createQuery(
+                String.format("select count(*) from Multa m where m.lector.documento = '%d'", documento));
+        return (Long) query.getSingleResult();
     }
 
 }

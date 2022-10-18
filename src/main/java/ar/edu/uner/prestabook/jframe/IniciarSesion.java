@@ -140,7 +140,7 @@ public class IniciarSesion extends JFrame {
 					if ("Funcionarios".equals(tipoDeUsuario)) {
 						SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario();
 						interfazSistemaFuncionario.setVisible(true);
-						interfazSistemaFuncionario.textUsuario.setText(busquedaNombre);
+						interfazSistemaFuncionario.getTextUsuario().setText(busquedaNombre);
 					} else {
 						SistemaLector interfazSistemaLector = new SistemaLector();
 						interfazSistemaLector.setVisible(true);
