@@ -606,8 +606,8 @@ public class SistemaFuncionario extends JFrame {
 			llenarTabla(model, entidad);
 			scrollPane.setViewportView(tablaColecciones);
 
-			JButton btnAgregarEdicion = btnAgregarEdicion();
-			panelColeccion.add(btnAgregarEdicion);
+			JButton btnAgregarColeccion = btnAgregarColeccion();
+			panelColeccion.add(btnAgregarColeccion);
 
 			JButton btnRefrescar = btnRefrescar();
 			panelColeccion.add(btnRefrescar);
@@ -616,7 +616,7 @@ public class SistemaFuncionario extends JFrame {
 			 * Botón con evento para agregar obra
 			 */
 
-			btnAgregarEdicion.addActionListener(b -> {
+			btnAgregarColeccion.addActionListener(b -> {
 				AgregarColeccion agregarColeccion = new AgregarColeccion();
 				agregarColeccion.setVisible(true);
 			});
@@ -950,6 +950,17 @@ public class SistemaFuncionario extends JFrame {
 		return btnActualizarTipoObra;
 	}
 
+	private JButton btnAgregarColeccion() {
+		JButton btnAgregarColeccion = new JButton("Agregar colección");
+		btnAgregarColeccion.setFocusPainted(false);
+		btnAgregarColeccion.setBackground(new Color(0, 64, 128));
+		btnAgregarColeccion.setForeground(new Color(255, 255, 255));
+		btnAgregarColeccion.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarColeccion.setBorderPainted(false);
+		btnAgregarColeccion.setBounds(210, 500, 210, 20);
+		return btnAgregarColeccion;
+	}
+
 	private JButton btnAgregarEdicion() {
 		JButton btnAgregarEdicion = new JButton("Agregar edición");
 		btnAgregarEdicion.setFocusPainted(false);
@@ -1179,7 +1190,7 @@ public class SistemaFuncionario extends JFrame {
 			for (Ejemplar ejemplar : ejemplares) {
 				List<Object> fila = new LinkedList<>();
 				fila.add(++i);
-				fila.add(ejemplar.getId());
+				fila.add(ejemplar.getIsbnObra());
 				fila.add(ejemplar.getFormaAdquisicion());
 				fila.add(ejemplar.getFechaAdquisicion());
 				fila.add(ejemplar.getObservaciones());

@@ -2,10 +2,11 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,13 +19,12 @@ import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.render.FormatoRenderer;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
-import ar.edu.uner.prestabook.persistence.IFormatoDAO;
-import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 public class AgregarEdicion extends JFrame {
 
@@ -91,7 +91,7 @@ public class AgregarEdicion extends JFrame {
 		JLabel lblFormato = lblFormato();
 		contentPane.add(lblFormato);
 
-		JComboBox<Object> comboBoxFormato = comboBoxFormato();
+		JComboBox<Formato> comboBoxFormato = comboBoxFormatos();
 		contentPane.add(comboBoxFormato);
 
 		JButton btnAgregar = btnAgregar();
@@ -118,18 +118,18 @@ public class AgregarEdicion extends JFrame {
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
-				Items itemFormato = (Items) comboBoxFormato.getSelectedItem();
+				Formato formato = (Formato) comboBoxFormato.getSelectedItem();
 				Set<Formato> formatos = new HashSet<>();
 				Formato formato1 = new Formato();
-				formato1.setId(itemFormato.getId());
-				formato1.setNombre(itemFormato.getValor());
+				formato1.setId(formato.getId());
+				formato1.setNombre(formato.getNombre());
 				formatos.add(formato1);
 
-				Items itemObra = (Items) comboBoxObras.getSelectedItem();
+				Obra obra = (Obra) comboBoxObras.getSelectedItem();
 
 				actualizarBaseDeDatos(fieldEditorial.getText(), fieldPais.getText(), fieldNumero.getText(),
 						fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(), fieldIdioma.getText(),
-						formatos, itemObra.getId());
+						formatos, obra.getIsbn());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -141,11 +141,8 @@ public class AgregarEdicion extends JFrame {
 	}
 
 	private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio, String volumenes,
-			String paginas, String idioma, Set<Formato> formatos, Integer idObra) {
-		IObraDAO o = DaoFactory.getObraDAO();
-		Obra obra = o.findById((long) idObra);
+			String paginas, String idioma, Set<Formato> formatos, String isbnObra) {
 		Edicion edicion = new Edicion();
-		edicion.setId((long) 1);
 		edicion.setAnio(Integer.parseInt(anio));
 		edicion.setEditorial(editorial);
 		edicion.setIdioma(idioma);
@@ -153,17 +150,11 @@ public class AgregarEdicion extends JFrame {
 		edicion.setPaginas(Integer.parseInt(paginas));
 		edicion.setPais(pais);
 		edicion.setVolumenes(Integer.parseInt(volumenes));
-
 		edicion.setFormatos(formatos);
+		edicion.setIsbnObra(isbnObra);
 
 		IEdicionDAO e = DaoFactory.getEdicionDAO();
 		e.insert(edicion);
-
-		List<Edicion> ediciones = new LinkedList<>();
-		ediciones.add(edicion);
-		obra.setEdicion(ediciones);
-		o.insert(obra);
-
 	}
 
 	private JPanel contentPane() {
@@ -246,6 +237,12 @@ public class AgregarEdicion extends JFrame {
 		JTextField fieldNumero = new JTextField();
 		fieldNumero.setColumns(10);
 		fieldNumero.setBounds(37, 332, 166, 29);
+		fieldNumero.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldNumero.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldNumero;
 	}
 
@@ -259,6 +256,12 @@ public class AgregarEdicion extends JFrame {
 		JTextField fieldAnio = new JTextField();
 		fieldAnio.setColumns(10);
 		fieldAnio.setBounds(37, 274, 166, 29);
+		fieldAnio.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldAnio.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldAnio;
 	}
 
@@ -272,6 +275,12 @@ public class AgregarEdicion extends JFrame {
 		JTextField fieldVolumenes = new JTextField();
 		fieldVolumenes.setColumns(10);
 		fieldVolumenes.setBounds(237, 274, 166, 29);
+		fieldVolumenes.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldVolumenes.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldVolumenes;
 	}
 
@@ -285,6 +294,12 @@ public class AgregarEdicion extends JFrame {
 		JTextField fieldPaginas = new JTextField();
 		fieldPaginas.setColumns(10);
 		fieldPaginas.setBounds(237, 332, 166, 29);
+		fieldPaginas.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldPaginas.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldPaginas;
 	}
 
@@ -313,38 +328,19 @@ public class AgregarEdicion extends JFrame {
 		return lblFormato;
 	}
 
-	public JComboBox<Object> comboBoxFormato() {
-		JComboBox<Object> comboBoxFormato = cargarComboBoxFormato();
-		comboBoxFormato.setBounds(237, 387, 166, 29);
-		return comboBoxFormato;
-	}
-
-	public JComboBox<Object> cargarComboBoxFormato() {
-		JComboBox<Object> comboBox = new JComboBox<>();
-
-		IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-		java.util.List<Formato> formatos = formatoDAO.findAll();
-		for (Formato formato : formatos) {
-			comboBox.addItem(new Items(formato.getId(), formato.getNombre()));
-		}
-		return comboBox;
-	}
-
 	public JComboBox<Obra> comboBoxObras() {
-		JComboBox<Obra> comboBoxObras = cargarComboBoxObra();
-		comboBoxObras.setBounds(130, 148, 166, 29);
-		comboBoxObras.setRenderer(new ObraRenderer());
-		return comboBoxObras;
+		JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
+		comboBoxObra.setBounds(130, 148, 166, 29);
+		comboBoxObra.setRenderer(new ObraRenderer());
+		comboBoxObra.setSelectedItem(null);
+		return comboBoxObra;
 	}
 
-	public JComboBox<Obra> cargarComboBoxObra() {
-		JComboBox<Obra> comboBox = new JComboBox<>();
-
-		IObraDAO obraDAO = DaoFactory.getObraDAO();
-		java.util.List<Obra> obras = obraDAO.findAll();
-		for (Obra obra : obras) {
-			comboBox.addItem(obra);
-		}
-		return comboBox;
+	public JComboBox<Formato> comboBoxFormatos() {
+		JComboBox<Formato> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getFormatoDAO().findAll()));
+		comboBoxObra.setBounds(237, 387, 166, 29);
+		comboBoxObra.setRenderer(new FormatoRenderer());
+		comboBoxObra.setSelectedItem(null);
+		return comboBoxObra;
 	}
 }
