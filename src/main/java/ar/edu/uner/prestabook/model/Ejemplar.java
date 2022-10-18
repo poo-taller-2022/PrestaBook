@@ -38,7 +38,5 @@ public class Ejemplar extends ObraAbstract {
     private String motivoBaja;
     @Column(name = "isbn_obra")
     private String isbnObra;
-//    @ManyToOne
-//    private Obra obra;
 
 }

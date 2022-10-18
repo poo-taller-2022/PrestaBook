@@ -132,9 +132,7 @@ public class AgregarColeccion extends JFrame {
             }
         });
 
-        btnCancelar.addActionListener(e -> {
-            this.setVisible(false);
-        });
+        btnCancelar.addActionListener(e -> this.setVisible(false));
 
     }
 
@@ -167,16 +165,16 @@ public class AgregarColeccion extends JFrame {
 
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
-        contentPane.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 64, 128)));
+        contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
         setContentPane(contentPane);
         contentPane.setLayout(null);
         return contentPane;
     }
 
-    public JButton btnAñadirEdicion() {
-        JButton btnAñadirEdicion = new JButton("Añadir edición");
-        btnAñadirEdicion.setBounds(166, 338, 127, 23);
-        return btnAñadirEdicion;
+    public JButton btnAniadirEdicion() {
+        JButton btnAniadirEdicion = new JButton("Añadir edición");
+        btnAniadirEdicion.setBounds(166, 338, 127, 23);
+        return btnAniadirEdicion;
     }
 
     public JPanel panelAgregarColeccion() {
