@@ -20,7 +20,7 @@ public abstract class Persona {
     private String tipoDocumento;
     @Id
     @Column(nullable = false)
-    private Integer documento;
+    private Long documento;
     private String email;
     private String celular;
     @Column(name = "fecha_nacimiento")

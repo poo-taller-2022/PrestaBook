@@ -42,19 +42,20 @@ public class AlumnoDAO implements IAlumnoDAO {
     }
 
     @Override
-    public Integer insert(Alumno alumno) {
+    public Alumno insert(Alumno alumno) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(alumno);
+        Long documento = (Long) HibernateConnection.getCurrentSession().save(alumno);
         tx.commit();
-        return id;
+        alumno.setDocumento(documento);
+        return alumno;
     }
 
     @Override
-    public Integer update(Alumno alumno) {
+    public Alumno update(Alumno alumno) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(alumno);
         tx.commit();
-        return 0;
+        return alumno;
     }
 
     @Override

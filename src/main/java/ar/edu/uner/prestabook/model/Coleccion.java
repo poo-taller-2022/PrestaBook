@@ -2,7 +2,9 @@ package ar.edu.uner.prestabook.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
@@ -14,9 +16,12 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Entity
 @Table(name = "colecciones")
-public class Coleccion extends Obra {
+public class Coleccion extends ObraAbstract {
 
-    @OneToMany
-	private List<Obra> obras;
+    @Id
+    @Column(nullable = false, unique = true)
+    private String isbn;
+    @OneToMany(mappedBy = "isbnColeccion")
+    private List<Obra> obras;
 
 }

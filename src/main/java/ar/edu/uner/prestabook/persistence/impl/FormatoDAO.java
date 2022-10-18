@@ -42,19 +42,20 @@ public class FormatoDAO implements IFormatoDAO {
     }
 
     @Override
-    public Integer insert(Formato formato) {
+    public Formato insert(Formato formato) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         Integer id = (Integer) HibernateConnection.getCurrentSession().save(formato);
         tx.commit();
-        return id;
+        formato.setId(id);
+        return formato;
     }
 
     @Override
-    public Integer update(Formato formato) {
+    public Formato update(Formato formato) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(formato);
         tx.commit();
-        return 0;
+        return formato;
     }
 
     @Override

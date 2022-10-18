@@ -6,19 +6,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "formato")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Formato {
 
     @Id
-    @TableGenerator(name = "pb_sequence")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "pb_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private Integer id;
     private String nombre;
 

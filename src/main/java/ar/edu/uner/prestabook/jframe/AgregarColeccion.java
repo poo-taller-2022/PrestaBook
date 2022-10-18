@@ -2,7 +2,11 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Vector;
 
+import javax.persistence.PersistenceException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,15 +18,13 @@ import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.connection.HibernateConnection;
+import ar.edu.uner.prestabook.jframe.render.AreaTematicaRenderer;
+import ar.edu.uner.prestabook.jframe.render.TipoObraRenderer;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Coleccion;
-import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.TipoObra;
-import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
-import ar.edu.uner.prestabook.persistence.IFormatoDAO;
-
-import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 public class AgregarColeccion extends JFrame {
 
@@ -95,10 +97,10 @@ public class AgregarColeccion extends JFrame {
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
 
-		JComboBox<Object> comboBoxTipoObra = comboBoxTipoObra();
+		JComboBox<TipoObra> comboBoxTipoObra = comboBoxTipoObra();
 		contentPane.add(comboBoxTipoObra);
 
-		JComboBox<Object> comboBoxAreaTematica = comboBoxAreaTematica();
+		JComboBox<AreaTematica> comboBoxAreaTematica = comboBoxAreaTematica();
 		contentPane.add(comboBoxAreaTematica);
 
 		btnAgregar.addActionListener(e -> {
@@ -110,25 +112,28 @@ public class AgregarColeccion extends JFrame {
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
-				Items itemTipoObra = (Items) comboBoxTipoObra.getSelectedItem();
+				TipoObra tipoObra = (TipoObra) comboBoxTipoObra.getSelectedItem();
 
-				Items itemAreaTematica = (Items) comboBoxAreaTematica.getSelectedItem();
+				AreaTematica areaTematica = (AreaTematica) comboBoxAreaTematica.getSelectedItem();
+				try {
+					actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
+							fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
+							fieldGenero.getText(), tipoObra.getNombre(), tipoObra.getId(), areaTematica.getNombre(),
+							areaTematica.getId());
 
-				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
-						fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
-						fieldGenero.getText(), itemTipoObra.getValor(), itemTipoObra.getId(),
-						itemAreaTematica.getValor(), itemAreaTematica.getId());
-
-				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
-				this.setVisible(false);
+					JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+					this.setVisible(false);
+				} catch (PersistenceException exception) {
+					HibernateConnection.getCurrentSession().getTransaction().rollback();
+					JOptionPane.showInternalMessageDialog(null, "Ya existe una colección con ese ISBN", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			} else {
 				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
 			}
 		});
 
-		btnCancelar.addActionListener(e -> {
-			this.setVisible(false);
-		});
+		btnCancelar.addActionListener(e -> this.setVisible(false));
 
 	}
 
@@ -161,16 +166,16 @@ public class AgregarColeccion extends JFrame {
 
 	public JPanel contentPane() {
 		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 64, 128)));
+		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		return contentPane;
 	}
 
-	public JButton btnAñadirEdicion() {
-		JButton btnAñadirEdicion = new JButton("Añadir edición");
-		btnAñadirEdicion.setBounds(166, 338, 127, 23);
-		return btnAñadirEdicion;
+	public JButton btnAniadirEdicion() {
+		JButton btnAniadirEdicion = new JButton("Añadir edición");
+		btnAniadirEdicion.setBounds(166, 338, 127, 23);
+		return btnAniadirEdicion;
 	}
 
 	public JPanel panelAgregarColeccion() {
@@ -193,6 +198,12 @@ public class AgregarColeccion extends JFrame {
 		JTextField fieldIsbn = new JTextField();
 		fieldIsbn.setBounds(37, 134, 166, 29);
 		fieldIsbn.setColumns(10);
+		fieldIsbn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldIsbn.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldIsbn;
 	}
 
@@ -286,16 +297,20 @@ public class AgregarColeccion extends JFrame {
 		return lblTipoObra;
 	}
 
-	public JComboBox<Object> comboBoxTipoObra() {
-		JComboBox<Object> comboBoxTipoObra = cargarComboBox("Tipo obra");
-		comboBoxTipoObra.setBounds(235, 268, 166, 29);
-		return comboBoxTipoObra;
+	public JComboBox<AreaTematica> comboBoxAreaTematica() {
+		JComboBox<AreaTematica> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
+		comboBoxObra.setBounds(437, 268, 166, 29);
+		comboBoxObra.setRenderer(new AreaTematicaRenderer());
+		comboBoxObra.setSelectedItem(null);
+		return comboBoxObra;
 	}
 
-	public JComboBox<Object> comboBoxAreaTematica() {
-		JComboBox<Object> comboBoxAreaTematica = cargarComboBox("Area tematica");
-		comboBoxAreaTematica.setBounds(437, 268, 166, 29);
-		return comboBoxAreaTematica;
+	public JComboBox<TipoObra> comboBoxTipoObra() {
+		JComboBox<TipoObra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getTipoObraDAO().findAll()));
+		comboBoxObra.setBounds(235, 268, 166, 29);
+		comboBoxObra.setRenderer(new TipoObraRenderer());
+		comboBoxObra.setSelectedItem(null);
+		return comboBoxObra;
 	}
 
 	public JLabel lblAreaTematica() {
@@ -314,34 +329,5 @@ public class AgregarColeccion extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(344, 332, 89, 23);
 		return btnCancelar;
-	}
-
-	public JComboBox<Object> cargarComboBox(String tipoEntidad) {
-		JComboBox<Object> comboBox = new JComboBox<>();
-		switch (tipoEntidad) {
-		case "Tipo obra":
-			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
-			for (TipoObra tipo : tiposObra) {
-				comboBox.addItem(new Items(tipo.getId(), tipo.getNombre()));
-			}
-			return comboBox;
-		case "Area tematica":
-			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
-			for (AreaTematica area : areasTematicas) {
-				comboBox.addItem(new Items(area.getId(), area.getNombre()));
-			}
-			return comboBox;
-		case "Formato":
-			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-			java.util.List<Formato> formatos = formatoDAO.findAll();
-			for (Formato formato : formatos) {
-				comboBox.addItem(new Items(formato.getId(), formato.getNombre()));
-			}
-			return comboBox;
-		default:
-		}
-		return null;
 	}
 }

@@ -16,7 +16,7 @@ public class EjemplarRenderer extends BasicComboBoxRenderer {
                 cellHasFocus);
         Ejemplar item = (Ejemplar) value;
         if (item != null)
-            setText(item.getCodigoIdentificatorio().getId().toString());
+            setText(item.getCodigoIdentificatorio().getCodigo().toString());
         return this;
     }
 

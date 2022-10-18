@@ -2,8 +2,13 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Vector;
 
+import javax.persistence.PersistenceException;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,20 +19,15 @@ import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.connection.HibernateConnection;
+import ar.edu.uner.prestabook.jframe.render.AreaTematicaRenderer;
+import ar.edu.uner.prestabook.jframe.render.ColeccionRenderer;
+import ar.edu.uner.prestabook.jframe.render.TipoObraRenderer;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Coleccion;
-import ar.edu.uner.prestabook.model.Formato;
-import ar.edu.uner.prestabook.model.TipoObra;
-import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
-import ar.edu.uner.prestabook.persistence.IColeccionDAO;
-import ar.edu.uner.prestabook.persistence.IFormatoDAO;
-
 import ar.edu.uner.prestabook.model.Obra;
+import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
-import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
-import javax.swing.JCheckBox;
-import java.util.LinkedList;
-import java.util.List;
 
 public class AgregarObra extends JFrame {
 
@@ -100,10 +100,10 @@ public class AgregarObra extends JFrame {
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
 
-		JComboBox<Object> comboBoxTipoObra = comboBoxTipoObra();
+		JComboBox<TipoObra> comboBoxTipoObra = comboBoxTipoObra();
 		contentPane.add(comboBoxTipoObra);
 
-		JComboBox<Object> comboBoxAreaTematica = comboBoxAreaTematica();
+		JComboBox<AreaTematica> comboBoxAreaTematica = comboBoxAreaTematica();
 		contentPane.add(comboBoxAreaTematica);
 
 		JCheckBox checkBoxColeccion = checkBoxColeccion();
@@ -112,7 +112,7 @@ public class AgregarObra extends JFrame {
 		JLabel lblIsbnDeColeccion = lblIsbnDeColeccion();
 		contentPane.add(lblIsbnDeColeccion);
 
-		JComboBox<Object> comboBoxIsbnColeccion = comboBoxIsbnColeccion();
+		JComboBox<Coleccion> comboBoxIsbnColeccion = comboBoxIsbnColeccion();
 		contentPane.add(comboBoxIsbnColeccion);
 
 		checkBoxColeccion.addActionListener(e -> {
@@ -134,36 +134,37 @@ public class AgregarObra extends JFrame {
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
-				Items itemTipoObra = (Items) comboBoxTipoObra.getSelectedItem();
+				TipoObra itemTipoObra = (TipoObra) comboBoxTipoObra.getSelectedItem();
 
-				Items itemAreaTematica = (Items) comboBoxAreaTematica.getSelectedItem();
+				AreaTematica itemAreaTematica = (AreaTematica) comboBoxAreaTematica.getSelectedItem();
 
-				Items itemColeccion = (Items) comboBoxIsbnColeccion.getSelectedItem();
+				try {
+					actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
+							fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
+							fieldGenero.getText(), itemTipoObra.getNombre(), itemTipoObra.getId(),
+							itemAreaTematica.getNombre(), itemAreaTematica.getId(), checkBoxColeccion,
+							comboBoxIsbnColeccion);
 
-				actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
-						fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
-						fieldGenero.getText(), itemTipoObra.getValor(), itemTipoObra.getId(),
-						itemAreaTematica.getValor(), itemAreaTematica.getId(), itemColeccion.getId());
-
-				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
-				this.setVisible(false);
+					JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+					this.setVisible(false);
+				} catch (PersistenceException exception) {
+					HibernateConnection.getCurrentSession().getTransaction().rollback();
+					JOptionPane.showInternalMessageDialog(null, "Ya existe una obra con ese ISBN", "Obra repetida",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			} else {
 				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
 			}
 		});
 
-		btnCancelar.addActionListener(e -> {
-			this.setVisible(false);
-		});
+		btnCancelar.addActionListener(e -> this.setVisible(false));
 
 	}
 
 	private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
 			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
-			String areaTematica, Integer idAreaTematica, Integer idColeccion) {
-		IColeccionDAO c = DaoFactory.getColeccionDAO();
-
-		Coleccion coleccion = c.findById((long) idColeccion);
+			String areaTematica, Integer idAreaTematica, JCheckBox checkBoxColeccion,
+			JComboBox<Coleccion> comboBoxIsbnColeccion) {
 
 		Obra obra = new Obra();
 		obra.setIsbn(isbn);
@@ -175,16 +176,12 @@ public class AgregarObra extends JFrame {
 		obra.setGenero(genero);
 		obra.setTipo(new TipoObra(idTipoObra, tipoObra));
 		obra.setArea(new AreaTematica(idAreaTematica, areaTematica));
+		if (checkBoxColeccion.isSelected()) {
+			Coleccion itemColeccion = (Coleccion) comboBoxIsbnColeccion.getSelectedItem();
+			obra.setIsbnColeccion(itemColeccion.getIsbn());
+		}
 		IObraDAO o = DaoFactory.getObraDAO();
 		o.insert(obra);
-
-		obra.setId(obra.getId());
-
-		List<Obra> obras = new LinkedList<>();
-		obras.add(obra);
-
-		coleccion.setObras(obras);
-		c.insert(coleccion);
 	}
 
 	public void ventana() {
@@ -207,13 +204,6 @@ public class AgregarObra extends JFrame {
 		JCheckBox checkBoxColeccion = new JCheckBox("Pertenece a una colección");
 		checkBoxColeccion.setBounds(157, 346, 192, 23);
 		return checkBoxColeccion;
-	}
-
-	public JComboBox<Object> comboBoxIsbnColeccion() {
-		JComboBox<Object> comboBoxIsbnColeccion = cargarComboBox("Coleccion");
-		comboBoxIsbnColeccion.setEnabled(false);
-		comboBoxIsbnColeccion.setBounds(374, 343, 166, 29);
-		return comboBoxIsbnColeccion;
 	}
 
 	public JLabel lblIsbnDeColeccion() {
@@ -249,6 +239,12 @@ public class AgregarObra extends JFrame {
 		JTextField fieldIsbn = new JTextField();
 		fieldIsbn.setBounds(37, 134, 166, 29);
 		fieldIsbn.setColumns(10);
+		fieldIsbn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldIsbn.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldIsbn;
 	}
 
@@ -342,16 +338,29 @@ public class AgregarObra extends JFrame {
 		return lblTipoObra;
 	}
 
-	public JComboBox<Object> comboBoxTipoObra() {
-		JComboBox<Object> comboBoxTipoObra = cargarComboBox("Tipo obra");
-		comboBoxTipoObra.setBounds(235, 268, 166, 29);
-		return comboBoxTipoObra;
+	public JComboBox<Coleccion> comboBoxIsbnColeccion() {
+		JComboBox<Coleccion> comboBoxIsbnColeccion = new JComboBox<>(
+				new Vector<>(DaoFactory.getColeccionDAO().findAll()));
+		comboBoxIsbnColeccion.setBounds(374, 343, 166, 29);
+		comboBoxIsbnColeccion.setRenderer(new ColeccionRenderer());
+		comboBoxIsbnColeccion.setSelectedItem(null);
+		return comboBoxIsbnColeccion;
 	}
 
-	public JComboBox<Object> comboBoxAreaTematica() {
-		JComboBox<Object> comboBoxAreaTematica = cargarComboBox("Area tematica");
-		comboBoxAreaTematica.setBounds(437, 268, 166, 29);
-		return comboBoxAreaTematica;
+	public JComboBox<AreaTematica> comboBoxAreaTematica() {
+		JComboBox<AreaTematica> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
+		comboBoxObra.setBounds(437, 268, 166, 29);
+		comboBoxObra.setRenderer(new AreaTematicaRenderer());
+		comboBoxObra.setSelectedItem(null);
+		return comboBoxObra;
+	}
+
+	public JComboBox<TipoObra> comboBoxTipoObra() {
+		JComboBox<TipoObra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getTipoObraDAO().findAll()));
+		comboBoxObra.setBounds(235, 268, 166, 29);
+		comboBoxObra.setRenderer(new TipoObraRenderer());
+		comboBoxObra.setSelectedItem(null);
+		return comboBoxObra;
 	}
 
 	public JLabel lblAreaTematica() {
@@ -370,41 +379,5 @@ public class AgregarObra extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(353, 404, 89, 23);
 		return btnCancelar;
-	}
-
-	public JComboBox<Object> cargarComboBox(String tipoEntidad) {
-		JComboBox<Object> comboBox = new JComboBox<>();
-		switch (tipoEntidad) {
-		case "Tipo obra":
-			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
-			for (TipoObra tipo : tiposObra) {
-				comboBox.addItem(new Items(tipo.getId(), tipo.getNombre()));
-			}
-			return comboBox;
-		case "Area tematica":
-			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
-			for (AreaTematica area : areasTematicas) {
-				comboBox.addItem(new Items(area.getId(), area.getNombre()));
-			}
-			return comboBox;
-		case "Formato":
-			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-			java.util.List<Formato> formatos = formatoDAO.findAll();
-			for (Formato formato : formatos) {
-				comboBox.addItem(new Items(formato.getId(), formato.getNombre()));
-			}
-			return comboBox;
-		case "Coleccion":
-			IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
-			java.util.List<Coleccion> colecciones = coleccionDAO.findAll();
-			for (Coleccion coleccion : colecciones) {
-				comboBox.addItem(new Items(coleccion.getId().intValue(), coleccion.getTitulo()));
-			}
-			return comboBox;
-		default:
-		}
-		return null;
 	}
 }

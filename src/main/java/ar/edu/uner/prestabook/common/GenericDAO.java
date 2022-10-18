@@ -26,7 +26,7 @@ public interface GenericDAO<T> {
 	 * @return either the row count for SQL Data Manipulation Language (DML)
 	 *         statements or null for SQL statements that return nothing
 	 */
-	public Integer insert(T t);
+	public T insert(T t);
 
 	/**
 	 * Updates an entity of the database
@@ -35,7 +35,7 @@ public interface GenericDAO<T> {
 	 * @return either the row count for SQL Data Manipulation Language (DML)
 	 *         statements or null for SQL statements that return nothing
 	 */
-	public Integer update(T t);
+	public T update(T t);
 
 	/**
 	 * Deletes an entity from the database

@@ -42,19 +42,20 @@ public class DocenteDAO implements IDocenteDAO {
     }
 
     @Override
-    public Integer insert(Docente docente) {
+    public Docente insert(Docente docente) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Integer id = (Integer) HibernateConnection.getCurrentSession().save(docente);
+        Long documento = (Long) HibernateConnection.getCurrentSession().save(docente);
         tx.commit();
-        return id;
+        docente.setDocumento(documento);
+        return docente;
     }
 
     @Override
-    public Integer update(Docente docente) {
+    public Docente update(Docente docente) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(docente);
         tx.commit();
-        return 0;
+        return docente;
     }
 
     @Override

@@ -42,19 +42,20 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
     }
 
     @Override
-    public Integer insert(CodigoIdentificatorio codigoIdentificatorio) {
+    public CodigoIdentificatorio insert(CodigoIdentificatorio codigoIdentificatorio) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        Long id = (Long) HibernateConnection.getCurrentSession().save(codigoIdentificatorio);
+        Long codigo = (Long) HibernateConnection.getCurrentSession().save(codigoIdentificatorio);
         tx.commit();
-        return id.intValue();
+        codigoIdentificatorio.setCodigo(codigo);
+        return codigoIdentificatorio;
     }
 
     @Override
-    public Integer update(CodigoIdentificatorio codigoIdentificatorio) {
+    public CodigoIdentificatorio update(CodigoIdentificatorio codigoIdentificatorio) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().merge(codigoIdentificatorio);
         tx.commit();
-        return 0;
+        return codigoIdentificatorio;
     }
 
     @Override

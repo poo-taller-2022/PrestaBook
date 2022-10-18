@@ -391,7 +391,6 @@ public class Devoluciones extends JFrame {
 		DatePicker calendarFechaRealDevolucion = new DatePicker();
 		calendarFechaRealDevolucion.setBounds(326, 310, 271, 29);
 		calendarFechaRealDevolucion.setSettings(DateSettings.getDatePickerSettings());
-		calendarFechaRealDevolucion.setEnabled(false);
 		return calendarFechaRealDevolucion;
 	}
 

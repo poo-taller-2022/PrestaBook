@@ -2,9 +2,12 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Vector;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,7 +16,11 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
+import com.github.lgooddatepicker.components.DatePicker;
+
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
+import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
 import ar.edu.uner.prestabook.model.Ejemplar;
@@ -22,9 +29,6 @@ import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 
 public class AgregarEjemplar extends JFrame {
 
@@ -49,8 +53,8 @@ public class AgregarEjemplar extends JFrame {
 		JTextField fieldFormaAdquisicion = fieldFormaAdquisicion();
 		contentPane.add(fieldFormaAdquisicion);
 
-		JTextField fieldFechaAdquisicion = fieldFechaAdquisicion();
-		contentPane.add(fieldFechaAdquisicion);
+		DatePicker calendarFechaAdquisicion = calendarFechaAdquisicion();
+		contentPane.add(calendarFechaAdquisicion);
 
 		JLabel lblFormaAdquisicion = lblFormaAdquisicion();
 		contentPane.add(lblFormaAdquisicion);
@@ -97,26 +101,24 @@ public class AgregarEjemplar extends JFrame {
 		JLabel lblObra = lblObra();
 		contentPane.add(lblObra);
 
-		JComboBox<Object> comboBoxObras = comboBoxObras();
+		JComboBox<Obra> comboBoxObras = comboBoxObras();
 		contentPane.add(comboBoxObras);
 
-		btnCancelar.addActionListener(e -> {
-			this.setVisible(false);
-		});
+		btnCancelar.addActionListener(e -> this.setVisible(false));
 
 		btnAgregar.addActionListener(e -> {
 			Boolean camposCompletos = !(fieldFormaAdquisicion.getText().isBlank()
-					|| fieldFechaAdquisicion.getText().isBlank() || fieldObservaciones.getText().isBlank()
-					|| fieldCodigo.getText().isBlank() || fieldPasillo.getText().isBlank()
-					|| fieldEstanteria.getText().isBlank() || fieldEstante.getText().isBlank());
+					|| fieldObservaciones.getText().isBlank() || fieldCodigo.getText().isBlank()
+					|| fieldPasillo.getText().isBlank() || fieldEstanteria.getText().isBlank()
+					|| fieldEstante.getText().isBlank());
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
-				Items itemObra = (Items) comboBoxObras.getSelectedItem();
+				Obra itemObra = (Obra) comboBoxObras.getSelectedItem();
 
-				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), fieldFechaAdquisicion.getText(),
+				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), calendarFechaAdquisicion.getDate().toString(),
 						fieldObservaciones.getText(), fieldCodigo.getText(), fieldPasillo.getText(),
-						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getId());
+						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getIsbn());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -127,12 +129,12 @@ public class AgregarEjemplar extends JFrame {
 	}
 
 	private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
-			String codigo, String pasillo, String estanteria, String estante, Integer idObra) {
+			String codigo, String pasillo, String estanteria, String estante, String isbnObra) {
 		IObraDAO o = DaoFactory.getObraDAO();
-		Obra obra = o.findById((long) idObra);
+		Obra obra = o.findById(isbnObra);
 
 		Ejemplar ejemplar = new Ejemplar();
-		ejemplar.setIsbn(obra.getIsbn());
+		ejemplar.setIsbnObra(obra.getIsbn());
 		ejemplar.setTitulo(obra.getTitulo());
 		ejemplar.setSubtitulo(obra.getSubtitulo());
 		ejemplar.setPrimerAutor(obra.getPrimerAutor());
@@ -141,34 +143,22 @@ public class AgregarEjemplar extends JFrame {
 		ejemplar.setGenero(obra.getGenero());
 		ejemplar.setTipo(new TipoObra(obra.getTipo().getId(), obra.getTipo().getNombre()));
 		ejemplar.setArea(new AreaTematica(obra.getArea().getId(), obra.getArea().getNombre()));
-		ejemplar.setId((long) 1);
 		ejemplar.setFormaAdquisicion(formaAdquisicion);
 		ejemplar.setFechaAdquisicion(fechaAdquisicion);
 		ejemplar.setObservaciones(observaciones);
 
 		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
-		codigoIden.setId((long) 1);
-		codigoIden.setCodigo(Integer.parseInt(codigo));
+		codigoIden.setCodigo(Long.valueOf(codigo));
 		codigoIden.setEstante(Integer.parseInt(estante));
 		codigoIden.setEstanteria(Integer.parseInt(estanteria));
 		codigoIden.setPasillo(Integer.parseInt(pasillo));
 
 		ICodigoIdentificatorioDAO co = DaoFactory.getCodigoIdentificatorioDAO();
 		co.insert(codigoIden);
-		codigoIden.setId(codigoIden.getId());
-
 		ejemplar.setCodigoIdentificatorio(codigoIden);
 
 		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
 		ej.insert(ejemplar);
-
-		ejemplar.setId(ejemplar.getId());
-
-		List<Ejemplar> ejemplares = new LinkedList<>();
-		ejemplares.add(ejemplar);
-		obra.setEjemplares(ejemplares);
-		o.insert(obra);
-
 	}
 
 	public void ventana() {
@@ -181,7 +171,7 @@ public class AgregarEjemplar extends JFrame {
 
 	public JPanel contentPane() {
 		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 64, 128)));
+		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		return contentPane;
@@ -191,6 +181,12 @@ public class AgregarEjemplar extends JFrame {
 		JTextField fieldCodigo = new JTextField();
 		fieldCodigo.setColumns(10);
 		fieldCodigo.setBounds(241, 233, 166, 29);
+		fieldCodigo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldCodigo.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldCodigo;
 	}
 
@@ -204,6 +200,12 @@ public class AgregarEjemplar extends JFrame {
 		JTextField fieldPasillo = new JTextField();
 		fieldPasillo.setColumns(10);
 		fieldPasillo.setBounds(446, 233, 166, 29);
+		fieldPasillo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldPasillo.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldPasillo;
 	}
 
@@ -211,6 +213,12 @@ public class AgregarEjemplar extends JFrame {
 		JTextField fieldEstanteria = new JTextField();
 		fieldEstanteria.setColumns(10);
 		fieldEstanteria.setBounds(154, 297, 166, 29);
+		fieldEstanteria.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldEstanteria.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldEstanteria;
 	}
 
@@ -218,6 +226,12 @@ public class AgregarEjemplar extends JFrame {
 		JTextField fieldEstante = new JTextField();
 		fieldEstante.setColumns(10);
 		fieldEstante.setBounds(363, 297, 166, 29);
+		fieldEstante.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				fieldEstante.setEditable(!Character.isLetter(ke.getKeyChar()));
+			}
+		});
 		return fieldEstante;
 	}
 
@@ -274,13 +288,6 @@ public class AgregarEjemplar extends JFrame {
 		return fieldFormaAdquisicion;
 	}
 
-	public JTextField fieldFechaAdquisicion() {
-		JTextField fieldFechaAdquisicion = new JTextField();
-		fieldFechaAdquisicion.setColumns(10);
-		fieldFechaAdquisicion.setBounds(446, 163, 166, 29);
-		return fieldFechaAdquisicion;
-	}
-
 	public JLabel lblFormaAdquisicion() {
 		JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
 		lblFormaAdquisicion.setBounds(241, 149, 127, 14);
@@ -312,20 +319,18 @@ public class AgregarEjemplar extends JFrame {
 		return lblObra;
 	}
 
-	public JComboBox<Object> comboBoxObras() {
-		JComboBox<Object> comboBoxObras = cargarComboBoxObra();
+	public JComboBox<Obra> comboBoxObras() {
+		JComboBox<Obra> comboBoxObras = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
+		comboBoxObras.setRenderer(new ObraRenderer());
 		comboBoxObras.setBounds(41, 163, 166, 29);
 		return comboBoxObras;
 	}
 
-	public JComboBox<Object> cargarComboBoxObra() {
-		JComboBox<Object> comboBox = new JComboBox<>();
-
-		IObraDAO obraDAO = DaoFactory.getObraDAO();
-		java.util.List<Obra> obras = obraDAO.findAll();
-		for (Obra obra : obras) {
-			comboBox.addItem(new Items(obra.getId().intValue(), obra.getIsbn()));
-		}
-		return comboBox;
+	public DatePicker calendarFechaAdquisicion() {
+		DatePicker calendarFechaAdquisicion = new DatePicker();
+		calendarFechaAdquisicion.setBounds(446, 163, 166, 29);
+		calendarFechaAdquisicion.setSettings(DateSettings.getDatePickerSettings());
+		return calendarFechaAdquisicion;
 	}
+
 }

@@ -31,8 +31,7 @@ public class EjemplarDAO implements IEjemplarDAO {
 
     @Override
     public List<Ejemplar> findAll() {
-        String hql = String.format("from Ejemplar e where type(e) = %s", Ejemplar.class.getName());
-        return HibernateConnection.getCurrentSession().createQuery(hql, Ejemplar.class).list();
+        return HibernateConnection.getCurrentSession().createQuery("from Ejemplar", Ejemplar.class).list();
     }
 
     @Override
@@ -41,19 +40,20 @@ public class EjemplarDAO implements IEjemplarDAO {
     }
 
     @Override
-    public Integer insert(Ejemplar ejemplar) {
+    public Ejemplar insert(Ejemplar ejemplar) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         Long id = (Long) HibernateConnection.getCurrentSession().save(ejemplar);
         tx.commit();
-        return id.intValue();
+        ejemplar.setId(id);
+        return ejemplar;
     }
 
     @Override
-    public Integer update(Ejemplar ejemplar) {
+    public Ejemplar update(Ejemplar ejemplar) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(ejemplar);
         tx.commit();
-        return 0;
+        return ejemplar;
     }
 
     @Override
@@ -63,8 +63,7 @@ public class EjemplarDAO implements IEjemplarDAO {
 
     @Override
     public List<Ejemplar> findAllByObraIsbn(String isbn) {
-        String hql = String.format("from Ejemplar e where type(e) = %s AND e.isbn = '%s'", Ejemplar.class.getName(),
-                isbn);
+        String hql = String.format("from Ejemplar e where e.isbnObra = '%s'", isbn);
         return HibernateConnection.getCurrentSession().createQuery(hql, Ejemplar.class).list();
 
     }

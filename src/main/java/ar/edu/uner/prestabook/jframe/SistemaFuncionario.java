@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.Icon;
@@ -605,8 +606,8 @@ public class SistemaFuncionario extends JFrame {
 			llenarTabla(model, entidad);
 			scrollPane.setViewportView(tablaColecciones);
 
-			JButton btnAgregarEdicion = btnAgregarEdicion();
-			panelColeccion.add(btnAgregarEdicion);
+			JButton btnAgregarColeccion = btnAgregarColeccion();
+			panelColeccion.add(btnAgregarColeccion);
 
 			JButton btnRefrescar = btnRefrescar();
 			panelColeccion.add(btnRefrescar);
@@ -615,7 +616,7 @@ public class SistemaFuncionario extends JFrame {
 			 * Botón con evento para agregar obra
 			 */
 
-			btnAgregarEdicion.addActionListener(b -> {
+			btnAgregarColeccion.addActionListener(b -> {
 				AgregarColeccion agregarColeccion = new AgregarColeccion();
 				agregarColeccion.setVisible(true);
 			});
@@ -949,6 +950,17 @@ public class SistemaFuncionario extends JFrame {
 		return btnActualizarTipoObra;
 	}
 
+	private JButton btnAgregarColeccion() {
+		JButton btnAgregarColeccion = new JButton("Agregar colección");
+		btnAgregarColeccion.setFocusPainted(false);
+		btnAgregarColeccion.setBackground(new Color(0, 64, 128));
+		btnAgregarColeccion.setForeground(new Color(255, 255, 255));
+		btnAgregarColeccion.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarColeccion.setBorderPainted(false);
+		btnAgregarColeccion.setBounds(210, 500, 210, 20);
+		return btnAgregarColeccion;
+	}
+
 	private JButton btnAgregarEdicion() {
 		JButton btnAgregarEdicion = new JButton("Agregar edición");
 		btnAgregarEdicion.setFocusPainted(false);
@@ -1178,7 +1190,7 @@ public class SistemaFuncionario extends JFrame {
 			for (Ejemplar ejemplar : ejemplares) {
 				List<Object> fila = new LinkedList<>();
 				fila.add(++i);
-				fila.add(ejemplar.getIsbn());
+				fila.add(ejemplar.getIsbnObra());
 				fila.add(ejemplar.getFormaAdquisicion());
 				fila.add(ejemplar.getFechaAdquisicion());
 				fila.add(ejemplar.getObservaciones());
@@ -1193,7 +1205,7 @@ public class SistemaFuncionario extends JFrame {
 			IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
 			java.util.List<Edicion> ediciones = edicionDAO.findAll();
 			for (Edicion edicion : ediciones) {
-				String concatenarFormatos = "";
+			    StringBuilder concatenarFormatos = new StringBuilder();
 				List<Object> fila = new LinkedList<>();
 				fila.add(++i);
 				fila.add(edicion.getEditorial());
@@ -1203,11 +1215,11 @@ public class SistemaFuncionario extends JFrame {
 				fila.add(edicion.getVolumenes());
 				fila.add(edicion.getPaginas());
 				fila.add(edicion.getIdioma());
-				List<Formato> formatos1 = edicion.getFormatos();
+				Set<Formato> formatos1 = edicion.getFormatos();
 				for (Formato formato : formatos1) {
-					concatenarFormatos += formato.getNombre() + ", ";
+					 concatenarFormatos.append(formato.getNombre() + ", ");
 				}
-				fila.add(concatenarFormatos);
+				fila.add(concatenarFormatos.toString());
 				fila.add(edicion.getFormatos());
 				model.addRow(new Vector<>(fila));
 			}
