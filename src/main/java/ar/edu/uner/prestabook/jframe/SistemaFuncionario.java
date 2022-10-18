@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,41 +22,17 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
-import ar.edu.uner.prestabook.model.Coleccion;
-import ar.edu.uner.prestabook.model.Edicion;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
-import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
-import ar.edu.uner.prestabook.persistence.IColeccionDAO;
-import ar.edu.uner.prestabook.persistence.IEdicionDAO;
-import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
-import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
+import lombok.Getter;
 
 public class SistemaFuncionario extends JFrame {
-
-	private static final String FONT = "Verdana";
-	private static final String OPCIONES = "Opciones";
-	private static final String FORMATO = "Formato";
-	private static final String AREA_TEMATICA = "Area tematica";
-	private static final String NOMBRE = "Nombre";
-	private static final String TIPO_OBRA = "Tipo obra";
-	private static final String OBRA = "Obra";
-	private static final String OBRAS = "Obras";
-	private static final String FORMATOS = "Formatos";
-	private static final String AREAS_TEMATICAS = "Áreas temáticas";
-	private static final String TIPOS_DE_OBRAS = "Tipos de obras";
-	private static final String EJEMPLARES = "Ejemplares";
-	private static final String EJEMPLAR = "Ejemplar";
-	private static final String EDICIONES = "Ediciones";
-	private static final String EDICION = "Edicion";
-	private static final String COLECCION = "Coleccion";
-	private static final String COLECCIONES = "Colecciones";
+    
 	private static final long serialVersionUID = 1L;
-	public static JLabel textUsuario;
+	@Getter private JLabel textUsuario;
 
 	/**
 	 * Create the frame.
@@ -71,7 +43,7 @@ public class SistemaFuncionario extends JFrame {
 		/**
 		 * Create components
 		 */
-
+	    textUsuario = new JLabel("");
 		ventana();
 
 		JPanel contentPane = contentPane();
@@ -164,25 +136,25 @@ public class SistemaFuncionario extends JFrame {
 		JMenu menuAdministrar = menuAdministrar();
 		menuBarAdministrar.add(menuAdministrar);
 
-		JMenuItem menuItemTipoObra = new JMenuItem(TIPOS_DE_OBRAS);
+		JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
 		menuAdministrar.add(menuItemTipoObra);
 
-		JMenuItem menuItemAreaTematica = new JMenuItem(AREAS_TEMATICAS);
+		JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
 		menuAdministrar.add(menuItemAreaTematica);
 
-		JMenuItem menuItemColeccion = new JMenuItem(COLECCIONES);
+		JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
 		menuAdministrar.add(menuItemColeccion);
 
-		JMenuItem menuItemObra = new JMenuItem(OBRAS);
+		JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
 		menuAdministrar.add(menuItemObra);
 
-		JMenuItem menuItemFormato = new JMenuItem(FORMATOS);
+		JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
 		menuAdministrar.add(menuItemFormato);
 
-		JMenuItem menuItemEdicion = new JMenuItem(EDICIONES);
+		JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
 		menuAdministrar.add(menuItemEdicion);
 
-		JMenuItem menuItemEjemplar = new JMenuItem(EJEMPLARES);
+		JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
 		menuAdministrar.add(menuItemEjemplar);
 
 		JPanel panelTipoObra = panelEntidades();
@@ -208,9 +180,9 @@ public class SistemaFuncionario extends JFrame {
 			panelTipoObra.setVisible(true);
 
 			contentPane.add(panelTipoObra);
-			String entidad = TIPO_OBRA;
+			String entidad = Constants.TIPO_OBRA;
 
-			panelTipoObra.add(lblTituloEntidades(TIPOS_DE_OBRAS));
+			panelTipoObra.add(lblTituloEntidades(Constants.TIPOS_DE_OBRAS));
 
 			JScrollPane scrollPane = scrollPane();
 			panelTipoObra.add(scrollPane);
@@ -220,9 +192,9 @@ public class SistemaFuncionario extends JFrame {
 			DefaultTableModel model = new DefaultTableModel();
 			tableTipoDeObras.setModel(model);
 			model.addColumn("");
-			model.addColumn(NOMBRE);
+			model.addColumn(Constants.NOMBRE);
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tableTipoDeObras);
 
 			JButton btnAgregarTipoObra = btnAgregarTipoObra();
@@ -242,7 +214,7 @@ public class SistemaFuncionario extends JFrame {
 
 				limpiarTabla(tableTipoDeObras);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 			});
 
 		});
@@ -261,11 +233,11 @@ public class SistemaFuncionario extends JFrame {
 			panelColeccion.setVisible(false);
 			panelAreaTematica.setVisible(true);
 
-			String entidad = AREA_TEMATICA;
+			String entidad = Constants.AREA_TEMATICA;
 
 			contentPane.add(panelAreaTematica);
 
-			panelAreaTematica.add(lblTituloEntidades(AREAS_TEMATICAS));
+			panelAreaTematica.add(lblTituloEntidades(Constants.AREAS_TEMATICAS));
 
 			JScrollPane scrollPane = scrollPane();
 			panelAreaTematica.add(scrollPane);
@@ -275,9 +247,9 @@ public class SistemaFuncionario extends JFrame {
 			DefaultTableModel model = new DefaultTableModel();
 			tableAreasTematicas.setModel(model);
 			model.addColumn("");
-			model.addColumn(NOMBRE);
+			model.addColumn(Constants.NOMBRE);
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tableAreasTematicas);
 
 			JButton btnAreaTematica = btnAgregarAreaTematica();
@@ -298,7 +270,7 @@ public class SistemaFuncionario extends JFrame {
 
 				limpiarTabla(tableAreasTematicas);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 			});
 
 		});
@@ -317,9 +289,9 @@ public class SistemaFuncionario extends JFrame {
 			panelColeccion.setVisible(false);
 			panelFormato.setVisible(true);
 			contentPane.add(panelFormato);
-			String entidad = FORMATO;
+			String entidad = Constants.FORMATO;
 
-			panelFormato.add(lblTituloEntidades(FORMATOS));
+			panelFormato.add(lblTituloEntidades(Constants.FORMATOS));
 
 			JScrollPane scrollPane = scrollPane();
 			panelFormato.add(scrollPane);
@@ -329,9 +301,9 @@ public class SistemaFuncionario extends JFrame {
 			DefaultTableModel model = new DefaultTableModel();
 			tableFormatos.setModel(model);
 			model.addColumn("");
-			model.addColumn(NOMBRE);
+			model.addColumn(Constants.NOMBRE);
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tableFormatos);
 
 			JButton btnAgregarFormato = btnAgregarFormato();
@@ -351,7 +323,7 @@ public class SistemaFuncionario extends JFrame {
 
 				limpiarTabla(tableFormatos);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 			});
 
 		});
@@ -373,7 +345,7 @@ public class SistemaFuncionario extends JFrame {
 			contentPane.add(panelObra);
 			String entidad = "Obra";
 
-			panelObra.add(lblTituloEntidades(OBRAS));
+			panelObra.add(lblTituloEntidades(Constants.OBRAS));
 
 			JScrollPane scrollPane = scrollPane();
 			panelObra.add(scrollPane);
@@ -395,10 +367,10 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("2° autor");
 			model.addColumn("3° autor");
 			model.addColumn("Género");
-			model.addColumn(TIPO_OBRA);
-			model.addColumn(AREA_TEMATICA);
+			model.addColumn(Constants.TIPO_OBRA);
+			model.addColumn(Constants.AREA_TEMATICA);
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tableObras);
 
 			JButton btnAgregarObra = btnAgregarObra();
@@ -419,7 +391,7 @@ public class SistemaFuncionario extends JFrame {
 
 				limpiarTabla(tableObras);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 
 			});
 		});
@@ -439,9 +411,9 @@ public class SistemaFuncionario extends JFrame {
 			panelEjemplar.setVisible(true);
 
 			contentPane.add(panelEjemplar);
-			String entidad = EJEMPLAR;
+			String entidad = Constants.EJEMPLAR;
 
-			panelEjemplar.add(lblTituloEntidades(EJEMPLARES));
+			panelEjemplar.add(lblTituloEntidades(Constants.EJEMPLARES));
 
 			JScrollPane scrollPane = scrollPane();
 			panelEjemplar.add(scrollPane);
@@ -466,7 +438,7 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("Estantería");
 			model.addColumn("Estante");
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tablaEjemplares);
 
 			JButton btnAgregarEjemplar = btnAgregarEjemplar();
@@ -487,7 +459,7 @@ public class SistemaFuncionario extends JFrame {
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaEjemplares);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 			});
 
 		});
@@ -507,9 +479,9 @@ public class SistemaFuncionario extends JFrame {
 			panelEdicion.setVisible(true);
 
 			contentPane.add(panelEdicion);
-			String entidad = EDICION;
+			String entidad = Constants.EDICION;
 
-			panelEdicion.add(lblTituloEntidades(EDICIONES));
+			panelEdicion.add(lblTituloEntidades(Constants.EDICIONES));
 
 			JScrollPane scrollPane = scrollPane();
 			panelEdicion.add(scrollPane);
@@ -534,7 +506,7 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("Idioma");
 			model.addColumn("Formato");
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tablaEdiciones);
 
 			JButton btnAgregarEdicion = btnAgregarEdicion();
@@ -555,7 +527,7 @@ public class SistemaFuncionario extends JFrame {
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaEdiciones);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 			});
 
 		});
@@ -575,9 +547,9 @@ public class SistemaFuncionario extends JFrame {
 			panelColeccion.setVisible(true);
 
 			contentPane.add(panelColeccion);
-			String entidad = COLECCION;
+			String entidad = Constants.COLECCION;
 
-			panelColeccion.add(lblTituloEntidades(COLECCIONES));
+			panelColeccion.add(lblTituloEntidades(Constants.COLECCIONES));
 
 			JScrollPane scrollPane = scrollPane();
 			panelColeccion.add(scrollPane);
@@ -600,10 +572,10 @@ public class SistemaFuncionario extends JFrame {
 			model.addColumn("2° autor");
 			model.addColumn("3° autor");
 			model.addColumn("Género");
-			model.addColumn(TIPO_OBRA);
-			model.addColumn(AREA_TEMATICA);
+			model.addColumn(Constants.TIPO_OBRA);
+			model.addColumn(Constants.AREA_TEMATICA);
 
-			llenarTabla(model, entidad);
+			Tabla.fill(model, entidad);
 			scrollPane.setViewportView(tablaColecciones);
 
 			JButton btnAgregarColeccion = btnAgregarColeccion();
@@ -624,7 +596,7 @@ public class SistemaFuncionario extends JFrame {
 			btnRefrescar.addActionListener(b -> {
 				limpiarTabla(tablaColecciones);
 
-				llenarTabla(model, entidad);
+				Tabla.fill(model, entidad);
 			});
 
 		});
@@ -653,7 +625,7 @@ public class SistemaFuncionario extends JFrame {
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle(OPCIONES);
+		setTitle(Constants.OPCIONES);
 		setBounds(100, 100, 1390, 811);
 		setLocationRelativeTo(null);
 	}
@@ -693,14 +665,14 @@ public class SistemaFuncionario extends JFrame {
 		JLabel lblPrestabook = new JLabel("PrestaBook");
 		lblPrestabook.setBounds(399, 30, 267, 42);
 		lblPrestabook.setForeground(Color.WHITE);
-		lblPrestabook.setFont(new Font(FONT, Font.BOLD, 32));
+		lblPrestabook.setFont(new Font(Constants.FONT, Font.BOLD, 32));
 		return lblPrestabook;
 	}
 
 	public JButton btnExit() {
 		JButton btnExit = new JButton("X");
 		btnExit.setForeground(Color.WHITE);
-		btnExit.setFont(new Font(FONT, Font.BOLD, 12));
+		btnExit.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnExit.setBackground(new Color(255, 106, 106));
 		btnExit.setBounds(1004, 1, 47, 25);
 		return btnExit;
@@ -708,7 +680,7 @@ public class SistemaFuncionario extends JFrame {
 
 	public JButton btnCerrarSesion() {
 		JButton btnCerrarSesion = new JButton("Cerrar Sesión");
-		btnCerrarSesion.setFont(new Font(FONT, Font.BOLD, 11));
+		btnCerrarSesion.setFont(new Font(Constants.FONT, Font.BOLD, 11));
 		btnCerrarSesion.setFocusPainted(false);
 		btnCerrarSesion.setBorderPainted(false);
 		btnCerrarSesion.setBorder(null);
@@ -729,16 +701,15 @@ public class SistemaFuncionario extends JFrame {
 	public JLabel lblUsuario() {
 		JLabel lblUsuario = new JLabel("Usuario:");
 		lblUsuario.setBounds(27, 0, 122, 37);
-		lblUsuario.setFont(new Font(FONT, Font.BOLD, 17));
+		lblUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 17));
 		lblUsuario.setForeground(new Color(255, 255, 255));
 		return lblUsuario;
 	}
 
 	public JLabel textUsuario() {
-		textUsuario = new JLabel("");
 		textUsuario.setBackground(new Color(0, 128, 0));
 		textUsuario.setBounds(118, 0, 173, 37);
-		textUsuario.setFont(new Font(FONT, Font.BOLD, 16));
+		textUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 16));
 		textUsuario.setForeground(new Color(255, 255, 255));
 		return textUsuario;
 	}
@@ -747,7 +718,7 @@ public class SistemaFuncionario extends JFrame {
 		JButton btnSolicitudes = new JButton("Solicitudes");
 		btnSolicitudes.setVerifyInputWhenFocusTarget(false);
 		btnSolicitudes.setForeground(new Color(0, 64, 128));
-		btnSolicitudes.setFont(new Font(FONT, Font.BOLD, 12));
+		btnSolicitudes.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnSolicitudes.setFocusPainted(false);
 		btnSolicitudes.setBorderPainted(false);
 		btnSolicitudes.setBorder(null);
@@ -763,9 +734,9 @@ public class SistemaFuncionario extends JFrame {
 	}
 
 	public JLabel lblOpciones() {
-		JLabel lblOpciones = new JLabel(OPCIONES);
+		JLabel lblOpciones = new JLabel(Constants.OPCIONES);
 		lblOpciones.setForeground(new Color(255, 255, 255));
-		lblOpciones.setFont(new Font(FONT, Font.BOLD, 16));
+		lblOpciones.setFont(new Font(Constants.FONT, Font.BOLD, 16));
 		lblOpciones.setBounds(133, 135, 105, 23);
 		return lblOpciones;
 	}
@@ -775,7 +746,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarFormato.setFocusPainted(false);
 		btnAgregarFormato.setBackground(new Color(255, 255, 255));
 		btnAgregarFormato.setForeground(new Color(0, 64, 128));
-		btnAgregarFormato.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarFormato.setBorderPainted(false);
 		btnAgregarFormato.setBounds(23, 169, 293, 31);
 		return btnAgregarFormato;
@@ -786,7 +757,7 @@ public class SistemaFuncionario extends JFrame {
 		btnGestionarDevolucion.setFocusPainted(false);
 		btnGestionarDevolucion.setBackground(new Color(255, 255, 255));
 		btnGestionarDevolucion.setForeground(new Color(0, 64, 128));
-		btnGestionarDevolucion.setFont(new Font(FONT, Font.BOLD, 12));
+		btnGestionarDevolucion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnGestionarDevolucion.setBorderPainted(false);
 		btnGestionarDevolucion.setBounds(23, 221, 293, 31);
 		return btnGestionarDevolucion;
@@ -797,7 +768,7 @@ public class SistemaFuncionario extends JFrame {
 		btnVerEjemplares.setFocusPainted(false);
 		btnVerEjemplares.setBackground(new Color(255, 255, 255));
 		btnVerEjemplares.setForeground(new Color(0, 64, 128));
-		btnVerEjemplares.setFont(new Font(FONT, Font.BOLD, 12));
+		btnVerEjemplares.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnVerEjemplares.setBorderPainted(false);
 		btnVerEjemplares.setBounds(23, 273, 293, 31);
 		btnVerEjemplares.addActionListener(null);
@@ -809,7 +780,7 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorAlumnoDocente.setFocusPainted(false);
 		btnMasBuscadasPorAlumnoDocente.setBackground(new Color(255, 255, 255));
 		btnMasBuscadasPorAlumnoDocente.setForeground(new Color(0, 64, 128));
-		btnMasBuscadasPorAlumnoDocente.setFont(new Font(FONT, Font.BOLD, 12));
+		btnMasBuscadasPorAlumnoDocente.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnMasBuscadasPorAlumnoDocente.setBorderPainted(false);
 		btnMasBuscadasPorAlumnoDocente.setBounds(23, 325, 293, 31);
 		return btnMasBuscadasPorAlumnoDocente;
@@ -820,7 +791,7 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorPublicoGeneral.setFocusPainted(false);
 		btnMasBuscadasPorPublicoGeneral.setBackground(new Color(255, 255, 255));
 		btnMasBuscadasPorPublicoGeneral.setForeground(new Color(0, 64, 128));
-		btnMasBuscadasPorPublicoGeneral.setFont(new Font(FONT, Font.BOLD, 12));
+		btnMasBuscadasPorPublicoGeneral.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnMasBuscadasPorPublicoGeneral.setBorderPainted(false);
 		btnMasBuscadasPorPublicoGeneral.setBounds(23, 377, 293, 31);
 		return btnMasBuscadasPorPublicoGeneral;
@@ -831,7 +802,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarEjemplaresDisponiblesPorArea.setFocusPainted(false);
 		btnListarEjemplaresDisponiblesPorArea.setBackground(new Color(255, 255, 255));
 		btnListarEjemplaresDisponiblesPorArea.setForeground(new Color(0, 64, 128));
-		btnListarEjemplaresDisponiblesPorArea.setFont(new Font(FONT, Font.BOLD, 12));
+		btnListarEjemplaresDisponiblesPorArea.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnListarEjemplaresDisponiblesPorArea.setBorderPainted(false);
 		btnListarEjemplaresDisponiblesPorArea.setBounds(23, 429, 293, 31);
 		return btnListarEjemplaresDisponiblesPorArea;
@@ -842,7 +813,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarEjemplaresDisponiblesPorFecha.setFocusPainted(false);
 		btnListarEjemplaresDisponiblesPorFecha.setBackground(new Color(255, 255, 255));
 		btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
-		btnListarEjemplaresDisponiblesPorFecha.setFont(new Font(FONT, Font.BOLD, 12));
+		btnListarEjemplaresDisponiblesPorFecha.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
 		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
 		return btnListarEjemplaresDisponiblesPorFecha;
@@ -853,7 +824,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarLectoresMultadosPorPeriodo.setFocusPainted(false);
 		btnListarLectoresMultadosPorPeriodo.setBackground(new Color(255, 255, 255));
 		btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
-		btnListarLectoresMultadosPorPeriodo.setFont(new Font(FONT, Font.BOLD, 12));
+		btnListarLectoresMultadosPorPeriodo.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
 		btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
 		return btnListarLectoresMultadosPorPeriodo;
@@ -864,7 +835,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarRankingDeMultados.setFocusPainted(false);
 		btnListarRankingDeMultados.setBackground(new Color(255, 255, 255));
 		btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
-		btnListarRankingDeMultados.setFont(new Font(FONT, Font.BOLD, 12));
+		btnListarRankingDeMultados.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnListarRankingDeMultados.setBorderPainted(false);
 		btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
 		return btnListarRankingDeMultados;
@@ -875,7 +846,7 @@ public class SistemaFuncionario extends JFrame {
 		btnListarObrasPorEditorial.setFocusPainted(false);
 		btnListarObrasPorEditorial.setBackground(new Color(255, 255, 255));
 		btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
-		btnListarObrasPorEditorial.setFont(new Font(FONT, Font.BOLD, 12));
+		btnListarObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnListarObrasPorEditorial.setBorderPainted(false);
 		btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
 		return btnListarObrasPorEditorial;
@@ -886,7 +857,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAplicarMultaALector.setFocusPainted(false);
 		btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
 		btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
-		btnAplicarMultaALector.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAplicarMultaALector.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAplicarMultaALector.setBorderPainted(false);
 		btnAplicarMultaALector.setBounds(23, 689, 293, 31);
 		return btnAplicarMultaALector;
@@ -910,15 +881,15 @@ public class SistemaFuncionario extends JFrame {
 		JLabel lblBienvenidaParte1 = new JLabel("Administrador de entidades");
 		lblBienvenidaParte1.setBounds(330, 0, 369, 136);
 		lblBienvenidaParte1.setForeground(Color.GRAY);
-		lblBienvenidaParte1.setFont(new Font(FONT, Font.BOLD, 21));
+		lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
 		return lblBienvenidaParte1;
 	}
 
 	public JLabel lblTiposDeObras() {
-		JLabel lblTiposDeObras = new JLabel(TIPOS_DE_OBRAS);
+		JLabel lblTiposDeObras = new JLabel(Constants.TIPOS_DE_OBRAS);
 		lblTiposDeObras.setBounds(410, 70, 369, 136);
 		lblTiposDeObras.setForeground(Color.GRAY);
-		lblTiposDeObras.setFont(new Font(FONT, Font.BOLD, 19));
+		lblTiposDeObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
 		return lblTiposDeObras;
 	}
 
@@ -933,7 +904,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarTipoObra.setFocusPainted(false);
 		btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
 		btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
-		btnAgregarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarTipoObra.setBorderPainted(false);
 		btnAgregarTipoObra.setBounds(210, 500, 210, 20);
 		return btnAgregarTipoObra;
@@ -944,7 +915,7 @@ public class SistemaFuncionario extends JFrame {
 		btnActualizarTipoObra.setFocusPainted(false);
 		btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
 		btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
-		btnActualizarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
+		btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnActualizarTipoObra.setBorderPainted(false);
 		btnActualizarTipoObra.setBounds(600, 500, 210, 20);
 		return btnActualizarTipoObra;
@@ -955,7 +926,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarColeccion.setFocusPainted(false);
 		btnAgregarColeccion.setBackground(new Color(0, 64, 128));
 		btnAgregarColeccion.setForeground(new Color(255, 255, 255));
-		btnAgregarColeccion.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarColeccion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarColeccion.setBorderPainted(false);
 		btnAgregarColeccion.setBounds(210, 500, 210, 20);
 		return btnAgregarColeccion;
@@ -966,7 +937,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarEdicion.setFocusPainted(false);
 		btnAgregarEdicion.setBackground(new Color(0, 64, 128));
 		btnAgregarEdicion.setForeground(new Color(255, 255, 255));
-		btnAgregarEdicion.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarEdicion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarEdicion.setBorderPainted(false);
 		btnAgregarEdicion.setBounds(210, 500, 210, 20);
 		return btnAgregarEdicion;
@@ -977,7 +948,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarEjemplar.setFocusPainted(false);
 		btnAgregarEjemplar.setBackground(new Color(0, 64, 128));
 		btnAgregarEjemplar.setForeground(new Color(255, 255, 255));
-		btnAgregarEjemplar.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarEjemplar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarEjemplar.setBorderPainted(false);
 		btnAgregarEjemplar.setBounds(210, 500, 210, 20);
 		return btnAgregarEjemplar;
@@ -988,7 +959,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarTipoObra.setFocusPainted(false);
 		btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
 		btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
-		btnAgregarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarTipoObra.setBorderPainted(false);
 		btnAgregarTipoObra.setBounds(210, 500, 210, 20);
 		return btnAgregarTipoObra;
@@ -999,7 +970,7 @@ public class SistemaFuncionario extends JFrame {
 		btnActualizarTipoObra.setFocusPainted(false);
 		btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
 		btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
-		btnActualizarTipoObra.setFont(new Font(FONT, Font.BOLD, 12));
+		btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnActualizarTipoObra.setBorderPainted(false);
 		btnActualizarTipoObra.setBounds(600, 500, 210, 20);
 		return btnActualizarTipoObra;
@@ -1010,7 +981,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarFormato.setFocusPainted(false);
 		btnAgregarFormato.setBackground(new Color(0, 64, 128));
 		btnAgregarFormato.setForeground(new Color(255, 255, 255));
-		btnAgregarFormato.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarFormato.setBorderPainted(false);
 		btnAgregarFormato.setBounds(210, 500, 210, 20);
 		return btnAgregarFormato;
@@ -1021,7 +992,7 @@ public class SistemaFuncionario extends JFrame {
 		btnActualizarFormato.setFocusPainted(false);
 		btnActualizarFormato.setBackground(new Color(0, 64, 128));
 		btnActualizarFormato.setForeground(new Color(255, 255, 255));
-		btnActualizarFormato.setFont(new Font(FONT, Font.BOLD, 12));
+		btnActualizarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnActualizarFormato.setBorderPainted(false);
 		btnActualizarFormato.setBounds(600, 500, 210, 20);
 		return btnActualizarFormato;
@@ -1032,7 +1003,7 @@ public class SistemaFuncionario extends JFrame {
 		btnAgregarFormato.setFocusPainted(false);
 		btnAgregarFormato.setBackground(new Color(0, 64, 128));
 		btnAgregarFormato.setForeground(new Color(255, 255, 255));
-		btnAgregarFormato.setFont(new Font(FONT, Font.BOLD, 12));
+		btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnAgregarFormato.setBorderPainted(false);
 		btnAgregarFormato.setBounds(50, 500, 210, 20);
 		return btnAgregarFormato;
@@ -1043,7 +1014,7 @@ public class SistemaFuncionario extends JFrame {
 		btnRefrescar.setFocusPainted(false);
 		btnRefrescar.setBackground(new Color(0, 64, 128));
 		btnRefrescar.setForeground(new Color(255, 255, 255));
-		btnRefrescar.setFont(new Font(FONT, Font.BOLD, 12));
+		btnRefrescar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnRefrescar.setBorderPainted(false);
 		btnRefrescar.setBounds(700, 500, 210, 20);
 		return btnRefrescar;
@@ -1053,7 +1024,7 @@ public class SistemaFuncionario extends JFrame {
 		JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
 		lblBienvenidaParte1.setBounds(161, 0, 775, 136);
 		lblBienvenidaParte1.setForeground(Color.GRAY);
-		lblBienvenidaParte1.setFont(new Font(FONT, Font.BOLD, 21));
+		lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
 		return lblBienvenidaParte1;
 	}
 
@@ -1061,7 +1032,7 @@ public class SistemaFuncionario extends JFrame {
 		JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
 		lblBienvenidaParte2.setBounds(397, 64, 369, 136);
 		lblBienvenidaParte2.setForeground(Color.GRAY);
-		lblBienvenidaParte2.setFont(new Font(FONT, Font.BOLD, 21));
+		lblBienvenidaParte2.setFont(new Font(Constants.FONT, Font.BOLD, 21));
 		return lblBienvenidaParte2;
 	}
 
@@ -1107,126 +1078,10 @@ public class SistemaFuncionario extends JFrame {
 		JLabel lblTituloEntidades = new JLabel(text);
 		lblTituloEntidades.setBounds(440, 70, 369, 136);
 		lblTituloEntidades.setForeground(Color.GRAY);
-		lblTituloEntidades.setFont(new Font(FONT, Font.BOLD, 19));
+		lblTituloEntidades.setFont(new Font(Constants.FONT, Font.BOLD, 19));
 		return lblTituloEntidades;
 	}
 
-	/**
-	 * Llena la tabla con todas las filas cargadas en la base de datos
-	 */
-
-	public void llenarTabla(DefaultTableModel model, String tipoEntidad) {
-		Integer i = 0;
-		switch (tipoEntidad) {
-		case TIPO_OBRA:
-			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-			java.util.List<TipoObra> tiposObra = tipoObraDAO.findAll();
-			for (TipoObra tipo : tiposObra) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(tipo.getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case AREA_TEMATICA:
-			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-			java.util.List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
-			for (AreaTematica area : areasTematicas) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(area.getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case FORMATO:
-			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-			java.util.List<Formato> formatos = formatoDAO.findAll();
-			for (Formato formato : formatos) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(formato.getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case COLECCION:
-			IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
-			java.util.List<Coleccion> colecciones = coleccionDAO.findAll();
-			for (Coleccion coleccion : colecciones) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(coleccion.getIsbn());
-				fila.add(coleccion.getTitulo());
-				fila.add(coleccion.getSubtitulo());
-				fila.add(coleccion.getPrimerAutor());
-				fila.add(coleccion.getSegundoAutor());
-				fila.add(coleccion.getTercerAutor());
-				fila.add(coleccion.getGenero());
-				fila.add(coleccion.getTipo().getNombre());
-				fila.add(coleccion.getArea().getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case OBRA:
-			IObraDAO obraDAO = DaoFactory.getObraDAO();
-			java.util.List<Obra> obras = obraDAO.findAll();
-			for (Obra obra : obras) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(obra.getIsbn());
-				fila.add(obra.getTitulo());
-				fila.add(obra.getSubtitulo());
-				fila.add(obra.getPrimerAutor());
-				fila.add(obra.getSegundoAutor());
-				fila.add(obra.getTercerAutor());
-				fila.add(obra.getGenero());
-				fila.add(obra.getTipo().getNombre());
-				fila.add(obra.getArea().getNombre());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case EJEMPLAR:
-			IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
-			java.util.List<Ejemplar> ejemplares = ejemplarDAO.findAll();
-			for (Ejemplar ejemplar : ejemplares) {
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(ejemplar.getIsbnObra());
-				fila.add(ejemplar.getFormaAdquisicion());
-				fila.add(ejemplar.getFechaAdquisicion());
-				fila.add(ejemplar.getObservaciones());
-				fila.add(ejemplar.getCodigoIdentificatorio().getCodigo());
-				fila.add(ejemplar.getCodigoIdentificatorio().getPasillo());
-				fila.add(ejemplar.getCodigoIdentificatorio().getEstanteria());
-				fila.add(ejemplar.getCodigoIdentificatorio().getEstante());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		case EDICION:
-			IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-			java.util.List<Edicion> ediciones = edicionDAO.findAll();
-			for (Edicion edicion : ediciones) {
-			    StringBuilder concatenarFormatos = new StringBuilder();
-				List<Object> fila = new LinkedList<>();
-				fila.add(++i);
-				fila.add(edicion.getEditorial());
-				fila.add(edicion.getPais());
-				fila.add(edicion.getNumero());
-				fila.add(edicion.getAnio());
-				fila.add(edicion.getVolumenes());
-				fila.add(edicion.getPaginas());
-				fila.add(edicion.getIdioma());
-				Set<Formato> formatos1 = edicion.getFormatos();
-				for (Formato formato : formatos1) {
-					 concatenarFormatos.append(formato.getNombre() + ", ");
-				}
-				fila.add(concatenarFormatos.toString());
-				fila.add(edicion.getFormatos());
-				model.addRow(new Vector<>(fila));
-			}
-			break;
-		default:
-		}
-	}
 
 	/**
 	 * Actualiza en la base de datos la fila agregada en la tabla
@@ -1235,19 +1090,19 @@ public class SistemaFuncionario extends JFrame {
 	private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
 
 		switch (tipoEntidad) {
-		case TIPO_OBRA:
+		case Constants.TIPO_OBRA:
 			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
 			TipoObra tipoObra = new TipoObra();
 			tipoObra.setNombre(nombre);
 			tipoObraDAO.insert(tipoObra);
 			break;
-		case AREA_TEMATICA:
+		case Constants.AREA_TEMATICA:
 			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
 			AreaTematica areaTematica = new AreaTematica();
 			areaTematica.setNombre(nombre);
 			areaTematicaDAO.insert(areaTematica);
 			break;
-		case FORMATO:
+		case Constants.FORMATO:
 			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
 			Formato formato = new Formato();
 			formato.setNombre(nombre);
