@@ -13,6 +13,7 @@ import ar.edu.uner.prestabook.persistence.ILectorDAO;
 import ar.edu.uner.prestabook.persistence.IMultaDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import ar.edu.uner.prestabook.persistence.IPrestamoDAO;
+import ar.edu.uner.prestabook.persistence.IReservaDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 import ar.edu.uner.prestabook.persistence.impl.AlumnoDAO;
@@ -28,6 +29,7 @@ import ar.edu.uner.prestabook.persistence.impl.LectorDAO;
 import ar.edu.uner.prestabook.persistence.impl.MultaDAO;
 import ar.edu.uner.prestabook.persistence.impl.ObraDAO;
 import ar.edu.uner.prestabook.persistence.impl.PrestamoDAO;
+import ar.edu.uner.prestabook.persistence.impl.ReservaDAO;
 import ar.edu.uner.prestabook.persistence.impl.TipoObraDAO;
 import ar.edu.uner.prestabook.persistence.impl.UsuarioDAO;
 
@@ -151,6 +153,7 @@ public class DaoFactory {
     public static IPrestamoDAO getPrestamoDAO() {
         return PrestamoDAO.getInstance();
     }
+
     /**
      * Returns an instance of a CodigoIdentificatorio DAO
      *
@@ -159,6 +162,7 @@ public class DaoFactory {
     public static ICodigoIdentificatorioDAO getCodigoIdentificatorioDAO() {
         return CodigoIdentificatorioDAO.getInstance();
     }
+
     /**
      * Returns an instance of a Edicion DAO
      *
@@ -167,6 +171,7 @@ public class DaoFactory {
     public static IEdicionDAO getEdicionDAO() {
         return EdicionDAO.getInstance();
     }
+
     /**
      * Returns an instance of a Multa DAO
      *
@@ -175,6 +180,14 @@ public class DaoFactory {
     public static IMultaDAO getMultaDAO() {
         return MultaDAO.getInstance();
     }
-
+    
+    /**
+     * Returns an instance of a Reserva DAO
+     *
+     * @return a Reserva DAO
+     */
+    public static IReservaDAO getReservaDAO() {
+        return ReservaDAO.getInstance();
+    }
 
 }
