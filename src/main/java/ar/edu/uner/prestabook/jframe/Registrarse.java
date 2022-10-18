@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
 
+import javax.persistence.PersistenceException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -22,6 +23,7 @@ import javax.swing.border.LineBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
+import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
@@ -194,18 +196,24 @@ public class Registrarse extends JFrame {
                         btnRadioFuncionario);
 
                 Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
-                        textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado, textNacionalidad,
+                        textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
+                        textNacionalidad,
                         textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
-
-                if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
-                    Funcionario funcionario = new Funcionario();
-                    funcionario.registrarse(lector);
-                    JOptionPane.showInternalMessageDialog(null,
-                            "Datos del " + tipoSeleccionado + " guardados correctamente");
-                } else {
-                    lector.registrarse(tipoSeleccionado, lector);
-                    JOptionPane.showInternalMessageDialog(null,
-                            "Datos del " + tipoSeleccionado + " guardados correctamente");
+                try {
+                    if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
+                        Funcionario funcionario = new Funcionario();
+                        funcionario.registrarse(lector);
+                        JOptionPane.showInternalMessageDialog(null,
+                                "Datos del " + tipoSeleccionado + " guardados correctamente");
+                    } else {
+                        lector.registrarse(tipoSeleccionado, lector);
+                        JOptionPane.showInternalMessageDialog(null,
+                                "Datos del " + tipoSeleccionado + " guardados correctamente");
+                    }
+                } catch (PersistenceException exception) {
+                    HibernateConnection.getCurrentSession().getTransaction().rollback();
+                    JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con ese DNI", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");

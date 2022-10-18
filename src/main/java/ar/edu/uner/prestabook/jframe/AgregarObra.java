@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -17,6 +18,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Coleccion;
@@ -140,13 +142,19 @@ public class AgregarObra extends JFrame {
 
                 Coleccion itemColeccion = (Coleccion) comboBoxIsbnColeccion.getSelectedItem();
 
-                actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
-                        fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
-                        fieldGenero.getText(), itemTipoObra.getValor(), itemTipoObra.getId(),
-                        itemAreaTematica.getValor(), itemAreaTematica.getId(), itemColeccion.getIsbn());
+                try {
+                    actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
+                            fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
+                            fieldGenero.getText(), itemTipoObra.getValor(), itemTipoObra.getId(),
+                            itemAreaTematica.getValor(), itemAreaTematica.getId(), itemColeccion.getIsbn());
 
-                JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
-                this.setVisible(false);
+                    JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+                    this.setVisible(false);
+                } catch (PersistenceException exception) {
+                    HibernateConnection.getCurrentSession().getTransaction().rollback();
+                    JOptionPane.showInternalMessageDialog(null, "Ya existe una obra con ese ISBN", "Obra repetida",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
             }
@@ -176,12 +184,8 @@ public class AgregarObra extends JFrame {
         obra.setIsbnColeccion(isbnColeccion);
         IObraDAO o = DaoFactory.getObraDAO();
         o.insert(obra);
-
-        // obra.setId(obra.getId());
-
         List<Obra> obras = new LinkedList<>();
         obras.add(obra);
-
         coleccion.setObras(obras);
         c.insert(coleccion);
     }
