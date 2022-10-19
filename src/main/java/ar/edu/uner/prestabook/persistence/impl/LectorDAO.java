@@ -32,17 +32,35 @@ public class LectorDAO implements ILectorDAO {
     }
 
     @Override
+    
+    /**
+     * 
+     * get all entities in table lectores from database
+     * @return list of objects Lector
+     */
     public List<Lector> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Lector", Lector.class).list();
 
     }
 
+    
+    /**
+     * get an entity from table lectores where dni match with param 
+     * @return Lector object
+     * @param dni of Lector
+     */
     @Override
     public Lector findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Lector.class, (String) dni);
 
     }
 
+    
+    /**
+     * inserts an entity Lector in database
+     * @return Lector The most recently object inserted
+     * @param Lector object
+     */
     @Override
     public Lector insert(Lector lector) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -52,6 +70,12 @@ public class LectorDAO implements ILectorDAO {
         return lector;
     }
 
+    
+    /**
+     * update table lectores in database with new object Lector
+     * @return Lector The object updated
+     * @param Lector object to update
+     */
     @Override
     public Lector update(Lector lector) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -60,11 +84,12 @@ public class LectorDAO implements ILectorDAO {
         return lector;
     }
 
-    @Override
-    public Integer delete(Lector lector) {
-        return 0;
-    }
-
+    
+    /**
+     * count how many fines has a reader
+     * @return Long Number of fines the reader has
+     * @param documento of reader
+     */
     @Override
     public Long countFinesById(Long documento) {
         Query query = HibernateConnection.getCurrentSession().createQuery(
