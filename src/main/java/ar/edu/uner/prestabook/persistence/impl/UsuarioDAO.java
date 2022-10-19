@@ -30,6 +30,14 @@ public class UsuarioDAO implements IUsuarioDAO {
         return instance;
     }
 
+    
+    /**
+     * allows the user access to application
+     * @param tipo Refers to the differents type user
+     * @param correo Email of user
+     * @param contrasenia of user
+     * @return String Confirming that the user is registered
+     */
     @Override
     public String buscarUsuarioRegistrado(String tipo, String correo, String contrasenia) {
         String sql = String.format("SELECT EMAIL, CONTRASENIA FROM %s WHERE EMAIL ='%s'",
@@ -49,7 +57,14 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
         return null;
     }
-
+    
+    
+    /**
+     * get name of user (used in GUI)
+     * @param tipo Refers to the differents type user
+     * @param correo Email of user
+     * @return String with name and surname
+     */
     @Override
     public String buscarNombre(String tipo, String correo) {
         String sql = String.format("SELECT NOMBRE, APELLIDO FROM %s WHERE EMAIL ='%s'", tipo, correo);
