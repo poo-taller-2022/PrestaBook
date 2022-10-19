@@ -29,18 +29,36 @@ public class AlumnoDAO implements IAlumnoDAO {
         return instance;
     }
 
+    
+    /**
+     * 
+     * get all entities in table alumno from database
+     * @return list of objects Alumno
+     */
     @Override
     public List<Alumno> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Alumno", Alumno.class).list();
 
     }
 
+    
+    /**
+     * get an entity from table alumno where dni match with param 
+     * @return alumno object
+     * @param dni of alumno
+     */
     @Override
     public Alumno findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Alumno.class, (String) dni);
 
     }
 
+    
+    /**
+     * inserts an entity alumno in database
+     * @return alumno The most recently object inserted
+     * @param object alumno to insert
+     */
     @Override
     public Alumno insert(Alumno alumno) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -50,17 +68,18 @@ public class AlumnoDAO implements IAlumnoDAO {
         return alumno;
     }
 
+    
+    /**
+     * update entity alumno in database with new object Alumno
+     * @return alumno the object updated
+     * @param alumno object updated
+     */
     @Override
     public Alumno update(Alumno alumno) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(alumno);
         tx.commit();
         return alumno;
-    }
-
-    @Override
-    public Integer delete(Alumno alumno) {
-        return 0;
     }
 
 }
