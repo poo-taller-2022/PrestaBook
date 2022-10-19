@@ -21,7 +21,11 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.TipoObra;
@@ -537,8 +541,13 @@ public class SistemaFuncionario extends JFrame {
             panelLectores.setVisible(true);
             contentPane.add(panelLectores);
 
-            panelLectores.add(lblTituloEntidades(Constants.LECTORES));
-
+            panelLectores.add(lblTituloEntidades(Constants.LECTORES));     
+            
+            DatePicker fechaInicial = datePickerInitial();
+            DatePicker fechaFinal = datePickerFinal();
+            panelLectores.add(fechaInicial);
+            panelLectores.add(fechaFinal);
+            
             JScrollPane scrollPane = scrollPane();
             panelLectores.add(scrollPane);
 
@@ -573,6 +582,7 @@ public class SistemaFuncionario extends JFrame {
                 limpiarTabla(tablaLectores);
                 Tabla.fill(model, Constants.LECTOR);
             });
+
         });
 
         btnCerrarSesion.addActionListener(e -> {
@@ -584,6 +594,7 @@ public class SistemaFuncionario extends JFrame {
         btnExit.addActionListener(e -> System.exit(0));
 
     }
+
 
     /**
      * Create components
@@ -1096,6 +1107,18 @@ public class SistemaFuncionario extends JFrame {
         for (JPanel panel : paneles) {
             panel.setVisible(false);
         }
+    }
+    
+    private DatePicker datePickerInitial() {
+        DatePicker datePickerInitial = new DatePicker(DateSettings.getDatePickerSettings());
+        datePickerInitial.setBounds(200, 80, 200, 30);
+        return datePickerInitial;
+    }
+    
+    private DatePicker datePickerFinal() {
+        DatePicker datePickerFinal = new DatePicker(DateSettings.getDatePickerSettings());
+        datePickerFinal.setBounds(600, 80, 200, 30);
+        return datePickerFinal;
     }
 
 }
