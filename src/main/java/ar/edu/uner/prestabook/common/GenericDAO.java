@@ -37,13 +37,5 @@ public interface GenericDAO<T> {
 	 */
 	public T update(T t);
 
-	/**
-	 * Deletes an entity from the database
-	 * 
-	 * @param t The entity to delete
-	 * @return either the row count for SQL Data Manipulation Language (DML)
-	 *         statements or null for SQL statements that return nothing
-	 */
-	public Integer delete(T t);
 
 }
