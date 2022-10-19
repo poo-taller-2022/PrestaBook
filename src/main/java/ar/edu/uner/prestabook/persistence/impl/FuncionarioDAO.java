@@ -30,35 +30,20 @@ public class FuncionarioDAO implements IFuncionarioDAO {
     }
 
     
-    /**
-     * 
-     * get all entities in table funcionarios from database
-     * @return list of objects Funcionario
-     */
     @Override
     public List<Funcionario> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Funcionario", Funcionario.class).list();
 
     }
 
-    
-    /**
-     * get an entity from table funcionarios where dni match with param 
-     * @return Funcionario object
-     * @param dni of Funcionario
-     */
+
     @Override
     public Funcionario findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Funcionario.class, (String) dni);
 
     }
 
-    
-    /**
-     * inserts an entity Funcionario in database
-     * @return Funcionario The most recently object inserted
-     * @param Funcionario object
-     */
+
     @Override
     public Funcionario insert(Funcionario funcionario) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -69,11 +54,6 @@ public class FuncionarioDAO implements IFuncionarioDAO {
     }
 
     
-    /**
-     * update table funcionarios in database with new object Funcionario
-     * @return Funcionario The object updated
-     * @param Funcionario object to update
-     */
     @Override
     public Funcionario update(Funcionario funcionario) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();

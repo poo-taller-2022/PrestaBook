@@ -30,33 +30,18 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
     }
 
 
-    /**
-     * 
-     * get all entities in table areas_tematicas from database
-     * @return list of objects AreaTematica
-     */
     @Override
     public List<AreaTematica> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from AreaTematica", AreaTematica.class).list();
     }
 
-    
-    /**
-     * get an entity from table areas_tematicas where id match with param 
-     * @return areaTematica object
-     * @param id of areaTematica
-     */
+ 
     @Override
     public AreaTematica findById(Object id) {
         return HibernateConnection.getCurrentSession().get(AreaTematica.class, (Integer) id);
     }
 
-    
-    /**
-     * inserts an entity areaTematica in database
-     * @return areaTematica the most recently object inserted
-     * @param areaTematica object
-     */
+
     @Override
     public AreaTematica insert(AreaTematica areaTematica) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -66,12 +51,7 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
         return areaTematica;
     }
 
-    
-    /**
-     * update table areas_tematicas in database with new object areaTematica
-     * @return areaTematica the object updated
-     * @param areaTematica object to update
-     */
+
     @Override
     public AreaTematica update(AreaTematica areaTematica) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();

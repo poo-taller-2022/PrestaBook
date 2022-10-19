@@ -30,34 +30,19 @@ public class MultaDAO implements IMultaDAO {
     }
 
     
-    /**
-     * 
-     * get all entities in table multas from database
-     * @return list of objects Multa
-     */
     @Override
     public List<Multa> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Multa", Multa.class).list();
     }
 
     
-    /**
-     * get an entity from table multas where id match with param 
-     * @return Multa object
-     * @param id of Multa
-     */
     @Override
     public Multa findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Multa.class, (Long) id);
 
     }
 
-    
-    /**
-     * inserts an entity Multa in database
-     * @return Multa The most recently object inserted
-     * @param Multa object
-     */
+
     @Override
     public Multa insert(Multa multa) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -68,11 +53,6 @@ public class MultaDAO implements IMultaDAO {
     }
 
     
-    /**
-     * update table multas in database with new object Multa
-     * @return Multa The object updated
-     * @param Multa object to update
-     */
     @Override
     public Multa update(Multa multa) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
