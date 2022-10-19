@@ -7,8 +7,8 @@ public interface ILectorDAO extends GenericDAO<Lector> {
 
 	 
     /**
-     * Count how many fines has a reader.
-     * @return Long , number of fines the reader has
+     * Count how many fines a reader has.
+     * @return The number of fines the reader has
      * @param documento of reader
      */
     public Long countFinesById(Long documento);

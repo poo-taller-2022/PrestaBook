@@ -10,7 +10,7 @@ public interface IPrestamoDAO extends GenericDAO<Prestamo> {
 	
     
     /**
-     * Find all entities from table prestamos where lector.documento match with documentoLector
+     * Finds all prestamos filtered by the reader dni
      * @return list of objects Prestamo
      * @param documentoLector dni of lector in Prestamo
      */

@@ -4,17 +4,17 @@ public interface IUsuarioDAO {
 
 	
     /**
-     * Allows the user access to application
-     * @param tipo , Refers to the differents type user
-     * @param correo , Email of user
+     * Searchs for a registered user in the database
+     * @param tipo refers to the differents type user
+     * @param Email of user
      * @param contrasenia of user
-     * @return String , Confirming that the user is registered or not
+     * @return A string confirming that the user is registered or not
      */
     public String buscarUsuarioRegistrado(String tipo, String correo, String contrasenia);
 
     
     /**
-     * Get the username to display in the GUI
+     * Get the full name of the user
      * @param tipo Refers to the differents type user
      * @param correo Email of user
      * @return String with name and surname
