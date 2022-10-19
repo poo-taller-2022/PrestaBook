@@ -29,18 +29,36 @@ public class FormatoDAO implements IFormatoDAO {
         return instance;
     }
 
+    
+    /**
+     * 
+     * get all entities in table formatos from database
+     * @return list of objects Formato
+     */
     @Override
     public List<Formato> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Formato", Formato.class).list();
 
     }
 
+    
+    /**
+     * get an entity from table formatos where id match with param 
+     * @return Formato object
+     * @param id of Formato
+     */
     @Override
     public Formato findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Formato.class, (Integer) id);
 
     }
 
+    
+    /**
+     * inserts an entity Formato in database
+     * @return Formato The most recently object inserted
+     * @param Formato object
+     */
     @Override
     public Formato insert(Formato formato) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -50,17 +68,18 @@ public class FormatoDAO implements IFormatoDAO {
         return formato;
     }
 
+    
+    /**
+     * update table formatos in database with new object Formato
+     * @return Formato The object updated
+     * @param Formato object to update
+     */
     @Override
     public Formato update(Formato formato) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(formato);
         tx.commit();
         return formato;
-    }
-
-    @Override
-    public Integer delete(Formato formato) {
-        return 0;
     }
 
 }
