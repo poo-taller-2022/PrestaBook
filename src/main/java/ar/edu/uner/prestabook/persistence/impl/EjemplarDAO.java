@@ -81,8 +81,8 @@ public class EjemplarDAO implements IEjemplarDAO {
     }
 
     /**
-     * get an entity from table ejemplares where isbn match with param 
-     * @return Ejemplar object
+     * get all entities from table ejemplares where isbn match with param 
+     * @return list of objects Ejemplar
      * @param isbn of Ejemplar
      */
     @Override
