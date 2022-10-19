@@ -29,16 +29,19 @@ public class ObraDAO implements IObraDAO {
         return instance;
     }
 
+
     @Override
     public List<Obra> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Obra", Obra.class).list();
     }
+
 
     @Override
     public Obra findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Obra.class, (String) id);
 
     }
+
 
     @Override
     public Obra insert(Obra obra) {
@@ -49,6 +52,7 @@ public class ObraDAO implements IObraDAO {
         return obra;
     }
 
+
     @Override
     public Obra update(Obra obra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -57,10 +61,6 @@ public class ObraDAO implements IObraDAO {
         return obra;
     }
 
-    @Override
-    public Integer delete(Obra t) {
-        return null;
-    }
 
     public List<Obra> filtrarPorTema(Integer id) {
         return HibernateConnection.getCurrentSession()

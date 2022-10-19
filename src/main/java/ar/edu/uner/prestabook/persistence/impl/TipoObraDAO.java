@@ -31,16 +31,19 @@ public class TipoObraDAO implements ITipoObraDAO {
         return instance;
     }
 
+
     @Override
     public List<TipoObra> findAll() {
         String hql = "from TipoObra";
         return session.createQuery(hql, TipoObra.class).list();
     }
 
+
     @Override
     public TipoObra findById(Object id) {
         return HibernateConnection.getCurrentSession().get(TipoObra.class, (Integer) id);
     }
+
 
     @Override
     public TipoObra insert(TipoObra tipoObra) {
@@ -51,17 +54,13 @@ public class TipoObraDAO implements ITipoObraDAO {
         return tipoObra;
     }
 
+
     @Override
     public TipoObra update(TipoObra tipoObra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(tipoObra);
         tx.commit();
         return tipoObra;
-    }
-
-    @Override
-    public Integer delete(TipoObra t) {
-        return null;
     }
 
 }

@@ -29,15 +29,18 @@ public class EjemplarDAO implements IEjemplarDAO {
         return instance;
     }
 
+
     @Override
     public List<Ejemplar> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Ejemplar", Ejemplar.class).list();
     }
 
+
     @Override
     public Ejemplar findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Ejemplar.class, (Long) id);
     }
+
 
     @Override
     public Ejemplar insert(Ejemplar ejemplar) {
@@ -48,17 +51,13 @@ public class EjemplarDAO implements IEjemplarDAO {
         return ejemplar;
     }
 
+    
     @Override
     public Ejemplar update(Ejemplar ejemplar) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(ejemplar);
         tx.commit();
         return ejemplar;
-    }
-
-    @Override
-    public Integer delete(Ejemplar t) {
-        return null;
     }
 
     @Override

@@ -29,16 +29,19 @@ public class MultaDAO implements IMultaDAO {
         return instance;
     }
 
+    
     @Override
     public List<Multa> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Multa", Multa.class).list();
     }
 
+    
     @Override
     public Multa findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Multa.class, (Long) id);
 
     }
+
 
     @Override
     public Multa insert(Multa multa) {
@@ -49,17 +52,13 @@ public class MultaDAO implements IMultaDAO {
         return multa;
     }
 
+    
     @Override
     public Multa update(Multa multa) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(multa);
         tx.commit();
         return multa;
-    }
-
-    @Override
-    public Integer delete(Multa t) {
-        return null;
     }
 
 }
