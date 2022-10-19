@@ -31,17 +31,35 @@ public class TipoObraDAO implements ITipoObraDAO {
         return instance;
     }
 
+    
+    /**
+     * 
+     * get all entities in table tipos_obra from database
+     * @return list of objects TipoObra
+     */
     @Override
     public List<TipoObra> findAll() {
         String hql = "from TipoObra";
         return session.createQuery(hql, TipoObra.class).list();
     }
 
+    
+    /**
+     * get an entity from table tipos_obra where id match with param 
+     * @return TipoObra object
+     * @param id of TipoObra
+     */
     @Override
     public TipoObra findById(Object id) {
         return HibernateConnection.getCurrentSession().get(TipoObra.class, (Integer) id);
     }
 
+    
+    /**
+     * inserts an entity TipoObra in database
+     * @return TipoObra The most recently object inserted
+     * @param TipoObra object
+     */
     @Override
     public TipoObra insert(TipoObra tipoObra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -51,17 +69,18 @@ public class TipoObraDAO implements ITipoObraDAO {
         return tipoObra;
     }
 
+    
+    /**
+     * update table tipos_obra in database with new object TipoObra
+     * @return TipoObra The object updated
+     * @param TipoObra object to update
+     */
     @Override
     public TipoObra update(TipoObra tipoObra) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(tipoObra);
         tx.commit();
         return tipoObra;
-    }
-
-    @Override
-    public Integer delete(TipoObra t) {
-        return null;
     }
 
 }
