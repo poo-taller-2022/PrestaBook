@@ -28,7 +28,13 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
     public static CodigoIdentificatorioDAO getInstance() {
         return instance;
     }
-
+    
+    
+    /**
+     * 
+     * get all entities in table codigos_identificatorios from database
+     * @return list of objects CodigoIdentificatorio
+     */
     @Override
     public List<CodigoIdentificatorio> findAll() {
         return HibernateConnection.getCurrentSession()
@@ -36,11 +42,23 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
 
     }
 
+    
+    /**
+     * get an entity from table codigos_identificatorios where id match with param 
+     * @return codigoIdentificatorio object
+     * @param id of CodigoIdentificatorio
+     */
     @Override
     public CodigoIdentificatorio findById(Object id) {
         return HibernateConnection.getCurrentSession().get(CodigoIdentificatorio.class, (Long) id);
     }
 
+
+    /**
+     * inserts an entity codigoIdentificatorio in database
+     * @return codigoIdentificatorio The most recently object inserted
+     * @param codigoIdentificatorio object
+     */
     @Override
     public CodigoIdentificatorio insert(CodigoIdentificatorio codigoIdentificatorio) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -50,17 +68,18 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
         return codigoIdentificatorio;
     }
 
+    
+    /**
+     * update table codigos_identificatorios in database with new object codigoIdentificatorio
+     * @return codigoIdentificatorio The object updated
+     * @param codigoIdentificatorio object to update
+     */
     @Override
     public CodigoIdentificatorio update(CodigoIdentificatorio codigoIdentificatorio) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().merge(codigoIdentificatorio);
         tx.commit();
         return codigoIdentificatorio;
-    }
-
-    @Override
-    public Integer delete(CodigoIdentificatorio cod) {
-        return 0;
     }
 
 }
