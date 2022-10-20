@@ -30,7 +30,6 @@ import javax.swing.table.TableRowSorter;
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
-import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
@@ -459,13 +458,6 @@ public class SistemaLector extends JFrame {
             }
 
             fila.add(concatenarFormatos.toString());
-
-            /**
-             * IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO(); Coleccion
-             * coleccion = coleccionDAO.findById(obra.getIsbnColeccion());
-             * 
-             * fila.add("Si"); fila.add(coleccion.getTitulo());
-             **/
 
             fila.add("");
             fila.add("");

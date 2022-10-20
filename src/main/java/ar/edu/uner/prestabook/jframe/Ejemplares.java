@@ -94,8 +94,16 @@ public class Ejemplares extends JFrame {
 					? LocalDate.parse(ejemplar.getFechaBaja(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 					: null);
 			textMotivoBaja.setText(ejemplar.getMotivoBaja());
-			textObservaciones.setText(ejemplar.getObservaciones());
+			textObservaciones.setText(ejemplar.getObservaciones()); 
+			 
+			codigoBarras.generarCodigoBarras(ejemplar.getCodigoIdentificatorio());
+			ImageIcon image = codigoBarras.buscarCodigoBarras(ejemplar.getCodigoIdentificatorio().getCodigo().toString());
+			Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblMostrarCodigo.getWidth(),
+					lblMostrarCodigo.getHeight(), Image.SCALE_DEFAULT));
+			
+			lblMostrarCodigo.setIcon(icon);
 		});
+		
 		contentPane.add(comboBoxEjemplar);
 
 		JComboBox<Obra> comboBoxObra = comboBoxObra();
