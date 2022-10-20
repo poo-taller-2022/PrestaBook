@@ -1,6 +1,7 @@
 package ar.edu.uner.prestabook.jframe;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.model.Obra;
+import ar.edu.uner.prestabook.model.Prestamo;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
@@ -29,8 +31,8 @@ import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 public class Tabla {
 
-	private Tabla() {
-	}
+    private Tabla() {
+    }
 
     public static void fill(DefaultTableModel model, String tipoEntidad) {
         Integer i = 0;
@@ -62,149 +64,152 @@ public class Tabla {
             case Constants.MULTAS:
                 loadMultas(model, i);
                 break;
+            case Constants.PRESTAMOS:
+                loadPrestamos(model, i);
+                break;
             default:
         }
     }
 
-	private static void loadEdicion(DefaultTableModel model, Integer i) {
-		IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-		List<Edicion> ediciones = edicionDAO.findAll();
-		for (Edicion edicion : ediciones) {
-			StringBuilder concatenarFormatos = new StringBuilder();
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(edicion.getEditorial());
-			fila.add(edicion.getPais());
-			fila.add(edicion.getNumero());
-			fila.add(edicion.getAnio());
-			fila.add(edicion.getVolumenes());
-			fila.add(edicion.getPaginas());
-			fila.add(edicion.getIdioma());
-			Set<Formato> formatos1 = edicion.getFormatos();
-			for (Formato formato : formatos1) {
-				concatenarFormatos.append(formato.getNombre() + ", ");
-			}
-			concatenarFormatos = concatenarFormatos.deleteCharAt(concatenarFormatos.length() - 2);
-			fila.add(concatenarFormatos.toString());
-			fila.add(edicion.getFormatos());
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadEdicion(DefaultTableModel model, Integer i) {
+        IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
+        List<Edicion> ediciones = edicionDAO.findAll();
+        for (Edicion edicion : ediciones) {
+            StringBuilder concatenarFormatos = new StringBuilder();
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(edicion.getEditorial());
+            fila.add(edicion.getPais());
+            fila.add(edicion.getNumero());
+            fila.add(edicion.getAnio());
+            fila.add(edicion.getVolumenes());
+            fila.add(edicion.getPaginas());
+            fila.add(edicion.getIdioma());
+            Set<Formato> formatos1 = edicion.getFormatos();
+            for (Formato formato : formatos1) {
+                concatenarFormatos.append(formato.getNombre() + ", ");
+            }
+            concatenarFormatos = concatenarFormatos.deleteCharAt(concatenarFormatos.length() - 2);
+            fila.add(concatenarFormatos.toString());
+            fila.add(edicion.getFormatos());
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadEjemplar(DefaultTableModel model, Integer i) {
-		IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
-		List<Ejemplar> ejemplares = ejemplarDAO.findAll();
-		for (Ejemplar ejemplar : ejemplares) {
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(ejemplar.getIsbnObra());
-			fila.add(ejemplar.getFormaAdquisicion());
-			fila.add(ejemplar.getFechaAdquisicion());
-			fila.add(ejemplar.getObservaciones());
-			fila.add(ejemplar.getCodigoIdentificatorio().getCodigo());
-			fila.add(ejemplar.getCodigoIdentificatorio().getPasillo());
-			fila.add(ejemplar.getCodigoIdentificatorio().getEstanteria());
-			fila.add(ejemplar.getCodigoIdentificatorio().getEstante());
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadEjemplar(DefaultTableModel model, Integer i) {
+        IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
+        List<Ejemplar> ejemplares = ejemplarDAO.findAll();
+        for (Ejemplar ejemplar : ejemplares) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(ejemplar.getIsbnObra());
+            fila.add(ejemplar.getFormaAdquisicion());
+            fila.add(ejemplar.getFechaAdquisicion());
+            fila.add(ejemplar.getObservaciones());
+            fila.add(ejemplar.getCodigoIdentificatorio().getCodigo());
+            fila.add(ejemplar.getCodigoIdentificatorio().getPasillo());
+            fila.add(ejemplar.getCodigoIdentificatorio().getEstanteria());
+            fila.add(ejemplar.getCodigoIdentificatorio().getEstante());
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadObra(DefaultTableModel model, Integer i) {
-		IObraDAO obraDAO = DaoFactory.getObraDAO();
-		List<Obra> obras = obraDAO.findAll();
-		for (Obra obra : obras) {
-			List<Object> fila = new LinkedList<>();
-			StringBuilder concatenarAreasTematicas = new StringBuilder();
-			fila.add(++i);
-			fila.add(obra.getIsbn());
-			fila.add(obra.getTitulo());
-			fila.add(obra.getSubtitulo());
-			fila.add(obra.getPrimerAutor());
-			fila.add(obra.getSegundoAutor());
-			fila.add(obra.getTercerAutor());
-			fila.add(obra.getGenero());
-			fila.add(obra.getTipo().getNombre());
-			Set<AreaTematica> areasTematicas = obra.getArea();
-			for (AreaTematica area : areasTematicas) {
-				concatenarAreasTematicas.append(area.getNombre() + ", ");
-			}
-			concatenarAreasTematicas = concatenarAreasTematicas.deleteCharAt(concatenarAreasTematicas.length() - 2);
-			fila.add(concatenarAreasTematicas);
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadObra(DefaultTableModel model, Integer i) {
+        IObraDAO obraDAO = DaoFactory.getObraDAO();
+        List<Obra> obras = obraDAO.findAll();
+        for (Obra obra : obras) {
+            List<Object> fila = new LinkedList<>();
+            StringBuilder concatenarAreasTematicas = new StringBuilder();
+            fila.add(++i);
+            fila.add(obra.getIsbn());
+            fila.add(obra.getTitulo());
+            fila.add(obra.getSubtitulo());
+            fila.add(obra.getPrimerAutor());
+            fila.add(obra.getSegundoAutor());
+            fila.add(obra.getTercerAutor());
+            fila.add(obra.getGenero());
+            fila.add(obra.getTipo().getNombre());
+            Set<AreaTematica> areasTematicas = obra.getArea();
+            for (AreaTematica area : areasTematicas) {
+                concatenarAreasTematicas.append(area.getNombre() + ", ");
+            }
+            concatenarAreasTematicas = concatenarAreasTematicas.deleteCharAt(concatenarAreasTematicas.length() - 2);
+            fila.add(concatenarAreasTematicas);
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadColeccion(DefaultTableModel model, Integer i) {
-		IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
-		List<Coleccion> colecciones = coleccionDAO.findAll();
-		for (Coleccion coleccion : colecciones) {
-			List<Object> fila = new LinkedList<>();
-			StringBuilder concatenarAreasTematicas = new StringBuilder();
-			fila.add(++i);
-			fila.add(coleccion.getIsbn());
-			fila.add(coleccion.getTitulo());
-			fila.add(coleccion.getSubtitulo());
-			fila.add(coleccion.getPrimerAutor());
-			fila.add(coleccion.getSegundoAutor());
-			fila.add(coleccion.getTercerAutor());
-			fila.add(coleccion.getGenero());
-			fila.add(coleccion.getTipo().getNombre());
-			Set<AreaTematica> areasTematicas = coleccion.getArea();
-			for (AreaTematica area : areasTematicas) {
-				concatenarAreasTematicas.append(area.getNombre() + ", ");
-			}
-			fila.add(concatenarAreasTematicas);
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadColeccion(DefaultTableModel model, Integer i) {
+        IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
+        List<Coleccion> colecciones = coleccionDAO.findAll();
+        for (Coleccion coleccion : colecciones) {
+            List<Object> fila = new LinkedList<>();
+            StringBuilder concatenarAreasTematicas = new StringBuilder();
+            fila.add(++i);
+            fila.add(coleccion.getIsbn());
+            fila.add(coleccion.getTitulo());
+            fila.add(coleccion.getSubtitulo());
+            fila.add(coleccion.getPrimerAutor());
+            fila.add(coleccion.getSegundoAutor());
+            fila.add(coleccion.getTercerAutor());
+            fila.add(coleccion.getGenero());
+            fila.add(coleccion.getTipo().getNombre());
+            Set<AreaTematica> areasTematicas = coleccion.getArea();
+            for (AreaTematica area : areasTematicas) {
+                concatenarAreasTematicas.append(area.getNombre() + ", ");
+            }
+            fila.add(concatenarAreasTematicas);
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadFormato(DefaultTableModel model, Integer i) {
-		IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-		List<Formato> formatos = formatoDAO.findAll();
-		for (Formato formato : formatos) {
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(formato.getNombre());
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadFormato(DefaultTableModel model, Integer i) {
+        IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
+        List<Formato> formatos = formatoDAO.findAll();
+        for (Formato formato : formatos) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(formato.getNombre());
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadAreaTematica(DefaultTableModel model, Integer i) {
-		IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-		List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
-		for (AreaTematica area : areasTematicas) {
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(area.getNombre());
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadAreaTematica(DefaultTableModel model, Integer i) {
+        IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
+        List<AreaTematica> areasTematicas = areaTematicaDAO.findAll();
+        for (AreaTematica area : areasTematicas) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(area.getNombre());
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadTipoObra(DefaultTableModel model, Integer i) {
-		ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-		List<TipoObra> tiposObra = tipoObraDAO.findAll();
-		for (TipoObra tipo : tiposObra) {
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(tipo.getNombre());
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadTipoObra(DefaultTableModel model, Integer i) {
+        ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
+        List<TipoObra> tiposObra = tipoObraDAO.findAll();
+        for (TipoObra tipo : tiposObra) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(tipo.getNombre());
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
-	private static void loadLector(DefaultTableModel model, Integer i) {
-		List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
-		for (Lector lector : lectores) {
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(lector.getNombre());
-			fila.add(lector.getApellido());
-			fila.add(lector.getEmail());
-			fila.add(lector.getDomicilio());
-			fila.add(lector.getFechaNacimiento());
-			fila.add(DaoFactory.getLectorDAO().countFinesById(lector.getDocumento()));
-			model.addRow(new Vector<>(fila));
-		}
-	}
+    private static void loadLector(DefaultTableModel model, Integer i) {
+        List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
+        for (Lector lector : lectores) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(lector.getNombre());
+            fila.add(lector.getApellido());
+            fila.add(lector.getEmail());
+            fila.add(lector.getDomicilio());
+            fila.add(lector.getFechaNacimiento());
+            fila.add(DaoFactory.getLectorDAO().countFinesById(lector.getDocumento()));
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
     private static void loadMultas(DefaultTableModel model, Integer i) {
         List<Multa> multas = DaoFactory.getMultaDAO().findAll();
@@ -220,4 +225,29 @@ public class Tabla {
 
     }
 
+    private static void loadPrestamos(DefaultTableModel model, Integer i) {
+        List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
+        for (Prestamo prestamo : prestamos) {
+            LocalDateTime fechaPrestamo = LocalDateTime.parse(prestamo.getFechaYHoraPrestamo());
+            LocalDate fechaPactadaDevolucion = LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
+                    ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    : null;
+            Boolean fueraDeTermino = fechaPrestamo.plusDays(4).toLocalDate()
+                    .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion);
+
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(DaoFactory.getObraDAO().findById(prestamo.getEjemplar().getIsbnObra()).getTitulo());
+            fila.add(prestamo.getEjemplar().getId());
+            fila.add(fechaPrestamo);
+            fila.add(fechaPactadaDevolucion);
+            fila.add(fechaRealDevolucion);
+            fila.add(prestamo.getLector().getNombre());
+            fila.add(prestamo.getLector().getApellido());
+            fila.add(Boolean.TRUE.equals(fueraDeTermino) ? "Sí" : "No");
+            model.addRow(new Vector<>(fila));
+        }
+    }
 }
