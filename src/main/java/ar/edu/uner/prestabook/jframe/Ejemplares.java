@@ -2,11 +2,14 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -83,7 +86,12 @@ public class Ejemplares extends JFrame {
 
 		JLabel labelObservaciones = labelObservaciones();
 		contentPane.add(labelObservaciones);
-
+		
+		JLabel lblMostrarCodigo = lblMostrarCodigo();
+		contentPane.add(lblMostrarCodigo);  
+	
+		CodigoBarras codigoBarras = new CodigoBarras();
+		
 		JComboBox<Ejemplar> comboBoxEjemplar = comboBoxEjemplar();
 		comboBoxEjemplar.addItemListener(e -> {
 			Ejemplar ejemplar = (Ejemplar) e.getItem();
@@ -101,7 +109,7 @@ public class Ejemplares extends JFrame {
 			Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblMostrarCodigo.getWidth(),
 					lblMostrarCodigo.getHeight(), Image.SCALE_DEFAULT));
 			
-			lblMostrarCodigo.setIcon(icon);
+			lblMostrarCodigo.setIcon(icon); 
 		});
 		
 		contentPane.add(comboBoxEjemplar);
@@ -112,14 +120,14 @@ public class Ejemplares extends JFrame {
 			comboBoxEjemplar.removeAllItems();
 			List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAllByObraIsbn(obra.getIsbn());
 			for (Ejemplar ejemplar : ejemplares)
-				comboBoxEjemplar.addItem(ejemplar);
+				comboBoxEjemplar.addItem(ejemplar); 
 		});
 		contentPane.add(comboBoxObra);
 
 		JLabel labelObra = labelObra();
 		contentPane.add(labelObra);
 
-		JLabel labelEjemplar = labelEjemplar();
+		JLabel labelEjemplar = labelEjemplar(); 
 		contentPane.add(labelEjemplar);
 
 		JButton botonDarDeBaja = btnDarDeBaja();
@@ -234,6 +242,12 @@ public class Ejemplares extends JFrame {
 		contentPane.setLayout(null);
 		return contentPane;
 	}
+	
+	public JLabel lblMostrarCodigo() {
+		JLabel lblMostrarCodigo = new JLabel("");
+		lblMostrarCodigo.setBounds(314, 198, 300, 60);
+		return lblMostrarCodigo;
+	}
 
 	/**
 	 * Creates the pane
@@ -266,7 +280,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JComboBox<Obra> comboBoxObra() {
 		JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
-		comboBoxObra.setBounds(24, 191, 481, 29);
+		comboBoxObra.setBounds(24, 137, 481, 29);
 		comboBoxObra.setRenderer(new ObraRenderer());
 		comboBoxObra.setSelectedItem(null);
 		return comboBoxObra;
@@ -279,7 +293,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelObra() {
 		JLabel labelObra = new JLabel("Obra");
-		labelObra.setBounds(24, 177, 46, 14);
+		labelObra.setBounds(26, 124, 46, 14);
 		return labelObra;
 	}
 
@@ -288,7 +302,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JComboBox<Ejemplar> comboBoxEjemplar() {
 		JComboBox<Ejemplar> comboBoxEjemplar = new JComboBox<>();
-		comboBoxEjemplar.setBounds(528, 191, 69, 29);
+		comboBoxEjemplar.setBounds(528, 137, 69, 29);
 		comboBoxEjemplar.setRenderer(new EjemplarRenderer());
 		comboBoxEjemplar.setSelectedItem(null);
 		return comboBoxEjemplar;
@@ -301,7 +315,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelEjemplar() {
 		JLabel labelEjemplar = new JLabel("Ejemplar");
-		labelEjemplar.setBounds(530, 177, 67, 14);
+		labelEjemplar.setBounds(528, 124, 67, 14);
 		return labelEjemplar;
 	}
 
@@ -310,7 +324,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JTextField textPasillo() {
 		JTextField textPasillo = new JTextField();
-		textPasillo.setBounds(26, 256, 73, 29);
+		textPasillo.setBounds(26, 215, 73, 29);
 		textPasillo.setEnabled(false);
 		return textPasillo;
 	}
@@ -322,7 +336,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelPasillo() {
 		JLabel labelPasillo = new JLabel("Pasillo");
-		labelPasillo.setBounds(26, 242, 73, 14);
+		labelPasillo.setBounds(26, 198, 73, 14);
 		return labelPasillo;
 	}
 
@@ -331,7 +345,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JTextField textEstanteria() {
 		JTextField textEstanteria = new JTextField();
-		textEstanteria.setBounds(124, 256, 69, 29);
+		textEstanteria.setBounds(126, 215, 69, 29);
 		textEstanteria.setEnabled(false);
 		return textEstanteria;
 	}
@@ -343,7 +357,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelEstanteria() {
 		JLabel labelEstanteria = new JLabel("Estantería");
-		labelEstanteria.setBounds(124, 242, 83, 14);
+		labelEstanteria.setBounds(126, 198, 83, 14);
 		return labelEstanteria;
 	}
 
@@ -352,7 +366,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JTextField textMotivoBaja() {
 		JTextField textMotivoBaja = new JTextField();
-		textMotivoBaja.setBounds(314, 324, 283, 29);
+		textMotivoBaja.setBounds(314, 292, 283, 29);
 		textMotivoBaja.setEnabled(false);
 		return textMotivoBaja;
 	}
@@ -364,7 +378,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelMotivoBaja() {
 		JLabel labelMotivoBaja = new JLabel("Motivo de baja");
-		labelMotivoBaja.setBounds(314, 310, 81, 14);
+		labelMotivoBaja.setBounds(314, 273, 81, 14);
 		return labelMotivoBaja;
 	}
 
@@ -373,7 +387,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JTextField textEstante() {
 		JTextField textEstante = new JTextField();
-		textEstante.setBounds(217, 256, 73, 29);
+		textEstante.setBounds(217, 215, 73, 29);
 		textEstante.setEnabled(false);
 		return textEstante;
 	}
@@ -385,7 +399,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelEstante() {
 		JLabel labelEstante = new JLabel("Estante");
-		labelEstante.setBounds(217, 242, 73, 14);
+		labelEstante.setBounds(217, 198, 73, 14);
 		return labelEstante;
 	}
 
@@ -415,7 +429,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public DatePicker calendarFechaBaja() {
 		DatePicker calendarFechaBaja = new DatePicker();
-		calendarFechaBaja.setBounds(24, 324, 271, 29);
+		calendarFechaBaja.setBounds(24, 292, 271, 29);
 		calendarFechaBaja.setEnabled(false);
 		return calendarFechaBaja;
 	}
@@ -427,7 +441,7 @@ public class Ejemplares extends JFrame {
 	 */
 	public JLabel labelFechaBaja() {
 		JLabel labelFechaBaja = new JLabel("Fecha de baja");
-		labelFechaBaja.setBounds(24, 310, 166, 14);
+		labelFechaBaja.setBounds(26, 273, 166, 14);
 		return labelFechaBaja;
 	}
 

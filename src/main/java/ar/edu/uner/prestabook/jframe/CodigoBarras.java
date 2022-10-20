@@ -20,8 +20,7 @@ public class CodigoBarras {
 		File file = new File("src/main/resources/codes/" + codigo.getCodigo() + ".png");
 		try {
 		    Barcode bar = BarcodeFactory.createCode128(codigo.toString());
-		    BarcodeImageHandler.savePNG(bar, file); 
-		    
+		    BarcodeImageHandler.savePNG(bar, file);
 		} catch (BarcodeException ex) {
 		    System.out.println(ex);
 		} catch (OutputException ex) {

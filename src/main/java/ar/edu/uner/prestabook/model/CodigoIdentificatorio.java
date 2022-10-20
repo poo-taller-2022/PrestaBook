@@ -25,4 +25,9 @@ public class CodigoIdentificatorio {
     private Integer pasillo;
     private Integer estanteria;
     private Integer estante;
+    @Override
+	public String toString() {
+		return  (codigo.toString()    + pasillo.toString()  + estanteria.toString()
+				 + estante.toString()) ;
+	}
 }

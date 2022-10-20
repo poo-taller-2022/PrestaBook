@@ -25,7 +25,4 @@ public abstract class ObraAbstract {
     private String genero;
     @ManyToOne
     private TipoObra tipo;
-    @ManyToOne
-    private AreaTematica area;
-
 }

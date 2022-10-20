@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Vector;
 
@@ -18,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,13 +30,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
+import javax.swing.ListSelectionModel;
+
 import lombok.Getter;
+
 
 public class SistemaLector extends JFrame {
 
@@ -99,8 +105,11 @@ public class SistemaLector extends JFrame {
         JLabel lblBienvenidaParte2 = lblBienvenidaParte2();
         panelBienvenida.add(lblBienvenidaParte2);
 
-        JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
-        panelConsultarObras.add(txtIngresarAreaTematica);
+		JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
+		panelConsultarObras.add(txtIngresarAreaTematica);
+		
+		JButton btnSolicitarPrestamo = btnSolicitarPrestamo();
+		panelConsultarObras.add(btnSolicitarPrestamo);
 
         /**
          * Crea el panel para administrar tipos de obras
@@ -117,169 +126,156 @@ public class SistemaLector extends JFrame {
             JScrollPane scrollPane = scrollPane();
             panelConsultarObras.add(scrollPane);
 
-            JTable tableTipoDeObras = new JTable();
+			JTable tableObras = new JTable();
 
-            DefaultTableModel model = new DefaultTableModel();
-            tableTipoDeObras.setModel(model);
-            model.addColumn("");
-            model.addColumn(Constants.AREA_TEMATICA);
-            model.addColumn("Titulo");
-            model.addColumn("Subitulo");
-            model.addColumn("1° autor");
-            model.addColumn("2° autor");
-            model.addColumn("3° autor");
-            model.addColumn("Género");
-            model.addColumn(Constants.TIPO_OBRA);
-            model.addColumn("Editorial");
-            model.addColumn("Año de edicion");
-            model.addColumn("Pais");
-            model.addColumn("Idioma");
-            model.addColumn("Paginas");
-            model.addColumn("Volúmenes");
-            model.addColumn("Formato");
-            model.addColumn("Pertenece a una colección");
-            model.addColumn("Nombre de coleccion");
-            model.addColumn("N° ejemplares");
+			DefaultTableModel model = new DefaultTableModel();
+			tableObras.setModel(model);
+			model.addColumn("");
+			model.addColumn(Constants.AREA_TEMATICA);
+			model.addColumn("Isbn");
+			model.addColumn("Titulo");
+			model.addColumn("Subitulo");
+			model.addColumn("1° autor");
+			model.addColumn("Género");
+			model.addColumn(Constants.TIPO_OBRA);
+			model.addColumn("Id de edicion");
+			model.addColumn("N° ejemplares");
 
-            tableTipoDeObras.setAutoCreateRowSorter(true);
-            TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
-            tableTipoDeObras.setRowSorter(sorted);
+			tableObras.setAutoCreateRowSorter(true);
+			TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
+			tableObras.setRowSorter(sorted);
 
-            llenarTabla(model);
-            scrollPane.setViewportView(tableTipoDeObras);
+			llenarTabla(model);
+			scrollPane.setViewportView(tableObras);
+			
+			tableObras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-            JButton btnReservarObra = btnReservarObra();
-            panelConsultarObras.add(btnReservarObra);
+			JButton btnReservarObra = btnReservarObra();
+			panelConsultarObras.add(btnReservarObra);
+			 
+			JButton btnVerMas = btnVerMas();
+			panelConsultarObras.add(btnVerMas);
 
-            /**
-             * Botón con evento para agregar tipo de obra
-             */
+			/**
+			 * Botón con evento para reservar una obra
+			 */
 
-            btnReservarObra.addActionListener(b -> {
+			btnReservarObra.addActionListener(b -> {
+				
+			});
+			
+			/**
+			 * Botón con evento para ver mas informacion de una obra seleccionada en la tabla
+			 */
+			
+			btnVerMas.addActionListener(b -> {
+				if (tableObras.getSelectedRow() != -1) {
+					DefaultTableModel modelo = (DefaultTableModel) tableObras.getModel();
+					
+					Object idEdicion = modelo.getValueAt(tableObras.getSelectedRow(),8);
+					
+					IEdicionDAO o = DaoFactory.getEdicionDAO();
+					Edicion edicion = o.findById(idEdicion);
+					
+					VerMas vermas = new VerMas(edicion);
+					vermas.setVisible(true);
+				} else {
+					JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
+				}
+			});
 
-            });
+			/**
+			 *
+			 */
 
-            /**
-             *
-             */
+			txtIngresarAreaTematica.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					txtIngresarAreaTematica.setText("");
+				}
+			});
 
-            txtIngresarAreaTematica.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    txtIngresarAreaTematica.setText("");
-                }
-            });
+			/**
+			 *
+			 */
 
-            /**
-             *
-             */
+			txtIngresarAreaTematica.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					filtrar();
+				}
 
-            txtIngresarAreaTematica.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    filtrar();
-                }
+				private void filtrar() {
+					sorted.setRowFilter(RowFilter.regexFilter(toMayusculas(txtIngresarAreaTematica.getText()), 1));
+				}
 
-                private void filtrar() {
-                    sorted.setRowFilter(RowFilter.regexFilter(txtIngresarAreaTematica.getText().toLowerCase(), 1));
-                }
-            });
+				public String toMayusculas(String valor) {
+					if (valor == null || valor.isEmpty()) {
+						return valor;
+					} else {
+						return valor.toUpperCase().charAt(0) + valor.substring(1, valor.length()).toLowerCase();
+					}
+				}
 
-        });
+			});
 
-        /**
-         * Method created to log out and return to the "IniciarSesion" window
-         */
+		});
 
-        btnCerrarSesion.addActionListener(e -> {
-            IniciarSesion login = new IniciarSesion();
-            login.setVisible(true);
-            SistemaLector.this.dispose();
-        });
+		/**
+		 * Method created to log out and return to the "IniciarSesion" window
+		 */
 
-        /**
-         * Created method to close window
-         */
+		btnCerrarSesion.addActionListener(e -> {
+			IniciarSesion login = new IniciarSesion();
+			login.setVisible(true);
+			SistemaLector.this.dispose();
+		});
 
-        btnExit.addActionListener(e -> System.exit(0));
-    }
+		/**
+		 * Created method to close window
+		 */
 
-    /**
-     * Create components
-     */
+		btnExit.addActionListener(e -> System.exit(0));
+	}
 
-    public void ventana() {
-        setUndecorated(true);
-        setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Opciones");
-        setBounds(100, 100, 1390, 811);
-        setLocationRelativeTo(null);
-    }
+	/**
+	 * Create components
+	 */
 
-    public JPanel contentPane() {
-        JPanel contentPane = new JPanel();
-        contentPane.setBorder(null);
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
-        return contentPane;
-    }
+	public void ventana() {
+		setUndecorated(true);
+		setResizable(false);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setTitle("Opciones");
+		setBounds(100, 100, 1390, 811);
+		setLocationRelativeTo(null);
+	}
 
-    public JPanel panelBienvenida() {
-        JPanel panelBienvenida = new JPanel();
-        panelBienvenida.setBounds(237, 103, 1153, 708);
-        panelBienvenida.setLayout(null);
-        return panelBienvenida;
-    }
+	public JPanel contentPane() {
+		JPanel contentPane = new JPanel();
+		contentPane.setBorder(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		return contentPane;
+	}
 
-    public JTextField txtIngresarAreaTematica() {
-        JTextField txtIngresarAreaTematica = new JTextField();
-        txtIngresarAreaTematica.setForeground(new Color(128, 128, 128));
-        txtIngresarAreaTematica.setText("Buscar por area tematica");
-        txtIngresarAreaTematica.setBounds(10, 110, 1130, 37);
-        txtIngresarAreaTematica.setColumns(10);
-        return txtIngresarAreaTematica;
-    }
+	public JPanel panelBienvenida() {
+		JPanel panelBienvenida = new JPanel();
+		panelBienvenida.setBounds(237, 103, 1153, 708);
+		panelBienvenida.setLayout(null);
+		return panelBienvenida;
+	}
 
-    public JLabel lblBienvenidaParte1() {
-        JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
-        lblBienvenidaParte1.setBounds(204, 11, 775, 136);
-        lblBienvenidaParte1.setForeground(Color.GRAY);
-        lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
-        return lblBienvenidaParte1;
-    }
-
-    public JLabel lblIconLibreria() {
-        JLabel lblIconLibreria = new JLabel("");
-        lblIconLibreria.setBounds(194, 191, 605, 493);
-        lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
-        return lblIconLibreria;
-    }
-
-    public JLabel lblBienvenidaParte2() {
-        JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
-        lblBienvenidaParte2.setBounds(401, 100, 369, 136);
-        lblBienvenidaParte2.setForeground(Color.GRAY);
-        lblBienvenidaParte2.setFont(new Font(Constants.FONT, Font.BOLD, 21));
-        return lblBienvenidaParte2;
-    }
-
-    public JPanel panelPrestabook() {
-        JPanel panelPrestabook = new JPanel();
-        panelPrestabook.setBounds(237, 0, 1153, 103);
-        panelPrestabook.setBorder(null);
-        panelPrestabook.setBackground(new Color(0, 64, 128));
-        panelPrestabook.setLayout(null);
-        return panelPrestabook;
-    }
-
-    public JLabel lblIconCerrarSesion() {
-        JLabel lblIconCerrarSesion = new JLabel("");
-        lblIconCerrarSesion.setBounds(817, 5, 19, 16);
-        return lblIconCerrarSesion;
-    }
-
-    public void jLabelImage(JLabel lblIconCerrarSesion) {
+	public JTextField txtIngresarAreaTematica() {
+		JTextField txtIngresarAreaTematica = new JTextField();
+		txtIngresarAreaTematica.setForeground(new Color(128, 128, 128));
+		txtIngresarAreaTematica.setText("Buscar por area tematica");
+		txtIngresarAreaTematica.setBounds(10, 110, 1130, 37);
+		txtIngresarAreaTematica.setColumns(10);
+		return txtIngresarAreaTematica;
+	}
+	
+	public void jLabelImage(JLabel lblIconCerrarSesion) {
         ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
                 lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
@@ -287,197 +283,250 @@ public class SistemaLector extends JFrame {
         this.repaint();
     }
 
-    public JLabel lblPrestabook() {
-        JLabel lblPrestabook = new JLabel("PrestaBook");
-        lblPrestabook.setBounds(404, 31, 267, 42);
-        lblPrestabook.setForeground(Color.WHITE);
-        lblPrestabook.setFont(new Font(Constants.FONT, Font.BOLD, 32));
-        return lblPrestabook;
-    }
+	public JLabel lblBienvenidaParte1() {
+		JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
+		lblBienvenidaParte1.setBounds(204, 11, 775, 136);
+		lblBienvenidaParte1.setForeground(Color.GRAY);
+		lblBienvenidaParte1.setFont(new Font("Verdana", Font.BOLD, 21));
+		return lblBienvenidaParte1;
+	}
 
-    public JButton btnExit() {
-        JButton btnExit = new JButton("X");
-        btnExit.setForeground(Color.WHITE);
-        btnExit.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnExit.setBackground(new Color(255, 106, 106));
-        btnExit.setBounds(1106, 0, 47, 25);
-        return btnExit;
-    }
+	public JLabel lblIconLibreria() {
+		JLabel lblIconLibreria = new JLabel("");
+		lblIconLibreria.setBounds(194, 191, 605, 493);
+		lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
+		return lblIconLibreria;
+	}
 
-    public JButton btnCerrarSesion() {
-        JButton btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.setFont(new Font(Constants.FONT, Font.BOLD, 11));
-        btnCerrarSesion.setFocusPainted(false);
-        btnCerrarSesion.setBorderPainted(false);
-        btnCerrarSesion.setBorder(null);
-        btnCerrarSesion.setBounds(995, -2, 101, 23);
-        btnCerrarSesion.setForeground(new Color(255, 255, 255));
-        btnCerrarSesion.setBackground(new Color(0, 64, 128));
-        return btnCerrarSesion;
-    }
+	public JLabel lblBienvenidaParte2() {
+		JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
+		lblBienvenidaParte2.setBounds(401, 100, 369, 136);
+		lblBienvenidaParte2.setForeground(Color.GRAY);
+		lblBienvenidaParte2.setFont(new Font("Verdana", Font.BOLD, 21));
+		return lblBienvenidaParte2;
+	}
 
-    public JPanel panelOpciones() {
-        JPanel panelOpciones = new JPanel();
-        panelOpciones.setBounds(0, 0, 237, 811);
-        panelOpciones.setBackground(new Color(0, 45, 89));
-        panelOpciones.setLayout(null);
-        return panelOpciones;
-    }
+	public JPanel panelPrestabook() {
+		JPanel panelPrestabook = new JPanel();
+		panelPrestabook.setBounds(237, 0, 1153, 103);
+		panelPrestabook.setBorder(null);
+		panelPrestabook.setBackground(new Color(0, 64, 128));
+		panelPrestabook.setLayout(null);
+		return panelPrestabook;
+	}
 
-    public JLabel lblUsuario() {
-        JLabel lblUsuario = new JLabel("Usuario:");
-        lblUsuario.setBounds(27, 0, 122, 37);
-        lblUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 17));
-        lblUsuario.setForeground(new Color(255, 255, 255));
-        return lblUsuario;
-    }
+	public JLabel lblIconCerrarSesion() {
+		JLabel lblIconCerrarSesion = new JLabel("");
+		lblIconCerrarSesion.setBounds(817, 5, 19, 16);
+		return lblIconCerrarSesion;
+	}
 
-    public JLabel textUsusario() {
-        textUsuario = new JLabel("");
-        textUsuario.setBackground(new Color(0, 128, 0));
-        textUsuario.setBounds(124, 0, 173, 37);
-        textUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 16));
-        textUsuario.setForeground(new Color(255, 255, 255));
-        return textUsuario;
-    }
+	public void JLabelImage(JLabel lblIconCerrarSesion) {
+		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
+		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
+				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
+		lblIconCerrarSesion.setIcon(icon);
+		this.repaint();
+	}
 
-    public JButton btnSolicitudes() {
-        JButton btnSolicitudes = new JButton("Solicitudes");
-        btnSolicitudes.setVerifyInputWhenFocusTarget(false);
-        btnSolicitudes.setForeground(new Color(0, 64, 128));
-        btnSolicitudes.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnSolicitudes.setFocusPainted(false);
-        btnSolicitudes.setBorderPainted(false);
-        btnSolicitudes.setBorder(null);
-        btnSolicitudes.setBackground(Color.WHITE);
-        btnSolicitudes.setBounds(23, 74, 188, 31);
-        return btnSolicitudes;
-    }
+	public JLabel lblPrestabook() {
+		JLabel lblPrestabook = new JLabel("PrestaBook");
+		lblPrestabook.setBounds(404, 31, 267, 42);
+		lblPrestabook.setForeground(Color.WHITE);
+		lblPrestabook.setFont(new Font("Verdana", Font.BOLD, 32));
+		return lblPrestabook;
+	}
 
-    public JPanel panelSeparador() {
-        JPanel panelSeparador = new JPanel();
-        panelSeparador.setBounds(23, 121, 188, 3);
-        return panelSeparador;
-    }
+	public JButton btnExit() {
+		JButton btnExit = new JButton("X");
+		btnExit.setForeground(Color.WHITE);
+		btnExit.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnExit.setBackground(new Color(255, 106, 106));
+		btnExit.setBounds(1106, 0, 47, 25);
+		return btnExit;
+	}
 
-    public JLabel lblOpciones() {
-        JLabel lblOpciones = new JLabel("Opciones");
-        lblOpciones.setForeground(new Color(255, 255, 255));
-        lblOpciones.setFont(new Font(Constants.FONT, Font.BOLD, 16));
-        lblOpciones.setBounds(73, 135, 105, 23);
-        return lblOpciones;
-    }
+	public JButton btnCerrarSesion() {
+		JButton btnCerrarSesion = new JButton("Cerrar Sesión");
+		btnCerrarSesion.setFont(new Font("Verdana", Font.BOLD, 11));
+		btnCerrarSesion.setFocusPainted(false);
+		btnCerrarSesion.setBorderPainted(false);
+		btnCerrarSesion.setBorder(null);
+		btnCerrarSesion.setBounds(995, -2, 101, 23);
+		btnCerrarSesion.setForeground(new Color(255, 255, 255));
+		btnCerrarSesion.setBackground(new Color(0, 64, 128));
+		return btnCerrarSesion;
+	}
 
-    public JButton btnConsultarObras() {
-        JButton btnConsultarObras = new JButton("Consultar obras");
-        btnConsultarObras.setFocusPainted(false);
-        btnConsultarObras.setBackground(new Color(255, 255, 255));
-        btnConsultarObras.setVerifyInputWhenFocusTarget(false);
-        btnConsultarObras.setBorderPainted(false);
-        btnConsultarObras.setBorder(null);
-        btnConsultarObras.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnConsultarObras.setForeground(new Color(0, 64, 128));
-        btnConsultarObras.setBounds(22, 169, 189, 31);
-        return btnConsultarObras;
-    }
+	public JPanel panelOpciones() {
+		JPanel panelOpciones = new JPanel();
+		panelOpciones.setBounds(0, 0, 237, 811);
+		panelOpciones.setBackground(new Color(0, 45, 89));
+		panelOpciones.setLayout(null);
+		return panelOpciones;
+	}
 
-    public JPanel panelEntidades() {
-        JPanel panelEntidades = new JPanel();
-        panelEntidades.setBounds(237, 103, 1153, 708);
-        panelEntidades.setLayout(null);
-        return panelEntidades;
-    }
+	public JLabel lblUsuario() {
+		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario.setBounds(27, 0, 122, 37);
+		lblUsuario.setFont(new Font("Verdana", Font.BOLD, 17));
+		lblUsuario.setForeground(new Color(255, 255, 255));
+		return lblUsuario;
+	}
 
-    public JLabel lblConsultarObras() {
-        JLabel lblConsultarObras = new JLabel("Consultar obras");
-        lblConsultarObras.setBounds(440, 10, 369, 136);
-        lblConsultarObras.setForeground(Color.GRAY);
-        lblConsultarObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
-        return lblConsultarObras;
-    }
+	public JLabel textUsusario() {
+		textUsuario = new JLabel("");
+		textUsuario.setBackground(new Color(0, 128, 0));
+		textUsuario.setBounds(124, 0, 173, 37);
+		textUsuario.setFont(new Font("Verdana", Font.BOLD, 16));
+		textUsuario.setForeground(new Color(255, 255, 255));
+		return textUsuario;
+	}
 
-    public JScrollPane scrollPane() {
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 158, 1130, 300);
-        return scrollPane;
-    }
+	public JButton btnSolicitudes() {
+		JButton btnSolicitudes = new JButton("Solicitudes");
+		btnSolicitudes.setVerifyInputWhenFocusTarget(false);
+		btnSolicitudes.setForeground(new Color(0, 64, 128));
+		btnSolicitudes.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnSolicitudes.setFocusPainted(false);
+		btnSolicitudes.setBorderPainted(false);
+		btnSolicitudes.setBorder(null);
+		btnSolicitudes.setBackground(Color.WHITE);
+		btnSolicitudes.setBounds(23, 74, 188, 31);
+		return btnSolicitudes;
+	}
 
-    private JButton btnReservarObra() {
-        JButton btnReservarObra = new JButton("Reservar obra");
-        btnReservarObra.setFocusPainted(false);
-        btnReservarObra.setBackground(new Color(0, 64, 128));
-        btnReservarObra.setForeground(new Color(255, 255, 255));
-        btnReservarObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnReservarObra.setBorderPainted(false);
-        btnReservarObra.setBounds(440, 500, 210, 20);
-        return btnReservarObra;
-    }
+	public JPanel panelSeparador() {
+		JPanel panelSeparador = new JPanel();
+		panelSeparador.setBounds(23, 121, 188, 3);
+		return panelSeparador;
+	}
 
-    /**
-     * @param model
-     * 
-     *              model.addColumn("Pais"); model.addColumn("Idioma");
-     *              model.addColumn("Paginas"); model.addColumn("Volúmenes");
-     *              model.addColumn("Formato"); model.addColumn("Pertenece a una
-     *              colección"); model.addColumn("Nombre de coleccion");
-     *              model.addColumn("N° ejemplares");
-     */
+	public JLabel lblOpciones() {
+		JLabel lblOpciones = new JLabel("Opciones");
+		lblOpciones.setForeground(new Color(255, 255, 255));
+		lblOpciones.setFont(new Font("Verdana", Font.BOLD, 16));
+		lblOpciones.setBounds(73, 135, 105, 23);
+		return lblOpciones;
+	}
 
-    public void llenarTabla(DefaultTableModel model) {
-        Integer i = 0;
+	public JButton btnConsultarObras() {
+		JButton btnConsultarObras = new JButton("Consultar obras");
+		btnConsultarObras.setFocusPainted(false);
+		btnConsultarObras.setBackground(new Color(255, 255, 255));
+		btnConsultarObras.setVerifyInputWhenFocusTarget(false);
+		btnConsultarObras.setBorderPainted(false);
+		btnConsultarObras.setBorder(null);
+		btnConsultarObras.setFont(new Font("Verdana", Font.BOLD, 12));
+		btnConsultarObras.setForeground(new Color(0, 64, 128));
+		btnConsultarObras.setBounds(22, 169, 189, 31);
+		return btnConsultarObras;
+	}
 
-        IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-        List<Edicion> ediciones = edicionDAO.findAll();
-        for (Edicion edicion : ediciones) {
-            List<Object> fila = new LinkedList<>();
+	public JPanel panelEntidades() {
+		JPanel panelEntidades = new JPanel();
+		panelEntidades.setBounds(237, 103, 1153, 708);
+		panelEntidades.setLayout(null);
+		return panelEntidades;
+	}
 
-            IObraDAO obraDAO = DaoFactory.getObraDAO();
-            Obra obra = obraDAO.findById(edicion.getIsbnObra());
-            fila.add(++i);
-            fila.add(obra.getArea().getNombre());
-            fila.add(obra.getTitulo());
-            fila.add(obra.getSubtitulo());
-            fila.add(obra.getPrimerAutor());
-            fila.add(obra.getSegundoAutor());
-            fila.add(obra.getTercerAutor());
-            fila.add(obra.getGenero());
-            fila.add(obra.getTipo().getNombre());
+	public JLabel lblConsultarObras() {
+		JLabel lblConsultarObras = new JLabel("Consultar obras");
+		lblConsultarObras.setBounds(440, 10, 369, 136);
+		lblConsultarObras.setForeground(Color.GRAY);
+		lblConsultarObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
+		return lblConsultarObras;
+	}
 
-            fila.add(edicion.getEditorial());
-            fila.add(edicion.getAnio());
-            fila.add(edicion.getPais());
-            fila.add(edicion.getIdioma());
-            fila.add(edicion.getPaginas());
-            fila.add(edicion.getVolumenes());
+	public JScrollPane scrollPane() {
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 158, 1130, 300);
+		return scrollPane;
+	}
+	
+	private JButton btnVerMas() {
+		JButton btnVerMas = new JButton("Ver más");
+		btnVerMas.setFocusPainted(false);
+		btnVerMas.setBackground(new Color(0, 64, 128));
+		btnVerMas.setForeground(new Color(255, 255, 255));
+		btnVerMas.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnVerMas.setBorderPainted(false);
+		btnVerMas.setBounds(140, 500, 210, 20);
+		return btnVerMas;
+	}
 
-            Set<Formato> formatos = edicion.getFormatos();
-            StringBuilder concatenarFormatos = new StringBuilder();
+	private JButton btnReservarObra() {
+		JButton btnReservarObra = new JButton("Reservar obra");
+		btnReservarObra.setFocusPainted(false);
+		btnReservarObra.setBackground(new Color(0, 64, 128));
+		btnReservarObra.setForeground(new Color(255, 255, 255));
+		btnReservarObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnReservarObra.setBorderPainted(false);
+		btnReservarObra.setBounds(440, 500, 210, 20);
+		return btnReservarObra;
+	}
+	
+	private JButton btnSolicitarPrestamo() {
+		JButton btnSolicitarPrestamo = new JButton("Solicitar préstamo");
+		btnSolicitarPrestamo.setFocusPainted(false);
+		btnSolicitarPrestamo.setBackground(new Color(0, 64, 128));
+		btnSolicitarPrestamo.setForeground(new Color(255, 255, 255));
+		btnSolicitarPrestamo.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnSolicitarPrestamo.setBorderPainted(false);
+		btnSolicitarPrestamo.setBounds(740, 500, 210, 20);
+		return btnSolicitarPrestamo;
+	}
 
-            for (Formato formato : formatos) {
-                concatenarFormatos.append(formato.getNombre() + ", ");
-            }
+	/**
+	 * @param model     
+	 */
 
-            fila.add(concatenarFormatos.toString());
+	public void llenarTabla(DefaultTableModel model) {
+		Integer i = 0;
 
-            fila.add("");
-            fila.add("");
+		IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
+		List<Edicion> ediciones = edicionDAO.findAll();
+		for (Edicion edicion : ediciones) {
+			List<Object> fila = new LinkedList<>();
 
-            IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
-            List<Ejemplar> ejemplares = ejemplarDAO.findAll();
-            Integer cantidadEjemplares = 0;
-            if (ejemplares != null) {
-                for (Ejemplar ejemplar : ejemplares) {
+			IObraDAO obraDAO = DaoFactory.getObraDAO();
+			Obra obra = obraDAO.findById(edicion.getIsbnObra());
+			fila.add(++i);
+			
+			Set<AreaTematica> areas = obra.getArea();
+			StringBuilder contatenarAreas = new StringBuilder();
 
-                    if (ejemplar.getIsbnObra().equals(obra.getIsbn())) {
-                        cantidadEjemplares++;
-                    }
-                }
-                fila.add(cantidadEjemplares);
-            } else {
-                fila.add(cantidadEjemplares);
-            }
+			for (AreaTematica area : areas) {
+				contatenarAreas.append(area.getNombre() + ", ");
+			}
+			contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+			fila.add(contatenarAreas);
 
-            model.addRow(new Vector<>(fila));
-        }
-    }
+			fila.add(obra.getIsbn());
+			fila.add(obra.getTitulo());
+			fila.add(obra.getSubtitulo());
+			fila.add(obra.getPrimerAutor());
+			fila.add(obra.getGenero()); 
+			fila.add(obra.getTipo().getNombre());
+
+			fila.add(edicion.getId());
+			
+			IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
+			List<Ejemplar> ejemplares = ejemplarDAO.findAll();
+			Integer cantidadEjemplares = 0;
+			if (ejemplares != null) {
+				for (Ejemplar ejemplar : ejemplares) {
+
+					if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && !(ejemplar.getMotivoBaja() != null)) {
+						cantidadEjemplares++;
+					}
+				}
+				fila.add(cantidadEjemplares);
+			} else {
+				fila.add(cantidadEjemplares);
+			}
+
+			model.addRow(new Vector<>(fila));
+		}
+	}
 }

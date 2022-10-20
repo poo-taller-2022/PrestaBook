@@ -73,12 +73,6 @@ public class AgregarEjemplar extends JFrame {
 		JButton btnCancelar = btnCancelar();
 		contentPane.add(btnCancelar);
 
-		JTextField fieldCodigo = fieldCodigo();
-		contentPane.add(fieldCodigo);
-
-		JLabel lblCodigo = lblCodigo();
-		contentPane.add(lblCodigo);
-
 		JTextField fieldPasillo = fieldPasillo();
 		contentPane.add(fieldPasillo);
 
@@ -107,17 +101,17 @@ public class AgregarEjemplar extends JFrame {
 
 		btnAgregar.addActionListener(e -> {
 			Boolean camposCompletos = !(fieldFormaAdquisicion.getText().isBlank()
-					|| fieldObservaciones.getText().isBlank() || fieldCodigo.getText().isBlank()
-					|| fieldPasillo.getText().isBlank() || fieldEstanteria.getText().isBlank()
-					|| fieldEstante.getText().isBlank());
+					|| fieldObservaciones.getText().isBlank() || fieldPasillo.getText().isBlank()
+					|| fieldEstanteria.getText().isBlank() || fieldEstante.getText().isBlank())
+					&& calendarFechaAdquisicion.getDate() != null;
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
 
 				Obra itemObra = (Obra) comboBoxObras.getSelectedItem();
 
 				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), calendarFechaAdquisicion.getDate().toString(),
-						fieldObservaciones.getText(), fieldCodigo.getText(), fieldPasillo.getText(),
-						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getIsbn());
+						fieldObservaciones.getText(), fieldPasillo.getText(), fieldEstanteria.getText(),
+						fieldEstante.getText(), itemObra.getIsbn());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 				this.setVisible(false);
@@ -128,7 +122,7 @@ public class AgregarEjemplar extends JFrame {
 	}
 
 	private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
-			String codigo, String pasillo, String estanteria, String estante, String isbnObra) {
+			String pasillo, String estanteria, String estante, String isbnObra) {
 		IObraDAO o = DaoFactory.getObraDAO();
 		Obra obra = o.findById(isbnObra);
 
@@ -141,13 +135,11 @@ public class AgregarEjemplar extends JFrame {
 		ejemplar.setTercerAutor(obra.getTercerAutor());
 		ejemplar.setGenero(obra.getGenero());
 		ejemplar.setTipo(new TipoObra(obra.getTipo().getId(), obra.getTipo().getNombre()));
-		ejemplar.setArea(new AreaTematica(obra.getArea().getId(), obra.getArea().getNombre()));
 		ejemplar.setFormaAdquisicion(formaAdquisicion);
 		ejemplar.setFechaAdquisicion(fechaAdquisicion);
 		ejemplar.setObservaciones(observaciones);
 
 		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
-		codigoIden.setCodigo(Long.valueOf(codigo));
 		codigoIden.setEstante(Integer.parseInt(estante));
 		codigoIden.setEstanteria(Integer.parseInt(estanteria));
 		codigoIden.setPasillo(Integer.parseInt(pasillo));
@@ -176,29 +168,10 @@ public class AgregarEjemplar extends JFrame {
 		return contentPane;
 	}
 
-	public JTextField fieldCodigo() {
-		JTextField fieldCodigo = new JTextField();
-		fieldCodigo.setColumns(10);
-		fieldCodigo.setBounds(241, 233, 166, 29);
-		fieldCodigo.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldCodigo.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldCodigo;
-	}
-
-	public JLabel lblCodigo() {
-		JLabel lblCodigo = new JLabel("Codigo");
-		lblCodigo.setBounds(241, 220, 133, 14);
-		return lblCodigo;
-	}
-
 	public JTextField fieldPasillo() {
 		JTextField fieldPasillo = new JTextField();
 		fieldPasillo.setColumns(10);
-		fieldPasillo.setBounds(446, 233, 166, 29);
+		fieldPasillo.setBounds(241, 233, 166, 29);
 		fieldPasillo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
@@ -211,7 +184,7 @@ public class AgregarEjemplar extends JFrame {
 	public JTextField fieldEstanteria() {
 		JTextField fieldEstanteria = new JTextField();
 		fieldEstanteria.setColumns(10);
-		fieldEstanteria.setBounds(154, 297, 166, 29);
+		fieldEstanteria.setBounds(446, 233, 166, 29);
 		fieldEstanteria.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
@@ -224,7 +197,7 @@ public class AgregarEjemplar extends JFrame {
 	public JTextField fieldEstante() {
 		JTextField fieldEstante = new JTextField();
 		fieldEstante.setColumns(10);
-		fieldEstante.setBounds(363, 297, 166, 29);
+		fieldEstante.setBounds(241, 297, 166, 29);
 		fieldEstante.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
@@ -236,19 +209,19 @@ public class AgregarEjemplar extends JFrame {
 
 	public JLabel lblPasillo() {
 		JLabel lblPasillo = new JLabel("Pasillo");
-		lblPasillo.setBounds(446, 220, 133, 14);
+		lblPasillo.setBounds(241, 220, 133, 14);
 		return lblPasillo;
 	}
 
 	public JLabel lblEstanteria() {
 		JLabel lblEstanteria = new JLabel("Estantería");
-		lblEstanteria.setBounds(154, 284, 133, 14);
+		lblEstanteria.setBounds(446, 220, 133, 14);
 		return lblEstanteria;
 	}
 
 	public JLabel lblEstante() {
 		JLabel lblEstante = new JLabel("Estante");
-		lblEstante.setBounds(363, 284, 133, 14);
+		lblEstante.setBounds(241, 283, 133, 14);
 		return lblEstante;
 	}
 
