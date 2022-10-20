@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -29,6 +30,11 @@ import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeException;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
+import net.sourceforge.barbecue.output.OutputException;
 
 public class AgregarEjemplar extends JFrame {
 
@@ -108,8 +114,7 @@ public class AgregarEjemplar extends JFrame {
 
 		btnAgregar.addActionListener(e -> {
 			Boolean camposCompletos = !(fieldFormaAdquisicion.getText().isBlank()
-					|| fieldObservaciones.getText().isBlank() || fieldCodigo.getText().isBlank()
-					|| fieldPasillo.getText().isBlank() || fieldEstanteria.getText().isBlank()
+					|| fieldObservaciones.getText().isBlank() || fieldPasillo.getText().isBlank() || fieldEstanteria.getText().isBlank()
 					|| fieldEstante.getText().isBlank());
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
@@ -117,10 +122,12 @@ public class AgregarEjemplar extends JFrame {
 				Obra itemObra = (Obra) comboBoxObras.getSelectedItem();
 
 				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), calendarFechaAdquisicion.getDate().toString(),
-						fieldObservaciones.getText(), fieldCodigo.getText(), fieldPasillo.getText(),
+						fieldObservaciones.getText(), fieldPasillo.getText(),
 						fieldEstanteria.getText(), fieldEstante.getText(), itemObra.getIsbn());
 
 				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+				
+				
 				this.setVisible(false);
 			} else {
 				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
@@ -128,8 +135,7 @@ public class AgregarEjemplar extends JFrame {
 		});
 	}
 
-	private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
-			String codigo, String pasillo, String estanteria, String estante, String isbnObra) {
+	private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones, String pasillo, String estanteria, String estante, String isbnObra) {
 		IObraDAO o = DaoFactory.getObraDAO();
 		Obra obra = o.findById(isbnObra);
 
@@ -146,20 +152,41 @@ public class AgregarEjemplar extends JFrame {
 		ejemplar.setFormaAdquisicion(formaAdquisicion);
 		ejemplar.setFechaAdquisicion(fechaAdquisicion);
 		ejemplar.setObservaciones(observaciones);
+		
+		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
+		Ejemplar ej2 = ej.insert(ejemplar);
+		
 
 		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
-		codigoIden.setCodigo(Long.valueOf(codigo));
+		codigoIden.setCodigo(Long.valueOf(ej2.getId()));
 		codigoIden.setEstante(Integer.parseInt(estante));
 		codigoIden.setEstanteria(Integer.parseInt(estanteria));
 		codigoIden.setPasillo(Integer.parseInt(pasillo));
 
 		ICodigoIdentificatorioDAO co = DaoFactory.getCodigoIdentificatorioDAO();
 		co.insert(codigoIden);
-		ejemplar.setCodigoIdentificatorio(codigoIden);
-
-		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
-		ej.insert(ejemplar);
+		ej2.setCodigoIdentificatorio(codigoIden);
+		ej.update(ej2);
+		
+		generarCodigoBarras(codigoIden);
 	}
+	
+	
+	
+	private static void generarCodigoBarras(CodigoIdentificatorio codigo ) {
+		File file = new File("src/main/resources/codes/" + codigo.getCodigo() + ".png");
+		try {
+		    Barcode bar = BarcodeFactory.createCode128(codigo.toString());
+		    BarcodeImageHandler.savePNG(bar, file);
+		    
+		    
+		} catch (BarcodeException ex) {
+		    System.out.println(ex);
+		} catch (OutputException ex) {
+			System.out.println(ex);
+		}
+	}
+	
 
 	public void ventana() {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

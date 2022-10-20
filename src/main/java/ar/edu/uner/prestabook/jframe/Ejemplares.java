@@ -2,6 +2,8 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -126,7 +128,20 @@ public class Ejemplares extends JFrame {
 		JButton botonConfirmar = btnConfirmar();
 
 		JButton botonCancelar = btnCancelar();
+		
+		JButton botonMostrarCodigo = btnMostrarCodigo();
+		contentPane.add(botonMostrarCodigo);
 
+		/*
+		botonMostrarCodigo.addActionListener(e->{
+			
+			CodigoBarras code = new CodigoBarras();
+			botonMostrarCodigo.addActionListener(e->{
+	    		buscarCodigoBarras(id);
+	    	
+		});*/
+		
+		
 		botonEditar.addActionListener(e -> {
 			comboBoxEjemplar.setEnabled(false);
 			comboBoxObra.setEnabled(false);
@@ -156,6 +171,7 @@ public class Ejemplares extends JFrame {
 			contentPane.revalidate();
 			contentPane.repaint();
 		});
+		
 
 		botonCancelar.addActionListener(e -> {
 			comboBoxEjemplar.setEnabled(true);
@@ -461,6 +477,12 @@ public class Ejemplares extends JFrame {
 		return btnCancelar;
 	}
 
+	public JButton btnMostrarCodigo() {
+		JButton btnMostrar = new JButton("mostrar");
+    	btnMostrar.setBounds(358,420,120, 23);
+    	return btnMostrar;
+	}
+	
 	/**
 	 * Creates a cancel button
 	 * 
