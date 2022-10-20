@@ -1,5 +1,7 @@
 package ar.edu.uner.prestabook.jframe;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +16,7 @@ import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Lector;
+import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
@@ -55,6 +58,9 @@ public class Tabla {
                 break;
             case Constants.LECTOR:
                 loadLector(model, i);
+                break;
+            case Constants.MULTAS:
+                loadMultas(model, i);
                 break;
             default:
         }
@@ -186,6 +192,20 @@ public class Tabla {
             fila.add(DaoFactory.getLectorDAO().countFinesById(lector.getDocumento()));
             model.addRow(new Vector<>(fila));
         }
+    }
+
+    private static void loadMultas(DefaultTableModel model, Integer i) {
+        List<Multa> multas = DaoFactory.getMultaDAO().findAll();
+        for (Multa multa : multas) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(LocalDate.parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            fila.add(multa.getPlazo());
+            fila.add(multa.getLector().getNombre());
+            fila.add(multa.getLector().getApellido());
+            model.addRow(new Vector<>(fila));
+        }
+
     }
 
 }

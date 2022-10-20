@@ -6,21 +6,24 @@ import javax.persistence.MappedSuperclass;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Persona {
 
+    @Id
+    @Column(nullable = false)
+    @EqualsAndHashCode.Include
+    private Long documento;
     private String nombre;
     private String apellido;
     @Column(name = "tipo_documento")
     private String tipoDocumento;
-    @Id
-    @Column(nullable = false)
-    private Long documento;
     private String email;
     private String celular;
     @Column(name = "fecha_nacimiento")

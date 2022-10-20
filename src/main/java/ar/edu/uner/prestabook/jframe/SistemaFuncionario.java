@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -20,11 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.DatePickerSettings;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.tablemodel.NonEditableTableModel;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Formato;
@@ -46,10 +48,11 @@ public class SistemaFuncionario extends JFrame {
     private JPanel panelEjemplar = panelEntidades();
     private JPanel panelFormato = panelEntidades();
     private JPanel panelLectores = panelEntidades();
+    private JPanel panelMultas = panelEntidades();
     private JPanel panelObra = panelEntidades();
     private JPanel panelTipoObra = panelEntidades();
     private List<JPanel> paneles = List.of(panelAreaTematica, panelBienvenida, panelColeccion, panelEdicion,
-            panelEjemplar, panelFormato, panelLectores, panelObra, panelTipoObra);
+            panelEjemplar, panelFormato, panelLectores, panelMultas, panelObra, panelTipoObra);
 
     /**
      * Create the frame.
@@ -127,8 +130,8 @@ public class SistemaFuncionario extends JFrame {
         JButton btnListarLectores = btnListarLectores();
         panelOpciones.add(btnListarLectores);
 
-        JButton btnListarRankingDeMultados = btnListarRankingDeMultados();
-        panelOpciones.add(btnListarRankingDeMultados);
+        JButton btnListarMultas = btnListarMultas();
+        panelOpciones.add(btnListarMultas);
 
         JButton btnListarObrasPorEditorial = btnListarObrasPorEditorial();
         panelOpciones.add(btnListarObrasPorEditorial);
@@ -322,12 +325,7 @@ public class SistemaFuncionario extends JFrame {
 
             JTable tableObras = new JTable();
 
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            DefaultTableModel model = new NonEditableTableModel();
             tableObras.setModel(model);
             model.addColumn("");
             model.addColumn("Isbn");
@@ -376,12 +374,7 @@ public class SistemaFuncionario extends JFrame {
             JTable tablaEjemplares = new JTable();
             tablaEjemplares.setSize(1000, 1600);
 
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            DefaultTableModel model = new NonEditableTableModel();
             tablaEjemplares.setModel(model);
             model.addColumn("");
             model.addColumn("Isbn de obra");
@@ -435,12 +428,7 @@ public class SistemaFuncionario extends JFrame {
             JTable tablaEdiciones = new JTable();
             tablaEdiciones.setSize(1000, 1600);
 
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            DefaultTableModel model = new NonEditableTableModel();
             tablaEdiciones.setModel(model);
             model.addColumn("");
             model.addColumn("Editorial");
@@ -493,12 +481,7 @@ public class SistemaFuncionario extends JFrame {
             JTable tablaColecciones = new JTable();
             tablaColecciones.setSize(1000, 1600);
 
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            DefaultTableModel model = new NonEditableTableModel();
             tablaColecciones.setModel(model);
             model.addColumn("");
             model.addColumn("Isbn");
@@ -541,28 +524,16 @@ public class SistemaFuncionario extends JFrame {
             panelLectores.setVisible(true);
             contentPane.add(panelLectores);
 
-            panelLectores.add(lblTituloEntidades(Constants.LECTORES));     
-            
-            DatePicker fechaInicial = datePickerInitial();
-            DatePicker fechaFinal = datePickerFinal();
-            panelLectores.add(fechaInicial);
-            panelLectores.add(fechaFinal);
-            
+            panelLectores.add(lblTituloEntidades(Constants.LECTORES));
+
             JScrollPane scrollPane = scrollPane();
             panelLectores.add(scrollPane);
 
             JTable tablaLectores = new JTable();
             tablaLectores.setSize(1000, 1600);
 
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            DefaultTableModel model = new NonEditableTableModel();
             tablaLectores.setModel(model);
-            tablaLectores.setAutoCreateRowSorter(true);
-
             model.addColumn("");
             model.addColumn("Nombre");
             model.addColumn("Apellido");
@@ -585,6 +556,73 @@ public class SistemaFuncionario extends JFrame {
 
         });
 
+        btnListarMultas.addActionListener(e -> {
+            ocultarPaneles();
+            panelMultas.setVisible(true);
+            contentPane.add(panelMultas);
+
+            panelMultas.add(lblTituloEntidades(Constants.MULTAS));
+            JLabel labelFiltro = labelFiltro();
+            JLabel labelFiltroInicio = labelFiltroInicio();
+            JLabel labelFiltroFin = labelFiltroFin();
+            DatePicker fechaInicial = datePickerInitial();
+            DatePicker fechaFinal = datePickerFinal();
+            panelMultas.add(labelFiltro);
+            panelMultas.add(labelFiltroInicio);
+            panelMultas.add(labelFiltroFin);
+            panelMultas.add(fechaInicial);
+            panelMultas.add(fechaFinal);
+
+            JScrollPane scrollPane = scrollPane();
+            panelMultas.add(scrollPane);
+
+            JTable tablaLectores = new JTable();
+            tablaLectores.setSize(1000, 1600);
+
+            DefaultTableModel model = new NonEditableTableModel();
+            tablaLectores.setModel(model);
+            tablaLectores.setAutoCreateRowSorter(true);
+
+            model.addColumn("");
+            model.addColumn("Fecha");
+            model.addColumn("Plazo");
+            model.addColumn("Nombre");
+            model.addColumn("Apellido");
+
+            tablaLectores.setAutoCreateRowSorter(true);
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+            tablaLectores.setRowSorter(sorter);
+
+            Tabla.fill(model, Constants.MULTAS);
+
+            scrollPane.setViewportView(tablaLectores);
+
+            fechaInicial.addDateChangeListener(evt -> {
+                limpiarTabla(tablaLectores);
+                Tabla.fill(model, Constants.MULTAS);
+                filtrarFechas((DefaultTableModel) tablaLectores.getModel(), fechaInicial.getDate(),
+                        fechaFinal.getDate());
+            });
+
+            fechaFinal.addDateChangeListener(evt -> {
+                limpiarTabla(tablaLectores);
+                Tabla.fill(model, Constants.MULTAS);
+                filtrarFechas((DefaultTableModel) tablaLectores.getModel(), fechaInicial.getDate(),
+                        fechaFinal.getDate());
+            });
+
+            JButton btnRefrescar = btnRefrescar();
+            panelMultas.add(btnRefrescar);
+
+            btnRefrescar.addActionListener(b -> {
+                fechaFinal.setDate(null);
+                fechaInicial.setDate(null);
+                limpiarTabla(tablaLectores);
+                Tabla.fill(model, Constants.MULTAS);
+            });
+
+        });
+
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
@@ -595,7 +633,6 @@ public class SistemaFuncionario extends JFrame {
 
     }
 
-
     /**
      * Create components
      */
@@ -604,7 +641,7 @@ public class SistemaFuncionario extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle(Constants.OPCIONES);
+        setTitle(Constants.PRESTABOOK);
         setBounds(100, 100, 1390, 811);
         setLocationRelativeTo(null);
     }
@@ -809,8 +846,8 @@ public class SistemaFuncionario extends JFrame {
         return btnListarLectoresMultadosPorPeriodo;
     }
 
-    public JButton btnListarRankingDeMultados() {
-        JButton btnListarRankingDeMultados = new JButton("Listar ranking de multados");
+    public JButton btnListarMultas() {
+        JButton btnListarRankingDeMultados = new JButton("Ver Multas");
         btnListarRankingDeMultados.setFocusPainted(false);
         btnListarRankingDeMultados.setBackground(new Color(255, 255, 255));
         btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
@@ -1099,6 +1136,7 @@ public class SistemaFuncionario extends JFrame {
                 modelo.removeRow(0);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
@@ -1108,17 +1146,55 @@ public class SistemaFuncionario extends JFrame {
             panel.setVisible(false);
         }
     }
-    
+
     private DatePicker datePickerInitial() {
         DatePicker datePickerInitial = new DatePicker(DateSettings.getDatePickerSettings());
-        datePickerInitial.setBounds(200, 80, 200, 30);
+        datePickerInitial.setBounds(70, 70, 200, 30);
         return datePickerInitial;
     }
-    
+
     private DatePicker datePickerFinal() {
         DatePicker datePickerFinal = new DatePicker(DateSettings.getDatePickerSettings());
-        datePickerFinal.setBounds(600, 80, 200, 30);
+        datePickerFinal.setBounds(70, 110, 200, 30);
         return datePickerFinal;
+    }
+
+    private JLabel labelFiltro() {
+        JLabel filtro = new JLabel("Filtrar por fecha de multas");
+        filtro.setBounds(10, -30, 775, 136);
+        filtro.setForeground(Color.GRAY);
+        filtro.setFont(new Font(Constants.FONT, Font.BOLD, 14));
+        return filtro;
+    }
+
+    private JLabel labelFiltroInicio() {
+        JLabel filtro = new JLabel("Inicio");
+        filtro.setBounds(10, 20, 775, 136);
+        filtro.setForeground(Color.GRAY);
+        filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
+        return filtro;
+    }
+
+    private JLabel labelFiltroFin() {
+        JLabel filtro = new JLabel("Fin");
+        filtro.setBounds(10, 60, 775, 136);
+        filtro.setForeground(Color.GRAY);
+        filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
+        return filtro;
+    }
+
+    private void filtrarFechas(DefaultTableModel modelo, LocalDate startDate,
+            LocalDate endDate) {
+        LocalDate newStartDate = startDate != null ? startDate : LocalDate.MIN;
+        LocalDate newEndDate = endDate != null ? endDate : LocalDate.MAX;
+
+        for (Integer i = 0; i < modelo.getDataVector().size(); i++) {
+            LocalDate fecha = (LocalDate) modelo.getValueAt(i, 1);
+            if (!(fecha.isBefore(newEndDate) && fecha.isAfter(newStartDate))) {
+                modelo.removeRow(i);
+                i--;
+            }
+        }
     }
 
 }
