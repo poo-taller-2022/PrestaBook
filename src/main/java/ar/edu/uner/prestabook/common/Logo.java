@@ -33,7 +33,7 @@ public class Logo {
                 while ((line = br.readLine()) != null) {
                     System.out.println(line);
                 }
-                System.out.println(String.format("Running %s v%s", name, version));
+                System.out.println(String.format("%60s :::v%s:::", name, version));
             }
         } catch (FileNotFoundException e) {
             System.out.println("Failed to load logo");

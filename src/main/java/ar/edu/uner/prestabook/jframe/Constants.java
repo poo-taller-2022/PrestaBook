@@ -2,6 +2,9 @@ package ar.edu.uner.prestabook.jframe;
 
 public class Constants {
 
+    private Constants() {
+    }
+
     public static final String FONT = "Verdana";
     public static final String OPCIONES = "Opciones";
     public static final String FORMATO = "Formato";
@@ -21,4 +24,6 @@ public class Constants {
     public static final String COLECCIONES = "Colecciones";
     public static final String LECTOR = "Lector";
     public static final String LECTORES = "Lectores";
+    public static final String PRESTABOOK = "Prestabook";
+    public static final String MULTAS = "Multas";
 }
