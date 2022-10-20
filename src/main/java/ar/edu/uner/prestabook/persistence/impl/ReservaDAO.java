@@ -28,16 +28,19 @@ public class ReservaDAO implements IReservaDAO {
         return instance;
     }
 
+
     @Override
     public List<Reserva> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Reserva", Reserva.class).list();
     }
+
 
     @Override
     public Reserva findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Reserva.class, (Long) id);
 
     }
+
 
     @Override
     public Reserva insert(Reserva reserva) {
@@ -48,6 +51,7 @@ public class ReservaDAO implements IReservaDAO {
         return reserva;
     }
 
+
     @Override
     public Reserva update(Reserva reserva) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -56,8 +60,4 @@ public class ReservaDAO implements IReservaDAO {
         return reserva;
     }
 
-    @Override
-    public Integer delete(Reserva t) {
-        return null;
-    }
 }

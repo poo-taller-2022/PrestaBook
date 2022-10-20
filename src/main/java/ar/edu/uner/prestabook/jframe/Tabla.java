@@ -1,5 +1,7 @@
 package ar.edu.uner.prestabook.jframe;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +16,7 @@ import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Lector;
+import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
@@ -29,36 +32,39 @@ public class Tabla {
 	private Tabla() {
 	}
 
-	public static void fill(DefaultTableModel model, String tipoEntidad) {
-		Integer i = 0;
-		switch (tipoEntidad) {
-		case Constants.TIPO_OBRA:
-			loadTipoObra(model, i);
-			break;
-		case Constants.AREA_TEMATICA:
-			loadAreaTematica(model, i);
-			break;
-		case Constants.FORMATO:
-			loadFormato(model, i);
-			break;
-		case Constants.COLECCION:
-			loadColeccion(model, i);
-			break;
-		case Constants.OBRA:
-			loadObra(model, i);
-			break;
-		case Constants.EJEMPLAR:
-			loadEjemplar(model, i);
-			break;
-		case Constants.EDICION:
-			loadEdicion(model, i);
-			break;
-		case Constants.LECTOR:
-			loadLector(model, i);
-			break;
-		default:
-		}
-	}
+    public static void fill(DefaultTableModel model, String tipoEntidad) {
+        Integer i = 0;
+        switch (tipoEntidad) {
+            case Constants.TIPO_OBRA:
+                loadTipoObra(model, i);
+                break;
+            case Constants.AREA_TEMATICA:
+                loadAreaTematica(model, i);
+                break;
+            case Constants.FORMATO:
+                loadFormato(model, i);
+                break;
+            case Constants.COLECCION:
+                loadColeccion(model, i);
+                break;
+            case Constants.OBRA:
+                loadObra(model, i);
+                break;
+            case Constants.EJEMPLAR:
+                loadEjemplar(model, i);
+                break;
+            case Constants.EDICION:
+                loadEdicion(model, i);
+                break;
+            case Constants.LECTOR:
+                loadLector(model, i);
+                break;
+            case Constants.MULTAS:
+                loadMultas(model, i);
+                break;
+            default:
+        }
+    }
 
 	private static void loadEdicion(DefaultTableModel model, Integer i) {
 		IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
@@ -199,5 +205,19 @@ public class Tabla {
 			model.addRow(new Vector<>(fila));
 		}
 	}
+
+    private static void loadMultas(DefaultTableModel model, Integer i) {
+        List<Multa> multas = DaoFactory.getMultaDAO().findAll();
+        for (Multa multa : multas) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(LocalDate.parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            fila.add(multa.getPlazo());
+            fila.add(multa.getLector().getNombre());
+            fila.add(multa.getLector().getApellido());
+            model.addRow(new Vector<>(fila));
+        }
+
+    }
 
 }

@@ -29,16 +29,19 @@ public class ColeccionDAO implements IColeccionDAO {
         return instance;
     }
 
+
     @Override
     public List<Coleccion> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Coleccion", Coleccion.class).list();
 
     }
 
+
     @Override
     public Coleccion findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Coleccion.class, (String) id);
     }
+
 
     @Override
     public Coleccion insert(Coleccion coleccion) {
@@ -49,17 +52,13 @@ public class ColeccionDAO implements IColeccionDAO {
         return coleccion;
     }
 
+
     @Override
     public Coleccion update(Coleccion coleccion) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(coleccion);
         tx.commit();
         return coleccion;
-    }
-
-    @Override
-    public Integer delete(Coleccion t) {
-        return null;
     }
 
 }

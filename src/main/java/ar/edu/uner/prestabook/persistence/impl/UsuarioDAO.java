@@ -30,6 +30,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         return instance;
     }
 
+    
     @Override
     public String buscarUsuarioRegistrado(String tipo, String correo, String contrasenia) {
         String sql = String.format("SELECT EMAIL, CONTRASENIA FROM %s WHERE EMAIL ='%s'",
@@ -49,6 +50,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
         return null;
     }
+    
 
     @Override
     public String buscarNombre(String tipo, String correo) {

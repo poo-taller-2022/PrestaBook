@@ -29,17 +29,20 @@ public class FormatoDAO implements IFormatoDAO {
         return instance;
     }
 
+
     @Override
     public List<Formato> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Formato", Formato.class).list();
 
     }
 
+
     @Override
     public Formato findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Formato.class, (Integer) id);
 
     }
+
 
     @Override
     public Formato insert(Formato formato) {
@@ -50,17 +53,13 @@ public class FormatoDAO implements IFormatoDAO {
         return formato;
     }
 
+
     @Override
     public Formato update(Formato formato) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(formato);
         tx.commit();
         return formato;
-    }
-
-    @Override
-    public Integer delete(Formato formato) {
-        return 0;
     }
 
 }

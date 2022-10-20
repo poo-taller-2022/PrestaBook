@@ -21,8 +21,6 @@ public class CodigoBarras {
 		try {
 		    Barcode bar = BarcodeFactory.createCode128(codigo.toString());
 		    BarcodeImageHandler.savePNG(bar, file);
-		    
-		    
 		} catch (BarcodeException ex) {
 		    System.out.println(ex);
 		} catch (OutputException ex) {

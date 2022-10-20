@@ -144,7 +144,7 @@ public class IniciarSesion extends JFrame {
 					} else {
 						SistemaLector interfazSistemaLector = new SistemaLector();
 						interfazSistemaLector.setVisible(true);
-						interfazSistemaLector.textUsuario.setText(busquedaNombre);
+						interfazSistemaLector.getTextUsuario().setText(busquedaNombre);
 					}
 					IniciarSesion.this.dispose();
 
@@ -165,6 +165,7 @@ public class IniciarSesion extends JFrame {
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setTitle(Constants.PRESTABOOK);
 		setBounds(100, 100, 648, 486);
 		setLocationRelativeTo(null);
 	}

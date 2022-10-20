@@ -23,7 +23,6 @@ import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class VerMas extends JFrame {

@@ -21,7 +21,6 @@ import com.github.lgooddatepicker.components.DatePicker;
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
-import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Obra;

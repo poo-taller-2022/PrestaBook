@@ -29,16 +29,19 @@ public class EdicionDAO implements IEdicionDAO {
         return instance;
     }
 
+
     @Override
     public List<Edicion> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Edicion", Edicion.class).list();
     }
+
 
     @Override
     public Edicion findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Edicion.class, (Long) id);
 
     }
+
 
     @Override
     public Edicion insert(Edicion edicion) {
@@ -49,17 +52,13 @@ public class EdicionDAO implements IEdicionDAO {
         return edicion;
     }
 
+
     @Override
     public Edicion update(Edicion edicion) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(edicion);
         tx.commit();
         return edicion;
-    }
-
-    @Override
-    public Integer delete(Edicion edicion) {
-        return 0;
     }
 
 }

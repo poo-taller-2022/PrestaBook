@@ -28,6 +28,7 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
     public static CodigoIdentificatorioDAO getInstance() {
         return instance;
     }
+    
 
     @Override
     public List<CodigoIdentificatorio> findAll() {
@@ -36,10 +37,12 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
 
     }
 
+
     @Override
     public CodigoIdentificatorio findById(Object id) {
         return HibernateConnection.getCurrentSession().get(CodigoIdentificatorio.class, (Long) id);
     }
+
 
     @Override
     public CodigoIdentificatorio insert(CodigoIdentificatorio codigoIdentificatorio) {
@@ -50,17 +53,13 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
         return codigoIdentificatorio;
     }
 
+
     @Override
     public CodigoIdentificatorio update(CodigoIdentificatorio codigoIdentificatorio) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().merge(codigoIdentificatorio);
         tx.commit();
         return codigoIdentificatorio;
-    }
-
-    @Override
-    public Integer delete(CodigoIdentificatorio cod) {
-        return 0;
     }
 
 }

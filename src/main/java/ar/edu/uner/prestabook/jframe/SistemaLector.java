@@ -3,6 +3,10 @@ package ar.edu.uner.prestabook.jframe;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -28,85 +33,77 @@ import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
-import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import lombok.Getter;
+
 
 public class SistemaLector extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	public JLabel textUsuario;
-	private static final String FONT = "Verdana";
-	private static final String AREA_TEMATICA = "Area tematica";
-	private static final String TIPO_OBRA = "Tipo obra";
-	private JTextField textField;
+    private static final long serialVersionUID = 1L;
+    @Getter
+    private JLabel textUsuario;
 
-	/**
-	 * Create the frame.
-	 */
+    /**
+     * Create the frame.
+     */
 
-	public SistemaLector() {
+    public SistemaLector() {
 
-		/**
-		 * Create components
-		 */
+        /**
+         * Create components
+         */
 
-		ventana();
+        ventana();
 
-		JPanel contentPane = contentPane();
+        JPanel contentPane = contentPane();
 
-		JPanel panelPrestabook = panelPrestabook();
-		contentPane.add(panelPrestabook);
+        JPanel panelPrestabook = panelPrestabook();
+        contentPane.add(panelPrestabook);
 
-		JLabel lblIconCerrarSesion = lblIconCerrarSesion();
-		panelPrestabook.add(lblIconCerrarSesion);
-		JLabelImage(lblIconCerrarSesion);
+        JLabel lblIconCerrarSesion = lblIconCerrarSesion();
+        panelPrestabook.add(lblIconCerrarSesion);
+        jLabelImage(lblIconCerrarSesion);
 
-		panelPrestabook.add(lblPrestabook());
+        panelPrestabook.add(lblPrestabook());
 
-		JButton btnExit = btnExit();
-		panelPrestabook.add(btnExit);
+        JButton btnExit = btnExit();
+        panelPrestabook.add(btnExit);
 
-		JButton btnCerrarSesion = btnCerrarSesion();
-		panelPrestabook.add(btnCerrarSesion);
+        JButton btnCerrarSesion = btnCerrarSesion();
+        panelPrestabook.add(btnCerrarSesion);
 
-		JPanel panelOpciones = panelOpciones();
-		contentPane.add(panelOpciones);
+        JPanel panelOpciones = panelOpciones();
+        contentPane.add(panelOpciones);
 
-		JButton btnSolicitudes = btnSolicitudes();
-		panelOpciones.add(btnSolicitudes);
+        JButton btnSolicitudes = btnSolicitudes();
+        panelOpciones.add(btnSolicitudes);
 
-		panelOpciones.add(lblUsuario());
-		panelOpciones.add(textUsusario());
-		panelOpciones.add(panelSeparador());
-		panelOpciones.add(lblOpciones());
+        panelOpciones.add(lblUsuario());
+        panelOpciones.add(textUsusario());
+        panelOpciones.add(panelSeparador());
+        panelOpciones.add(lblOpciones());
 
-		JButton btnConsultarObras = btnConsultarObras();
-		panelOpciones.add(btnConsultarObras);
+        JButton btnConsultarObras = btnConsultarObras();
+        panelOpciones.add(btnConsultarObras);
 
-		JPanel panelConsultarObras = panelEntidades();
+        JPanel panelConsultarObras = panelEntidades();
 
-		JPanel panelBienvenida = panelBienvenida();
-		contentPane.add(panelBienvenida);
+        JPanel panelBienvenida = panelBienvenida();
+        contentPane.add(panelBienvenida);
 
-		JLabel lblBienvenidaParte1 = lblBienvenidaParte1();
-		panelBienvenida.add(lblBienvenidaParte1);
+        JLabel lblBienvenidaParte1 = lblBienvenidaParte1();
+        panelBienvenida.add(lblBienvenidaParte1);
 
-		JLabel lblIconLibreria = lblIconLibreria();
-		panelBienvenida.add(lblIconLibreria);
+        JLabel lblIconLibreria = lblIconLibreria();
+        panelBienvenida.add(lblIconLibreria);
 
-		JLabel lblBienvenidaParte2 = lblBienvenidaParte2();
-		panelBienvenida.add(lblBienvenidaParte2);
+        JLabel lblBienvenidaParte2 = lblBienvenidaParte2();
+        panelBienvenida.add(lblBienvenidaParte2);
 
 		JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
 		panelConsultarObras.add(txtIngresarAreaTematica);
@@ -114,33 +111,33 @@ public class SistemaLector extends JFrame {
 		JButton btnSolicitarPrestamo = btnSolicitarPrestamo();
 		panelConsultarObras.add(btnSolicitarPrestamo);
 
-		/**
-		 * Crea el panel para administrar tipos de obras
-		 */
+        /**
+         * Crea el panel para administrar tipos de obras
+         */
 
-		btnConsultarObras.addActionListener(e -> {
-			panelBienvenida.setVisible(false);
-			panelConsultarObras.setVisible(true);
+        btnConsultarObras.addActionListener(e -> {
+            panelBienvenida.setVisible(false);
+            panelConsultarObras.setVisible(true);
 
-			contentPane.add(panelConsultarObras);
+            contentPane.add(panelConsultarObras);
 
-			panelConsultarObras.add(lblConsultarObras());
+            panelConsultarObras.add(lblConsultarObras());
 
-			JScrollPane scrollPane = scrollPane();
-			panelConsultarObras.add(scrollPane);
+            JScrollPane scrollPane = scrollPane();
+            panelConsultarObras.add(scrollPane);
 
 			JTable tableObras = new JTable();
 
 			DefaultTableModel model = new DefaultTableModel();
 			tableObras.setModel(model);
 			model.addColumn("");
-			model.addColumn(AREA_TEMATICA);
+			model.addColumn(Constants.AREA_TEMATICA);
 			model.addColumn("Isbn");
 			model.addColumn("Titulo");
 			model.addColumn("Subitulo");
 			model.addColumn("1° autor");
 			model.addColumn("Género");
-			model.addColumn(TIPO_OBRA);
+			model.addColumn(Constants.TIPO_OBRA);
 			model.addColumn("Id de edicion");
 			model.addColumn("N° ejemplares");
 
@@ -277,6 +274,14 @@ public class SistemaLector extends JFrame {
 		txtIngresarAreaTematica.setColumns(10);
 		return txtIngresarAreaTematica;
 	}
+	
+	public void jLabelImage(JLabel lblIconCerrarSesion) {
+        ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
+        Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
+                lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
+        lblIconCerrarSesion.setIcon(icon);
+        this.repaint();
+    }
 
 	public JLabel lblBienvenidaParte1() {
 		JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
@@ -429,7 +434,7 @@ public class SistemaLector extends JFrame {
 		JLabel lblConsultarObras = new JLabel("Consultar obras");
 		lblConsultarObras.setBounds(440, 10, 369, 136);
 		lblConsultarObras.setForeground(Color.GRAY);
-		lblConsultarObras.setFont(new Font(FONT, Font.BOLD, 19));
+		lblConsultarObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
 		return lblConsultarObras;
 	}
 
@@ -444,7 +449,7 @@ public class SistemaLector extends JFrame {
 		btnVerMas.setFocusPainted(false);
 		btnVerMas.setBackground(new Color(0, 64, 128));
 		btnVerMas.setForeground(new Color(255, 255, 255));
-		btnVerMas.setFont(new Font(FONT, Font.BOLD, 12));
+		btnVerMas.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnVerMas.setBorderPainted(false);
 		btnVerMas.setBounds(140, 500, 210, 20);
 		return btnVerMas;
@@ -455,7 +460,7 @@ public class SistemaLector extends JFrame {
 		btnReservarObra.setFocusPainted(false);
 		btnReservarObra.setBackground(new Color(0, 64, 128));
 		btnReservarObra.setForeground(new Color(255, 255, 255));
-		btnReservarObra.setFont(new Font(FONT, Font.BOLD, 12));
+		btnReservarObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnReservarObra.setBorderPainted(false);
 		btnReservarObra.setBounds(440, 500, 210, 20);
 		return btnReservarObra;
@@ -466,14 +471,11 @@ public class SistemaLector extends JFrame {
 		btnSolicitarPrestamo.setFocusPainted(false);
 		btnSolicitarPrestamo.setBackground(new Color(0, 64, 128));
 		btnSolicitarPrestamo.setForeground(new Color(255, 255, 255));
-		btnSolicitarPrestamo.setFont(new Font(FONT, Font.BOLD, 12));
+		btnSolicitarPrestamo.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnSolicitarPrestamo.setBorderPainted(false);
 		btnSolicitarPrestamo.setBounds(740, 500, 210, 20);
 		return btnSolicitarPrestamo;
 	}
-	
-	
-
 
 	/**
 	 * @param model     

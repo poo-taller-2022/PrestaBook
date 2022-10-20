@@ -29,10 +29,12 @@ public class PrestamoDAO implements IPrestamoDAO {
         return instance;
     }
 
+
     @Override
     public List<Prestamo> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Prestamo", Prestamo.class).list();
     }
+
 
     @Override
     public Prestamo findById(Object id) {
@@ -40,6 +42,7 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     }
 
+    
     @Override
     public Prestamo insert(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -49,6 +52,7 @@ public class PrestamoDAO implements IPrestamoDAO {
         return prestamo;
     }
 
+    
     @Override
     public Prestamo update(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -56,11 +60,7 @@ public class PrestamoDAO implements IPrestamoDAO {
         tx.commit();
         return prestamo;
     }
-
-    @Override
-    public Integer delete(Prestamo t) {
-        return null;
-    }
+    
 
     @Override
     public List<Prestamo> findAllByLectorId(Long documentoLector) {

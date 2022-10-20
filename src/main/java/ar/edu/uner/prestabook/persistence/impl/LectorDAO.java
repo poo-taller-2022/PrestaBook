@@ -37,11 +37,13 @@ public class LectorDAO implements ILectorDAO {
 
     }
 
+
     @Override
     public Lector findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Lector.class, (String) dni);
 
     }
+
 
     @Override
     public Lector insert(Lector lector) {
@@ -52,6 +54,7 @@ public class LectorDAO implements ILectorDAO {
         return lector;
     }
 
+
     @Override
     public Lector update(Lector lector) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -60,10 +63,6 @@ public class LectorDAO implements ILectorDAO {
         return lector;
     }
 
-    @Override
-    public Integer delete(Lector lector) {
-        return 0;
-    }
 
     @Override
     public Long countFinesById(Long documento) {

@@ -29,15 +29,18 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
         return instance;
     }
 
+
     @Override
     public List<AreaTematica> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from AreaTematica", AreaTematica.class).list();
     }
 
+ 
     @Override
     public AreaTematica findById(Object id) {
         return HibernateConnection.getCurrentSession().get(AreaTematica.class, (Integer) id);
     }
+
 
     @Override
     public AreaTematica insert(AreaTematica areaTematica) {
@@ -48,17 +51,13 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
         return areaTematica;
     }
 
+
     @Override
     public AreaTematica update(AreaTematica areaTematica) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         HibernateConnection.getCurrentSession().update(areaTematica);
         tx.commit();
         return areaTematica;
-    }
-
-    @Override
-    public Integer delete(AreaTematica areaTematica) {
-        return 0;
     }
 
 }

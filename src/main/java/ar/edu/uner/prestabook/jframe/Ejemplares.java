@@ -1,9 +1,4 @@
 package ar.edu.uner.prestabook.jframe;
-import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.BarcodeException;
-import net.sourceforge.barbecue.BarcodeFactory;
-import net.sourceforge.barbecue.BarcodeImageHandler;
-import net.sourceforge.barbecue.output.OutputException;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -33,13 +28,6 @@ import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Obra;
-import ar.edu.uner.prestabook.model.TipoObra;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * GUI Designed to display the user interface of a new book loan
@@ -122,8 +110,8 @@ public class Ejemplares extends JFrame {
 					lblMostrarCodigo.getHeight(), Image.SCALE_DEFAULT));
 			
 			lblMostrarCodigo.setIcon(icon); 
-			
 		});
+		
 		contentPane.add(comboBoxEjemplar);
 
 		JComboBox<Obra> comboBoxObra = comboBoxObra();
