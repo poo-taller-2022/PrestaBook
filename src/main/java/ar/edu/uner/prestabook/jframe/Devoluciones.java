@@ -129,7 +129,6 @@ public class Devoluciones extends JFrame {
 				Multa multa = new Multa();
 				String fechaDevolucion = LocalDate.now().toString();
 				prestamo.setFechaRealDevolucion(fechaDevolucion);
-				prestamo.setFueraDeTermino(true);
 				DaoFactory.getPrestamoDAO().update(prestamo);
 				multa.setFecha(fechaDevolucion);
 				multa.setLector((Lector) comboBoxLector.getSelectedItem());
@@ -169,7 +168,6 @@ public class Devoluciones extends JFrame {
 					Prestamo prestamo = (Prestamo) comboBoxPrestamo.getSelectedItem();
 					String fechaDevolucion = LocalDate.now().toString();
 					prestamo.setFechaRealDevolucion(fechaDevolucion);
-					prestamo.setFueraDeTermino(false);
 					DaoFactory.getPrestamoDAO().update(prestamo);
 					JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 					this.setVisible(false);

@@ -228,18 +228,25 @@ public class Tabla {
     private static void loadPrestamos(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
         for (Prestamo prestamo : prestamos) {
+            LocalDateTime fechaPrestamo = LocalDateTime.parse(prestamo.getFechaYHoraPrestamo());
+            LocalDate fechaPactadaDevolucion = LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
+                    ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    : null;
+            Boolean fueraDeTermino = fechaPrestamo.plusDays(4).toLocalDate()
+                    .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion);
+
             List<Object> fila = new LinkedList<>();
             fila.add(++i);
             fila.add(DaoFactory.getObraDAO().findById(prestamo.getEjemplar().getIsbnObra()).getTitulo());
             fila.add(prestamo.getEjemplar().getId());
-            fila.add(LocalDateTime.parse(prestamo.getFechaYHoraPrestamo()));
-            fila.add(LocalDate.parse(prestamo.getFechaPactadaDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            fila.add(prestamo.getFechaRealDevolucion() != null
-                    ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                    : null);
+            fila.add(fechaPrestamo);
+            fila.add(fechaPactadaDevolucion);
+            fila.add(fechaRealDevolucion);
             fila.add(prestamo.getLector().getNombre());
             fila.add(prestamo.getLector().getApellido());
-            fila.add(prestamo.getFueraDeTermino().equals(Boolean.TRUE) ? "Sí" : "No");
+            fila.add(Boolean.TRUE.equals(fueraDeTermino) ? "Sí" : "No");
             model.addRow(new Vector<>(fila));
         }
     }
