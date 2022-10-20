@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Vector;
 
@@ -14,14 +15,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Formato;
@@ -30,6 +34,7 @@ import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 
 import java.awt.event.KeyAdapter;
@@ -105,6 +110,9 @@ public class SistemaLector extends JFrame {
 
 		JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
 		panelConsultarObras.add(txtIngresarAreaTematica);
+		
+		JButton btnSolicitarPrestamo = btnSolicitarPrestamo();
+		panelConsultarObras.add(btnSolicitarPrestamo);
 
 		/**
 		 * Crea el panel para administrar tipos de obras
@@ -121,46 +129,62 @@ public class SistemaLector extends JFrame {
 			JScrollPane scrollPane = scrollPane();
 			panelConsultarObras.add(scrollPane);
 
-			JTable tableTipoDeObras = new JTable();
+			JTable tableObras = new JTable();
 
 			DefaultTableModel model = new DefaultTableModel();
-			tableTipoDeObras.setModel(model);
+			tableObras.setModel(model);
 			model.addColumn("");
 			model.addColumn(AREA_TEMATICA);
+			model.addColumn("Isbn");
 			model.addColumn("Titulo");
 			model.addColumn("Subitulo");
 			model.addColumn("1° autor");
-			model.addColumn("2° autor");
-			model.addColumn("3° autor");
 			model.addColumn("Género");
 			model.addColumn(TIPO_OBRA);
-			model.addColumn("Editorial");
-			model.addColumn("Año de edicion");
-			model.addColumn("Pais");
-			model.addColumn("Idioma");
-			model.addColumn("Paginas");
-			model.addColumn("Volúmenes");
-			model.addColumn("Formato");
-			model.addColumn("Pertenece a una colección");
-			model.addColumn("Nombre de coleccion");
+			model.addColumn("Id de edicion");
 			model.addColumn("N° ejemplares");
 
-			tableTipoDeObras.setAutoCreateRowSorter(true);
+			tableObras.setAutoCreateRowSorter(true);
 			TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
-			tableTipoDeObras.setRowSorter(sorted);
+			tableObras.setRowSorter(sorted);
 
 			llenarTabla(model);
-			scrollPane.setViewportView(tableTipoDeObras);
+			scrollPane.setViewportView(tableObras);
+			
+			tableObras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 			JButton btnReservarObra = btnReservarObra();
 			panelConsultarObras.add(btnReservarObra);
+			 
+			JButton btnVerMas = btnVerMas();
+			panelConsultarObras.add(btnVerMas);
 
 			/**
-			 * Botón con evento para agregar tipo de obra
+			 * Botón con evento para reservar una obra
 			 */
 
 			btnReservarObra.addActionListener(b -> {
-
+				
+			});
+			
+			/**
+			 * Botón con evento para ver mas informacion de una obra seleccionada en la tabla
+			 */
+			
+			btnVerMas.addActionListener(b -> {
+				if (tableObras.getSelectedRow() != -1) {
+					DefaultTableModel modelo = (DefaultTableModel) tableObras.getModel();
+					
+					Object idEdicion = modelo.getValueAt(tableObras.getSelectedRow(),8);
+					
+					IEdicionDAO o = DaoFactory.getEdicionDAO();
+					Edicion edicion = o.findById(idEdicion);
+					
+					VerMas vermas = new VerMas(edicion);
+					vermas.setVisible(true);
+				} else {
+					JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
+				}
 			});
 
 			/**
@@ -414,6 +438,17 @@ public class SistemaLector extends JFrame {
 		scrollPane.setBounds(10, 158, 1130, 300);
 		return scrollPane;
 	}
+	
+	private JButton btnVerMas() {
+		JButton btnVerMas = new JButton("Ver más");
+		btnVerMas.setFocusPainted(false);
+		btnVerMas.setBackground(new Color(0, 64, 128));
+		btnVerMas.setForeground(new Color(255, 255, 255));
+		btnVerMas.setFont(new Font(FONT, Font.BOLD, 12));
+		btnVerMas.setBorderPainted(false);
+		btnVerMas.setBounds(140, 500, 210, 20);
+		return btnVerMas;
+	}
 
 	private JButton btnReservarObra() {
 		JButton btnReservarObra = new JButton("Reservar obra");
@@ -425,15 +460,23 @@ public class SistemaLector extends JFrame {
 		btnReservarObra.setBounds(440, 500, 210, 20);
 		return btnReservarObra;
 	}
+	
+	private JButton btnSolicitarPrestamo() {
+		JButton btnSolicitarPrestamo = new JButton("Solicitar préstamo");
+		btnSolicitarPrestamo.setFocusPainted(false);
+		btnSolicitarPrestamo.setBackground(new Color(0, 64, 128));
+		btnSolicitarPrestamo.setForeground(new Color(255, 255, 255));
+		btnSolicitarPrestamo.setFont(new Font(FONT, Font.BOLD, 12));
+		btnSolicitarPrestamo.setBorderPainted(false);
+		btnSolicitarPrestamo.setBounds(740, 500, 210, 20);
+		return btnSolicitarPrestamo;
+	}
+	
+	
+
 
 	/**
-	 * @param model
-	 * 
-	 *              model.addColumn("Pais"); model.addColumn("Idioma");
-	 *              model.addColumn("Paginas"); model.addColumn("Volúmenes");
-	 *              model.addColumn("Formato"); model.addColumn("Pertenece a una
-	 *              colección"); model.addColumn("Nombre de coleccion");
-	 *              model.addColumn("N° ejemplares");
+	 * @param model     
 	 */
 
 	public void llenarTabla(DefaultTableModel model) {
@@ -447,48 +490,32 @@ public class SistemaLector extends JFrame {
 			IObraDAO obraDAO = DaoFactory.getObraDAO();
 			Obra obra = obraDAO.findById(edicion.getIsbnObra());
 			fila.add(++i);
-			fila.add(obra.getArea().getNombre());
+			
+			Set<AreaTematica> areas = obra.getArea();
+			StringBuilder contatenarAreas = new StringBuilder();
+
+			for (AreaTematica area : areas) {
+				contatenarAreas.append(area.getNombre() + ", ");
+			}
+			contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+			fila.add(contatenarAreas);
+
+			fila.add(obra.getIsbn());
 			fila.add(obra.getTitulo());
 			fila.add(obra.getSubtitulo());
 			fila.add(obra.getPrimerAutor());
-			fila.add(obra.getSegundoAutor());
-			fila.add(obra.getTercerAutor());
-			fila.add(obra.getGenero());
+			fila.add(obra.getGenero()); 
 			fila.add(obra.getTipo().getNombre());
 
-			fila.add(edicion.getEditorial());
-			fila.add(edicion.getAnio());
-			fila.add(edicion.getPais());
-			fila.add(edicion.getIdioma());
-			fila.add(edicion.getPaginas());
-			fila.add(edicion.getVolumenes());
-
-			Set<Formato> formatos = edicion.getFormatos();
-			String concatenarFormatos = "";
-
-			for (Formato formato : formatos) {
-				concatenarFormatos += formato.getNombre() + ", ";
-			}
-
-			fila.add(concatenarFormatos);
-
-			/**
-			 * IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO(); Coleccion
-			 * coleccion = coleccionDAO.findById(obra.getIsbnColeccion());
-			 * 
-			 * fila.add("Si"); fila.add(coleccion.getTitulo());
-			 **/
-
-			fila.add("");
-			fila.add("");
-
+			fila.add(edicion.getId());
+			
 			IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
 			List<Ejemplar> ejemplares = ejemplarDAO.findAll();
 			Integer cantidadEjemplares = 0;
 			if (ejemplares != null) {
 				for (Ejemplar ejemplar : ejemplares) {
 
-					if (ejemplar.getIsbnObra() == obra.getIsbn()) {
+					if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && !(ejemplar.getMotivoBaja() != null)) {
 						cantidadEjemplares++;
 					}
 				}

@@ -4,15 +4,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.persistence.PersistenceException;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
@@ -99,27 +104,30 @@ public class AgregarColeccion extends JFrame {
 
 		JComboBox<TipoObra> comboBoxTipoObra = comboBoxTipoObra();
 		contentPane.add(comboBoxTipoObra);
-
-		JComboBox<AreaTematica> comboBoxAreaTematica = comboBoxAreaTematica();
-		contentPane.add(comboBoxAreaTematica);
+		
+        JScrollPane scrollPaneAreaTematica = jListAreaTematica();
+        contentPane.add(scrollPaneAreaTematica);
 
 		btnAgregar.addActionListener(e -> {
+			
+			@SuppressWarnings("unchecked")
+            JList<AreaTematica> jListAreaTematica = (JList<AreaTematica>) scrollPaneAreaTematica.getViewport().getView();
 
 			Boolean camposCompletos = !(fieldIsbn.getText().isBlank() || fieldTitulo.getText().isBlank()
 					|| fieldSubtitulo.getText().isBlank() || fieldPrimerAutor.getText().isBlank()
 					|| fieldSegundoAutor.getText().isBlank() || fieldTercerAutor.getText().isBlank()
-					|| fieldGenero.getText().isBlank());
+					|| fieldGenero.getText().isBlank() || jListAreaTematica.isSelectionEmpty()) && comboBoxTipoObra.getSelectedItem() != null;
 
 			if (Boolean.TRUE.equals(camposCompletos)) {
+				
+                Set<AreaTematica> areasTematicas = new HashSet<>(jListAreaTematica.getSelectedValuesList());
 
 				TipoObra tipoObra = (TipoObra) comboBoxTipoObra.getSelectedItem();
 
-				AreaTematica areaTematica = (AreaTematica) comboBoxAreaTematica.getSelectedItem();
 				try {
 					actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
 							fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
-							fieldGenero.getText(), tipoObra.getNombre(), tipoObra.getId(), areaTematica.getNombre(),
-							areaTematica.getId());
+							fieldGenero.getText(), tipoObra.getNombre(), tipoObra.getId(), areasTematicas);
 
 					JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
 					this.setVisible(false);
@@ -139,7 +147,7 @@ public class AgregarColeccion extends JFrame {
 
 	private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
 			String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
-			String areaTematica, Integer idAreaTematica) {
+			 Set<AreaTematica> areasTematicas) {
 		Coleccion coleccion = new Coleccion();
 		IColeccionDAO c = DaoFactory.getColeccionDAO();
 
@@ -151,7 +159,7 @@ public class AgregarColeccion extends JFrame {
 		coleccion.setSegundoAutor(segundoAutor);
 		coleccion.setTercerAutor(tercerAutor);
 		coleccion.setTipo(new TipoObra(idTipoObra, tipoObra));
-		coleccion.setArea(new AreaTematica(idAreaTematica, areaTematica));
+		coleccion.setArea(areasTematicas);
 
 		c.insert(coleccion);
 	}
@@ -297,14 +305,6 @@ public class AgregarColeccion extends JFrame {
 		return lblTipoObra;
 	}
 
-	public JComboBox<AreaTematica> comboBoxAreaTematica() {
-		JComboBox<AreaTematica> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
-		comboBoxObra.setBounds(437, 268, 166, 29);
-		comboBoxObra.setRenderer(new AreaTematicaRenderer());
-		comboBoxObra.setSelectedItem(null);
-		return comboBoxObra;
-	}
-
 	public JComboBox<TipoObra> comboBoxTipoObra() {
 		JComboBox<TipoObra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getTipoObraDAO().findAll()));
 		comboBoxObra.setBounds(235, 268, 166, 29);
@@ -330,4 +330,26 @@ public class AgregarColeccion extends JFrame {
 		btnCancelar.setBounds(344, 332, 89, 23);
 		return btnCancelar;
 	}
+	
+	public JScrollPane jListAreaTematica() {
+        JList<AreaTematica> jListAreaTematica = new JList<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
+        jListAreaTematica.setCellRenderer(new AreaTematicaRenderer());
+        jListAreaTematica.setVisibleRowCount(2);
+        jListAreaTematica.setSelectionModel(new DefaultListSelectionModel() {
+   
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public void setSelectionInterval(int index0, int index1) {
+                if (super.isSelectedIndex(index0)) {
+                    super.removeSelectionInterval(index0, index1);
+                } else {
+                    super.addSelectionInterval(index0, index1);
+                }
+            }
+        });
+        JScrollPane scrollPane = new JScrollPane(jListAreaTematica);
+        scrollPane.setBounds(437, 268, 166, 59);
+        return scrollPane;
+    }
 }

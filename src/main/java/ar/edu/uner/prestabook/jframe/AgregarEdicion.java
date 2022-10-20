@@ -112,15 +112,16 @@ public class AgregarEdicion extends JFrame {
         btnCancelar.addActionListener(e -> this.setVisible(false));
 
         btnAgregar.addActionListener(e -> {
+        	@SuppressWarnings("unchecked")
+            JList<Formato> jListFormatos = (JList<Formato>) scrollPaneFormatos.getViewport().getView();
+        	
             Boolean camposCompletos = !(fieldEditorial.getText().isBlank() || fieldPais.getText().isBlank()
                     || fieldNumero.getText().isBlank() || fieldAnio.getText().isBlank()
                     || fieldVolumenes.getText().isBlank() || fieldPaginas.getText().isBlank()
-                    || fieldIdioma.getText().isBlank());
+                    || fieldIdioma.getText().isBlank() || jListFormatos.isSelectionEmpty());
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-
-                @SuppressWarnings("unchecked")
-                JList<Formato> jListFormatos = (JList<Formato>) scrollPaneFormatos.getViewport().getView();
+                
                 Set<Formato> formatos = new HashSet<>(jListFormatos.getSelectedValuesList());
 
                 Obra obra = (Obra) comboBoxObras.getSelectedItem();
@@ -339,7 +340,10 @@ public class AgregarEdicion extends JFrame {
         jListFormatos.setCellRenderer(new FormatoRenderer());
         jListFormatos.setVisibleRowCount(2);
         jListFormatos.setSelectionModel(new DefaultListSelectionModel() {
-            @Override
+   
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void setSelectionInterval(int index0, int index1) {
                 if (super.isSelectedIndex(index0)) {
                     super.removeSelectionInterval(index0, index1);

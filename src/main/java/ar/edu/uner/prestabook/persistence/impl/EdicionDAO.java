@@ -36,7 +36,7 @@ public class EdicionDAO implements IEdicionDAO {
 
     @Override
     public Edicion findById(Object id) {
-        return HibernateConnection.getCurrentSession().get(Edicion.class, (Integer) id);
+        return HibernateConnection.getCurrentSession().get(Edicion.class, (Long) id);
 
     }
 
