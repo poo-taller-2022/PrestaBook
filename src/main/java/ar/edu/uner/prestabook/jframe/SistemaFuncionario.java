@@ -613,7 +613,7 @@ public class SistemaFuncionario extends JFrame {
 	            contentPane.add(panelMultas);
 
 	            panelMultas.add(lblTituloEntidades(Constants.MULTAS));
-	            JLabel labelFiltro = labelFiltro();
+	            JLabel labelFiltro = labelFiltroFechas();
 	            JLabel labelFiltroInicio = labelFiltroInicio();
 	            JLabel labelFiltroFin = labelFiltroFin();
 	            DatePicker fechaInicial = datePickerInitial();
