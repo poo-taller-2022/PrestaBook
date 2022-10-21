@@ -660,7 +660,6 @@ public class SistemaFuncionario extends JFrame {
 
         });
 
-        ////////////////////////
         btnListarPrestamos.addActionListener(e -> {
             ocultarPaneles();
             panelPrestamos.setVisible(true);
@@ -721,7 +720,6 @@ public class SistemaFuncionario extends JFrame {
             });
 
         });
-        ///////////////////////
 
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
@@ -1304,8 +1302,7 @@ public class SistemaFuncionario extends JFrame {
         for (Integer i = 0; i < modelo.getDataVector().size(); i++) {
             LocalDate fecha = (LocalDate) modelo.getValueAt(i, 1);
             if (!(fecha.isBefore(newEndDate) && fecha.isAfter(newStartDate))) {
-                modelo.removeRow(i);
-                i--;
+                modelo.removeRow(i--);
             }
         }
     }

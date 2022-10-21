@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.panels.Utils;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 
 public class IniciarSesion extends JFrame {
@@ -144,7 +145,7 @@ public class IniciarSesion extends JFrame {
 					} else {
 						SistemaLector interfazSistemaLector = new SistemaLector();
 						interfazSistemaLector.setVisible(true);
-						interfazSistemaLector.getTextUsuario().setText(busquedaNombre);
+						Utils.getTextUsuario().setText(busquedaNombre);
 					}
 					IniciarSesion.this.dispose();
 
