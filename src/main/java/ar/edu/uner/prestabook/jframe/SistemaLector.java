@@ -238,7 +238,7 @@ public class SistemaLector extends JFrame {
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Opciones");
+		setTitle("Prestabook");
 		setBounds(100, 100, 1390, 811);
 		setLocationRelativeTo(null);
 	}
