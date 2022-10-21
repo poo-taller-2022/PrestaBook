@@ -1054,7 +1054,7 @@ public class SistemaFuncionario extends JFrame {
 		btnObrasPorEditorial.setForeground(new Color(0, 64, 128));
 		btnObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
 		btnObrasPorEditorial.setBorderPainted(false);
-		btnObrasPorEditorial.setBounds(23, 637, 293, 31);
+		btnObrasPorEditorial.setBounds(23, 744, 293, 31);
 		return btnObrasPorEditorial;
 	}
 
