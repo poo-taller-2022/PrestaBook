@@ -16,6 +16,7 @@ public class SistemaLector extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
+    private PanelObra panelObra = new PanelObra();
 
     /**
      * Create the frame.
@@ -75,7 +76,6 @@ public class SistemaLector extends JFrame {
 
         btnConsultarObras.addActionListener(e -> {
             panelBienvenida.setVisible(false);
-            PanelObra panelObra = new PanelObra();
             contentPane.add(panelObra.init());
         });
 
@@ -99,7 +99,7 @@ public class SistemaLector extends JFrame {
     /**
      * Create components
      */
-    
+
     private void ventana() {
         setUndecorated(true);
         setResizable(false);

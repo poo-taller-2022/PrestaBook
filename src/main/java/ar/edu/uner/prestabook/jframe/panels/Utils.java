@@ -9,10 +9,20 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
+import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.Constants;
+import ar.edu.uner.prestabook.model.AreaTematica;
+import ar.edu.uner.prestabook.model.Formato;
+import ar.edu.uner.prestabook.model.TipoObra;
+import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
+import ar.edu.uner.prestabook.persistence.IFormatoDAO;
+import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import lombok.Getter;
 
 public class Utils {
@@ -22,6 +32,9 @@ public class Utils {
     private static final Integer BUTTON_POSITION_RIGHT = 740;
     @Getter
     private static JLabel textUsuario = textUsuario();
+
+    private Utils() {
+    }
 
     public static JScrollPane scrollPane() {
         JScrollPane scrollPane = new JScrollPane();
@@ -87,13 +100,18 @@ public class Utils {
         return textUsuario;
     }
 
-
-
     public static JPanel panelBienvenida() {
         JPanel panelBienvenida = new JPanel();
         panelBienvenida.setBounds(237, 103, 1153, 708);
         panelBienvenida.setLayout(null);
         return panelBienvenida;
+    }
+    
+    public static JPanel panelEntities() {
+        JPanel panelEntities = new JPanel();
+        panelEntities.setBounds(339, 104, 1061, 707);
+        panelEntities.setLayout(null);
+        return panelEntities;
     }
 
     public static void jLabelImage(JLabel lblIconCerrarSesion) {
@@ -188,5 +206,51 @@ public class Utils {
         lblOpciones.setFont(new Font(Constants.FONT, Font.BOLD, 16));
         lblOpciones.setBounds(73, 135, 105, 23);
         return lblOpciones;
+    }
+
+    public static JLabel lblPanelTitle(String title) {
+        JLabel lblPanelTitle = new JLabel(title);
+        lblPanelTitle.setBounds(440, 70, 369, 136);
+        lblPanelTitle.setForeground(Color.GRAY);
+        lblPanelTitle.setFont(new Font(Constants.FONT, Font.BOLD, 19));
+        return lblPanelTitle;
+    }
+
+    public static void clearTable(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
+    
+    public static void updateDatabase(String nombre, String tipoEntidad) {
+
+        switch (tipoEntidad) {
+            case Constants.TIPO_OBRA:
+                ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
+                TipoObra tipoObra = new TipoObra();
+                tipoObra.setNombre(nombre);
+                tipoObraDAO.insert(tipoObra);
+                break;
+            case Constants.AREA_TEMATICA:
+                IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
+                AreaTematica areaTematica = new AreaTematica();
+                areaTematica.setNombre(nombre);
+                areaTematicaDAO.insert(areaTematica);
+                break;
+            case Constants.FORMATO:
+                IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
+                Formato formato = new Formato();
+                formato.setNombre(nombre);
+                formatoDAO.insert(formato);
+                break;
+            default:
+        }
+
     }
 }
