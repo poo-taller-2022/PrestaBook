@@ -93,7 +93,7 @@ public class Ejemplares extends JFrame {
 		CodigoBarras codigoBarras = new CodigoBarras();
 		
 		JComboBox<Ejemplar> comboBoxEjemplar = comboBoxEjemplar();
-		comboBoxEjemplar.addItemListener(e -> {
+		comboBoxEjemplar.addItemListener(e -> { 
 			Ejemplar ejemplar = (Ejemplar) e.getItem();
 			textPasillo.setText(ejemplar.getCodigoIdentificatorio().getPasillo().toString());
 			textEstanteria.setText(ejemplar.getCodigoIdentificatorio().getEstanteria().toString());
@@ -103,7 +103,7 @@ public class Ejemplares extends JFrame {
 					: null);
 			textMotivoBaja.setText(ejemplar.getMotivoBaja());
 			textObservaciones.setText(ejemplar.getObservaciones()); 
-			 
+			
 			codigoBarras.generarCodigoBarras(ejemplar.getCodigoIdentificatorio());
 			ImageIcon image = codigoBarras.buscarCodigoBarras(ejemplar.getCodigoIdentificatorio().getCodigo().toString());
 			Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblMostrarCodigo.getWidth(),

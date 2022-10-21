@@ -3,6 +3,10 @@ package ar.edu.uner.prestabook.jframe;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +23,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -51,8 +58,9 @@ public class SistemaFuncionario extends JFrame {
 	private JPanel panelMultas = panelEntidades();
 	private JPanel panelObra = panelEntidades();
 	private JPanel panelTipoObra = panelEntidades();
+	private JPanel panelObrasPorEditorial = panelEntidades();
 	private List<JPanel> paneles = List.of(panelAreaTematica, panelBienvenida, panelColeccion, panelEdicion,
-			panelEjemplar, panelFormato, panelLectores, panelObra, panelTipoObra, panelMultas);
+			panelEjemplar, panelFormato, panelLectores, panelObra, panelTipoObra, panelMultas, panelObrasPorEditorial);
 
 	/**
 	 * Create the frame.
@@ -133,11 +141,14 @@ public class SistemaFuncionario extends JFrame {
         JButton btnListarMultas = btnListarMultas();
         panelOpciones.add(btnListarMultas);
 
-		JButton btnListarObrasPorEditorial = btnListarObrasPorEditorial();
-		panelOpciones.add(btnListarObrasPorEditorial);
+		JButton btnObrasPorEditorial = btnObrasPorEditorial();
+		panelOpciones.add(btnObrasPorEditorial);
 
 		JButton btnAplicarMultaALector = btnAplicarMultaALector();
 		panelOpciones.add(btnAplicarMultaALector);
+
+		JTextField txtIngresarEditorial = txtIngresarEditorial();
+		panelObrasPorEditorial.add(txtIngresarEditorial);
 
 		contentPane.add(panelBienvenida);
 
@@ -655,6 +666,73 @@ public class SistemaFuncionario extends JFrame {
 	            });
 
 	        });
+		 
+		 btnObrasPorEditorial.addActionListener(e -> {
+				ocultarPaneles();
+				panelObrasPorEditorial.setVisible(true);
+				contentPane.add(panelObrasPorEditorial);
+
+				panelObrasPorEditorial.add(lblTituloEntidades("Obras por editorial"));
+
+				JScrollPane scrollPane = scrollPane();
+				panelObrasPorEditorial.add(scrollPane);
+
+				JTable tablaObrasPorEditorial = new JTable();
+				tablaObrasPorEditorial.setSize(1000, 1600);
+
+				DefaultTableModel model = new DefaultTableModel() {
+					@Override
+					public boolean isCellEditable(int row, int column) {
+						return false;
+					}
+				};
+				tablaObrasPorEditorial.setModel(model);
+				tablaObrasPorEditorial.setAutoCreateRowSorter(true);
+
+				model.addColumn("");
+				model.addColumn("Editorial");
+				model.addColumn("Isbn de obra");
+				model.addColumn("Titulo");
+				model.addColumn("Subitulo");
+				model.addColumn("1° autor");
+				model.addColumn("2° autor");
+				model.addColumn("3° autor");
+				model.addColumn("Género");
+				model.addColumn(Constants.TIPO_OBRA);
+				model.addColumn(Constants.AREA_TEMATICA);
+				
+				tablaObrasPorEditorial.setAutoCreateRowSorter(true);
+				TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
+				tablaObrasPorEditorial.setRowSorter(sorted);
+				
+				Tabla.fill(model, Constants.OBRASPOREDITORIAL);
+				scrollPane.setViewportView(tablaObrasPorEditorial);
+				
+				tablaObrasPorEditorial.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				
+				/**
+				 *
+				 */
+
+				txtIngresarEditorial.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						filtrar();
+					}
+
+					private void filtrar() {
+						sorted.setRowFilter(RowFilter.regexFilter(txtIngresarEditorial.getText().toUpperCase(), 1));
+					}
+				});
+				
+				txtIngresarEditorial.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						txtIngresarEditorial.setText("");
+					}
+				});
+
+			});
 
 		btnCerrarSesion.addActionListener(e -> {
 			IniciarSesion login = new IniciarSesion();
@@ -901,15 +979,15 @@ public class SistemaFuncionario extends JFrame {
 		return btnListarRankingDeMultados;
 	}
 
-	public JButton btnListarObrasPorEditorial() {
-		JButton btnListarObrasPorEditorial = new JButton("Listar obras por editorial");
-		btnListarObrasPorEditorial.setFocusPainted(false);
-		btnListarObrasPorEditorial.setBackground(new Color(255, 255, 255));
-		btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
-		btnListarObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-		btnListarObrasPorEditorial.setBorderPainted(false);
-		btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
-		return btnListarObrasPorEditorial;
+	public JButton btnObrasPorEditorial() {
+		JButton btnObrasPorEditorial = new JButton("Obras por editorial");
+		btnObrasPorEditorial.setFocusPainted(false);
+		btnObrasPorEditorial.setBackground(new Color(255, 255, 255));
+		btnObrasPorEditorial.setForeground(new Color(0, 64, 128));
+		btnObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnObrasPorEditorial.setBorderPainted(false);
+		btnObrasPorEditorial.setBounds(23, 637, 293, 31);
+		return btnObrasPorEditorial;
 	}
 
 	public JButton btnAplicarMultaALector() {
@@ -1136,7 +1214,7 @@ public class SistemaFuncionario extends JFrame {
 
 	public JLabel lblTituloEntidades(String text) {
 		JLabel lblTituloEntidades = new JLabel(text);
-		lblTituloEntidades.setBounds(440, 70, 369, 136);
+		lblTituloEntidades.setBounds(440, 10, 369, 136);
 		lblTituloEntidades.setForeground(Color.GRAY);
 		lblTituloEntidades.setFont(new Font(Constants.FONT, Font.BOLD, 19));
 		return lblTituloEntidades;
@@ -1239,5 +1317,13 @@ public class SistemaFuncionario extends JFrame {
             }
         }
     }
-
+    
+    public JTextField txtIngresarEditorial() {
+		JTextField txtIngresarEditorial = new JTextField();
+		txtIngresarEditorial.setForeground(new Color(128, 128, 128));
+		txtIngresarEditorial.setText("Buscar por editorial");
+		txtIngresarEditorial.setBounds(10, 110, 1130, 37);
+		txtIngresarEditorial.setColumns(10);
+		return txtIngresarEditorial;
+	}
 }

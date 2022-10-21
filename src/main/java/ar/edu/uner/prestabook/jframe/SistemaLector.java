@@ -206,15 +206,7 @@ public class SistemaLector extends JFrame {
 				}
 
 				private void filtrar() {
-					sorted.setRowFilter(RowFilter.regexFilter(toMayusculas(txtIngresarAreaTematica.getText()), 1));
-				}
-
-				public String toMayusculas(String valor) {
-					if (valor == null || valor.isEmpty()) {
-						return valor;
-					} else {
-						return valor.toUpperCase().charAt(0) + valor.substring(1, valor.length()).toLowerCase();
-					}
+					sorted.setRowFilter(RowFilter.regexFilter(txtIngresarAreaTematica.getText().toUpperCase(), 1));
 				}
 
 			});
@@ -497,17 +489,17 @@ public class SistemaLector extends JFrame {
 			StringBuilder contatenarAreas = new StringBuilder();
 
 			for (AreaTematica area : areas) {
-				contatenarAreas.append(area.getNombre() + ", ");
+				contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
 			}
 			contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
 			fila.add(contatenarAreas);
 
-			fila.add(obra.getIsbn());
-			fila.add(obra.getTitulo());
-			fila.add(obra.getSubtitulo());
-			fila.add(obra.getPrimerAutor());
-			fila.add(obra.getGenero()); 
-			fila.add(obra.getTipo().getNombre());
+			fila.add(obra.getIsbn().toUpperCase());
+			fila.add(obra.getTitulo().toUpperCase());
+			fila.add(obra.getSubtitulo().toUpperCase());
+			fila.add(obra.getPrimerAutor().toUpperCase());
+			fila.add(obra.getGenero().toUpperCase()); 
+			fila.add(obra.getTipo().getNombre().toUpperCase());
 
 			fila.add(edicion.getId());
 			

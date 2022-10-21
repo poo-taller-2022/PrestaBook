@@ -130,7 +130,7 @@ public class AgregarObra extends JFrame {
 			}
 		});
 
-		btnAgregar.addActionListener(e -> {
+		btnAgregar.addActionListener(e -> { 
 			
 			@SuppressWarnings("unchecked")
             JList<AreaTematica> jListAreaTematica = (JList<AreaTematica>) scrollPaneAreaTematica.getViewport().getView();
