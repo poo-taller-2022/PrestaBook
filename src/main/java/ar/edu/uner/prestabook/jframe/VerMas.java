@@ -106,14 +106,14 @@ public class VerMas extends JFrame {
 				   "\n Tercer autor: " + obra.getTercerAutor() +
 				   "\n Género: " + obra.getGenero() +
 				   "\n Tipo obra: " + obra.getTipo().getNombre() +
-				   "\n Editorial: " + (edicion == null ? Constants.NODISPONIBLE : edicion.getEditorial()) +
-				   "\n Año de edicion: " + (edicion== null ? Constants.NODISPONIBLE : edicion.getAnio().toString()) +
-				   "\n Pais de edicion: " + (edicion == null ? Constants.NODISPONIBLE : edicion.getPais()) +
-				   "\n Idioma: " + (edicion == null ? Constants.NODISPONIBLE : edicion.getIdioma()) + 
-				   "\n Numero de edicion: " + (edicion == null ? Constants.NODISPONIBLE : edicion.getNumero().toString()) + 
-				   "\n Paginas: " + (edicion == null ? Constants.NODISPONIBLE : edicion.getPaginas().toString()) +
-				   "\n Volumenes: " + (edicion == null ? Constants.NODISPONIBLE : edicion.getVolumenes().toString()) +
-				   "\n Formato: " + (edicion == null ? Constants.NODISPONIBLE : contatenarFormatos(edicion.getFormatos()).toString()) +
+				   "\n Editorial: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getEditorial()) +
+				   "\n Año de edicion: " + (edicion== null ? Constants.NO_DISPONIBLE : edicion.getAnio().toString()) +
+				   "\n Pais de edicion: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getPais()) +
+				   "\n Idioma: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getIdioma()) + 
+				   "\n Numero de edicion: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getNumero().toString()) + 
+				   "\n Paginas: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getPaginas().toString()) +
+				   "\n Volumenes: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getVolumenes().toString()) +
+				   "\n Formato: " + (edicion == null ? Constants.NO_DISPONIBLE : contatenarFormatos(edicion.getFormatos()).toString()) +
 				   "\n Pertenece a una colección: " + (obra.getIsbnColeccion() == null ? "No" : "Si") +
 				   "\n Nombre de colección: " + (obra.getIsbnColeccion() == null ? "No corresponde" : DaoFactory.getColeccionDAO().findById(obra.getIsbnColeccion()).getTitulo()) +
 				   "\n Cantidad de ejemplares disponibles: " + cantidadDeEjemplares(obra, edicion)
