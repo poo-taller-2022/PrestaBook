@@ -29,4 +29,5 @@ public class Constants {
     public static final String OBRAS_POR_EDITORIAL = "Obras por Editorial";
     public static final String PRESTAMOS = "Préstamos";
     public static final String OBRAS_LECTOR_VIEW = "Obras para lector";
+    public static final String RESERVAS = "Reservas";
 }
