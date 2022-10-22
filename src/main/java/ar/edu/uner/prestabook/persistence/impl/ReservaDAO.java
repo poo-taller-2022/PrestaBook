@@ -2,6 +2,8 @@ package ar.edu.uner.prestabook.persistence.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Transaction;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
@@ -58,6 +60,13 @@ public class ReservaDAO implements IReservaDAO {
         HibernateConnection.getCurrentSession().merge(reserva);
         tx.commit();
         return reserva;
+    }
+
+    @Override
+    public Long countByObraIsbn(String isbn) {
+        Query query = HibernateConnection.getCurrentSession().createQuery(
+                String.format("select count(*) from Reserva r where r.ejemplar.isbnObra = '%s' and r.isActive = true", isbn));
+        return (Long) query.getSingleResult();
     }
 
 }

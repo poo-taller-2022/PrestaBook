@@ -210,14 +210,14 @@ public class AgregarObra extends JFrame {
 
 	public JCheckBox checkBoxColeccion() {
 		JCheckBox checkBoxColeccion = new JCheckBox("Pertenece a una colección");
-		checkBoxColeccion.setBounds(157, 346, 192, 23);
+		checkBoxColeccion.setBounds(37, 331, 166, 23);
 		return checkBoxColeccion;
 	}
 
 	public JLabel lblIsbnDeColeccion() {
 		JLabel lblIsbnDeColeccion = new JLabel("Isbn de colección");
 		lblIsbnDeColeccion.setEnabled(false);
-		lblIsbnDeColeccion.setBounds(375, 323, 114, 14);
+		lblIsbnDeColeccion.setBounds(236, 308, 114, 14);
 		return lblIsbnDeColeccion;
 	}
 
@@ -349,7 +349,7 @@ public class AgregarObra extends JFrame {
 	public JComboBox<Coleccion> comboBoxIsbnColeccion() {
 		JComboBox<Coleccion> comboBoxIsbnColeccion = new JComboBox<>(
 				new Vector<>(DaoFactory.getColeccionDAO().findAll()));
-		comboBoxIsbnColeccion.setBounds(374, 343, 166, 29);
+		comboBoxIsbnColeccion.setBounds(235, 328, 166, 29);
 		comboBoxIsbnColeccion.setRenderer(new ColeccionRenderer());
 		comboBoxIsbnColeccion.setSelectedItem(null);
 		return comboBoxIsbnColeccion;

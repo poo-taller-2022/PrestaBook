@@ -2,6 +2,8 @@ package ar.edu.uner.prestabook.persistence.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Transaction;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
@@ -29,12 +31,10 @@ public class PrestamoDAO implements IPrestamoDAO {
         return instance;
     }
 
-
     @Override
     public List<Prestamo> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Prestamo", Prestamo.class).list();
     }
-
 
     @Override
     public Prestamo findById(Object id) {
@@ -42,7 +42,6 @@ public class PrestamoDAO implements IPrestamoDAO {
 
     }
 
-    
     @Override
     public Prestamo insert(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -52,7 +51,6 @@ public class PrestamoDAO implements IPrestamoDAO {
         return prestamo;
     }
 
-    
     @Override
     public Prestamo update(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -60,13 +58,19 @@ public class PrestamoDAO implements IPrestamoDAO {
         tx.commit();
         return prestamo;
     }
-    
 
     @Override
     public List<Prestamo> findAllByLectorId(Long documentoLector) {
         String hql = String.format("from Prestamo p where p.lector = '%s'", documentoLector);
         return HibernateConnection.getCurrentSession().createQuery(hql, Prestamo.class).list();
 
+    }
+
+    @Override
+    public Long countByObraIsbn(String isbn) {
+        Query query = HibernateConnection.getCurrentSession().createQuery(
+                String.format("select count(*) from Prestamo p where p.ejemplar.isbnObra = '%s'", isbn));
+        return (Long) query.getSingleResult();
     }
 
 }

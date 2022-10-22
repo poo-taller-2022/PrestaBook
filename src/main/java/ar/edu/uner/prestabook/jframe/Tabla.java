@@ -78,6 +78,9 @@ public class Tabla {
             case Constants.RESERVAS:
                 loadReservas(model);
                 break;
+            case Constants.OBRAS_MAS_SOLICITADAS:
+                loadObrasMasSolicitadas(model, i);
+                break;
             default:
         }
     }
@@ -355,6 +358,24 @@ public class Tabla {
                 fila.add(cantidadEjemplares);
             }
 
+            model.addRow(new Vector<>(fila));
+        }
+    }
+
+    private static void loadObrasMasSolicitadas(DefaultTableModel model, Integer i) {
+
+        List<Obra> obras = DaoFactory.getObraDAO().findAll();
+
+        for (Obra obra : obras) {
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(obra.getIsbn().toUpperCase());
+            fila.add(obra.getTitulo().toUpperCase());
+            fila.add(obra.getPrimerAutor().toUpperCase());
+            fila.add(obra.getGenero().toUpperCase());
+            fila.add(obra.getTipo().getNombre().toUpperCase());
+            fila.add(DaoFactory.getReservaDAO().countByObraIsbn(obra.getIsbn()));
+            fila.add(DaoFactory.getPrestamoDAO().countByObraIsbn(obra.getIsbn()));
             model.addRow(new Vector<>(fila));
         }
     }

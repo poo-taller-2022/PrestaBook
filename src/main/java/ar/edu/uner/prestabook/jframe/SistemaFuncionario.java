@@ -23,6 +23,7 @@ import ar.edu.uner.prestabook.jframe.panels.PanelFormatos;
 import ar.edu.uner.prestabook.jframe.panels.PanelLectores;
 import ar.edu.uner.prestabook.jframe.panels.PanelMultas;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasFuncionario;
+import ar.edu.uner.prestabook.jframe.panels.PanelObrasMasSolicitadas;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasPorEditorial;
 import ar.edu.uner.prestabook.jframe.panels.PanelPrestamos;
 import ar.edu.uner.prestabook.jframe.panels.PanelReservas;
@@ -47,10 +48,11 @@ public class SistemaFuncionario extends JFrame {
     private transient AbstractPanel panelTiposObra = new PanelTiposObra();
     private transient AbstractPanel panelObrasPorEditorial = new PanelObrasPorEditorial();
     private transient AbstractPanel panelReservas = new PanelReservas();
+    private transient AbstractPanel panelObrasMasSolicitadas = new PanelObrasMasSolicitadas();
 
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos, panelObrasPorEditorial, panelReservas);
+            panelPrestamos, panelObrasPorEditorial, panelReservas, panelObrasMasSolicitadas);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
@@ -133,6 +135,9 @@ public class SistemaFuncionario extends JFrame {
 
         JButton btnReservas = Components.btnLeftMenu("Ver reservas", 533);
         panelOpciones.add(btnReservas);
+        
+        JButton btnMasSolicitadas = Components.btnLeftMenu("Ver obras más solicitadas", 585);
+        panelOpciones.add(btnMasSolicitadas);
 
         JMenuBar menuBarAdministrar = menuBarAdministrar();
         panelPrestabook.add(menuBarAdministrar);
@@ -225,6 +230,11 @@ public class SistemaFuncionario extends JFrame {
             contentPane.add(panelReservas.init());
         });
 
+        btnMasSolicitadas.addActionListener(e -> {
+            hidePanels();
+            contentPane.add(panelObrasMasSolicitadas.init());
+        });
+        
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);

@@ -113,7 +113,6 @@ public class PanelObrasLector extends AbstractPanel {
         model.addColumn("Id de edicion");
         model.addColumn("N° ejemplares");
         Tabla.fill(model, Constants.OBRAS_LECTOR_VIEW);
-
     }
 
     @Override
