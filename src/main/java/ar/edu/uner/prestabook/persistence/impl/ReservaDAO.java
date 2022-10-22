@@ -55,7 +55,7 @@ public class ReservaDAO implements IReservaDAO {
     @Override
     public Reserva update(Reserva reserva) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        HibernateConnection.getCurrentSession().update(reserva);
+        HibernateConnection.getCurrentSession().merge(reserva);
         tx.commit();
         return reserva;
     }

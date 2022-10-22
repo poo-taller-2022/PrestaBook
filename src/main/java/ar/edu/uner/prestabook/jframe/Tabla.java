@@ -21,6 +21,7 @@ import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.Prestamo;
+import ar.edu.uner.prestabook.model.Reserva;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
@@ -73,6 +74,9 @@ public class Tabla {
                 break;
             case Constants.OBRAS_LECTOR_VIEW:
                 loadObrasLector(model, i);
+                break;
+            case Constants.RESERVAS:
+                loadReservas(model);
                 break;
             default:
         }
@@ -263,7 +267,22 @@ public class Tabla {
             fila.add(multa.getLector().getApellido());
             model.addRow(new Vector<>(fila));
         }
+    }
 
+    private static void loadReservas(DefaultTableModel model) {
+        List<Reserva> reservas = DaoFactory.getReservaDAO().findAll();
+        for (Reserva reserva : reservas) {
+            if (Boolean.TRUE.equals(reserva.getIsActive())) {
+                List<Object> fila = new LinkedList<>();
+                Obra obra = DaoFactory.getObraDAO().findById(reserva.getEjemplar().getIsbnObra());
+                fila.add(reserva.getId());
+                fila.add(String.format("%s %s", reserva.getLector().getNombre(), reserva.getLector().getApellido()));
+                fila.add(obra.getTitulo());
+                fila.add(reserva.getEjemplar().getId());
+                fila.add(LocalDate.parse(reserva.getFechaReserva(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                model.addRow(new Vector<>(fila));
+            }
+        }
     }
 
     private static void loadPrestamos(DefaultTableModel model, Integer i) {

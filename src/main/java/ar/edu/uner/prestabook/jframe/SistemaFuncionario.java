@@ -25,6 +25,7 @@ import ar.edu.uner.prestabook.jframe.panels.PanelMultas;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasFuncionario;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasPorEditorial;
 import ar.edu.uner.prestabook.jframe.panels.PanelPrestamos;
+import ar.edu.uner.prestabook.jframe.panels.PanelReservas;
 import ar.edu.uner.prestabook.jframe.panels.PanelTiposObra;
 import lombok.Getter;
 
@@ -45,10 +46,11 @@ public class SistemaFuncionario extends JFrame {
     private transient AbstractPanel panelPrestamos = new PanelPrestamos();
     private transient AbstractPanel panelTiposObra = new PanelTiposObra();
     private transient AbstractPanel panelObrasPorEditorial = new PanelObrasPorEditorial();
+    private transient AbstractPanel panelReservas = new PanelReservas();
 
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos, panelObrasPorEditorial);
+            panelPrestamos, panelObrasPorEditorial, panelReservas);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
@@ -128,6 +130,9 @@ public class SistemaFuncionario extends JFrame {
 
         JButton btnObrasPorEditorial = Components.btnLeftMenu("Ver Obras por editorial", 481);
         panelOpciones.add(btnObrasPorEditorial);
+
+        JButton btnReservas = Components.btnLeftMenu("Ver reservas", 533);
+        panelOpciones.add(btnReservas);
 
         JMenuBar menuBarAdministrar = menuBarAdministrar();
         panelPrestabook.add(menuBarAdministrar);
@@ -213,6 +218,11 @@ public class SistemaFuncionario extends JFrame {
         btnObrasPorEditorial.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelObrasPorEditorial.init());
+        });
+
+        btnReservas.addActionListener(e -> {
+            hidePanels();
+            contentPane.add(panelReservas.init());
         });
 
         btnCerrarSesion.addActionListener(e -> {

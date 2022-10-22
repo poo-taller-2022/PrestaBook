@@ -2,7 +2,6 @@ package ar.edu.uner.prestabook.jframe.panels;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -44,14 +43,14 @@ public class PanelMultas extends AbstractPanel {
         fechaInicial.addDateChangeListener(evt -> {
             Components.clearTable(table);
             Tabla.fill(model, Constants.MULTAS);
-            filtrarFechas((DefaultTableModel) table.getModel(), fechaInicial.getDate(),
+            Components.filtrarFechas((DefaultTableModel) table.getModel(), 1, fechaInicial.getDate(),
                     fechaFinal.getDate());
         });
 
         fechaFinal.addDateChangeListener(evt -> {
             Components.clearTable(table);
             Tabla.fill(model, Constants.MULTAS);
-            filtrarFechas((DefaultTableModel) table.getModel(), fechaInicial.getDate(),
+            Components.filtrarFechas((DefaultTableModel) table.getModel(), 1, fechaInicial.getDate(),
                     fechaFinal.getDate());
         });
 
@@ -112,19 +111,6 @@ public class PanelMultas extends AbstractPanel {
         filtro.setForeground(Color.GRAY);
         filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
         return filtro;
-    }
-
-    private void filtrarFechas(DefaultTableModel modelo, LocalDate startDate,
-            LocalDate endDate) {
-        LocalDate newStartDate = startDate != null ? startDate : LocalDate.MIN;
-        LocalDate newEndDate = endDate != null ? endDate : LocalDate.MAX;
-
-        for (Integer i = 0; i < modelo.getDataVector().size(); i++) {
-            LocalDate fecha = (LocalDate) modelo.getValueAt(i, 1);
-            if (!(fecha.isBefore(newEndDate) && fecha.isAfter(newStartDate))) {
-                modelo.removeRow(i--);
-            }
-        }
     }
 
     @Override

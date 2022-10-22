@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
+import java.time.LocalDate;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -265,5 +266,18 @@ public class Components {
         panelPrestabook.setBackground(new Color(0, 64, 128));
         panelPrestabook.setLayout(null);
         return panelPrestabook;
+    }
+
+    public static void filtrarFechas(DefaultTableModel modelo, Integer row, LocalDate startDate,
+            LocalDate endDate) {
+        LocalDate newStartDate = startDate != null ? startDate : LocalDate.MIN;
+        LocalDate newEndDate = endDate != null ? endDate : LocalDate.MAX;
+        for (Integer i = 0; i < modelo.getDataVector().size(); i++) {
+            LocalDate fecha = (LocalDate) modelo.getValueAt(i, row);
+            if (!((fecha.isBefore(newEndDate) || fecha.isEqual(newEndDate))
+                    && (fecha.isAfter(newStartDate) || fecha.isEqual(newStartDate)))) {
+                modelo.removeRow(i--);
+            }
+        }
     }
 }
