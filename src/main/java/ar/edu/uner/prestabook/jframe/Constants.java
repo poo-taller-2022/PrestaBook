@@ -28,7 +28,7 @@ public class Constants {
     public static final String MULTAS = "Multas";
     public static final String OBRAS_POR_EDITORIAL = "Obras por Editorial";
     public static final String PRESTAMOS = "Préstamos";
-    public static final String NODISPONIBLE = "No disponible";
+    public static final String NO_DISPONIBLE = "No disponible";
     public static final String EJEMPLARES_POR_AREA = "Ejemplares por area";
     public static final String OBRAS_POR_AREA = "Obras por area";
     public static final String OBRAS_LECTOR_VIEW = "Obras para lector";
