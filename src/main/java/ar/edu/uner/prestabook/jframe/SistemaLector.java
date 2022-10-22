@@ -10,15 +10,20 @@ import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.panels.AbstractPanel;
 import ar.edu.uner.prestabook.jframe.panels.PanelBienvenida;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasLector;
+import ar.edu.uner.prestabook.model.Lector;
+import lombok.Getter;
+import lombok.Setter;
 
 public class SistemaLector extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
+    @Getter
+    @Setter
+    private static transient Lector loggedUser;
     private transient AbstractPanel panelObra = new PanelObrasLector();
     private transient AbstractPanel panelBienvenida = new PanelBienvenida();
     private JPanel contentPane = Components.contentPane();
-
     private static SistemaLector instance = new SistemaLector();
 
     /**
@@ -78,6 +83,7 @@ public class SistemaLector extends JFrame {
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
+            loggedUser = null;
             SistemaLector.this.dispose();
         });
 

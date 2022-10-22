@@ -25,7 +25,6 @@ public class Reserva {
     private Ejemplar ejemplar;
     @ManyToOne
     private Lector lector;
-    @ManyToOne
-    private Funcionario funcionario;
+    private Boolean isActive;
 
 }
