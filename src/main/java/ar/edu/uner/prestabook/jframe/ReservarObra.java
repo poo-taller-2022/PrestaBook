@@ -2,13 +2,9 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
@@ -22,7 +18,6 @@ import com.github.lgooddatepicker.components.DatePicker;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
-import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.Prestamo;
@@ -37,8 +32,6 @@ import javax.swing.JTextField;
 public class ReservarObra extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	/** Loan default period */
-	private static final Integer PLAZO_PRESTAMO = 4;
 
 	/**
 	 * Class constructor

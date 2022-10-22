@@ -31,8 +31,6 @@ import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class AgregarEjemplar extends JFrame {
 

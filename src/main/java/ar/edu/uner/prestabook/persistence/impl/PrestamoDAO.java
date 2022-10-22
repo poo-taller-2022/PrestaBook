@@ -7,7 +7,6 @@ import javax.persistence.Query;
 import org.hibernate.Transaction;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Prestamo;
 import ar.edu.uner.prestabook.persistence.IPrestamoDAO;
 
