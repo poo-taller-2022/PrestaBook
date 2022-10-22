@@ -111,7 +111,7 @@ public class AgregarEdicion extends JFrame {
 
         btnCancelar.addActionListener(e -> this.setVisible(false));
 
-        btnAgregar.addActionListener(e -> {
+        btnAgregar.addActionListener(e -> { 
         	@SuppressWarnings("unchecked")
             JList<Formato> jListFormatos = (JList<Formato>) scrollPaneFormatos.getViewport().getView();
         	

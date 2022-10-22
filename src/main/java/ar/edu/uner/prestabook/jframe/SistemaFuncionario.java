@@ -1,12 +1,8 @@
 package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
-import java.awt.Image;
-import java.io.File;
 import java.util.List;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +23,7 @@ import ar.edu.uner.prestabook.jframe.panels.PanelFormatos;
 import ar.edu.uner.prestabook.jframe.panels.PanelLectores;
 import ar.edu.uner.prestabook.jframe.panels.PanelMultas;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasFuncionario;
+import ar.edu.uner.prestabook.jframe.panels.PanelObrasPorEditorial;
 import ar.edu.uner.prestabook.jframe.panels.PanelPrestamos;
 import ar.edu.uner.prestabook.jframe.panels.PanelTiposObra;
 import lombok.Getter;
@@ -47,9 +44,11 @@ public class SistemaFuncionario extends JFrame {
     private transient AbstractPanel panelObras = new PanelObrasFuncionario();
     private transient AbstractPanel panelPrestamos = new PanelPrestamos();
     private transient AbstractPanel panelTiposObra = new PanelTiposObra();
+    private transient AbstractPanel panelObrasPorEditorial = new PanelObrasPorEditorial();
+
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos);
+            panelPrestamos, panelObrasPorEditorial);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
@@ -74,7 +73,8 @@ public class SistemaFuncionario extends JFrame {
 
         JLabel lblIconCerrarSesion = Components.lblIconCerrarSesion();
         panelPrestabook.add(lblIconCerrarSesion);
-        jLabelImage(lblIconCerrarSesion);
+        Components.jLabelImage(lblIconCerrarSesion);
+        this.repaint();
 
         panelPrestabook.add(Components.lblPrestabook());
 
@@ -126,6 +126,9 @@ public class SistemaFuncionario extends JFrame {
         JButton btnListarPrestamos = Components.btnLeftMenu("Ver Préstamos", 429);
         panelOpciones.add(btnListarPrestamos);
 
+        JButton btnObrasPorEditorial = Components.btnLeftMenu("Ver Obras por editorial", 481);
+        panelOpciones.add(btnObrasPorEditorial);
+
         JMenuBar menuBarAdministrar = menuBarAdministrar();
         panelPrestabook.add(menuBarAdministrar);
 
@@ -156,7 +159,6 @@ public class SistemaFuncionario extends JFrame {
         menuItemTipoObra.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelTiposObra.init());
-
         });
 
         menuItemAreaTematica.addActionListener(e -> {
@@ -208,6 +210,11 @@ public class SistemaFuncionario extends JFrame {
             contentPane.add(panelPrestamos.init());
         });
 
+        btnObrasPorEditorial.addActionListener(e -> {
+            hidePanels();
+            contentPane.add(panelObrasPorEditorial.init());
+        });
+
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
@@ -228,14 +235,6 @@ public class SistemaFuncionario extends JFrame {
         setTitle(Constants.OPCIONES);
         setBounds(100, 100, 1390, 811);
         setLocationRelativeTo(null);
-    }
-
-    private void jLabelImage(JLabel lblIconCerrarSesion) {
-        ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
-                lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
-        lblIconCerrarSesion.setIcon(icon);
-        this.repaint();
     }
 
     /**

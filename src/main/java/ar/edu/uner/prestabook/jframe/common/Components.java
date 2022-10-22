@@ -34,7 +34,6 @@ public class Components {
     private static JLabel textUsuario = textUsuario();
     public static final Integer PANEL_WIDTH = 1000;
 
-
     private Components() {
     }
 
@@ -114,6 +113,7 @@ public class Components {
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
                 lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
         lblIconCerrarSesion.setIcon(icon);
+
     }
 
     public static JLabel lblIconCerrarSesion() {
@@ -257,7 +257,7 @@ public class Components {
         contentPane.setLayout(null);
         return contentPane;
     }
-    
+
     public static JPanel panelPrestabook() {
         JPanel panelPrestabook = new JPanel();
         panelPrestabook.setBounds(339, 0, 1061, 103);

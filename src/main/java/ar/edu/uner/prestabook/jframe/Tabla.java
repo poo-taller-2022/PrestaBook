@@ -64,11 +64,48 @@ public class Tabla {
             case Constants.MULTAS:
                 loadMultas(model, i);
                 break;
+            case Constants.OBRAS_POR_EDITORIAL:
+                loadObrasPorEditorial(model, i);
+                break;
             case Constants.PRESTAMOS:
                 loadPrestamos(model, i);
                 break;
             default:
         }
+    }
+
+    private static void loadObrasPorEditorial(DefaultTableModel model, Integer i) {
+
+        IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
+        List<Edicion> ediciones = edicionDAO.findAll();
+        for (Edicion edicion : ediciones) {
+            List<Object> fila = new LinkedList<>();
+
+            Obra obra = DaoFactory.getObraDAO().findById(edicion.getIsbnObra());
+            fila.add(++i);
+            fila.add(edicion.getEditorial().toUpperCase());
+            fila.add(obra.getIsbn().toUpperCase());
+            fila.add(obra.getTitulo().toUpperCase());
+            fila.add(obra.getSubtitulo().toUpperCase());
+            fila.add(obra.getPrimerAutor().toUpperCase());
+            fila.add(obra.getSegundoAutor().toUpperCase());
+            fila.add(obra.getTercerAutor().toUpperCase());
+            fila.add(obra.getGenero().toUpperCase());
+            fila.add(obra.getTipo().getNombre().toUpperCase());
+
+            Set<AreaTematica> areas = obra.getArea();
+            StringBuilder contatenarAreas = new StringBuilder();
+
+            for (AreaTematica area : areas) {
+                contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
+            }
+            contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+
+            fila.add(contatenarAreas);
+
+            model.addRow(new Vector<>(fila));
+        }
+
     }
 
     private static void loadEdicion(DefaultTableModel model, Integer i) {

@@ -60,5 +60,12 @@ public class EdicionDAO implements IEdicionDAO {
         tx.commit();
         return edicion;
     }
+	
+	@Override
+    public List<Edicion> findByEditorial(String editorial) {
+        String hql = String.format("from Edicion e where e.editorial = '%s'", editorial);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Edicion.class).list();
+
+    }
 
 }
