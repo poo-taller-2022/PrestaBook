@@ -37,13 +37,11 @@ public class LectorDAO implements ILectorDAO {
 
     }
 
-
     @Override
     public Lector findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Lector.class, (String) dni);
 
     }
-
 
     @Override
     public Lector insert(Lector lector) {
@@ -54,7 +52,6 @@ public class LectorDAO implements ILectorDAO {
         return lector;
     }
 
-
     @Override
     public Lector update(Lector lector) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -63,12 +60,18 @@ public class LectorDAO implements ILectorDAO {
         return lector;
     }
 
-
     @Override
     public Long countFinesById(Long documento) {
         Query query = HibernateConnection.getCurrentSession().createQuery(
                 String.format("select count(*) from Multa m where m.lector.documento = '%d'", documento));
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public Lector findByEmail(String email) {
+        String hql = String.format("from Lector l where l.email = '%s'", email);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Lector.class).getSingleResult();
+
     }
 
 }
