@@ -17,11 +17,11 @@ import javax.swing.table.TableRowSorter;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.Constants;
+import ar.edu.uner.prestabook.jframe.Reservas;
 import ar.edu.uner.prestabook.jframe.Tabla;
 import ar.edu.uner.prestabook.jframe.VerMas;
 import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.model.Edicion;
-import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 
 public class PanelObrasLector extends AbstractPanel {
 
@@ -42,7 +42,8 @@ public class PanelObrasLector extends AbstractPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         btnReservarObra.addActionListener(b -> {
-
+            Reservas reservas = new Reservas();
+            reservas.setVisible(true);
         });
 
         btnVerMas.addActionListener(b -> {
@@ -51,8 +52,7 @@ public class PanelObrasLector extends AbstractPanel {
 
                 Object idEdicion = modelo.getValueAt(table.getSelectedRow(), 8);
 
-                IEdicionDAO o = DaoFactory.getEdicionDAO();
-                Edicion edicion = o.findById(idEdicion);
+                Edicion edicion = DaoFactory.getEdicionDAO().findById(idEdicion);
 
                 VerMas vermas = new VerMas(edicion);
                 vermas.setVisible(true);
@@ -112,7 +112,7 @@ public class PanelObrasLector extends AbstractPanel {
         model.addColumn(Constants.TIPO_OBRA);
         model.addColumn("Id de edicion");
         model.addColumn("N° ejemplares");
-        Tabla.fill(model, Constants.OBRA);
+        Tabla.fill(model, Constants.OBRAS_LECTOR_VIEW);
 
     }
 

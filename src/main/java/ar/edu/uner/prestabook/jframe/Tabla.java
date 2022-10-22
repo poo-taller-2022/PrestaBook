@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Vector;
 
@@ -69,6 +70,9 @@ public class Tabla {
                 break;
             case Constants.PRESTAMOS:
                 loadPrestamos(model, i);
+                break;
+            case Constants.OBRAS_LECTOR_VIEW:
+                loadObrasLector(model, i);
                 break;
             default:
         }
@@ -284,6 +288,54 @@ public class Tabla {
             fila.add(prestamo.getLector().getNombre());
             fila.add(prestamo.getLector().getApellido());
             fila.add(Boolean.TRUE.equals(fueraDeTermino) ? "Sí" : "No");
+            model.addRow(new Vector<>(fila));
+        }
+    }
+
+    private static void loadObrasLector(DefaultTableModel model, Integer i) {
+
+        IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
+        List<Edicion> ediciones = edicionDAO.findAll();
+        for (Edicion edicion : ediciones) {
+            List<Object> fila = new LinkedList<>();
+
+            IObraDAO obraDAO = DaoFactory.getObraDAO();
+            Obra obra = obraDAO.findById(edicion.getIsbnObra());
+            fila.add(++i);
+
+            Set<AreaTematica> areas = obra.getArea();
+            StringBuilder contatenarAreas = new StringBuilder();
+
+            for (AreaTematica area : areas) {
+                contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
+            }
+            contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+            fila.add(contatenarAreas);
+
+            fila.add(obra.getIsbn().toUpperCase());
+            fila.add(obra.getTitulo().toUpperCase());
+            fila.add(obra.getSubtitulo().toUpperCase());
+            fila.add(obra.getPrimerAutor().toUpperCase());
+            fila.add(obra.getGenero().toUpperCase());
+            fila.add(obra.getTipo().getNombre().toUpperCase());
+
+            fila.add(edicion.getId());
+
+            IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
+            List<Ejemplar> ejemplares = ejemplarDAO.findAll();
+            Integer cantidadEjemplares = 0;
+            if (ejemplares != null) {
+                for (Ejemplar ejemplar : ejemplares) {
+
+                    if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && (ejemplar.getMotivoBaja() == null)) {
+                        cantidadEjemplares++;
+                    }
+                }
+                fila.add(cantidadEjemplares);
+            } else {
+                fila.add(cantidadEjemplares);
+            }
+
             model.addRow(new Vector<>(fila));
         }
     }
