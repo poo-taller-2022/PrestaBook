@@ -197,7 +197,7 @@ public class Components {
 
     public static JLabel lblPanelTitle(String title) {
         JLabel lblPanelTitle = new JLabel(title);
-        lblPanelTitle.setBounds(440, 70, 369, 136);
+        lblPanelTitle.setBounds(440, 20, 369, 136);
         lblPanelTitle.setForeground(Color.GRAY);
         lblPanelTitle.setFont(new Font(Constants.FONT, Font.BOLD, 19));
         return lblPanelTitle;
