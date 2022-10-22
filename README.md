@@ -8,9 +8,9 @@ Se usa una base de datos SQLite con Hibernate como gestor ORM.
 
 ## Dependencias
 
-| Artifact                | Description                                           | Version                                            |
+| Artefacto                | Descripción                                           | Versión                                            |
 | ----------------------- | ----------------------------------------------------- | -------------------------------------------------- |
-| Barbecue                | Crea, muestra e imprime códigos de barra              | [1.5-beta1](https://barbecue.sourceforge.net/)     |
+| barbecue                | Crea, muestra e imprime códigos de barra              | [1.5-beta1](https://barbecue.sourceforge.net/)     |
 | modelmapper             | Librería inteligente de mapeo de objetos              | [3.1.0](http://modelmapper.org/)                   |
 | sqlite-jdbc             | Accede y crea archivos de base de datos en Java       | [3.39.2.1](https://github.com/xerial/sqlite-jdbc) |
 | lombok                  | Reduce el código boilerplate y aumenta la legibilidad | [1.18.24](https://projectlombok.org/)              |
