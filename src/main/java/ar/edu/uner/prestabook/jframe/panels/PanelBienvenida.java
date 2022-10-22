@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import ar.edu.uner.prestabook.jframe.Constants;
 
-public class PanelBienvenida extends PrestabookPanel {
+public class PanelBienvenida extends AbstractPanel {
 
     @Override
     public JPanel init() {
@@ -49,5 +49,10 @@ public class PanelBienvenida extends PrestabookPanel {
         lblIconLibreria.setBounds(225, 169, 605, 493);
         lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
         return lblIconLibreria;
+    }
+
+    @Override
+    public String getPanelName() {
+        return "";
     }
 }

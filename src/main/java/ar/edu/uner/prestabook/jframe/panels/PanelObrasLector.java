@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.lectores;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
@@ -9,8 +9,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
@@ -21,69 +19,37 @@ import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
 import ar.edu.uner.prestabook.jframe.VerMas;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
-import lombok.Getter;
 
-public class PanelObra {
-
-    @Getter
-    JPanel panel = Utils.panelEntities();
+public class PanelObrasLector extends AbstractPanel {
 
     public JPanel init() {
-        panel.setVisible(true);
-
-        panel.add(Utils.lblPanelTitle("Consultar Obras"));
-
-        JScrollPane scrollPane = Utils.scrollPane();
-        panel.add(scrollPane);
-
+        prepare();
         JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
+        JButton btnSolicitarPrestamo = Components.btnGeneric("Solicitar préstamo", "Right");
+        JButton btnReservarObra = Components.btnGeneric("Reservar Obra", "Left");
+        JButton btnVerMas = Components.btnGeneric("Ver más", "Center");
         panel.add(txtIngresarAreaTematica);
-
-        JButton btnSolicitarPrestamo = Utils.btnGeneric("Solicitar préstamo", "Right");
         panel.add(btnSolicitarPrestamo);
-
-        JTable tableObras = new JTable();
-
-        DefaultTableModel model = new DefaultTableModel();
-        tableObras.setModel(model);
-        model.addColumn("");
-        model.addColumn(Constants.AREA_TEMATICA);
-        model.addColumn("Isbn");
-        model.addColumn("Titulo");
-        model.addColumn("Subitulo");
-        model.addColumn("1° autor");
-        model.addColumn("Género");
-        model.addColumn(Constants.TIPO_OBRA);
-        model.addColumn("Id de edicion");
-        model.addColumn("N° ejemplares");
-
-        tableObras.setAutoCreateRowSorter(true);
-        TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
-        tableObras.setRowSorter(sorted);
-
-        Tabla.fill(model, Constants.OBRA);
-        scrollPane.setViewportView(tableObras);
-
-        tableObras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        JButton btnReservarObra = Utils.btnGeneric("Reservar Obra", "Left");
         panel.add(btnReservarObra);
-
-        JButton btnVerMas = Utils.btnGeneric("Ver más", "Center");
         panel.add(btnVerMas);
+
+        table.setAutoCreateRowSorter(true);
+        TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
+        table.setRowSorter(sorted);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         btnReservarObra.addActionListener(b -> {
 
         });
 
         btnVerMas.addActionListener(b -> {
-            if (tableObras.getSelectedRow() != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) tableObras.getModel();
+            if (table.getSelectedRow() != -1) {
+                DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
-                Object idEdicion = modelo.getValueAt(tableObras.getSelectedRow(), 8);
+                Object idEdicion = modelo.getValueAt(table.getSelectedRow(), 8);
 
                 IEdicionDAO o = DaoFactory.getEdicionDAO();
                 Edicion edicion = o.findById(idEdicion);
@@ -125,13 +91,34 @@ public class PanelObra {
         return panel;
     }
 
-    public JTextField txtIngresarAreaTematica() {
+    private JTextField txtIngresarAreaTematica() {
         JTextField txtIngresarAreaTematica = new JTextField();
         txtIngresarAreaTematica.setForeground(new Color(128, 128, 128));
         txtIngresarAreaTematica.setText("Buscar por area tematica");
         txtIngresarAreaTematica.setBounds(10, 110, 1130, 37);
         txtIngresarAreaTematica.setColumns(10);
         return txtIngresarAreaTematica;
+    }
+
+    @Override
+    public void setModelColumns() {
+        model.addColumn("");
+        model.addColumn(Constants.AREA_TEMATICA);
+        model.addColumn("Isbn");
+        model.addColumn("Titulo");
+        model.addColumn("Subitulo");
+        model.addColumn("1° autor");
+        model.addColumn("Género");
+        model.addColumn(Constants.TIPO_OBRA);
+        model.addColumn("Id de edicion");
+        model.addColumn("N° ejemplares");
+        Tabla.fill(model, Constants.OBRA);
+
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.OBRAS;
     }
 
 }

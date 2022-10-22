@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -11,14 +11,13 @@ import javax.swing.table.TableRowSorter;
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Devoluciones;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelPrestamos extends PrestabookPanel {
+public class PanelPrestamos extends AbstractPanel {
 
     @Override
     public JPanel init() {
         prepare();
-        panel.add(Utils.lblPanelTitle(Constants.PRESTAMOS));
         JCheckBox checkBoxFiltro = checkBoxFiltro();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         panel.add(checkBoxFiltro);
@@ -28,7 +27,7 @@ public class PanelPrestamos extends PrestabookPanel {
         checkBoxFiltro.addActionListener(
                 evt -> sorter.setRowFilter(checkBoxFiltro.isSelected() ? filtradorPorFueraDeTermino() : null));
 
-        JButton btnRegistrarDevolucion = Utils.btnGeneric("Registrar devolución", "Left");
+        JButton btnRegistrarDevolucion = Components.btnGeneric("Registrar devolución", "Left");
         panel.add(btnRegistrarDevolucion);
 
         btnRegistrarDevolucion.addActionListener(ev -> {
@@ -36,13 +35,13 @@ public class PanelPrestamos extends PrestabookPanel {
             devoluciones.setVisible(true);
         });
 
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnRefrescar);
 
         btnRefrescar.addActionListener(b -> {
             sorter.setRowFilter(null);
             checkBoxFiltro.setSelected(false);
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.PRESTAMOS);
         });
 
@@ -77,5 +76,10 @@ public class PanelPrestamos extends PrestabookPanel {
                 return entry.getModel().getValueAt(modelRow, 8).equals("Sí");
             }
         };
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.PRESTAMOS;
     }
 }

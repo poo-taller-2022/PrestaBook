@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -6,21 +6,20 @@ import javax.swing.JPanel;
 import ar.edu.uner.prestabook.jframe.AgregarObra;
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelObras extends PrestabookPanel {
+public class PanelObrasFuncionario extends AbstractPanel {
 
     @Override
     public JPanel init() {
         prepare();
-        panel.add(Utils.lblPanelTitle(Constants.OBRAS));
 
         scrollPane.setViewportView(table);
 
-        JButton btnAgregarObra = Utils.btnGeneric("Agregar obra", "Left");
+        JButton btnAgregarObra = Components.btnGeneric("Agregar obra", "Left");
         panel.add(btnAgregarObra);
 
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnRefrescar);
 
         btnAgregarObra.addActionListener(b -> {
@@ -29,7 +28,7 @@ public class PanelObras extends PrestabookPanel {
         });
         
         btnRefrescar.addActionListener(b -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.OBRA);
         });
         return panel;
@@ -50,6 +49,11 @@ public class PanelObras extends PrestabookPanel {
 
         Tabla.fill(model, Constants.OBRA);
 
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.OBRAS;
     }
 
 }

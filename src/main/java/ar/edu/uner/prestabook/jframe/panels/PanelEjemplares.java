@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -6,16 +6,15 @@ import javax.swing.JPanel;
 import ar.edu.uner.prestabook.jframe.AgregarEjemplar;
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelEjemplares extends PrestabookPanel {
+public class PanelEjemplares extends AbstractPanel {
 
     @Override
     public JPanel init() {
         prepare();
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
-        JButton btnAgregarEjemplar = Utils.btnGeneric("Agregar ejemplar", "Left");
-        panel.add(Utils.lblPanelTitle(Constants.EJEMPLARES));
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
+        JButton btnAgregarEjemplar = Components.btnGeneric("Agregar ejemplar", "Left");
         panel.add(btnAgregarEjemplar);
         panel.add(btnRefrescar);
 
@@ -25,7 +24,7 @@ public class PanelEjemplares extends PrestabookPanel {
         });
 
         btnRefrescar.addActionListener(b -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.EJEMPLAR);
         });
 
@@ -47,6 +46,11 @@ public class PanelEjemplares extends PrestabookPanel {
 
         Tabla.fill(model, Constants.EJEMPLAR);
 
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.EJEMPLARES;
     }
 
 }

@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -6,32 +6,32 @@ import javax.swing.JPanel;
 
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelTiposObra extends PrestabookPanel {
+public class PanelTiposObra extends AbstractPanel {
+
 
     @Override
     public JPanel init() {
         prepare();
-        panel.add(Utils.lblPanelTitle(Constants.TIPOS_DE_OBRAS));
 
-        JButton btnAgregarTipoObra = Utils.btnGeneric("Agregar tipo de obra", "Left");
+        JButton btnAgregarTipoObra = Components.btnGeneric("Agregar tipo de obra", "Left");
         panel.add(btnAgregarTipoObra);
 
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnRefrescar);
 
         btnAgregarTipoObra.addActionListener(b -> {
             String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de tipo de obra");
             if (valorAgregar != null && !valorAgregar.isBlank()) {
-                Utils.updateDatabase(valorAgregar, Constants.TIPO_OBRA);
-                Utils.clearTable(table);
+                Components.updateDatabase(valorAgregar, Constants.TIPO_OBRA);
+                Components.clearTable(table);
                 Tabla.fill(model, Constants.TIPO_OBRA);
             }
         });
 
         btnRefrescar.addActionListener(b -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.TIPO_OBRA);
         });
         return panel;
@@ -42,6 +42,11 @@ public class PanelTiposObra extends PrestabookPanel {
         model.addColumn("");
         model.addColumn(Constants.NOMBRE);
         Tabla.fill(model, Constants.TIPO_OBRA);
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.TIPOS_DE_OBRAS;
     }
 
 }

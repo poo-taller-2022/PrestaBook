@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -6,15 +6,14 @@ import javax.swing.JPanel;
 import ar.edu.uner.prestabook.jframe.AgregarColeccion;
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelColecciones extends PrestabookPanel {
+public class PanelColecciones extends AbstractPanel {
 
     public JPanel init() {
         prepare();
-        panel.add(Utils.lblPanelTitle(Constants.COLECCIONES));
-        JButton btnAgregarColeccion = Utils.btnGeneric("Agregar Colección", "Left");
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
+        JButton btnAgregarColeccion = Components.btnGeneric("Agregar Colección", "Left");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnAgregarColeccion);
         panel.add(btnRefrescar);
 
@@ -24,7 +23,7 @@ public class PanelColecciones extends PrestabookPanel {
         });
 
         btnRefrescar.addActionListener(b -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.COLECCION);
         });
         
@@ -44,6 +43,11 @@ public class PanelColecciones extends PrestabookPanel {
         model.addColumn(Constants.TIPO_OBRA);
         model.addColumn(Constants.AREA_TEMATICA);
         Tabla.fill(model, Constants.COLECCION);
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.COLECCIONES;
     }
 
 }

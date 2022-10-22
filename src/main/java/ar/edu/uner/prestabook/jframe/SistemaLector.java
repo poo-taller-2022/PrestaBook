@@ -1,81 +1,73 @@
 package ar.edu.uner.prestabook.jframe;
 
-import java.awt.Color;
-import java.awt.Font;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import ar.edu.uner.prestabook.jframe.panels.Utils;
-import ar.edu.uner.prestabook.jframe.panels.lectores.PanelObra;
+import ar.edu.uner.prestabook.jframe.common.Components;
+import ar.edu.uner.prestabook.jframe.panels.AbstractPanel;
+import ar.edu.uner.prestabook.jframe.panels.PanelBienvenida;
+import ar.edu.uner.prestabook.jframe.panels.PanelObrasLector;
 
 public class SistemaLector extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private PanelObra panelObra = new PanelObra();
+    private transient AbstractPanel panelObra = new PanelObrasLector();
+    private transient AbstractPanel panelBienvenida = new PanelBienvenida();
+    private JPanel contentPane = Components.contentPane();
+
+    private static SistemaLector instance = new SistemaLector();
 
     /**
-     * Create the frame.
+     * Initializes the system interface
+     * 
+     * @return the instance of SistemaLector
      */
+    public static SistemaLector init() {
+        return instance;
+    }
 
     public SistemaLector() {
 
-        /**
-         * Create components
-         */
-
-        ventana();
-
-        JPanel contentPane = contentPane();
-
-        JPanel panelPrestabook = Utils.panelPrestabook();
+        window();
+        setContentPane(contentPane);
+        JPanel panelPrestabook = Components.panelPrestabook();
         contentPane.add(panelPrestabook);
 
-        JLabel lblIconCerrarSesion = Utils.lblIconCerrarSesion();
+        JLabel lblIconCerrarSesion = Components.lblIconCerrarSesion();
         panelPrestabook.add(lblIconCerrarSesion);
-        Utils.jLabelImage(lblIconCerrarSesion);
+        Components.jLabelImage(lblIconCerrarSesion);
         this.repaint();
 
-        panelPrestabook.add(Utils.lblPrestabook());
+        panelPrestabook.add(Components.lblPrestabook());
 
-        JButton btnExit = Utils.btnExit();
+        JButton btnExit = Components.btnExit();
         panelPrestabook.add(btnExit);
 
-        JButton btnCerrarSesion = Utils.btnCerrarSesion();
+        JButton btnCerrarSesion = Components.btnCerrarSesion();
         panelPrestabook.add(btnCerrarSesion);
 
-        JPanel panelOpciones = Utils.panelOpciones();
+        JPanel panelOpciones = Components.panelOpciones();
         contentPane.add(panelOpciones);
 
-        JButton btnSolicitudes = Utils.btnSolicitudes();
+        JButton btnSolicitudes = Components.btnSolicitudes();
         panelOpciones.add(btnSolicitudes);
 
-        panelOpciones.add(Utils.lblUsuario());
-        panelOpciones.add(Utils.getTextUsuario());
-        panelOpciones.add(Utils.panelSeparador());
-        panelOpciones.add(Utils.lblOpciones());
+        panelOpciones.add(Components.lblUsuario());
+        panelOpciones.add(Components.getTextUsuario());
+        panelOpciones.add(Components.panelSeparador());
+        panelOpciones.add(Components.lblOpciones());
 
-        JButton btnConsultarObras = btnConsultarObras();
+        JButton btnConsultarObras = Components.btnLeftMenu("Consultar Obras", 169);
         panelOpciones.add(btnConsultarObras);
 
-        JPanel panelBienvenida = Utils.panelBienvenida();
-        contentPane.add(panelBienvenida);
-
-        JLabel lblBienvenidaParte1 = Utils.lblBienvenidaParte1();
-        panelBienvenida.add(lblBienvenidaParte1);
-
-        JLabel lblIconLibreria = Utils.lblIconLibreria();
-        panelBienvenida.add(lblIconLibreria);
-
-        JLabel lblBienvenidaParte2 = Utils.lblBienvenidaParte2();
-        panelBienvenida.add(lblBienvenidaParte2);
+        contentPane.add(panelBienvenida.init());
 
         btnConsultarObras.addActionListener(e -> {
-            panelBienvenida.setVisible(false);
+            panelBienvenida.hide();
             contentPane.add(panelObra.init());
         });
 
@@ -100,7 +92,7 @@ public class SistemaLector extends JFrame {
      * Create components
      */
 
-    private void ventana() {
+    private void window() {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -109,24 +101,4 @@ public class SistemaLector extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private JPanel contentPane() {
-        JPanel contentPane = new JPanel();
-        contentPane.setBorder(null);
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
-        return contentPane;
-    }
-
-    private JButton btnConsultarObras() {
-        JButton btnConsultarObras = new JButton("Consultar obras");
-        btnConsultarObras.setFocusPainted(false);
-        btnConsultarObras.setBackground(new Color(255, 255, 255));
-        btnConsultarObras.setVerifyInputWhenFocusTarget(false);
-        btnConsultarObras.setBorderPainted(false);
-        btnConsultarObras.setBorder(null);
-        btnConsultarObras.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnConsultarObras.setForeground(new Color(0, 64, 128));
-        btnConsultarObras.setBounds(22, 169, 189, 31);
-        return btnConsultarObras;
-    }
 }

@@ -1,24 +1,23 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelLectores extends PrestabookPanel {
+public class PanelLectores extends AbstractPanel {
 
     @Override
     public JPanel init() {
         prepare();
-        panel.add(Utils.lblPanelTitle(Constants.LECTORES));
 
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnRefrescar);
 
         btnRefrescar.addActionListener(b -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.LECTOR);
         });
         return panel;
@@ -35,6 +34,11 @@ public class PanelLectores extends PrestabookPanel {
         model.addColumn("Multas");
         Tabla.fill(model, Constants.LECTOR);
 
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.LECTORES;
     }
 
 }

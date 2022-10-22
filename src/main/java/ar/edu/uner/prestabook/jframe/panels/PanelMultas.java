@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,15 +14,14 @@ import com.github.lgooddatepicker.components.DatePicker;
 
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 
-public class PanelMultas extends PrestabookPanel {
+public class PanelMultas extends AbstractPanel {
 
     @Override
     public JPanel init() {
         prepare();
-        panel.add(Utils.lblPanelTitle(Constants.MULTAS));
         JLabel labelFiltro = labelFiltroFechas();
         JLabel labelFiltroInicio = labelFiltroInicio();
         JLabel labelFiltroFin = labelFiltroFin();
@@ -43,26 +42,26 @@ public class PanelMultas extends PrestabookPanel {
         scrollPane.setViewportView(table);
 
         fechaInicial.addDateChangeListener(evt -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.MULTAS);
             filtrarFechas((DefaultTableModel) table.getModel(), fechaInicial.getDate(),
                     fechaFinal.getDate());
         });
 
         fechaFinal.addDateChangeListener(evt -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.MULTAS);
             filtrarFechas((DefaultTableModel) table.getModel(), fechaInicial.getDate(),
                     fechaFinal.getDate());
         });
 
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnRefrescar);
 
         btnRefrescar.addActionListener(b -> {
             fechaFinal.setDate(null);
             fechaInicial.setDate(null);
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.MULTAS);
         });
 
@@ -126,5 +125,10 @@ public class PanelMultas extends PrestabookPanel {
                 modelo.removeRow(i--);
             }
         }
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.MULTAS;
     }
 }

@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels;
+package ar.edu.uner.prestabook.jframe.common;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -25,20 +25,22 @@ import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import lombok.Getter;
 
-public class Utils {
+public class Components {
 
     private static final Integer BUTTON_POSITION_LEFT = 140;
     private static final Integer BUTTON_POSITION_CENTER = 440;
     private static final Integer BUTTON_POSITION_RIGHT = 740;
     @Getter
     private static JLabel textUsuario = textUsuario();
+    public static final Integer PANEL_WIDTH = 1000;
 
-    private Utils() {
+
+    private Components() {
     }
 
     public static JScrollPane scrollPane() {
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 158, 1130, 300);
+        scrollPane.setBounds(10, 158, 990, 300);
         return scrollPane;
     }
 
@@ -92,24 +94,17 @@ public class Utils {
     }
 
     public static JLabel textUsuario() {
-        JLabel textUsuario = new JLabel("");
+        JLabel textUsuario = new JLabel();
         textUsuario.setBackground(new Color(0, 128, 0));
-        textUsuario.setBounds(124, 0, 173, 37);
+        textUsuario.setBounds(118, 0, 173, 37);
         textUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 16));
         textUsuario.setForeground(new Color(255, 255, 255));
         return textUsuario;
     }
 
-    public static JPanel panelBienvenida() {
-        JPanel panelBienvenida = new JPanel();
-        panelBienvenida.setBounds(237, 103, 1153, 708);
-        panelBienvenida.setLayout(null);
-        return panelBienvenida;
-    }
-    
     public static JPanel panelEntities() {
         JPanel panelEntities = new JPanel();
-        panelEntities.setBounds(339, 104, 1061, 707);
+        panelEntities.setBounds(339, 104, PANEL_WIDTH, 707);
         panelEntities.setLayout(null);
         return panelEntities;
     }
@@ -121,15 +116,6 @@ public class Utils {
         lblIconCerrarSesion.setIcon(icon);
     }
 
-    public static JPanel panelPrestabook() {
-        JPanel panelPrestabook = new JPanel();
-        panelPrestabook.setBounds(237, 0, 1153, 103);
-        panelPrestabook.setBorder(null);
-        panelPrestabook.setBackground(new Color(0, 64, 128));
-        panelPrestabook.setLayout(null);
-        return panelPrestabook;
-    }
-
     public static JLabel lblIconCerrarSesion() {
         JLabel lblIconCerrarSesion = new JLabel("");
         lblIconCerrarSesion.setBounds(817, 5, 19, 16);
@@ -138,7 +124,7 @@ public class Utils {
 
     public static JLabel lblPrestabook() {
         JLabel lblPrestabook = new JLabel("PrestaBook");
-        lblPrestabook.setBounds(404, 31, 267, 42);
+        lblPrestabook.setBounds(399, 30, 267, 42);
         lblPrestabook.setForeground(Color.WHITE);
         lblPrestabook.setFont(new Font(Constants.FONT, Font.BOLD, 32));
         return lblPrestabook;
@@ -149,7 +135,7 @@ public class Utils {
         btnExit.setForeground(Color.WHITE);
         btnExit.setFont(new Font(Constants.FONT, Font.BOLD, 12));
         btnExit.setBackground(new Color(255, 106, 106));
-        btnExit.setBounds(1106, 0, 47, 25);
+        btnExit.setBounds(980, 1, 47, 25);
         return btnExit;
     }
 
@@ -159,7 +145,7 @@ public class Utils {
         btnCerrarSesion.setFocusPainted(false);
         btnCerrarSesion.setBorderPainted(false);
         btnCerrarSesion.setBorder(null);
-        btnCerrarSesion.setBounds(995, -2, 101, 23);
+        btnCerrarSesion.setBounds(870, 2, 101, 23);
         btnCerrarSesion.setForeground(new Color(255, 255, 255));
         btnCerrarSesion.setBackground(new Color(0, 64, 128));
         return btnCerrarSesion;
@@ -167,7 +153,7 @@ public class Utils {
 
     public static JPanel panelOpciones() {
         JPanel panelOpciones = new JPanel();
-        panelOpciones.setBounds(0, 0, 237, 811);
+        panelOpciones.setBounds(0, 0, 341, 811);
         panelOpciones.setBackground(new Color(0, 45, 89));
         panelOpciones.setLayout(null);
         return panelOpciones;
@@ -190,21 +176,21 @@ public class Utils {
         btnSolicitudes.setBorderPainted(false);
         btnSolicitudes.setBorder(null);
         btnSolicitudes.setBackground(Color.WHITE);
-        btnSolicitudes.setBounds(23, 74, 188, 31);
+        btnSolicitudes.setBounds(23, 74, 293, 31);
         return btnSolicitudes;
     }
 
     public static JPanel panelSeparador() {
         JPanel panelSeparador = new JPanel();
-        panelSeparador.setBounds(23, 121, 188, 3);
+        panelSeparador.setBounds(23, 121, 292, 3);
         return panelSeparador;
     }
 
     public static JLabel lblOpciones() {
-        JLabel lblOpciones = new JLabel("Opciones");
+        JLabel lblOpciones = new JLabel(Constants.OPCIONES);
         lblOpciones.setForeground(new Color(255, 255, 255));
         lblOpciones.setFont(new Font(Constants.FONT, Font.BOLD, 16));
-        lblOpciones.setBounds(73, 135, 105, 23);
+        lblOpciones.setBounds(133, 135, 105, 23);
         return lblOpciones;
     }
 
@@ -227,7 +213,7 @@ public class Utils {
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
-    
+
     public static void updateDatabase(String nombre, String tipoEntidad) {
 
         switch (tipoEntidad) {
@@ -251,6 +237,33 @@ public class Utils {
                 break;
             default:
         }
+    }
 
+    public static JButton btnLeftMenu(String label, Integer yAxis) {
+        JButton btnAplicarMultaALector = new JButton(label);
+        btnAplicarMultaALector.setFocusPainted(false);
+        btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
+        btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
+        btnAplicarMultaALector.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnAplicarMultaALector.setBorderPainted(false);
+        btnAplicarMultaALector.setBounds(23, yAxis, 293, 31);
+        return btnAplicarMultaALector;
+    }
+
+    public static JPanel contentPane() {
+        JPanel contentPane = new JPanel();
+        contentPane = new JPanel();
+        contentPane.setBorder(null);
+        contentPane.setLayout(null);
+        return contentPane;
+    }
+    
+    public static JPanel panelPrestabook() {
+        JPanel panelPrestabook = new JPanel();
+        panelPrestabook.setBounds(339, 0, 1061, 103);
+        panelPrestabook.setBorder(null);
+        panelPrestabook.setBackground(new Color(0, 64, 128));
+        panelPrestabook.setLayout(null);
+        return panelPrestabook;
     }
 }

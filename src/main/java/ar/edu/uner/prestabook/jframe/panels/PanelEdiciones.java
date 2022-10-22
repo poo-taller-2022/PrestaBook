@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.jframe.panels.funcionarios;
+package ar.edu.uner.prestabook.jframe.panels;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -6,17 +6,16 @@ import javax.swing.JPanel;
 import ar.edu.uner.prestabook.jframe.AgregarEdicion;
 import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.panels.Utils;
+import ar.edu.uner.prestabook.jframe.common.Components;
 
-public class PanelEdiciones extends PrestabookPanel {
+public class PanelEdiciones extends AbstractPanel {
 
     @Override
     public JPanel init() {
 
         prepare();
-        JButton btnAgregarEdicion = Utils.btnGeneric("Agregar edición", "Left");
-        JButton btnRefrescar = Utils.btnGeneric("Refrescar", "Right");
-        panel.add(Utils.lblPanelTitle(Constants.EDICIONES));
+        JButton btnAgregarEdicion = Components.btnGeneric("Agregar edición", "Left");
+        JButton btnRefrescar = Components.btnGeneric("Refrescar", "Right");
         panel.add(btnAgregarEdicion);
         panel.add(btnRefrescar);
 
@@ -26,7 +25,7 @@ public class PanelEdiciones extends PrestabookPanel {
         });
 
         btnRefrescar.addActionListener(b -> {
-            Utils.clearTable(table);
+            Components.clearTable(table);
             Tabla.fill(model, Constants.EDICION);
         });
 
@@ -45,6 +44,11 @@ public class PanelEdiciones extends PrestabookPanel {
         model.addColumn("Idioma");
         model.addColumn("Formato");
         Tabla.fill(model, Constants.EDICION);
+    }
+
+    @Override
+    public String getPanelName() {
+        return Constants.EDICIONES;
     }
 
 }
