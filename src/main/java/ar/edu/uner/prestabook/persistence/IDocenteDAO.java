@@ -5,4 +5,6 @@ import ar.edu.uner.prestabook.model.Docente;
 
 public interface IDocenteDAO extends GenericDAO<Docente> {
 
+    public Docente findByEmail(String email);
+
 }

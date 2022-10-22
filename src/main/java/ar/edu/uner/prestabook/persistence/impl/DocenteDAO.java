@@ -29,20 +29,17 @@ public class DocenteDAO implements IDocenteDAO {
         return instance;
     }
 
-
     @Override
     public List<Docente> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Docente", Docente.class).list();
 
     }
-    
 
     @Override
     public Docente findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Docente.class, (String) dni);
 
     }
-
 
     @Override
     public Docente insert(Docente docente) {
@@ -52,7 +49,6 @@ public class DocenteDAO implements IDocenteDAO {
         docente.setDocumento(documento);
         return docente;
     }
-    
 
     @Override
     public Docente update(Docente docente) {
@@ -62,5 +58,11 @@ public class DocenteDAO implements IDocenteDAO {
         return docente;
     }
 
+    @Override
+    public Docente findByEmail(String email) {
+        String hql = String.format("from Docente d where d.email = '%s'", email);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Docente.class).getSingleResult();
+
+    }
 
 }

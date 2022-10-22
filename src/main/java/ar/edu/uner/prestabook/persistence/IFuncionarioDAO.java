@@ -5,4 +5,6 @@ import ar.edu.uner.prestabook.model.Funcionario;
 
 public interface IFuncionarioDAO extends GenericDAO<Funcionario> {
 
+    public Funcionario findByEmail(String email);
+
 }

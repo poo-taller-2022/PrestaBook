@@ -19,7 +19,6 @@ import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.common.Components;
-import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 
 public class IniciarSesion extends JFrame {
 
@@ -126,12 +125,11 @@ public class IniciarSesion extends JFrame {
                                     || btnRadioAlumno.isSelected() || btnRadioFuncionario.isSelected()));
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-                IUsuarioDAO usuariosDAO = DaoFactory.getUsuarioDAO();
-                String busquedaUsuario = usuariosDAO.buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
+                String busquedaUsuario = DaoFactory.getUsuarioDAO().buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
                         String.valueOf(cajaContrasenia.getPassword()));
 
                 if (busquedaUsuario.equals("usuario encontrado")) {
-                    String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
+                    String busquedaNombre = DaoFactory.getUsuarioDAO().buscarNombre(tipoDeUsuario, cajaCorreo.getText());
 
                     if ("Funcionarios".equals(tipoDeUsuario)) {
                         SistemaFuncionario interfazSistemaFuncionario = SistemaFuncionario.init();

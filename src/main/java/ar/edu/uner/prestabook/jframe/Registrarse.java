@@ -39,10 +39,6 @@ public class Registrarse extends JFrame {
 
     public Registrarse() {
 
-        /**
-         * Create components
-         */
-
         ventana();
         JPanel contentPane = contentPane();
 
@@ -212,7 +208,7 @@ public class Registrarse extends JFrame {
                     }
                 } catch (PersistenceException exception) {
                     HibernateConnection.getCurrentSession().getTransaction().rollback();
-                    JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con ese DNI", "Error",
+                    JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
             } else {

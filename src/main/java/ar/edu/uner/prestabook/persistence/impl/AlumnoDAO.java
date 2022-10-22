@@ -29,21 +29,18 @@ public class AlumnoDAO implements IAlumnoDAO {
         return instance;
     }
 
-    
     @Override
     public List<Alumno> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Alumno", Alumno.class).list();
 
     }
 
-    
     @Override
     public Alumno findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Alumno.class, (String) dni);
 
     }
 
-    
     @Override
     public Alumno insert(Alumno alumno) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -59,6 +56,12 @@ public class AlumnoDAO implements IAlumnoDAO {
         HibernateConnection.getCurrentSession().update(alumno);
         tx.commit();
         return alumno;
+    }
+
+    @Override
+    public Alumno findByEmail(String email) {
+        String hql = String.format("from Alumno a where a.email = '%s'", email);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Alumno.class).getSingleResult();
     }
 
 }
