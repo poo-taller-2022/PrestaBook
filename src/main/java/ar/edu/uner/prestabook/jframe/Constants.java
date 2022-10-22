@@ -26,6 +26,6 @@ public class Constants {
     public static final String LECTORES = "Lectores";
     public static final String PRESTABOOK = "Prestabook";
     public static final String MULTAS = "Multas";
-    public static final String OBRASPOREDITORIAL = "ObrasPorEditorial";
+    public static final String OBRAS_POR_EDITORIAL = "ObrasPorEditorial";
     public static final String PRESTAMOS = "Préstamos";
 }

@@ -64,8 +64,9 @@ public class Tabla {
             case Constants.MULTAS:
                 loadMultas(model, i);
                 break;
-            case Constants.OBRASPOREDITORIAL:
+            case Constants.OBRAS_POR_EDITORIAL:
                 loadObrasPorEditorial(model, i);
+                break;
             case Constants.PRESTAMOS:
                 loadPrestamos(model, i);
                 break;
@@ -73,65 +74,64 @@ public class Tabla {
         }
     }
 
-	private static void loadObrasPorEditorial(DefaultTableModel model, Integer i) {
+    private static void loadObrasPorEditorial(DefaultTableModel model, Integer i) {
 
-		IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-		List<Edicion> ediciones = edicionDAO.findAll();
-		for (Edicion edicion : ediciones) {
-			List<Object> fila = new LinkedList<>();
+        IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
+        List<Edicion> ediciones = edicionDAO.findAll();
+        for (Edicion edicion : ediciones) {
+            List<Object> fila = new LinkedList<>();
 
-			IObraDAO obraDAO = DaoFactory.getObraDAO();
-			Obra obra = obraDAO.findById(edicion.getIsbnObra());
-			fila.add(++i);
-			fila.add(edicion.getEditorial().toUpperCase());
-			fila.add(obra.getIsbn().toUpperCase());
-			fila.add(obra.getTitulo().toUpperCase());
-			fila.add(obra.getSubtitulo().toUpperCase());
-			fila.add(obra.getPrimerAutor().toUpperCase());
-			fila.add(obra.getSegundoAutor().toUpperCase());
-			fila.add(obra.getTercerAutor().toUpperCase());
-			fila.add(obra.getGenero().toUpperCase()); 
-			fila.add(obra.getTipo().getNombre().toUpperCase());
-			
-			Set<AreaTematica> areas = obra.getArea();
-			StringBuilder contatenarAreas = new StringBuilder();
-			
-			for (AreaTematica area : areas) {
-				contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
-			}
-			contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
-			
-			fila.add(contatenarAreas);
+            Obra obra = DaoFactory.getObraDAO().findById(edicion.getIsbnObra());
+            fila.add(++i);
+            fila.add(edicion.getEditorial().toUpperCase());
+            fila.add(obra.getIsbn().toUpperCase());
+            fila.add(obra.getTitulo().toUpperCase());
+            fila.add(obra.getSubtitulo().toUpperCase());
+            fila.add(obra.getPrimerAutor().toUpperCase());
+            fila.add(obra.getSegundoAutor().toUpperCase());
+            fila.add(obra.getTercerAutor().toUpperCase());
+            fila.add(obra.getGenero().toUpperCase());
+            fila.add(obra.getTipo().getNombre().toUpperCase());
 
-			model.addRow(new Vector<>(fila));
-		}
-		
-	}
+            Set<AreaTematica> areas = obra.getArea();
+            StringBuilder contatenarAreas = new StringBuilder();
 
-	private static void loadEdicion(DefaultTableModel model, Integer i) {
-		IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-		List<Edicion> ediciones = edicionDAO.findAll();
-		for (Edicion edicion : ediciones) {
-			StringBuilder concatenarFormatos = new StringBuilder();
-			List<Object> fila = new LinkedList<>();
-			fila.add(++i);
-			fila.add(edicion.getEditorial());
-			fila.add(edicion.getPais());
-			fila.add(edicion.getNumero());
-			fila.add(edicion.getAnio());
-			fila.add(edicion.getVolumenes());
-			fila.add(edicion.getPaginas());
-			fila.add(edicion.getIdioma());
-			Set<Formato> formatos1 = edicion.getFormatos();
-			for (Formato formato : formatos1) {
-				concatenarFormatos.append(formato.getNombre() + ", ");
-			}
-			concatenarFormatos = concatenarFormatos.deleteCharAt(concatenarFormatos.length() - 2);
-			fila.add(concatenarFormatos.toString());
-			fila.add(edicion.getFormatos());
-			model.addRow(new Vector<>(fila));
-		}
-	}
+            for (AreaTematica area : areas) {
+                contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
+            }
+            contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+
+            fila.add(contatenarAreas);
+
+            model.addRow(new Vector<>(fila));
+        }
+
+    }
+
+    private static void loadEdicion(DefaultTableModel model, Integer i) {
+        IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
+        List<Edicion> ediciones = edicionDAO.findAll();
+        for (Edicion edicion : ediciones) {
+            StringBuilder concatenarFormatos = new StringBuilder();
+            List<Object> fila = new LinkedList<>();
+            fila.add(++i);
+            fila.add(edicion.getEditorial());
+            fila.add(edicion.getPais());
+            fila.add(edicion.getNumero());
+            fila.add(edicion.getAnio());
+            fila.add(edicion.getVolumenes());
+            fila.add(edicion.getPaginas());
+            fila.add(edicion.getIdioma());
+            Set<Formato> formatos1 = edicion.getFormatos();
+            for (Formato formato : formatos1) {
+                concatenarFormatos.append(formato.getNombre() + ", ");
+            }
+            concatenarFormatos = concatenarFormatos.deleteCharAt(concatenarFormatos.length() - 2);
+            fila.add(concatenarFormatos.toString());
+            fila.add(edicion.getFormatos());
+            model.addRow(new Vector<>(fila));
+        }
+    }
 
     private static void loadEjemplar(DefaultTableModel model, Integer i) {
         IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();

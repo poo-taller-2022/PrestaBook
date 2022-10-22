@@ -27,8 +27,6 @@ public class Prestamo {
     private String fechaRealDevolucion;
     @Column(name = "plazo_prestamo")
     private Integer plazoPrestamo;
-    @Column(name = "fuera_de_termino")
-    private Boolean fueraDeTermino;
     @ManyToOne
     private Ejemplar ejemplar;
     @ManyToOne

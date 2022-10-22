@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 
 public class IniciarSesion extends JFrame {
@@ -138,13 +139,13 @@ public class IniciarSesion extends JFrame {
 					String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
 
 					if ("Funcionarios".equals(tipoDeUsuario)) {
-						SistemaFuncionario interfazSistemaFuncionario = new SistemaFuncionario();
+						SistemaFuncionario interfazSistemaFuncionario = SistemaFuncionario.init();
 						interfazSistemaFuncionario.setVisible(true);
 						interfazSistemaFuncionario.getTextUsuario().setText(busquedaNombre);
 					} else {
 						SistemaLector interfazSistemaLector = new SistemaLector();
 						interfazSistemaLector.setVisible(true);
-						interfazSistemaLector.getTextUsuario().setText(busquedaNombre);
+						Components.getTextUsuario().setText(busquedaNombre);
 					}
 					IniciarSesion.this.dispose();
 
