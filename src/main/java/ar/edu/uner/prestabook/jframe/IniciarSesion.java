@@ -143,7 +143,7 @@ public class IniciarSesion extends JFrame {
 						interfazSistemaFuncionario.setVisible(true);
 						interfazSistemaFuncionario.getTextUsuario().setText(busquedaNombre);
 					} else {
-						SistemaLector interfazSistemaLector = new SistemaLector();
+						SistemaLector interfazSistemaLector = SistemaLector.init();
 						interfazSistemaLector.setVisible(true);
 						Components.getTextUsuario().setText(busquedaNombre);
 					}

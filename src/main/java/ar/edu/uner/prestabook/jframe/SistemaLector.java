@@ -30,7 +30,7 @@ public class SistemaLector extends JFrame {
         return instance;
     }
 
-    public SistemaLector() {
+    private SistemaLector() {
 
         window();
         setContentPane(contentPane);
