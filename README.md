@@ -21,7 +21,7 @@ Se usa una base de datos SQLite con Hibernate como gestor ORM.
 
 El programa puede inciarse con el comando maven:
 
-    $ `mvn clean compile exec:java`
+    $ mvn clean compile exec:java
 
 O iniciándolo con el IDE de preferencia.
 
