@@ -18,7 +18,7 @@ public class EdicionRenderer extends BasicComboBoxRenderer {
                 cellHasFocus);
         Edicion item = (Edicion) value;
         if (item != null)
-            setText(item.getEditorial());
+            setText(item.getId().toString());
         return this;
     }
 

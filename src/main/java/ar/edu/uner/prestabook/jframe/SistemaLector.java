@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.Vector;
 
@@ -31,100 +30,96 @@ import javax.swing.table.TableRowSorter;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.model.AreaTematica;
-import ar.edu.uner.prestabook.model.Edicion;
-import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Obra;
-import ar.edu.uner.prestabook.persistence.IEdicionDAO;
-import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
+
 import javax.swing.ListSelectionModel;
 
 import lombok.Getter;
 
-
 public class SistemaLector extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-    @Getter
-    private JLabel textUsuario;
+	private static final long serialVersionUID = 1L;
+	@Getter
+	private JLabel textUsuario;
 
-    /**
-     * Create the frame.
-     */
+	/**
+	 * Create the frame.
+	 */
 
-    public SistemaLector() {
+	public SistemaLector() {
 
-        /**
-         * Create components
-         */
+		/**
+		 * Create components
+		 */
 
-        ventana();
+		ventana();
 
-        JPanel contentPane = contentPane();
+		JPanel contentPane = contentPane();
 
-        JPanel panelPrestabook = panelPrestabook();
-        contentPane.add(panelPrestabook);
+		JPanel panelPrestabook = panelPrestabook();
+		contentPane.add(panelPrestabook);
 
-        JLabel lblIconCerrarSesion = lblIconCerrarSesion();
-        panelPrestabook.add(lblIconCerrarSesion);
-        jLabelImage(lblIconCerrarSesion);
+		JLabel lblIconCerrarSesion = lblIconCerrarSesion();
+		panelPrestabook.add(lblIconCerrarSesion);
+		jLabelImage(lblIconCerrarSesion);
 
-        panelPrestabook.add(lblPrestabook());
+		panelPrestabook.add(lblPrestabook());
 
-        JButton btnExit = btnExit();
-        panelPrestabook.add(btnExit);
+		JButton btnExit = btnExit();
+		panelPrestabook.add(btnExit);
 
-        JButton btnCerrarSesion = btnCerrarSesion();
-        panelPrestabook.add(btnCerrarSesion);
+		JButton btnCerrarSesion = btnCerrarSesion();
+		panelPrestabook.add(btnCerrarSesion);
 
-        JPanel panelOpciones = panelOpciones();
-        contentPane.add(panelOpciones);
+		JPanel panelOpciones = panelOpciones();
+		contentPane.add(panelOpciones);
 
-        JButton btnSolicitudes = btnSolicitudes();
-        panelOpciones.add(btnSolicitudes);
+		JButton btnSolicitudes = btnSolicitudes();
+		panelOpciones.add(btnSolicitudes);
 
-        panelOpciones.add(lblUsuario());
-        panelOpciones.add(textUsusario());
-        panelOpciones.add(panelSeparador());
-        panelOpciones.add(lblOpciones());
+		panelOpciones.add(lblUsuario());
+		panelOpciones.add(textUsusario());
+		panelOpciones.add(panelSeparador());
+		panelOpciones.add(lblOpciones());
 
-        JButton btnConsultarObras = btnConsultarObras();
-        panelOpciones.add(btnConsultarObras);
+		JButton btnConsultarObras = btnConsultarObras();
+		panelOpciones.add(btnConsultarObras);
 
-        JPanel panelConsultarObras = panelEntidades();
+		JPanel panelConsultarObras = panelEntidades();
 
-        JPanel panelBienvenida = panelBienvenida();
-        contentPane.add(panelBienvenida);
+		JPanel panelBienvenida = panelBienvenida();
+		contentPane.add(panelBienvenida);
 
-        JLabel lblBienvenidaParte1 = lblBienvenidaParte1();
-        panelBienvenida.add(lblBienvenidaParte1);
+		JLabel lblBienvenidaParte1 = lblBienvenidaParte1();
+		panelBienvenida.add(lblBienvenidaParte1);
 
-        JLabel lblIconLibreria = lblIconLibreria();
-        panelBienvenida.add(lblIconLibreria);
+		JLabel lblIconLibreria = lblIconLibreria();
+		panelBienvenida.add(lblIconLibreria);
 
-        JLabel lblBienvenidaParte2 = lblBienvenidaParte2();
-        panelBienvenida.add(lblBienvenidaParte2);
+		JLabel lblBienvenidaParte2 = lblBienvenidaParte2();
+		panelBienvenida.add(lblBienvenidaParte2);
 
 		JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
 		panelConsultarObras.add(txtIngresarAreaTematica);
-		
+
 		JButton btnSolicitarPrestamo = btnSolicitarPrestamo();
 		panelConsultarObras.add(btnSolicitarPrestamo);
 
-        /**
-         * Crea el panel para administrar tipos de obras
-         */
+		/**
+		 * Crea el panel para administrar tipos de obras
+		 */
 
-        btnConsultarObras.addActionListener(e -> {
-            panelBienvenida.setVisible(false);
-            panelConsultarObras.setVisible(true);
+		btnConsultarObras.addActionListener(e -> {
+			panelBienvenida.setVisible(false);
+			panelConsultarObras.setVisible(true);
 
-            contentPane.add(panelConsultarObras);
+			contentPane.add(panelConsultarObras);
 
-            panelConsultarObras.add(lblConsultarObras());
+			panelConsultarObras.add(lblConsultarObras());
 
-            JScrollPane scrollPane = scrollPane();
-            panelConsultarObras.add(scrollPane);
+			JScrollPane scrollPane = scrollPane();
+			panelConsultarObras.add(scrollPane);
 
 			JTable tableObras = new JTable();
 
@@ -138,21 +133,19 @@ public class SistemaLector extends JFrame {
 			model.addColumn("1° autor");
 			model.addColumn("Género");
 			model.addColumn(Constants.TIPO_OBRA);
-			model.addColumn("Id de edicion");
-			model.addColumn("N° ejemplares");
 
 			tableObras.setAutoCreateRowSorter(true);
 			TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
 			tableObras.setRowSorter(sorted);
 
-			llenarTabla(model);
+			Tabla.fill(model, Constants.OBRASPORAREA);
 			scrollPane.setViewportView(tableObras);
-			
+
 			tableObras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 			JButton btnReservarObra = btnReservarObra();
 			panelConsultarObras.add(btnReservarObra);
-			 
+
 			JButton btnVerMas = btnVerMas();
 			panelConsultarObras.add(btnVerMas);
 
@@ -161,23 +154,37 @@ public class SistemaLector extends JFrame {
 			 */
 
 			btnReservarObra.addActionListener(b -> {
-				
+				if (tableObras.getSelectedRow() != -1) {
+					DefaultTableModel modelo = (DefaultTableModel) tableObras.getModel();
+
+					Object isbnObra = modelo.getValueAt(tableObras.getSelectedRow(), 2);
+
+					IObraDAO o = DaoFactory.getObraDAO();
+					Obra obra = o.findById(isbnObra);
+
+					ReservarObra reservarObra = new ReservarObra(obra);
+					reservarObra.setVisible(true);
+				} else {
+					JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
+				}
+
 			});
-			
+
 			/**
-			 * Botón con evento para ver mas informacion de una obra seleccionada en la tabla
+			 * Botón con evento para ver mas informacion de una obra seleccionada en la
+			 * tabla
 			 */
-			
+
 			btnVerMas.addActionListener(b -> {
 				if (tableObras.getSelectedRow() != -1) {
 					DefaultTableModel modelo = (DefaultTableModel) tableObras.getModel();
-					
-					Object idEdicion = modelo.getValueAt(tableObras.getSelectedRow(),8);
-					
-					IEdicionDAO o = DaoFactory.getEdicionDAO();
-					Edicion edicion = o.findById(idEdicion);
-					
-					VerMas vermas = new VerMas(edicion);
+
+					Object isbnObra = modelo.getValueAt(tableObras.getSelectedRow(), 2);
+
+					IObraDAO obraDAO = DaoFactory.getObraDAO();
+					Obra obra = obraDAO.findById(isbnObra);
+
+					VerMas vermas = new VerMas(obra);
 					vermas.setVisible(true);
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
@@ -266,14 +273,14 @@ public class SistemaLector extends JFrame {
 		txtIngresarAreaTematica.setColumns(10);
 		return txtIngresarAreaTematica;
 	}
-	
+
 	public void jLabelImage(JLabel lblIconCerrarSesion) {
-        ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
-                lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
-        lblIconCerrarSesion.setIcon(icon);
-        this.repaint();
-    }
+		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
+		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
+				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
+		lblIconCerrarSesion.setIcon(icon);
+		this.repaint();
+	}
 
 	public JLabel lblBienvenidaParte1() {
 		JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
@@ -311,14 +318,6 @@ public class SistemaLector extends JFrame {
 		JLabel lblIconCerrarSesion = new JLabel("");
 		lblIconCerrarSesion.setBounds(817, 5, 19, 16);
 		return lblIconCerrarSesion;
-	}
-
-	public void JLabelImage(JLabel lblIconCerrarSesion) {
-		ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
-		Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
-				lblIconCerrarSesion.getHeight(), Image.SCALE_DEFAULT));
-		lblIconCerrarSesion.setIcon(icon);
-		this.repaint();
 	}
 
 	public JLabel lblPrestabook() {
@@ -435,7 +434,7 @@ public class SistemaLector extends JFrame {
 		scrollPane.setBounds(10, 158, 1130, 300);
 		return scrollPane;
 	}
-	
+
 	private JButton btnVerMas() {
 		JButton btnVerMas = new JButton("Ver más");
 		btnVerMas.setFocusPainted(false);
@@ -457,7 +456,7 @@ public class SistemaLector extends JFrame {
 		btnReservarObra.setBounds(440, 500, 210, 20);
 		return btnReservarObra;
 	}
-	
+
 	private JButton btnSolicitarPrestamo() {
 		JButton btnSolicitarPrestamo = new JButton("Solicitar préstamo");
 		btnSolicitarPrestamo.setFocusPainted(false);
@@ -467,58 +466,5 @@ public class SistemaLector extends JFrame {
 		btnSolicitarPrestamo.setBorderPainted(false);
 		btnSolicitarPrestamo.setBounds(740, 500, 210, 20);
 		return btnSolicitarPrestamo;
-	}
-
-	/**
-	 * @param model     
-	 */
-
-	public void llenarTabla(DefaultTableModel model) {
-		Integer i = 0;
-
-		IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
-		List<Edicion> ediciones = edicionDAO.findAll();
-		for (Edicion edicion : ediciones) {
-			List<Object> fila = new LinkedList<>();
-
-			IObraDAO obraDAO = DaoFactory.getObraDAO();
-			Obra obra = obraDAO.findById(edicion.getIsbnObra());
-			fila.add(++i);
-			
-			Set<AreaTematica> areas = obra.getArea();
-			StringBuilder contatenarAreas = new StringBuilder();
-
-			for (AreaTematica area : areas) {
-				contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
-			}
-			contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
-			fila.add(contatenarAreas);
-
-			fila.add(obra.getIsbn().toUpperCase());
-			fila.add(obra.getTitulo().toUpperCase());
-			fila.add(obra.getSubtitulo().toUpperCase());
-			fila.add(obra.getPrimerAutor().toUpperCase());
-			fila.add(obra.getGenero().toUpperCase()); 
-			fila.add(obra.getTipo().getNombre().toUpperCase());
-
-			fila.add(edicion.getId());
-			
-			IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
-			List<Ejemplar> ejemplares = ejemplarDAO.findAll();
-			Integer cantidadEjemplares = 0;
-			if (ejemplares != null) {
-				for (Ejemplar ejemplar : ejemplares) {
-
-					if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && !(ejemplar.getMotivoBaja() != null)) {
-						cantidadEjemplares++;
-					}
-				}
-				fila.add(cantidadEjemplares);
-			} else {
-				fila.add(cantidadEjemplares);
-			}
-
-			model.addRow(new Vector<>(fila));
-		}
 	}
 }

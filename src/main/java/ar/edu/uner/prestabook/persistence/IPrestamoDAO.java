@@ -16,4 +16,6 @@ public interface IPrestamoDAO extends GenericDAO<Prestamo> {
      */
     public List<Prestamo> findAllByLectorId(Long documentoLector);
 
+	public List<Prestamo> findAllByIdEjemplar(Long idEjemplar);
+
 }

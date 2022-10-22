@@ -60,261 +60,264 @@ public class SistemaFuncionario extends JFrame {
 	private JPanel panelMultas = panelEntidades();
 	private JPanel panelObra = panelEntidades();
 	private JPanel panelTipoObra = panelEntidades();
-    private JPanel panelPrestamos = panelEntidades();
+	private JPanel panelPrestamos = panelEntidades();
 	private JPanel panelObrasPorEditorial = panelEntidades();
+	private JPanel panelEjemplaresPorArea = panelEntidades();
 	private List<JPanel> paneles = List.of(panelAreaTematica, panelBienvenida, panelColeccion, panelEdicion,
-			panelEjemplar, panelFormato, panelLectores, panelObra, panelTipoObra, panelMultas, panelObrasPorEditorial, panelPrestamos);
+			panelEjemplar, panelFormato, panelLectores, panelObra, panelTipoObra, panelMultas, panelObrasPorEditorial,
+			panelPrestamos, panelEjemplaresPorArea);
 
+	/**
+	 * Create the frame.
+	 */
 
-    /**
-     * Create the frame.
-     */
+	public SistemaFuncionario() {
 
-    public SistemaFuncionario() {
+		/**
+		 * Create components
+		 */
+		textUsuario = new JLabel("");
+		ventana();
 
-        /**
-         * Create components
-         */
-        textUsuario = new JLabel("");
-        ventana();
+		JPanel contentPane = contentPane();
 
-        JPanel contentPane = contentPane();
+		JPanel panelPrestabook = panelPrestabook();
+		contentPane.add(panelPrestabook);
 
-        JPanel panelPrestabook = panelPrestabook();
-        contentPane.add(panelPrestabook);
+		JLabel lblIconCerrarSesion = lblIconCerrarSesion();
+		panelPrestabook.add(lblIconCerrarSesion);
+		jLabelImage(lblIconCerrarSesion);
 
-        JLabel lblIconCerrarSesion = lblIconCerrarSesion();
-        panelPrestabook.add(lblIconCerrarSesion);
-        jLabelImage(lblIconCerrarSesion);
+		panelPrestabook.add(lblPrestabook());
 
-        panelPrestabook.add(lblPrestabook());
+		JButton btnExit = btnExit();
+		panelPrestabook.add(btnExit);
 
-        JButton btnExit = btnExit();
-        panelPrestabook.add(btnExit);
+		JButton btnCerrarSesion = btnCerrarSesion();
+		panelPrestabook.add(btnCerrarSesion);
 
-        JButton btnCerrarSesion = btnCerrarSesion();
-        panelPrestabook.add(btnCerrarSesion);
+		JPanel panelOpciones = panelOpciones();
+		contentPane.add(panelOpciones);
 
-        JPanel panelOpciones = panelOpciones();
-        contentPane.add(panelOpciones);
+		JButton btnSolicitudes = btnSolicitudes();
+		panelOpciones.add(btnSolicitudes);
 
-        JButton btnSolicitudes = btnSolicitudes();
-        panelOpciones.add(btnSolicitudes);
+		panelOpciones.add(lblUsuario());
+		panelOpciones.add(textUsuario());
+		panelOpciones.add(panelSeparador());
+		panelOpciones.add(lblOpciones());
 
-        panelOpciones.add(lblUsuario());
-        panelOpciones.add(textUsuario());
-        panelOpciones.add(panelSeparador());
-        panelOpciones.add(lblOpciones());
+		JButton btnGestionarPrestamo = btnGestionarPrestamo();
+		btnGestionarPrestamo.addActionListener(e -> {
+			Prestamos prestamos = new Prestamos();
+			prestamos.setVisible(true);
+		});
+		panelOpciones.add(btnGestionarPrestamo);
 
-        JButton btnGestionarPrestamo = btnGestionarPrestamo();
-        btnGestionarPrestamo.addActionListener(e -> {
-            Prestamos prestamos = new Prestamos();
-            prestamos.setVisible(true);
-        });
-        panelOpciones.add(btnGestionarPrestamo);
+		JButton btnGestionarDevolucion = btnGestionarDevolucion();
+		btnGestionarDevolucion.addActionListener(e -> {
+			Devoluciones devoluciones = new Devoluciones();
+			devoluciones.setVisible(true);
+		});
+		panelOpciones.add(btnGestionarDevolucion);
 
-        JButton btnGestionarDevolucion = btnGestionarDevolucion();
-        btnGestionarDevolucion.addActionListener(e -> {
-            Devoluciones devoluciones = new Devoluciones();
-            devoluciones.setVisible(true);
-        });
-        panelOpciones.add(btnGestionarDevolucion);
+		JButton btnVerEjemplares = btnVerEjemplares();
+		btnVerEjemplares.addActionListener(e -> {
+			Ejemplares ejemplares = new Ejemplares();
+			ejemplares.setVisible(true);
+		});
+		panelOpciones.add(btnVerEjemplares);
 
-        JButton btnVerEjemplares = btnVerEjemplares();
-        btnVerEjemplares.addActionListener(e -> {
-            Ejemplares ejemplares = new Ejemplares();
-            ejemplares.setVisible(true);
-        });
-        panelOpciones.add(btnVerEjemplares);
+		JButton btnMasBuscadasPorAlumnoDocente = btnMasBuscadasPorAlumnoDocente();
+		panelOpciones.add(btnMasBuscadasPorAlumnoDocente);
 
-        JButton btnMasBuscadasPorAlumnoDocente = btnMasBuscadasPorAlumnoDocente();
-        panelOpciones.add(btnMasBuscadasPorAlumnoDocente);
+		JButton btnMasBuscadasPorPublicoGeneral = btnMasBuscadasPorPublicoGeneral();
+		panelOpciones.add(btnMasBuscadasPorPublicoGeneral);
 
-        JButton btnMasBuscadasPorPublicoGeneral = btnMasBuscadasPorPublicoGeneral();
-        panelOpciones.add(btnMasBuscadasPorPublicoGeneral);
+		JButton btnEjemplaresPorArea = btnEjemplaresPorArea();
+		panelOpciones.add(btnEjemplaresPorArea);
 
-        JButton btnListarEjemplaresDisponiblesPorArea = btnListarEjemplaresDisponiblesPorArea();
-        panelOpciones.add(btnListarEjemplaresDisponiblesPorArea);
+		JButton btnListarEjemplaresDisponiblesPorFecha = btnListarEjemplaresDisponiblesPorFecha();
+		panelOpciones.add(btnListarEjemplaresDisponiblesPorFecha);
 
-        JButton btnListarEjemplaresDisponiblesPorFecha = btnListarEjemplaresDisponiblesPorFecha();
-        panelOpciones.add(btnListarEjemplaresDisponiblesPorFecha);
+		JButton btnListarLectores = btnListarLectores();
+		panelOpciones.add(btnListarLectores);
 
-        JButton btnListarLectores = btnListarLectores();
-        panelOpciones.add(btnListarLectores);
-
-        JButton btnListarMultas = btnListarMultas();
-        panelOpciones.add(btnListarMultas);
+		JButton btnListarMultas = btnListarMultas();
+		panelOpciones.add(btnListarMultas);
 
 		JButton btnObrasPorEditorial = btnObrasPorEditorial();
 		panelOpciones.add(btnObrasPorEditorial);
-        JButton btnListarPrestamos = btnListarPrestamos();
-        panelOpciones.add(btnListarPrestamos);
+		JButton btnListarPrestamos = btnListarPrestamos();
+		panelOpciones.add(btnListarPrestamos);
 
-        JButton btnAplicarMultaALector = btnAplicarMultaALector();
-        panelOpciones.add(btnAplicarMultaALector);
+		JButton btnAplicarMultaALector = btnAplicarMultaALector();
+		panelOpciones.add(btnAplicarMultaALector);
 
 		JTextField txtIngresarEditorial = txtIngresarEditorial();
 		panelObrasPorEditorial.add(txtIngresarEditorial);
+		
+		JTextField txtIngresarArea = txtIngresarArea();
+		panelEjemplaresPorArea.add(txtIngresarArea);
 
 		contentPane.add(panelBienvenida);
 
-        panelBienvenida.add(lblBienvenidaParte1());
-        panelBienvenida.add(lblBienvenidaParte2());
-        panelBienvenida.add(lblIconLibreria());
+		panelBienvenida.add(lblBienvenidaParte1());
+		panelBienvenida.add(lblBienvenidaParte2());
+		panelBienvenida.add(lblIconLibreria());
 
-        /**
-         * Menu bar Administrar
-         */
+		/**
+		 * Menu bar Administrar
+		 */
 
-        JMenuBar menuBarAdministrar = menuBarAdministrar();
-        panelPrestabook.add(menuBarAdministrar);
+		JMenuBar menuBarAdministrar = menuBarAdministrar();
+		panelPrestabook.add(menuBarAdministrar);
 
-        JMenu menuAdministrar = menuAdministrar();
-        menuBarAdministrar.add(menuAdministrar);
+		JMenu menuAdministrar = menuAdministrar();
+		menuBarAdministrar.add(menuAdministrar);
 
-        JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
-        menuAdministrar.add(menuItemTipoObra);
+		JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
+		menuAdministrar.add(menuItemTipoObra);
 
-        JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
-        menuAdministrar.add(menuItemAreaTematica);
+		JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
+		menuAdministrar.add(menuItemAreaTematica);
 
-        JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
-        menuAdministrar.add(menuItemColeccion);
+		JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
+		menuAdministrar.add(menuItemColeccion);
 
-        JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
-        menuAdministrar.add(menuItemObra);
+		JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
+		menuAdministrar.add(menuItemObra);
 
-        JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
-        menuAdministrar.add(menuItemFormato);
+		JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
+		menuAdministrar.add(menuItemFormato);
 
-        JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
-        menuAdministrar.add(menuItemEdicion);
+		JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
+		menuAdministrar.add(menuItemEdicion);
 
-        JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
-        menuAdministrar.add(menuItemEjemplar);
+		JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
+		menuAdministrar.add(menuItemEjemplar);
 
-        /**
-         * Crea el panel para administrar tipos de obras
-         */
+		/**
+		 * Crea el panel para administrar tipos de obras
+		 */
 
-        menuItemTipoObra.addActionListener(e -> {
-            ocultarPaneles();
-            panelTipoObra.setVisible(true);
+		menuItemTipoObra.addActionListener(e -> {
+			ocultarPaneles();
+			panelTipoObra.setVisible(true);
 
-            contentPane.add(panelTipoObra);
+			contentPane.add(panelTipoObra);
 
-            panelTipoObra.add(lblTituloEntidades(Constants.TIPOS_DE_OBRAS));
+			panelTipoObra.add(lblTituloEntidades(Constants.TIPOS_DE_OBRAS));
 
-            JScrollPane scrollPane = scrollPane();
-            panelTipoObra.add(scrollPane);
+			JScrollPane scrollPane = scrollPane();
+			panelTipoObra.add(scrollPane);
 
-            JTable tableTipoDeObras = new JTable();
+			JTable tableTipoDeObras = new JTable();
 
-            DefaultTableModel model = new DefaultTableModel();
-            tableTipoDeObras.setModel(model);
-            model.addColumn("");
-            model.addColumn(Constants.NOMBRE);
+			DefaultTableModel model = new DefaultTableModel();
+			tableTipoDeObras.setModel(model);
+			model.addColumn("");
+			model.addColumn(Constants.NOMBRE);
 
-            Tabla.fill(model, Constants.TIPO_OBRA);
-            scrollPane.setViewportView(tableTipoDeObras);
+			Tabla.fill(model, Constants.TIPO_OBRA);
+			scrollPane.setViewportView(tableTipoDeObras);
 
-            JButton btnAgregarTipoObra = btnAgregarTipoObra();
-            panelTipoObra.add(btnAgregarTipoObra);
+			JButton btnAgregarTipoObra = btnAgregarTipoObra();
+			panelTipoObra.add(btnAgregarTipoObra);
 
-            JButton btnActualizarTipoObra = btnActualizarTipoObra();
-            panelTipoObra.add(btnActualizarTipoObra);
+			JButton btnActualizarTipoObra = btnActualizarTipoObra();
+			panelTipoObra.add(btnActualizarTipoObra);
 
-            /**
-             * Botón con evento para agregar tipo de obra
-             */
+			/**
+			 * Botón con evento para agregar tipo de obra
+			 */
 
-            btnAgregarTipoObra.addActionListener(b -> {
+			btnAgregarTipoObra.addActionListener(b -> {
 
-                String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de tipo de obra");
+				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de tipo de obra");
 
-                if (valorAgregar != null && !valorAgregar.isBlank()) {
-                    actualizarBaseDeDatos(valorAgregar, Constants.TIPO_OBRA);
-                    limpiarTabla(tableTipoDeObras);
-                    Tabla.fill(model, Constants.TIPO_OBRA);
-                }
-            });
+				if (valorAgregar != null && !valorAgregar.isBlank()) {
+					actualizarBaseDeDatos(valorAgregar, Constants.TIPO_OBRA);
+					limpiarTabla(tableTipoDeObras);
+					Tabla.fill(model, Constants.TIPO_OBRA);
+				}
+			});
 
-        });
+		});
 
-        /**
-         * Crea el panel para administrar Areas temáticas
-         */
+		/**
+		 * Crea el panel para administrar Areas temáticas
+		 */
 
-        menuItemAreaTematica.addActionListener(e -> {
-            ocultarPaneles();
-            panelAreaTematica.setVisible(true);
+		menuItemAreaTematica.addActionListener(e -> {
+			ocultarPaneles();
+			panelAreaTematica.setVisible(true);
 
-            contentPane.add(panelAreaTematica);
+			contentPane.add(panelAreaTematica);
 
-            panelAreaTematica.add(lblTituloEntidades(Constants.AREAS_TEMATICAS));
+			panelAreaTematica.add(lblTituloEntidades(Constants.AREAS_TEMATICAS));
 
-            JScrollPane scrollPane = scrollPane();
-            panelAreaTematica.add(scrollPane);
+			JScrollPane scrollPane = scrollPane();
+			panelAreaTematica.add(scrollPane);
 
-            JTable tableAreasTematicas = new JTable();
+			JTable tableAreasTematicas = new JTable();
 
-            DefaultTableModel model = new DefaultTableModel();
-            tableAreasTematicas.setModel(model);
-            model.addColumn("");
-            model.addColumn(Constants.NOMBRE);
+			DefaultTableModel model = new DefaultTableModel();
+			tableAreasTematicas.setModel(model);
+			model.addColumn("");
+			model.addColumn(Constants.NOMBRE);
 
-            Tabla.fill(model, Constants.AREA_TEMATICA);
-            scrollPane.setViewportView(tableAreasTematicas);
+			Tabla.fill(model, Constants.AREA_TEMATICA);
+			scrollPane.setViewportView(tableAreasTematicas);
 
-            JButton btnAreaTematica = btnAgregarAreaTematica();
-            panelAreaTematica.add(btnAreaTematica);
+			JButton btnAreaTematica = btnAgregarAreaTematica();
+			panelAreaTematica.add(btnAreaTematica);
 
-            JButton btnActualizarAreaTematica = btnActualizarAreaTematica();
-            panelAreaTematica.add(btnActualizarAreaTematica);
+			JButton btnActualizarAreaTematica = btnActualizarAreaTematica();
+			panelAreaTematica.add(btnActualizarAreaTematica);
 
-            /**
-             * Botón con evento para agregar area tematica
-             */
+			/**
+			 * Botón con evento para agregar area tematica
+			 */
 
-            btnAreaTematica.addActionListener(b -> {
-                String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de area tematica");
+			btnAreaTematica.addActionListener(b -> {
+				String valorAgregar = JOptionPane.showInputDialog(null, "Ingresar nombre de area tematica");
 
-                if (valorAgregar != null && !valorAgregar.isBlank()) {
-                    actualizarBaseDeDatos(valorAgregar, Constants.AREA_TEMATICA);
-                    limpiarTabla(tableAreasTematicas);
-                    Tabla.fill(model, Constants.AREA_TEMATICA);
-                }
-            });
+				if (valorAgregar != null && !valorAgregar.isBlank()) {
+					actualizarBaseDeDatos(valorAgregar, Constants.AREA_TEMATICA);
+					limpiarTabla(tableAreasTematicas);
+					Tabla.fill(model, Constants.AREA_TEMATICA);
+				}
+			});
 
-        });
+		});
 
-        /**
-         * Crea el panel para administrar formatos
-         */
+		/**
+		 * Crea el panel para administrar formatos
+		 */
 
-        menuItemFormato.addActionListener(e -> {
-            ocultarPaneles();
-            panelFormato.setVisible(true);
-            contentPane.add(panelFormato);
+		menuItemFormato.addActionListener(e -> {
+			ocultarPaneles();
+			panelFormato.setVisible(true);
+			contentPane.add(panelFormato);
 
-            panelFormato.add(lblTituloEntidades(Constants.FORMATOS));
+			panelFormato.add(lblTituloEntidades(Constants.FORMATOS));
 
-            JScrollPane scrollPane = scrollPane();
-            panelFormato.add(scrollPane);
+			JScrollPane scrollPane = scrollPane();
+			panelFormato.add(scrollPane);
 
-            JTable tableFormatos = new JTable();
+			JTable tableFormatos = new JTable();
 
-            DefaultTableModel model = new DefaultTableModel();
-            tableFormatos.setModel(model);
-            model.addColumn("");
-            model.addColumn(Constants.NOMBRE);
+			DefaultTableModel model = new DefaultTableModel();
+			tableFormatos.setModel(model);
+			model.addColumn("");
+			model.addColumn(Constants.NOMBRE);
 
-            Tabla.fill(model, Constants.FORMATO);
-            scrollPane.setViewportView(tableFormatos);
+			Tabla.fill(model, Constants.FORMATO);
+			scrollPane.setViewportView(tableFormatos);
 
-            JButton btnAgregarFormato = btnAgregarFormato();
-            panelFormato.add(btnAgregarFormato);
-
+			JButton btnAgregarFormato = btnAgregarFormato();
+			panelFormato.add(btnAgregarFormato);
 
 			JButton btnActualizarFormato = btnActualizarFormato();
 			panelFormato.add(btnActualizarFormato);
@@ -606,201 +609,270 @@ public class SistemaFuncionario extends JFrame {
 				Tabla.fill(model, Constants.LECTOR);
 			});
 		});
-		
-		 btnListarMultas.addActionListener(e -> {
-	            ocultarPaneles();
-	            panelMultas.setVisible(true);
-	            contentPane.add(panelMultas);
 
-	            panelMultas.add(lblTituloEntidades(Constants.MULTAS));
-	            JLabel labelFiltro = labelFiltroFechas();
-	            JLabel labelFiltroInicio = labelFiltroInicio();
-	            JLabel labelFiltroFin = labelFiltroFin();
-	            DatePicker fechaInicial = datePickerInitial();
-	            DatePicker fechaFinal = datePickerFinal();
-	            panelMultas.add(labelFiltro);
-	            panelMultas.add(labelFiltroInicio);
-	            panelMultas.add(labelFiltroFin);
-	            panelMultas.add(fechaInicial);
-	            panelMultas.add(fechaFinal);
+		btnListarMultas.addActionListener(e -> {
+			ocultarPaneles();
+			panelMultas.setVisible(true);
+			contentPane.add(panelMultas);
 
-	            JScrollPane scrollPane = scrollPane();
-	            panelMultas.add(scrollPane);
+			panelMultas.add(lblTituloEntidades(Constants.MULTAS));
+			JLabel labelFiltro = labelFiltroFechas();
+			JLabel labelFiltroInicio = labelFiltroInicio();
+			JLabel labelFiltroFin = labelFiltroFin();
+			DatePicker fechaInicial = datePickerInitial();
+			DatePicker fechaFinal = datePickerFinal();
+			panelMultas.add(labelFiltro);
+			panelMultas.add(labelFiltroInicio);
+			panelMultas.add(labelFiltroFin);
+			panelMultas.add(fechaInicial);
+			panelMultas.add(fechaFinal);
 
-	            JTable tablaLectores = new JTable();
-	            tablaLectores.setSize(1000, 1600);
+			JScrollPane scrollPane = scrollPane();
+			panelMultas.add(scrollPane);
 
-	            DefaultTableModel model = new NonEditableTableModel();
-	            tablaLectores.setModel(model);
-	            tablaLectores.setAutoCreateRowSorter(true);
+			JTable tablaLectores = new JTable();
+			tablaLectores.setSize(1000, 1600);
 
-	            model.addColumn("");
-	            model.addColumn("Fecha");
-	            model.addColumn("Plazo");
-	            model.addColumn("Nombre");
-	            model.addColumn("Apellido");
+			DefaultTableModel model = new NonEditableTableModel();
+			tablaLectores.setModel(model);
+			tablaLectores.setAutoCreateRowSorter(true);
 
-	            tablaLectores.setAutoCreateRowSorter(true);
-	            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-	            tablaLectores.setRowSorter(sorter);
+			model.addColumn("");
+			model.addColumn("Fecha");
+			model.addColumn("Plazo");
+			model.addColumn("Nombre");
+			model.addColumn("Apellido");
 
-	            Tabla.fill(model, Constants.MULTAS);
+			tablaLectores.setAutoCreateRowSorter(true);
+			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+			tablaLectores.setRowSorter(sorter);
 
-	            scrollPane.setViewportView(tablaLectores);
+			Tabla.fill(model, Constants.MULTAS);
 
-	            fechaInicial.addDateChangeListener(evt -> {
-	                limpiarTabla(tablaLectores);
-	                Tabla.fill(model, Constants.MULTAS);
-	                filtrarFechas((DefaultTableModel) tablaLectores.getModel(), fechaInicial.getDate(),
-	                        fechaFinal.getDate());
-	            });
+			scrollPane.setViewportView(tablaLectores);
 
-	            fechaFinal.addDateChangeListener(evt -> {
-	                limpiarTabla(tablaLectores);
-	                Tabla.fill(model, Constants.MULTAS);
-	                filtrarFechas((DefaultTableModel) tablaLectores.getModel(), fechaInicial.getDate(),
-	                        fechaFinal.getDate());
-	            });
-
-	            JButton btnRefrescar = btnRefrescar();
-	            panelMultas.add(btnRefrescar);
-
-	            btnRefrescar.addActionListener(b -> {
-	                fechaFinal.setDate(null);
-	                fechaInicial.setDate(null);
-	                limpiarTabla(tablaLectores);
-	                Tabla.fill(model, Constants.MULTAS);
-	            });
-
-	        });
-
-        btnListarPrestamos.addActionListener(e -> {
-            ocultarPaneles();
-            panelPrestamos.setVisible(true);
-            contentPane.add(panelPrestamos);
-
-            panelPrestamos.add(lblTituloEntidades(Constants.PRESTAMOS));
-            JCheckBox checkBoxFiltro = checkBoxFiltro();
-            panelPrestamos.add(checkBoxFiltro);
-
-            JScrollPane scrollPane = scrollPane();
-            panelPrestamos.add(scrollPane);
-
-            JTable tablaPrestamos = new JTable();
-            tablaPrestamos.setSize(1000, 1600);
-
-            DefaultTableModel model = new NonEditableTableModel();
-            tablaPrestamos.setModel(model);
-            tablaPrestamos.setAutoCreateRowSorter(true);
-
-            model.addColumn("");
-            model.addColumn("Obra");
-            model.addColumn("Ejemplar");
-            model.addColumn("Fecha y hora de préstamo");
-            model.addColumn("Válido hasta");
-            model.addColumn("Fecha de devolución");
-            model.addColumn("Nombre");
-            model.addColumn("Apellido");
-            model.addColumn("¿Fuera de término?");
-
-            tablaPrestamos.setAutoCreateRowSorter(true);
-            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-            tablaPrestamos.setRowSorter(sorter);
-
-            Tabla.fill(model, Constants.PRESTAMOS);
-
-            scrollPane.setViewportView(tablaPrestamos);
-
-            checkBoxFiltro.addActionListener(
-                    evt -> sorter.setRowFilter(checkBoxFiltro.isSelected() ? filtradorPorFueraDeTermino() : null)
-            );
-
-            JButton btnRegistrarDevolucion = btnRegistrarDevolucion();
-            panelPrestamos.add(btnRegistrarDevolucion);
-
-            btnRegistrarDevolucion.addActionListener(ev -> {
-                Devoluciones devoluciones = new Devoluciones();
-                devoluciones.setVisible(true);
-            });
-
-            JButton btnRefrescar = btnRefrescar();
-            panelPrestamos.add(btnRefrescar);
-
-            btnRefrescar.addActionListener(b -> {
-                sorter.setRowFilter(null);
-                checkBoxFiltro.setSelected(false);
-                limpiarTabla(tablaPrestamos);
-                Tabla.fill(model, Constants.PRESTAMOS);
-            });
-
-        });
-		 
-		 btnObrasPorEditorial.addActionListener(e -> {
-				ocultarPaneles();
-				panelObrasPorEditorial.setVisible(true);
-				contentPane.add(panelObrasPorEditorial);
-
-				panelObrasPorEditorial.add(lblTituloEntidades("Obras por editorial"));
-
-				JScrollPane scrollPane = scrollPane();
-				panelObrasPorEditorial.add(scrollPane);
-
-				JTable tablaObrasPorEditorial = new JTable();
-				tablaObrasPorEditorial.setSize(1000, 1600);
-
-				DefaultTableModel model = new DefaultTableModel() {
-					@Override
-					public boolean isCellEditable(int row, int column) {
-						return false;
-					}
-				};
-				tablaObrasPorEditorial.setModel(model);
-				tablaObrasPorEditorial.setAutoCreateRowSorter(true);
-
-				model.addColumn("");
-				model.addColumn("Editorial");
-				model.addColumn("Isbn de obra");
-				model.addColumn("Titulo");
-				model.addColumn("Subitulo");
-				model.addColumn("1° autor");
-				model.addColumn("2° autor");
-				model.addColumn("3° autor");
-				model.addColumn("Género");
-				model.addColumn(Constants.TIPO_OBRA);
-				model.addColumn(Constants.AREA_TEMATICA);
-				
-				tablaObrasPorEditorial.setAutoCreateRowSorter(true);
-				TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
-				tablaObrasPorEditorial.setRowSorter(sorted);
-				
-				Tabla.fill(model, Constants.OBRASPOREDITORIAL);
-				scrollPane.setViewportView(tablaObrasPorEditorial);
-				
-				tablaObrasPorEditorial.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				
-				/**
-				 *
-				 */
-
-				txtIngresarEditorial.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyReleased(KeyEvent e) {
-						filtrar();
-					}
-
-					private void filtrar() {
-						sorted.setRowFilter(RowFilter.regexFilter(txtIngresarEditorial.getText().toUpperCase(), 1));
-					}
-				});
-				
-				txtIngresarEditorial.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						txtIngresarEditorial.setText("");
-					}
-				});
-
+			fechaInicial.addDateChangeListener(evt -> {
+				limpiarTabla(tablaLectores);
+				Tabla.fill(model, Constants.MULTAS);
+				filtrarFechas((DefaultTableModel) tablaLectores.getModel(), fechaInicial.getDate(),
+						fechaFinal.getDate());
 			});
+
+			fechaFinal.addDateChangeListener(evt -> {
+				limpiarTabla(tablaLectores);
+				Tabla.fill(model, Constants.MULTAS);
+				filtrarFechas((DefaultTableModel) tablaLectores.getModel(), fechaInicial.getDate(),
+						fechaFinal.getDate());
+			});
+
+			JButton btnRefrescar = btnRefrescar();
+			panelMultas.add(btnRefrescar);
+
+			btnRefrescar.addActionListener(b -> {
+				fechaFinal.setDate(null);
+				fechaInicial.setDate(null);
+				limpiarTabla(tablaLectores);
+				Tabla.fill(model, Constants.MULTAS);
+			});
+
+		});
+
+		btnListarPrestamos.addActionListener(e -> {
+			ocultarPaneles();
+			panelPrestamos.setVisible(true);
+			contentPane.add(panelPrestamos);
+
+			panelPrestamos.add(lblTituloEntidades(Constants.PRESTAMOS));
+			JCheckBox checkBoxFiltro = checkBoxFiltro();
+			panelPrestamos.add(checkBoxFiltro);
+
+			JScrollPane scrollPane = scrollPane();
+			panelPrestamos.add(scrollPane);
+
+			JTable tablaPrestamos = new JTable();
+			tablaPrestamos.setSize(1000, 1600);
+
+			DefaultTableModel model = new NonEditableTableModel();
+			tablaPrestamos.setModel(model);
+			tablaPrestamos.setAutoCreateRowSorter(true);
+
+			model.addColumn("");
+			model.addColumn("Obra");
+			model.addColumn("Ejemplar");
+			model.addColumn("Fecha y hora de préstamo");
+			model.addColumn("Válido hasta");
+			model.addColumn("Fecha de devolución");
+			model.addColumn("Nombre");
+			model.addColumn("Apellido");
+			model.addColumn("¿Fuera de término?");
+
+			tablaPrestamos.setAutoCreateRowSorter(true);
+			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+			tablaPrestamos.setRowSorter(sorter);
+
+			Tabla.fill(model, Constants.PRESTAMOS);
+
+			scrollPane.setViewportView(tablaPrestamos);
+
+			checkBoxFiltro.addActionListener(
+					evt -> sorter.setRowFilter(checkBoxFiltro.isSelected() ? filtradorPorFueraDeTermino() : null));
+
+			JButton btnRegistrarDevolucion = btnRegistrarDevolucion();
+			panelPrestamos.add(btnRegistrarDevolucion);
+
+			btnRegistrarDevolucion.addActionListener(ev -> {
+				Devoluciones devoluciones = new Devoluciones();
+				devoluciones.setVisible(true);
+			});
+
+			JButton btnRefrescar = btnRefrescar();
+			panelPrestamos.add(btnRefrescar);
+
+			btnRefrescar.addActionListener(b -> {
+				sorter.setRowFilter(null);
+				checkBoxFiltro.setSelected(false);
+				limpiarTabla(tablaPrestamos);
+				Tabla.fill(model, Constants.PRESTAMOS);
+			});
+
+		});
+
+		btnObrasPorEditorial.addActionListener(e -> {
+			ocultarPaneles();
+			panelObrasPorEditorial.setVisible(true);
+			contentPane.add(panelObrasPorEditorial);
+
+			panelObrasPorEditorial.add(lblTituloEntidades("Obras por editorial"));
+
+			JScrollPane scrollPane = scrollPane();
+			panelObrasPorEditorial.add(scrollPane);
+
+			JTable tablaObrasPorEditorial = new JTable();
+			tablaObrasPorEditorial.setSize(1000, 1600);
+
+			DefaultTableModel model = new DefaultTableModel() {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			tablaObrasPorEditorial.setModel(model);
+			tablaObrasPorEditorial.setAutoCreateRowSorter(true);
+
+			model.addColumn("");
+			model.addColumn("Editorial");
+			model.addColumn("Isbn de obra");
+			model.addColumn("Titulo");
+			model.addColumn("Subitulo");
+			model.addColumn("1° autor");
+			model.addColumn("2° autor");
+			model.addColumn("3° autor");
+			model.addColumn("Género");
+			model.addColumn(Constants.TIPO_OBRA);
+			model.addColumn(Constants.AREA_TEMATICA);
+
+			tablaObrasPorEditorial.setAutoCreateRowSorter(true);
+			TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
+			tablaObrasPorEditorial.setRowSorter(sorted);
+
+			Tabla.fill(model, Constants.OBRASPOREDITORIAL);
+			scrollPane.setViewportView(tablaObrasPorEditorial);
+
+			tablaObrasPorEditorial.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+			/**
+			 *
+			 */
+
+			txtIngresarEditorial.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					filtrar();
+				}
+
+				private void filtrar() {
+					sorted.setRowFilter(RowFilter.regexFilter(txtIngresarEditorial.getText().toUpperCase(), 1));
+				}
+			});
+
+			txtIngresarEditorial.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					txtIngresarEditorial.setText("");
+				}
+			});
+
+		});
+		
+		btnEjemplaresPorArea.addActionListener(e -> {
+			ocultarPaneles();
+			panelEjemplaresPorArea.setVisible(true);
+			contentPane.add(panelEjemplaresPorArea);
+
+			panelEjemplaresPorArea.add(lblTituloEntidades("Ejemplares por área temática"));
+			
+			JScrollPane scrollPane = scrollPane();
+			panelEjemplaresPorArea.add(scrollPane);
+
+			JTable tablaEjemplaresPorArea = new JTable();
+			tablaEjemplaresPorArea.setSize(1000, 1600);
+
+			DefaultTableModel model = new DefaultTableModel() {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			tablaEjemplaresPorArea.setModel(model);
+			tablaEjemplaresPorArea.setAutoCreateRowSorter(true);
+
+			model.addColumn("");
+			model.addColumn(Constants.AREA_TEMATICA);
+			model.addColumn("Isbn de obra");
+			model.addColumn("Titulo");
+			model.addColumn("Subitulo");
+			model.addColumn("1° autor");
+			model.addColumn("2° autor");
+			model.addColumn("3° autor");
+			model.addColumn("Género");
+			model.addColumn(Constants.TIPO_OBRA);
+			model.addColumn("Forma de adquisición");
+			model.addColumn("Fecha de adquisición");
+			model.addColumn("Observaciones");
+			model.addColumn("Codigo identificatorio");
+
+			tablaEjemplaresPorArea.setAutoCreateRowSorter(true);
+			TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
+			tablaEjemplaresPorArea.setRowSorter(sorted);
+
+			Tabla.fill(model, Constants.EJEMPLARESPORAREA);
+			scrollPane.setViewportView(tablaEjemplaresPorArea);
+
+			tablaEjemplaresPorArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+			/**
+			 *
+			 */
+
+			txtIngresarArea.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					filtrar();
+				}
+
+				private void filtrar() {
+					sorted.setRowFilter(RowFilter.regexFilter(txtIngresarArea.getText().toUpperCase(), 1));
+				}
+			});
+
+			txtIngresarArea.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					txtIngresarArea.setText("");
+				}
+			});
+
+		});
 
 		btnCerrarSesion.addActionListener(e -> {
 			IniciarSesion login = new IniciarSesion();
@@ -991,64 +1063,64 @@ public class SistemaFuncionario extends JFrame {
 		btnMasBuscadasPorPublicoGeneral.setBounds(23, 377, 293, 31);
 		return btnMasBuscadasPorPublicoGeneral;
 	}
-	
+
 	public JButton btnListarMultas() {
-        JButton btnListarMultas = new JButton("Ver Multas");
-        btnListarMultas.setFocusPainted(false);
-        btnListarMultas.setBackground(new Color(255, 255, 255));
-        btnListarMultas.setForeground(new Color(0, 64, 128));
-        btnListarMultas.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnListarMultas.setBorderPainted(false);
-        btnListarMultas.setBounds(23, 585, 293, 31);
-        return btnListarMultas;
-    }
+		JButton btnListarMultas = new JButton("Ver Multas");
+		btnListarMultas.setFocusPainted(false);
+		btnListarMultas.setBackground(new Color(255, 255, 255));
+		btnListarMultas.setForeground(new Color(0, 64, 128));
+		btnListarMultas.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnListarMultas.setBorderPainted(false);
+		btnListarMultas.setBounds(23, 585, 293, 31);
+		return btnListarMultas;
+	}
 
-    public JButton btnListarEjemplaresDisponiblesPorArea() {
-        JButton btnListarEjemplaresDisponiblesPorArea = new JButton("Listar ejemplares disponibles por area");
-        btnListarEjemplaresDisponiblesPorArea.setFocusPainted(false);
-        btnListarEjemplaresDisponiblesPorArea.setBackground(new Color(255, 255, 255));
-        btnListarEjemplaresDisponiblesPorArea.setForeground(new Color(0, 64, 128));
-        btnListarEjemplaresDisponiblesPorArea.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnListarEjemplaresDisponiblesPorArea.setBorderPainted(false);
-        btnListarEjemplaresDisponiblesPorArea.setBounds(23, 429, 293, 31);
-        return btnListarEjemplaresDisponiblesPorArea;
-    }
+	public JButton btnEjemplaresPorArea() {
+		JButton btnEjemplaresPorArea = new JButton("Ver ejemplares disponibles por area");
+		btnEjemplaresPorArea.setFocusPainted(false);
+		btnEjemplaresPorArea.setBackground(new Color(255, 255, 255));
+		btnEjemplaresPorArea.setForeground(new Color(0, 64, 128));
+		btnEjemplaresPorArea.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnEjemplaresPorArea.setBorderPainted(false);
+		btnEjemplaresPorArea.setBounds(23, 429, 293, 31);
+		return btnEjemplaresPorArea;
+	}
 
-    public JButton btnListarEjemplaresDisponiblesPorFecha() {
-        JButton btnListarEjemplaresDisponiblesPorFecha = new JButton("Listar ejemplares disponibles por fecha");
-        btnListarEjemplaresDisponiblesPorFecha.setFocusPainted(false);
-        btnListarEjemplaresDisponiblesPorFecha.setBackground(new Color(255, 255, 255));
-        btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
-        btnListarEjemplaresDisponiblesPorFecha.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
-        btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
-        return btnListarEjemplaresDisponiblesPorFecha;
-    }
+	public JButton btnListarEjemplaresDisponiblesPorFecha() {
+		JButton btnListarEjemplaresDisponiblesPorFecha = new JButton("Listar ejemplares disponibles por fecha");
+		btnListarEjemplaresDisponiblesPorFecha.setFocusPainted(false);
+		btnListarEjemplaresDisponiblesPorFecha.setBackground(new Color(255, 255, 255));
+		btnListarEjemplaresDisponiblesPorFecha.setForeground(new Color(0, 64, 128));
+		btnListarEjemplaresDisponiblesPorFecha.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnListarEjemplaresDisponiblesPorFecha.setBorderPainted(false);
+		btnListarEjemplaresDisponiblesPorFecha.setBounds(23, 481, 293, 31);
+		return btnListarEjemplaresDisponiblesPorFecha;
+	}
 
-    public JButton btnListarLectores() {
-        JButton btnListarLectoresMultadosPorPeriodo = new JButton("Ver Lectores");
-        btnListarLectoresMultadosPorPeriodo.setFocusPainted(false);
-        btnListarLectoresMultadosPorPeriodo.setBackground(new Color(255, 255, 255));
-        btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
-        btnListarLectoresMultadosPorPeriodo.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
-        btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
-        return btnListarLectoresMultadosPorPeriodo;
-    }
+	public JButton btnListarLectores() {
+		JButton btnListarLectoresMultadosPorPeriodo = new JButton("Ver Lectores");
+		btnListarLectoresMultadosPorPeriodo.setFocusPainted(false);
+		btnListarLectoresMultadosPorPeriodo.setBackground(new Color(255, 255, 255));
+		btnListarLectoresMultadosPorPeriodo.setForeground(new Color(0, 64, 128));
+		btnListarLectoresMultadosPorPeriodo.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnListarLectoresMultadosPorPeriodo.setBorderPainted(false);
+		btnListarLectoresMultadosPorPeriodo.setBounds(23, 533, 293, 31);
+		return btnListarLectoresMultadosPorPeriodo;
+	}
 
-    public JButton btnListarRankingDeMultados() {
-        JButton btnListarRankingDeMultados = new JButton("Listar ranking de multados");
-        btnListarRankingDeMultados.setFocusPainted(false);
-        btnListarRankingDeMultados.setBackground(new Color(255, 255, 255));
-        btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
-        btnListarRankingDeMultados.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnListarRankingDeMultados.setBorderPainted(false);
-        btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
-        return btnListarRankingDeMultados;
-    }
+	public JButton btnListarRankingDeMultados() {
+		JButton btnListarRankingDeMultados = new JButton("Listar ranking de multados");
+		btnListarRankingDeMultados.setFocusPainted(false);
+		btnListarRankingDeMultados.setBackground(new Color(255, 255, 255));
+		btnListarRankingDeMultados.setForeground(new Color(0, 64, 128));
+		btnListarRankingDeMultados.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnListarRankingDeMultados.setBorderPainted(false);
+		btnListarRankingDeMultados.setBounds(23, 585, 293, 31);
+		return btnListarRankingDeMultados;
+	}
 
 	public JButton btnObrasPorEditorial() {
-		JButton btnObrasPorEditorial = new JButton("Obras por editorial");
+		JButton btnObrasPorEditorial = new JButton("Ver obras por editorial");
 		btnObrasPorEditorial.setFocusPainted(false);
 		btnObrasPorEditorial.setBackground(new Color(255, 255, 255));
 		btnObrasPorEditorial.setForeground(new Color(0, 64, 128));
@@ -1058,349 +1130,348 @@ public class SistemaFuncionario extends JFrame {
 		return btnObrasPorEditorial;
 	}
 
-    public JButton btnListarPrestamos() {
-        JButton btnListarObrasPorEditorial = new JButton("Ver préstamos");
-        btnListarObrasPorEditorial.setFocusPainted(false);
-        btnListarObrasPorEditorial.setBackground(new Color(255, 255, 255));
-        btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
-        btnListarObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnListarObrasPorEditorial.setBorderPainted(false);
-        btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
-        return btnListarObrasPorEditorial;
-    }
+	public JButton btnListarPrestamos() {
+		JButton btnListarObrasPorEditorial = new JButton("Ver préstamos");
+		btnListarObrasPorEditorial.setFocusPainted(false);
+		btnListarObrasPorEditorial.setBackground(new Color(255, 255, 255));
+		btnListarObrasPorEditorial.setForeground(new Color(0, 64, 128));
+		btnListarObrasPorEditorial.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnListarObrasPorEditorial.setBorderPainted(false);
+		btnListarObrasPorEditorial.setBounds(23, 637, 293, 31);
+		return btnListarObrasPorEditorial;
+	}
 
-    public JButton btnAplicarMultaALector() {
-        JButton btnAplicarMultaALector = new JButton("Aplicar multa a lector");
-        btnAplicarMultaALector.setFocusPainted(false);
-        btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
-        btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
-        btnAplicarMultaALector.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAplicarMultaALector.setBorderPainted(false);
-        btnAplicarMultaALector.setBounds(23, 689, 293, 31);
-        return btnAplicarMultaALector;
-    }
+	public JButton btnAplicarMultaALector() {
+		JButton btnAplicarMultaALector = new JButton("Aplicar multa a lector");
+		btnAplicarMultaALector.setFocusPainted(false);
+		btnAplicarMultaALector.setBackground(new Color(255, 255, 255));
+		btnAplicarMultaALector.setForeground(new Color(0, 64, 128));
+		btnAplicarMultaALector.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAplicarMultaALector.setBorderPainted(false);
+		btnAplicarMultaALector.setBounds(23, 689, 293, 31);
+		return btnAplicarMultaALector;
+	}
 
-    public JPanel panelBienvenida() {
-        JPanel panel = new JPanel();
-        panel.setBounds(339, 104, 1061, 707);
-        panel.setLayout(null);
-        return panel;
-    }
+	public JPanel panelBienvenida() {
+		JPanel panel = new JPanel();
+		panel.setBounds(339, 104, 1061, 707);
+		panel.setLayout(null);
+		return panel;
+	}
 
-    public JPanel panelAdministrarEntidades() {
-        JPanel panelAdministrarEntidades = new JPanel();
-        panelAdministrarEntidades.setBounds(339, 104, 987, 707);
-        panelAdministrarEntidades.setLayout(null);
-        return panelAdministrarEntidades;
-    }
+	public JPanel panelAdministrarEntidades() {
+		JPanel panelAdministrarEntidades = new JPanel();
+		panelAdministrarEntidades.setBounds(339, 104, 987, 707);
+		panelAdministrarEntidades.setLayout(null);
+		return panelAdministrarEntidades;
+	}
 
-    public JLabel lblAdministrarEntidades() {
-        JLabel lblBienvenidaParte1 = new JLabel("Administrador de entidades");
-        lblBienvenidaParte1.setBounds(330, 0, 369, 136);
-        lblBienvenidaParte1.setForeground(Color.GRAY);
-        lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
-        return lblBienvenidaParte1;
-    }
+	public JLabel lblAdministrarEntidades() {
+		JLabel lblBienvenidaParte1 = new JLabel("Administrador de entidades");
+		lblBienvenidaParte1.setBounds(330, 0, 369, 136);
+		lblBienvenidaParte1.setForeground(Color.GRAY);
+		lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
+		return lblBienvenidaParte1;
+	}
 
-    public JLabel lblTiposDeObras() {
-        JLabel lblTiposDeObras = new JLabel(Constants.TIPOS_DE_OBRAS);
-        lblTiposDeObras.setBounds(410, 70, 369, 136);
-        lblTiposDeObras.setForeground(Color.GRAY);
-        lblTiposDeObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
-        return lblTiposDeObras;
-    }
+	public JLabel lblTiposDeObras() {
+		JLabel lblTiposDeObras = new JLabel(Constants.TIPOS_DE_OBRAS);
+		lblTiposDeObras.setBounds(410, 70, 369, 136);
+		lblTiposDeObras.setForeground(Color.GRAY);
+		lblTiposDeObras.setFont(new Font(Constants.FONT, Font.BOLD, 19));
+		return lblTiposDeObras;
+	}
 
-    public JScrollPane scrollPane() {
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 158, 1030, 300);
-        return scrollPane;
-    }
+	public JScrollPane scrollPane() {
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 158, 1030, 300);
+		return scrollPane;
+	}
 
-    private JButton btnAgregarTipoObra() {
-        JButton btnAgregarTipoObra = new JButton("Agregar tipo obra");
-        btnAgregarTipoObra.setFocusPainted(false);
-        btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
-        btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
-        btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarTipoObra.setBorderPainted(false);
-        btnAgregarTipoObra.setBounds(210, 500, 210, 20);
-        return btnAgregarTipoObra;
-    }
+	private JButton btnAgregarTipoObra() {
+		JButton btnAgregarTipoObra = new JButton("Agregar tipo obra");
+		btnAgregarTipoObra.setFocusPainted(false);
+		btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
+		btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
+		btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarTipoObra.setBorderPainted(false);
+		btnAgregarTipoObra.setBounds(210, 500, 210, 20);
+		return btnAgregarTipoObra;
+	}
 
-    private JButton btnActualizarTipoObra() {
-        JButton btnActualizarTipoObra = new JButton("Actualizar tipo obra");
-        btnActualizarTipoObra.setFocusPainted(false);
-        btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
-        btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
-        btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnActualizarTipoObra.setBorderPainted(false);
-        btnActualizarTipoObra.setBounds(600, 500, 210, 20);
-        return btnActualizarTipoObra;
-    }
+	private JButton btnActualizarTipoObra() {
+		JButton btnActualizarTipoObra = new JButton("Actualizar tipo obra");
+		btnActualizarTipoObra.setFocusPainted(false);
+		btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
+		btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
+		btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnActualizarTipoObra.setBorderPainted(false);
+		btnActualizarTipoObra.setBounds(600, 500, 210, 20);
+		return btnActualizarTipoObra;
+	}
 
-    private JButton btnAgregarColeccion() {
-        JButton btnAgregarColeccion = new JButton("Agregar colección");
-        btnAgregarColeccion.setFocusPainted(false);
-        btnAgregarColeccion.setBackground(new Color(0, 64, 128));
-        btnAgregarColeccion.setForeground(new Color(255, 255, 255));
-        btnAgregarColeccion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarColeccion.setBorderPainted(false);
-        btnAgregarColeccion.setBounds(210, 500, 210, 20);
-        return btnAgregarColeccion;
-    }
+	private JButton btnAgregarColeccion() {
+		JButton btnAgregarColeccion = new JButton("Agregar colección");
+		btnAgregarColeccion.setFocusPainted(false);
+		btnAgregarColeccion.setBackground(new Color(0, 64, 128));
+		btnAgregarColeccion.setForeground(new Color(255, 255, 255));
+		btnAgregarColeccion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarColeccion.setBorderPainted(false);
+		btnAgregarColeccion.setBounds(210, 500, 210, 20);
+		return btnAgregarColeccion;
+	}
 
-    private JButton btnAgregarEdicion() {
-        JButton btnAgregarEdicion = new JButton("Agregar edición");
-        btnAgregarEdicion.setFocusPainted(false);
-        btnAgregarEdicion.setBackground(new Color(0, 64, 128));
-        btnAgregarEdicion.setForeground(new Color(255, 255, 255));
-        btnAgregarEdicion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarEdicion.setBorderPainted(false);
-        btnAgregarEdicion.setBounds(210, 500, 210, 20);
-        return btnAgregarEdicion;
-    }
+	private JButton btnAgregarEdicion() {
+		JButton btnAgregarEdicion = new JButton("Agregar edición");
+		btnAgregarEdicion.setFocusPainted(false);
+		btnAgregarEdicion.setBackground(new Color(0, 64, 128));
+		btnAgregarEdicion.setForeground(new Color(255, 255, 255));
+		btnAgregarEdicion.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarEdicion.setBorderPainted(false);
+		btnAgregarEdicion.setBounds(210, 500, 210, 20);
+		return btnAgregarEdicion;
+	}
 
-    private JButton btnAgregarEjemplar() {
-        JButton btnAgregarEjemplar = new JButton("Agregar ejemplar");
-        btnAgregarEjemplar.setFocusPainted(false);
-        btnAgregarEjemplar.setBackground(new Color(0, 64, 128));
-        btnAgregarEjemplar.setForeground(new Color(255, 255, 255));
-        btnAgregarEjemplar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarEjemplar.setBorderPainted(false);
-        btnAgregarEjemplar.setBounds(210, 500, 210, 20);
-        return btnAgregarEjemplar;
-    }
+	private JButton btnAgregarEjemplar() {
+		JButton btnAgregarEjemplar = new JButton("Agregar ejemplar");
+		btnAgregarEjemplar.setFocusPainted(false);
+		btnAgregarEjemplar.setBackground(new Color(0, 64, 128));
+		btnAgregarEjemplar.setForeground(new Color(255, 255, 255));
+		btnAgregarEjemplar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarEjemplar.setBorderPainted(false);
+		btnAgregarEjemplar.setBounds(210, 500, 210, 20);
+		return btnAgregarEjemplar;
+	}
 
-    private JButton btnAgregarAreaTematica() {
-        JButton btnAgregarTipoObra = new JButton("Agregar area tematica");
-        btnAgregarTipoObra.setFocusPainted(false);
-        btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
-        btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
-        btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarTipoObra.setBorderPainted(false);
-        btnAgregarTipoObra.setBounds(210, 500, 210, 20);
-        return btnAgregarTipoObra;
-    }
+	private JButton btnAgregarAreaTematica() {
+		JButton btnAgregarTipoObra = new JButton("Agregar area tematica");
+		btnAgregarTipoObra.setFocusPainted(false);
+		btnAgregarTipoObra.setBackground(new Color(0, 64, 128));
+		btnAgregarTipoObra.setForeground(new Color(255, 255, 255));
+		btnAgregarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarTipoObra.setBorderPainted(false);
+		btnAgregarTipoObra.setBounds(210, 500, 210, 20);
+		return btnAgregarTipoObra;
+	}
 
-    private JButton btnActualizarAreaTematica() {
-        JButton btnActualizarTipoObra = new JButton("Actualizar area tematica");
-        btnActualizarTipoObra.setFocusPainted(false);
-        btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
-        btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
-        btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnActualizarTipoObra.setBorderPainted(false);
-        btnActualizarTipoObra.setBounds(600, 500, 210, 20);
-        return btnActualizarTipoObra;
-    }
+	private JButton btnActualizarAreaTematica() {
+		JButton btnActualizarTipoObra = new JButton("Actualizar area tematica");
+		btnActualizarTipoObra.setFocusPainted(false);
+		btnActualizarTipoObra.setBackground(new Color(0, 64, 128));
+		btnActualizarTipoObra.setForeground(new Color(255, 255, 255));
+		btnActualizarTipoObra.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnActualizarTipoObra.setBorderPainted(false);
+		btnActualizarTipoObra.setBounds(600, 500, 210, 20);
+		return btnActualizarTipoObra;
+	}
 
-    private JButton btnAgregarFormato() {
-        JButton btnAgregarFormato = new JButton("Agregar formato");
-        btnAgregarFormato.setFocusPainted(false);
-        btnAgregarFormato.setBackground(new Color(0, 64, 128));
-        btnAgregarFormato.setForeground(new Color(255, 255, 255));
-        btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarFormato.setBorderPainted(false);
-        btnAgregarFormato.setBounds(210, 500, 210, 20);
-        return btnAgregarFormato;
-    }
+	private JButton btnAgregarFormato() {
+		JButton btnAgregarFormato = new JButton("Agregar formato");
+		btnAgregarFormato.setFocusPainted(false);
+		btnAgregarFormato.setBackground(new Color(0, 64, 128));
+		btnAgregarFormato.setForeground(new Color(255, 255, 255));
+		btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarFormato.setBorderPainted(false);
+		btnAgregarFormato.setBounds(210, 500, 210, 20);
+		return btnAgregarFormato;
+	}
 
-    private JButton btnActualizarFormato() {
-        JButton btnActualizarFormato = new JButton("Actualizar formato");
-        btnActualizarFormato.setFocusPainted(false);
-        btnActualizarFormato.setBackground(new Color(0, 64, 128));
-        btnActualizarFormato.setForeground(new Color(255, 255, 255));
-        btnActualizarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnActualizarFormato.setBorderPainted(false);
-        btnActualizarFormato.setBounds(600, 500, 210, 20);
-        return btnActualizarFormato;
-    }
+	private JButton btnActualizarFormato() {
+		JButton btnActualizarFormato = new JButton("Actualizar formato");
+		btnActualizarFormato.setFocusPainted(false);
+		btnActualizarFormato.setBackground(new Color(0, 64, 128));
+		btnActualizarFormato.setForeground(new Color(255, 255, 255));
+		btnActualizarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnActualizarFormato.setBorderPainted(false);
+		btnActualizarFormato.setBounds(600, 500, 210, 20);
+		return btnActualizarFormato;
+	}
 
-    private JButton btnAgregarObra() {
-        JButton btnAgregarFormato = new JButton("Agregar obra");
-        btnAgregarFormato.setFocusPainted(false);
-        btnAgregarFormato.setBackground(new Color(0, 64, 128));
-        btnAgregarFormato.setForeground(new Color(255, 255, 255));
-        btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarFormato.setBorderPainted(false);
-        btnAgregarFormato.setBounds(50, 500, 210, 20);
-        return btnAgregarFormato;
-    }
+	private JButton btnAgregarObra() {
+		JButton btnAgregarFormato = new JButton("Agregar obra");
+		btnAgregarFormato.setFocusPainted(false);
+		btnAgregarFormato.setBackground(new Color(0, 64, 128));
+		btnAgregarFormato.setForeground(new Color(255, 255, 255));
+		btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarFormato.setBorderPainted(false);
+		btnAgregarFormato.setBounds(50, 500, 210, 20);
+		return btnAgregarFormato;
+	}
 
-    private JButton btnRefrescar() {
-        JButton btnRefrescar = new JButton("Refrescar");
-        btnRefrescar.setFocusPainted(false);
-        btnRefrescar.setBackground(new Color(0, 64, 128));
-        btnRefrescar.setForeground(new Color(255, 255, 255));
-        btnRefrescar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnRefrescar.setBorderPainted(false);
-        btnRefrescar.setBounds(700, 500, 210, 20);
-        return btnRefrescar;
-    }
+	private JButton btnRefrescar() {
+		JButton btnRefrescar = new JButton("Refrescar");
+		btnRefrescar.setFocusPainted(false);
+		btnRefrescar.setBackground(new Color(0, 64, 128));
+		btnRefrescar.setForeground(new Color(255, 255, 255));
+		btnRefrescar.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnRefrescar.setBorderPainted(false);
+		btnRefrescar.setBounds(700, 500, 210, 20);
+		return btnRefrescar;
+	}
 
-    public JLabel lblBienvenidaParte1() {
-        JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
-        lblBienvenidaParte1.setBounds(161, 0, 775, 136);
-        lblBienvenidaParte1.setForeground(Color.GRAY);
-        lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
-        return lblBienvenidaParte1;
-    }
+	public JLabel lblBienvenidaParte1() {
+		JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
+		lblBienvenidaParte1.setBounds(161, 0, 775, 136);
+		lblBienvenidaParte1.setForeground(Color.GRAY);
+		lblBienvenidaParte1.setFont(new Font(Constants.FONT, Font.BOLD, 21));
+		return lblBienvenidaParte1;
+	}
 
-    public JLabel lblBienvenidaParte2() {
-        JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
-        lblBienvenidaParte2.setBounds(397, 64, 369, 136);
-        lblBienvenidaParte2.setForeground(Color.GRAY);
-        lblBienvenidaParte2.setFont(new Font(Constants.FONT, Font.BOLD, 21));
-        return lblBienvenidaParte2;
-    }
+	public JLabel lblBienvenidaParte2() {
+		JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
+		lblBienvenidaParte2.setBounds(397, 64, 369, 136);
+		lblBienvenidaParte2.setForeground(Color.GRAY);
+		lblBienvenidaParte2.setFont(new Font(Constants.FONT, Font.BOLD, 21));
+		return lblBienvenidaParte2;
+	}
 
-    public JLabel lblIconLibreria() {
-        JLabel lblIconLibreria = new JLabel("");
-        lblIconLibreria.setBounds(225, 169, 605, 493);
-        lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
-        return lblIconLibreria;
-    }
+	public JLabel lblIconLibreria() {
+		JLabel lblIconLibreria = new JLabel("");
+		lblIconLibreria.setBounds(225, 169, 605, 493);
+		lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
+		return lblIconLibreria;
+	}
 
-    /**
-     * Menu bar Administrar
-     */
+	/**
+	 * Menu bar Administrar
+	 */
 
-    public JMenuBar menuBarAdministrar() {
-        JMenuBar menuBarAdministrar = new JMenuBar();
-        menuBarAdministrar.setBounds(10, 6, 75, 22);
-        menuBarAdministrar.setBackground(new Color(255, 255, 255));
-        return menuBarAdministrar;
-    }
+	public JMenuBar menuBarAdministrar() {
+		JMenuBar menuBarAdministrar = new JMenuBar();
+		menuBarAdministrar.setBounds(10, 6, 75, 22);
+		menuBarAdministrar.setBackground(new Color(255, 255, 255));
+		return menuBarAdministrar;
+	}
 
-    public JMenu menuAdministrar() {
-        JMenu menuAdministrar = new JMenu("Administrar");
-        menuAdministrar.setBackground(new Color(255, 255, 255));
-        menuAdministrar.setOpaque(true);
-        return menuAdministrar;
-    }
+	public JMenu menuAdministrar() {
+		JMenu menuAdministrar = new JMenu("Administrar");
+		menuAdministrar.setBackground(new Color(255, 255, 255));
+		menuAdministrar.setOpaque(true);
+		return menuAdministrar;
+	}
 
-    /**
-     * Paneles de entidades
-     * 
-     * @return
-     */
+	/**
+	 * Paneles de entidades
+	 * 
+	 * @return
+	 */
 
-    public JPanel panelEntidades() {
-        JPanel panelEntidades = new JPanel();
-        panelEntidades.setBounds(339, 104, 1061, 707);
-        panelEntidades.setLayout(null);
-        return panelEntidades;
-    }
+	public JPanel panelEntidades() {
+		JPanel panelEntidades = new JPanel();
+		panelEntidades.setBounds(339, 104, 1061, 707);
+		panelEntidades.setLayout(null);
+		return panelEntidades;
+	}
 
 	public JLabel lblTituloEntidades(String text) {
 		JLabel lblTituloEntidades = new JLabel(text);
-		lblTituloEntidades.setBounds(440, 10, 369, 136);
+		lblTituloEntidades.setBounds(400, 10, 369, 136);
 		lblTituloEntidades.setForeground(Color.GRAY);
 		lblTituloEntidades.setFont(new Font(Constants.FONT, Font.BOLD, 19));
 		return lblTituloEntidades;
 	}
 
-    /**
-     * Actualiza en la base de datos la fila agregada en la tabla
-     * 
-     */
-    private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
+	/**
+	 * Actualiza en la base de datos la fila agregada en la tabla
+	 * 
+	 */
+	private void actualizarBaseDeDatos(String nombre, String tipoEntidad) {
 
-        switch (tipoEntidad) {
-            case Constants.TIPO_OBRA:
-                ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
-                TipoObra tipoObra = new TipoObra();
-                tipoObra.setNombre(nombre);
-                tipoObraDAO.insert(tipoObra);
-                break;
-            case Constants.AREA_TEMATICA:
-                IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
-                AreaTematica areaTematica = new AreaTematica();
-                areaTematica.setNombre(nombre);
-                areaTematicaDAO.insert(areaTematica);
-                break;
-            case Constants.FORMATO:
-                IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
-                Formato formato = new Formato();
-                formato.setNombre(nombre);
-                formatoDAO.insert(formato);
-                break;
-            default:
-        }
+		switch (tipoEntidad) {
+		case Constants.TIPO_OBRA:
+			ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
+			TipoObra tipoObra = new TipoObra();
+			tipoObra.setNombre(nombre);
+			tipoObraDAO.insert(tipoObra);
+			break;
+		case Constants.AREA_TEMATICA:
+			IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
+			AreaTematica areaTematica = new AreaTematica();
+			areaTematica.setNombre(nombre);
+			areaTematicaDAO.insert(areaTematica);
+			break;
+		case Constants.FORMATO:
+			IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
+			Formato formato = new Formato();
+			formato.setNombre(nombre);
+			formatoDAO.insert(formato);
+			break;
+		default:
+		}
 
-    }
+	}
 
-    public void limpiarTabla(JTable tabla) {
-        try {
-            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-            int filas = tabla.getRowCount();
-            for (int i = 0; filas > i; i++) {
-                modelo.removeRow(0);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
-        }
-    }
+	public void limpiarTabla(JTable tabla) {
+		try {
+			DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+			int filas = tabla.getRowCount();
+			for (int i = 0; filas > i; i++) {
+				modelo.removeRow(0);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+		}
+	}
 
-    /**
-     * Hides all panels
-     */
-    private void ocultarPaneles() {
-        for (JPanel panel : paneles) {
-            panel.setVisible(false);
-        }
-    }
+	/**
+	 * Hides all panels
+	 */
+	private void ocultarPaneles() {
+		for (JPanel panel : paneles) {
+			panel.setVisible(false);
+		}
+	}
 
-    private DatePicker datePickerInitial() {
-        DatePicker datePickerInitial = new DatePicker(DateSettings.getDatePickerSettings());
-        datePickerInitial.setBounds(70, 70, 200, 30);
-        return datePickerInitial;
-    }
+	private DatePicker datePickerInitial() {
+		DatePicker datePickerInitial = new DatePicker(DateSettings.getDatePickerSettings());
+		datePickerInitial.setBounds(70, 70, 200, 30);
+		return datePickerInitial;
+	}
 
-    private DatePicker datePickerFinal() {
-        DatePicker datePickerFinal = new DatePicker(DateSettings.getDatePickerSettings());
-        datePickerFinal.setBounds(70, 110, 200, 30);
-        return datePickerFinal;
-    }
+	private DatePicker datePickerFinal() {
+		DatePicker datePickerFinal = new DatePicker(DateSettings.getDatePickerSettings());
+		datePickerFinal.setBounds(70, 110, 200, 30);
+		return datePickerFinal;
+	}
 
-    private JLabel labelFiltroFechas() {
-        JLabel filtro = new JLabel("Filtrar por fecha de multas");
-        filtro.setBounds(10, -30, 775, 136);
-        filtro.setForeground(Color.GRAY);
-        filtro.setFont(new Font(Constants.FONT, Font.BOLD, 14));
-        return filtro;
-    }
+	private JLabel labelFiltroFechas() {
+		JLabel filtro = new JLabel("Filtrar por fecha de multas");
+		filtro.setBounds(10, -30, 775, 136);
+		filtro.setForeground(Color.GRAY);
+		filtro.setFont(new Font(Constants.FONT, Font.BOLD, 14));
+		return filtro;
+	}
 
-    private JLabel labelFiltroInicio() {
-        JLabel filtro = new JLabel("Inicio");
-        filtro.setBounds(10, 20, 775, 136);
-        filtro.setForeground(Color.GRAY);
-        filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
-        return filtro;
-    }
+	private JLabel labelFiltroInicio() {
+		JLabel filtro = new JLabel("Inicio");
+		filtro.setBounds(10, 20, 775, 136);
+		filtro.setForeground(Color.GRAY);
+		filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
+		return filtro;
+	}
 
-    private JLabel labelFiltroFin() {
-        JLabel filtro = new JLabel("Fin");
-        filtro.setBounds(10, 60, 775, 136);
-        filtro.setForeground(Color.GRAY);
-        filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
-        return filtro;
-    }
+	private JLabel labelFiltroFin() {
+		JLabel filtro = new JLabel("Fin");
+		filtro.setBounds(10, 60, 775, 136);
+		filtro.setForeground(Color.GRAY);
+		filtro.setFont(new Font(Constants.FONT, Font.PLAIN, 12));
+		return filtro;
+	}
 
-    private void filtrarFechas(DefaultTableModel modelo, LocalDate startDate,
-            LocalDate endDate) {
-        LocalDate newStartDate = startDate != null ? startDate : LocalDate.MIN;
-        LocalDate newEndDate = endDate != null ? endDate : LocalDate.MAX;
+	private void filtrarFechas(DefaultTableModel modelo, LocalDate startDate, LocalDate endDate) {
+		LocalDate newStartDate = startDate != null ? startDate : LocalDate.MIN;
+		LocalDate newEndDate = endDate != null ? endDate : LocalDate.MAX;
 
-        for (Integer i = 0; i < modelo.getDataVector().size(); i++) {
-            LocalDate fecha = (LocalDate) modelo.getValueAt(i, 1);
-            if (!(fecha.isBefore(newEndDate) && fecha.isAfter(newStartDate))) {
-                modelo.removeRow(i);
-                i--;
-            }
-        }
-    }
-    
-    public JTextField txtIngresarEditorial() {
+		for (Integer i = 0; i < modelo.getDataVector().size(); i++) {
+			LocalDate fecha = (LocalDate) modelo.getValueAt(i, 1);
+			if (!(fecha.isBefore(newEndDate) && fecha.isAfter(newStartDate))) {
+				modelo.removeRow(i);
+				i--;
+			}
+		}
+	}
+
+	public JTextField txtIngresarEditorial() {
 		JTextField txtIngresarEditorial = new JTextField();
 		txtIngresarEditorial.setForeground(new Color(128, 128, 128));
 		txtIngresarEditorial.setText("Buscar por editorial");
@@ -1408,33 +1479,42 @@ public class SistemaFuncionario extends JFrame {
 		txtIngresarEditorial.setColumns(10);
 		return txtIngresarEditorial;
 	}
+	
+	public JTextField txtIngresarArea() {
+		JTextField txtIngresarArea = new JTextField();
+		txtIngresarArea.setForeground(new Color(128, 128, 128));
+		txtIngresarArea.setText("Buscar por area");
+		txtIngresarArea.setBounds(10, 110, 1030, 37);
+		txtIngresarArea.setColumns(10);
+		return txtIngresarArea;
+	}
 
-    private JButton btnRegistrarDevolucion() {
-        JButton btnAgregarFormato = new JButton("Registrar devolución");
-        btnAgregarFormato.setFocusPainted(false);
-        btnAgregarFormato.setBackground(new Color(0, 64, 128));
-        btnAgregarFormato.setForeground(new Color(255, 255, 255));
-        btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
-        btnAgregarFormato.setBorderPainted(false);
-        btnAgregarFormato.setBounds(210, 500, 210, 20);
-        return btnAgregarFormato;
-    }
+	private JButton btnRegistrarDevolucion() {
+		JButton btnAgregarFormato = new JButton("Registrar devolución");
+		btnAgregarFormato.setFocusPainted(false);
+		btnAgregarFormato.setBackground(new Color(0, 64, 128));
+		btnAgregarFormato.setForeground(new Color(255, 255, 255));
+		btnAgregarFormato.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+		btnAgregarFormato.setBorderPainted(false);
+		btnAgregarFormato.setBounds(210, 500, 210, 20);
+		return btnAgregarFormato;
+	}
 
-    private JCheckBox checkBoxFiltro() {
-        JCheckBox checkBoxFiltro = new JCheckBox("Mostrar fuera de término");
-        checkBoxFiltro.setBounds(10, 120, 300, 20);
-        return checkBoxFiltro;
-    }
+	private JCheckBox checkBoxFiltro() {
+		JCheckBox checkBoxFiltro = new JCheckBox("Mostrar fuera de término");
+		checkBoxFiltro.setBounds(10, 120, 300, 20);
+		return checkBoxFiltro;
+	}
 
-    private RowFilter<TableModel, Integer> filtradorPorFueraDeTermino() {
-        return new RowFilter<TableModel, Integer>() {
-            @Override
-            public boolean include(RowFilter.Entry<? extends TableModel, ? extends Integer> entry) {
-                int modelRow = entry.getIdentifier();
-                return entry.getModel().getValueAt(modelRow, 8).equals("Sí");
-            }
-        };
+	private RowFilter<TableModel, Integer> filtradorPorFueraDeTermino() {
+		return new RowFilter<TableModel, Integer>() {
+			@Override
+			public boolean include(RowFilter.Entry<? extends TableModel, ? extends Integer> entry) {
+				int modelRow = entry.getIdentifier();
+				return entry.getModel().getValueAt(modelRow, 8).equals("Sí");
+			}
+		};
 
-    }
+	}
 
 }

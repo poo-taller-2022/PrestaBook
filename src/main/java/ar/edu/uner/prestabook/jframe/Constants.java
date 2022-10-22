@@ -28,4 +28,7 @@ public class Constants {
     public static final String MULTAS = "Multas";
     public static final String OBRASPOREDITORIAL = "ObrasPorEditorial";
     public static final String PRESTAMOS = "Préstamos";
+    public static final String NODISPONIBLE = "No disponible";
+    public static final String EJEMPLARESPORAREA = "EjemplaresPorArea";
+    public static final String OBRASPORAREA = "ObrasPorArea";
 }

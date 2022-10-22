@@ -62,8 +62,8 @@ public class EdicionDAO implements IEdicionDAO {
     }
 	
 	@Override
-    public List<Edicion> findByEditorial(String editorial) {
-        String hql = String.format("from Edicion e where e.editorial = '%s'", editorial);
+    public List<Edicion> findByAllObraIsbn(String isbn) {
+        String hql = String.format("from Edicion e where e.isbnObra = '%s'", isbn);
         return HibernateConnection.getCurrentSession().createQuery(hql, Edicion.class).list();
 
     }
