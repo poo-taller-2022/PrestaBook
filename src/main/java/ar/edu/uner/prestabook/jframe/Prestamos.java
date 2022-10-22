@@ -51,11 +51,11 @@ public class Prestamos extends JFrame {
 		ventana();
 		JPanel contentPane = contentPane();
 
-		JPanel panelAgregarObra = panelNuevoPrestamo();
-		contentPane.add(panelAgregarObra);
+		JPanel panelNuevoPrestamo = panelNuevoPrestamo();
+		contentPane.add(panelNuevoPrestamo);
 
-		JLabel lblAgregarObra = labelNuevoPrestamo();
-		panelAgregarObra.add(lblAgregarObra);
+		JLabel labelNuevoPrestamo = labelNuevoPrestamo();
+		panelNuevoPrestamo.add(labelNuevoPrestamo);
 
 		JComboBox<Ejemplar> comboBoxEjemplar = comboBoxEjemplar();
 		contentPane.add(comboBoxEjemplar);
@@ -65,8 +65,11 @@ public class Prestamos extends JFrame {
 			Obra obra = (Obra) e.getItem();
 			comboBoxEjemplar.removeAllItems();
 			List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAllByObraIsbn(obra.getIsbn());
-			for (Ejemplar ejemplar : ejemplares)
-				comboBoxEjemplar.addItem(ejemplar);
+			for (Ejemplar ejemplar : ejemplares) {
+				if (ejemplar.getMotivoBaja() == null) {
+					comboBoxEjemplar.addItem(ejemplar);
+				}
+			}
 		});
 		contentPane.add(comboBoxObra);
 
@@ -183,11 +186,11 @@ public class Prestamos extends JFrame {
 	 * @return a container
 	 */
 	public JPanel panelNuevoPrestamo() {
-		JPanel panelAgregarObra = new JPanel();
-		panelAgregarObra.setBackground(new Color(0, 64, 128));
-		panelAgregarObra.setBounds(0, 0, 655, 98);
-		panelAgregarObra.setLayout(null);
-		return panelAgregarObra;
+		JPanel panelNuevoPrestamo = new JPanel();
+		panelNuevoPrestamo.setBackground(new Color(0, 64, 128));
+		panelNuevoPrestamo.setBounds(0, 0, 655, 98);
+		panelNuevoPrestamo.setLayout(null);
+		return panelNuevoPrestamo;
 	}
 
 	/**

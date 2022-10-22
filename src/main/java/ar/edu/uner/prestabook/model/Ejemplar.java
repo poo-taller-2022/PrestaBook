@@ -1,11 +1,15 @@
 package ar.edu.uner.prestabook.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,5 +42,7 @@ public class Ejemplar extends ObraAbstract {
     private String motivoBaja;
     @Column(name = "isbn_obra")
     private String isbnObra;
+    @Column(name = "id_Edicion")
+    private Long idEdicion;
 
 }

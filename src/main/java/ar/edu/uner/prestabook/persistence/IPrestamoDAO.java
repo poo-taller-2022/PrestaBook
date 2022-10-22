@@ -15,6 +15,7 @@ public interface IPrestamoDAO extends GenericDAO<Prestamo> {
      */
     public List<Prestamo> findAllByLectorId(Long documentoLector);
 
+	public List<Prestamo> findAllByIdEjemplar(Long idEjemplar);
     /**
      * Counts how many times a book with the given isbn has been loaned
      * 

@@ -7,6 +7,6 @@ import ar.edu.uner.prestabook.model.Edicion;
 
 public interface IEdicionDAO extends GenericDAO<Edicion> {
 
-	List<Edicion> findByEditorial(String editorial);
+	List<Edicion> findByAllObraIsbn(String isbn);
 
 }

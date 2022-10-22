@@ -29,6 +29,7 @@ import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
+import ar.edu.uner.prestabook.persistence.IPrestamoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 public class Tabla {
@@ -71,6 +72,12 @@ public class Tabla {
                 break;
             case Constants.PRESTAMOS:
                 loadPrestamos(model, i);
+                break;
+            case Constants.EJEMPLARES_POR_AREA:
+            	loadEjemplaresPorArea(model, i);
+                break;
+            case Constants.OBRAS_POR_AREA:
+            	loadObrasPorArea(model, i);
                 break;
             case Constants.OBRAS_LECTOR_VIEW:
                 loadObrasLector(model, i);
@@ -313,6 +320,79 @@ public class Tabla {
             model.addRow(new Vector<>(fila));
         }
     }
+    
+    private static void loadEjemplaresPorArea(DefaultTableModel model, Integer i) {  
+        IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
+		IPrestamoDAO prestamoDAO = DaoFactory.getPrestamoDAO();
+		IObraDAO obraDAO = DaoFactory.getObraDAO();
+     
+		List<Ejemplar> ejemplares = ejemplarDAO.findAll();
+
+		if (ejemplares != null) {
+			for (Ejemplar ejemplar : ejemplares) {
+				if (ejemplar.getMotivoBaja() == null && prestamoDAO.findAllByIdEjemplar(ejemplar.getId()).isEmpty()) {
+					List<Object> fila = new LinkedList<>();
+		            fila.add(++i);
+		            
+		            Obra obra = obraDAO.findById(ejemplar.getIsbnObra());
+		            
+		            Set<AreaTematica> areas = obra.getArea();
+		    		StringBuilder contatenarAreas = new StringBuilder();
+
+		    		for (AreaTematica area : areas) {
+		    			contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
+		    		}
+		    		contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+		            fila.add(contatenarAreas);
+		            fila.add(ejemplar.getIsbnObra().toUpperCase());
+		            fila.add(ejemplar.getTitulo().toUpperCase());
+		            fila.add(ejemplar.getSubtitulo().toUpperCase());
+		            fila.add(ejemplar.getPrimerAutor().toUpperCase());
+		            fila.add(ejemplar.getSegundoAutor().toUpperCase());
+		            fila.add(ejemplar.getTercerAutor().toUpperCase());
+		            fila.add(ejemplar.getGenero().toUpperCase());
+		            fila.add(ejemplar.getTipo());
+		            fila.add(ejemplar.getFormaAdquisicion().toUpperCase());
+		            fila.add(ejemplar.getFechaAdquisicion().toUpperCase());
+		            fila.add(ejemplar.getObservaciones().toUpperCase());
+		            fila.add(ejemplar.getCodigoIdentificatorio());
+		            model.addRow(new Vector<>(fila));
+				}
+			}
+		} 
+    }
+    
+    /**
+	 * 
+	 */
+
+	public static void loadObrasPorArea(DefaultTableModel model, Integer i) {
+
+		IObraDAO obraDAO = DaoFactory.getObraDAO();
+		List<Obra> obras = obraDAO.findAll();
+		for (Obra obra : obras) {
+			List<Object> fila = new LinkedList<>();
+			fila.add(++i);
+
+			Set<AreaTematica> areas = obra.getArea();
+			StringBuilder contatenarAreas = new StringBuilder();
+
+			for (AreaTematica area : areas) {
+				contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
+			}
+			contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+			fila.add(contatenarAreas);
+
+			fila.add(obra.getIsbn().toUpperCase());
+			fila.add(obra.getTitulo().toUpperCase());
+			fila.add(obra.getSubtitulo().toUpperCase());
+			fila.add(obra.getPrimerAutor().toUpperCase());
+			fila.add(obra.getGenero().toUpperCase());
+			fila.add(obra.getTipo().getNombre().toUpperCase());
+
+			model.addRow(new Vector<>(fila));
+		}
+	}
 
     private static void loadObrasLector(DefaultTableModel model, Integer i) {
 

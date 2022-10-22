@@ -17,11 +17,12 @@ import javax.swing.table.TableRowSorter;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.Constants;
-import ar.edu.uner.prestabook.jframe.Reservas;
+import ar.edu.uner.prestabook.jframe.ReservarObra;
 import ar.edu.uner.prestabook.jframe.Tabla;
 import ar.edu.uner.prestabook.jframe.VerMas;
 import ar.edu.uner.prestabook.jframe.common.Components;
-import ar.edu.uner.prestabook.model.Edicion;
+import ar.edu.uner.prestabook.model.Obra;
+import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 public class PanelObrasLector extends AbstractPanel {
 
@@ -42,23 +43,35 @@ public class PanelObrasLector extends AbstractPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         btnReservarObra.addActionListener(b -> {
-            Reservas reservas = new Reservas();
-            reservas.setVisible(true);
+        	if (table.getSelectedRow() != -1) {
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+
+				Object isbnObra = modelo.getValueAt(table.getSelectedRow(), 2);
+
+				IObraDAO o = DaoFactory.getObraDAO();
+				Obra obra = o.findById(isbnObra);
+
+				ReservarObra reservarObra = new ReservarObra(obra);
+				reservarObra.setVisible(true);
+			} else {
+				JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
+			}
         });
 
         btnVerMas.addActionListener(b -> {
             if (table.getSelectedRow() != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
-                Object idEdicion = modelo.getValueAt(table.getSelectedRow(), 8);
+				Object isbnObra = modelo.getValueAt(table.getSelectedRow(), 2);
 
-                Edicion edicion = DaoFactory.getEdicionDAO().findById(idEdicion);
+				IObraDAO obraDAO = DaoFactory.getObraDAO();
+				Obra obra = obraDAO.findById(isbnObra);
 
-                VerMas vermas = new VerMas(edicion);
-                vermas.setVisible(true);
-            } else {
-                JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
-            }
+				VerMas vermas = new VerMas(obra);
+				vermas.setVisible(true);
+			} else {
+				JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
+			}
         });
 
         txtIngresarAreaTematica.addMouseListener(new MouseAdapter() {
@@ -75,15 +88,7 @@ public class PanelObrasLector extends AbstractPanel {
             }
 
             private void filtrar() {
-                sorted.setRowFilter(RowFilter.regexFilter(toMayusculas(txtIngresarAreaTematica.getText()), 1));
-            }
-
-            public String toMayusculas(String valor) {
-                if (valor == null || valor.isEmpty()) {
-                    return valor;
-                } else {
-                    return valor.toUpperCase().charAt(0) + valor.substring(1, valor.length()).toLowerCase();
-                }
+                sorted.setRowFilter(RowFilter.regexFilter(txtIngresarAreaTematica.getText().toUpperCase(), 1));
             }
 
         });
@@ -102,16 +107,14 @@ public class PanelObrasLector extends AbstractPanel {
 
     @Override
     public void setModelColumns() {
-        model.addColumn("");
-        model.addColumn(Constants.AREA_TEMATICA);
-        model.addColumn("Isbn");
-        model.addColumn("Titulo");
-        model.addColumn("Subitulo");
-        model.addColumn("1° autor");
-        model.addColumn("Género");
-        model.addColumn(Constants.TIPO_OBRA);
-        model.addColumn("Id de edicion");
-        model.addColumn("N° ejemplares");
+    	model.addColumn("");
+		model.addColumn(Constants.AREA_TEMATICA);
+		model.addColumn("Isbn");
+		model.addColumn("Titulo");
+		model.addColumn("Subitulo");
+		model.addColumn("1° autor");
+		model.addColumn("Género");
+		model.addColumn(Constants.TIPO_OBRA);
         Tabla.fill(model, Constants.OBRAS_LECTOR_VIEW);
     }
 

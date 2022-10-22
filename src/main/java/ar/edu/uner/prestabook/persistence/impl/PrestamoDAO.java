@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.hibernate.Transaction;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
+import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Prestamo;
 import ar.edu.uner.prestabook.persistence.IPrestamoDAO;
 
@@ -39,7 +40,6 @@ public class PrestamoDAO implements IPrestamoDAO {
     @Override
     public Prestamo findById(Object id) {
         return HibernateConnection.getCurrentSession().get(Prestamo.class, (Long) id);
-
     }
 
     @Override
@@ -63,7 +63,12 @@ public class PrestamoDAO implements IPrestamoDAO {
     public List<Prestamo> findAllByLectorId(Long documentoLector) {
         String hql = String.format("from Prestamo p where p.lector = '%s'", documentoLector);
         return HibernateConnection.getCurrentSession().createQuery(hql, Prestamo.class).list();
-
+    }
+    
+    @Override
+    public List<Prestamo> findAllByIdEjemplar(Long idEjemplar) {
+        String hql = String.format("from Prestamo p where p.ejemplar.id = '%s'", idEjemplar);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Prestamo.class).list();
     }
 
     @Override

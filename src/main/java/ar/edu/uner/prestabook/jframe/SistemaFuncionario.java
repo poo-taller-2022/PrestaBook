@@ -19,6 +19,7 @@ import ar.edu.uner.prestabook.jframe.panels.PanelBienvenida;
 import ar.edu.uner.prestabook.jframe.panels.PanelColecciones;
 import ar.edu.uner.prestabook.jframe.panels.PanelEdiciones;
 import ar.edu.uner.prestabook.jframe.panels.PanelEjemplares;
+import ar.edu.uner.prestabook.jframe.panels.PanelEjemplaresPorArea;
 import ar.edu.uner.prestabook.jframe.panels.PanelFormatos;
 import ar.edu.uner.prestabook.jframe.panels.PanelLectores;
 import ar.edu.uner.prestabook.jframe.panels.PanelMultas;
@@ -47,12 +48,13 @@ public class SistemaFuncionario extends JFrame {
     private transient AbstractPanel panelPrestamos = new PanelPrestamos();
     private transient AbstractPanel panelTiposObra = new PanelTiposObra();
     private transient AbstractPanel panelObrasPorEditorial = new PanelObrasPorEditorial();
+	private transient AbstractPanel panelEjemplaresPorArea = new PanelEjemplaresPorArea();
     private transient AbstractPanel panelReservas = new PanelReservas();
     private transient AbstractPanel panelObrasMasSolicitadas = new PanelObrasMasSolicitadas();
 
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos, panelObrasPorEditorial, panelReservas, panelObrasMasSolicitadas);
+            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
@@ -132,39 +134,42 @@ public class SistemaFuncionario extends JFrame {
 
         JButton btnObrasPorEditorial = Components.btnLeftMenu("Ver Obras por editorial", 481);
         panelOpciones.add(btnObrasPorEditorial);
+        
+        JButton btnEjemplaresPorArea = Components.btnLeftMenu("Ver Ejemplares disponibles por area", 533);
+        panelOpciones.add(btnEjemplaresPorArea);
 
-        JButton btnReservas = Components.btnLeftMenu("Ver reservas", 533);
+        JButton btnReservas = Components.btnLeftMenu("Ver reservas", 585);
         panelOpciones.add(btnReservas);
         
-        JButton btnMasSolicitadas = Components.btnLeftMenu("Ver obras más solicitadas", 585);
+        JButton btnMasSolicitadas = Components.btnLeftMenu("Ver obras más solicitadas", 635);
         panelOpciones.add(btnMasSolicitadas);
 
-        JMenuBar menuBarAdministrar = menuBarAdministrar();
-        panelPrestabook.add(menuBarAdministrar);
+		JMenuBar menuBarAdministrar = menuBarAdministrar();
+		panelPrestabook.add(menuBarAdministrar);
 
-        JMenu menuAdministrar = menuAdministrar();
-        menuBarAdministrar.add(menuAdministrar);
+		JMenu menuAdministrar = menuAdministrar();
+		menuBarAdministrar.add(menuAdministrar);
 
-        JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
-        menuAdministrar.add(menuItemTipoObra);
+		JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
+		menuAdministrar.add(menuItemTipoObra);
 
-        JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
-        menuAdministrar.add(menuItemAreaTematica);
+		JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
+		menuAdministrar.add(menuItemAreaTematica);
 
-        JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
-        menuAdministrar.add(menuItemColeccion);
+		JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
+		menuAdministrar.add(menuItemColeccion);
 
-        JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
-        menuAdministrar.add(menuItemObra);
+		JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
+		menuAdministrar.add(menuItemObra);
 
-        JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
-        menuAdministrar.add(menuItemFormato);
+		JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
+		menuAdministrar.add(menuItemFormato);
 
-        JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
-        menuAdministrar.add(menuItemEdicion);
+		JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
+		menuAdministrar.add(menuItemEdicion);
 
-        JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
-        menuAdministrar.add(menuItemEjemplar);
+		JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
+		menuAdministrar.add(menuItemEjemplar);
 
         menuItemTipoObra.addActionListener(e -> {
             hidePanels();
@@ -224,6 +229,11 @@ public class SistemaFuncionario extends JFrame {
             hidePanels();
             contentPane.add(panelObrasPorEditorial.init());
         });
+        
+        btnEjemplaresPorArea.addActionListener(e -> {
+            hidePanels();
+            contentPane.add(panelEjemplaresPorArea.init());
+        });
 
         btnReservas.addActionListener(e -> {
             hidePanels();
@@ -257,9 +267,9 @@ public class SistemaFuncionario extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    /**
-     * Menu bar Administrar
-     */
+	/**
+	 * Menu bar Administrar
+	 */
 
     private JMenuBar menuBarAdministrar() {
         JMenuBar menuBarAdministrar = new JMenuBar();
