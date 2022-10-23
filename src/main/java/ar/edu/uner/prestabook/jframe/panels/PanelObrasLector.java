@@ -16,10 +16,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.AdministrarObra;
 import ar.edu.uner.prestabook.jframe.Constants;
-import ar.edu.uner.prestabook.jframe.ReservarObra;
 import ar.edu.uner.prestabook.jframe.Tabla;
-import ar.edu.uner.prestabook.jframe.VerMas;
 import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.model.Obra;
 
@@ -27,43 +26,33 @@ public class PanelObrasLector extends AbstractPanel {
 
     public JPanel init() {
         prepare();
+        
         JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
-        JButton btnSolicitarPrestamo = Components.btnGeneric("Solicitar préstamo", "Right");
-        JButton btnReservarObra = Components.btnGeneric("Reservar Obra", "Left");
-        JButton btnVerMas = Components.btnGeneric("Ver más", "Center");
+        
+        JButton btnAdministrarObra = Components.btnGeneric("Administrar obra", "Right");
         panel.add(txtIngresarAreaTematica);
-        panel.add(btnSolicitarPrestamo);
-        panel.add(btnReservarObra);
-        panel.add(btnVerMas);
+        
+        panel.add(btnAdministrarObra);
 
         table.setAutoCreateRowSorter(true);
         TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
         table.setRowSorter(sorted);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        btnReservarObra.addActionListener(b -> {
+        btnAdministrarObra.addActionListener(b -> {
             if (table.getSelectedRow() != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-                Object isbnObra = modelo.getValueAt(table.getSelectedRow(), 2);
-                Obra obra = DaoFactory.getObraDAO().findById(isbnObra);
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
-                ReservarObra reservarObra = new ReservarObra(obra);
-                reservarObra.setVisible(true);
-            } else {
-                JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
-            }
-        });
+				Object isbnObra = modelo.getValueAt(table.getSelectedRow(), 2);
 
-        btnVerMas.addActionListener(b -> {
-            if (table.getSelectedRow() != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-                Object isbnObra = modelo.getValueAt(table.getSelectedRow(), 2);
-                Obra obra = DaoFactory.getObraDAO().findById(isbnObra);
-                VerMas vermas = new VerMas(obra);
-                vermas.setVisible(true);
-            } else {
-                JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
-            }
+				IObraDAO obraDAO = DaoFactory.getObraDAO();
+				Obra obra = obraDAO.findById(isbnObra);
+
+				AdministrarObra vermas = new AdministrarObra(obra);
+				vermas.setVisible(true);
+			} else {
+				JOptionPane.showInternalMessageDialog(null, "Debe seleccionar una obra");
+			}
         });
 
         txtIngresarAreaTematica.addMouseListener(new MouseAdapter() {

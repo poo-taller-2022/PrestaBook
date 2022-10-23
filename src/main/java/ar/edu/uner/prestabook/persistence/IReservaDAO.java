@@ -13,4 +13,6 @@ public interface IReservaDAO extends GenericDAO<Reserva> {
      */
     public Long countByObraIsbn(String isbn);
 
+    public Reserva findByIdEjemplar(Long idEjemplar);
+
 }

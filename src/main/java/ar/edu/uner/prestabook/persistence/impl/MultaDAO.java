@@ -60,5 +60,11 @@ public class MultaDAO implements IMultaDAO {
         tx.commit();
         return multa;
     }
+    
+    @Override
+    public List<Multa> findByAllDocumentoLector(Long documentoLector) {
+        String hql = String.format("from Multa p where p.lector.documento = '%s'", documentoLector);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Multa.class).list();
+    }
 
 }

@@ -28,10 +28,12 @@ public class Constants {
     public static final String MULTAS = "Multas";
     public static final String OBRAS_POR_EDITORIAL = "Obras por Editorial";
     public static final String PRESTAMOS = "Préstamos";
-    public static final String NO_DISPONIBLE = "No disponible";
     public static final String EJEMPLARES_POR_AREA = "Ejemplares por area";
     public static final String OBRAS_POR_AREA = "Obras por area";
     public static final String OBRAS_LECTOR_VIEW = "Obras para lector";
     public static final String RESERVAS = "Reservas";
     public static final String OBRAS_MAS_SOLICITADAS = "Obras más solicitadas";
+    public static final String SOLICITUDES = "Solicitudes";
+    public static final Integer PLAZO_PRESTAMO = 4;
+    public static final String NOTIFICACIONES = "Notificaciones";
 }

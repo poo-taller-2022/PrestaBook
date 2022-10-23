@@ -57,6 +57,12 @@ public class FuncionarioDAO implements IFuncionarioDAO {
         tx.commit();
         return funcionario;
     }
+    
+    @Override
+    public Funcionario findByEmail(String email) {
+        String hql = String.format("from Funcionario l where l.email = '%s'", email);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Funcionario.class).getSingleResult();
+    }
 
     @Override
     public Funcionario findByEmail(String email) {

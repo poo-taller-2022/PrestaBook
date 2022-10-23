@@ -53,7 +53,7 @@ public class PrestamoDAO implements IPrestamoDAO {
     @Override
     public Prestamo update(Prestamo prestamo) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
-        HibernateConnection.getCurrentSession().update(prestamo);
+        HibernateConnection.getCurrentSession().merge(prestamo);
         tx.commit();
         return prestamo;
     }
@@ -65,9 +65,9 @@ public class PrestamoDAO implements IPrestamoDAO {
     }
     
     @Override
-    public List<Prestamo> findAllByIdEjemplar(Long idEjemplar) {
+    public Prestamo findByIdEjemplar(Long idEjemplar) {
         String hql = String.format("from Prestamo p where p.ejemplar.id = '%s'", idEjemplar);
-        return HibernateConnection.getCurrentSession().createQuery(hql, Prestamo.class).list();
+        return HibernateConnection.getCurrentSession().createQuery(hql, Prestamo.class).uniqueResult(); 
     }
 
     @Override
@@ -75,6 +75,15 @@ public class PrestamoDAO implements IPrestamoDAO {
         Query query = HibernateConnection.getCurrentSession().createQuery(
                 String.format("select count(*) from Prestamo p where p.ejemplar.isbnObra = '%s'", isbn));
         return (Long) query.getSingleResult();
+    }
+    
+    @Override
+    public void delete(Long idPrestamo) {
+        Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
+        Query query = HibernateConnection.getCurrentSession().createQuery(
+                String.format("delete Prestamo p where p.id = '%s'", idPrestamo));
+        query.executeUpdate();
+        tx.commit();
     }
 
 }
