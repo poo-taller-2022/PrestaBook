@@ -61,7 +61,7 @@ public class DocenteDAO implements IDocenteDAO {
     @Override
     public Docente findByEmail(String email) {
         String hql = String.format("from Docente d where d.email = '%s'", email);
-        return HibernateConnection.getCurrentSession().createQuery(hql, Docente.class).getSingleResult();
+        return HibernateConnection.getCurrentSession().createQuery(hql, Docente.class).uniqueResult();
 
     }
 

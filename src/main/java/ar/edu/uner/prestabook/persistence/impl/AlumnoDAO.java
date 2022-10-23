@@ -61,7 +61,7 @@ public class AlumnoDAO implements IAlumnoDAO {
     @Override
     public Alumno findByEmail(String email) {
         String hql = String.format("from Alumno a where a.email = '%s'", email);
-        return HibernateConnection.getCurrentSession().createQuery(hql, Alumno.class).getSingleResult();
+        return HibernateConnection.getCurrentSession().createQuery(hql, Alumno.class).uniqueResult();
     }
 
 }
