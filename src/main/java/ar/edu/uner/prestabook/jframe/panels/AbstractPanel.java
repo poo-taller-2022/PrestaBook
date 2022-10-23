@@ -45,6 +45,7 @@ public abstract class AbstractPanel {
         table.setModel(model);
         scrollPane.setViewportView(table);
         panel.add(Components.lblPanelTitle(getPanelName()));
+        Components.clearTable(table);
         setModelColumns();
     }
 
