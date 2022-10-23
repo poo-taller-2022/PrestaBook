@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.Vector;
 
@@ -277,7 +276,7 @@ public class Tabla {
             LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
                     ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                     : null;
-            Boolean fueraDeTermino = fechaPrestamo.plusDays(4).toLocalDate()
+            Boolean fueraDeTermino = fechaPrestamo.plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue())).toLocalDate()
                     .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion);
 
             List<Object> fila = new LinkedList<>();

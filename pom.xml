@@ -17,11 +17,10 @@
 	</properties>
 
 	<dependencies>
-	
 		<dependency>
-		    <groupId>net.sourceforge.barbecue</groupId>
-		    <artifactId>barbecue</artifactId>
-		    <version>1.5-beta1</version>
+			<groupId>net.sourceforge.barbecue</groupId>
+			<artifactId>barbecue</artifactId>
+			<version>1.5-beta1</version>
 		</dependency>
 
 		<dependency>

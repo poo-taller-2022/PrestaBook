@@ -1,6 +1,7 @@
 package ar.edu.uner.prestabook.jframe;
 
 import java.io.File;
+
 import javax.swing.ImageIcon;
 
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
@@ -11,19 +12,25 @@ import net.sourceforge.barbecue.BarcodeImageHandler;
 import net.sourceforge.barbecue.output.OutputException;
 
 public class CodigoBarras {
-	public ImageIcon buscarCodigoBarras(String id) {
-		return new ImageIcon(new File("src/main/resources/codes/" + id + ".png").getAbsolutePath());
-	}
 
-	public void generarCodigoBarras(CodigoIdentificatorio codigo) {
-		File file = new File("src/main/resources/codes/" + codigo.getCodigo() + ".png");
-		try {
-			Barcode bar = BarcodeFactory.createCode128(codigo.toString());
-			BarcodeImageHandler.savePNG(bar, file);
-		} catch (BarcodeException ex) {
-			System.out.println(ex);
-		} catch (OutputException ex) {
-			System.out.println(ex);
-		}
-	}
+    private static final String PATH = "src/main/resource/codes/";
+
+    public ImageIcon buscarCodigoBarras(String id) {
+        return new ImageIcon(new File(PATH + id + ".png").getAbsolutePath());
+    }
+
+    public void generarCodigoBarras(CodigoIdentificatorio codigo) {
+        try {
+            final File tempDirectory = new File(System.getProperty("java.io.tmpdir"));
+            File newDirectory = new File(tempDirectory, "codes");
+            if (newDirectory.mkdir() || newDirectory.isDirectory()) {
+                new File("src/main/resources/codes/");
+                File file = new File(PATH + codigo.getCodigo() + ".png");
+                Barcode bar = BarcodeFactory.createCode128(codigo.toString());
+                BarcodeImageHandler.savePNG(bar, file);
+            }
+        } catch (BarcodeException | OutputException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

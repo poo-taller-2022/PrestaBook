@@ -24,6 +24,7 @@ public abstract class Persona {
     private String apellido;
     @Column(name = "tipo_documento")
     private String tipoDocumento;
+    @Column(nullable = false, unique = true)
     private String email;
     private String celular;
     @Column(name = "fecha_nacimiento")

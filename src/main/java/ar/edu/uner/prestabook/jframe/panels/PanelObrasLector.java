@@ -21,7 +21,6 @@ import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
 import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.model.Obra;
-import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 public class PanelObrasLector extends AbstractPanel {
 
@@ -89,15 +88,15 @@ public class PanelObrasLector extends AbstractPanel {
 
     @Override
     public void setModelColumns() {
-    	model.addColumn("");
-		model.addColumn(Constants.AREA_TEMATICA);
-		model.addColumn("Isbn");
-		model.addColumn("Titulo");
-		model.addColumn("Subitulo");
-		model.addColumn("1° autor");
-		model.addColumn("Género");
-		model.addColumn(Constants.TIPO_OBRA);
-		model.addColumn("N° ejemplares disp.");
+        model.addColumn("");
+        model.addColumn(Constants.AREA_TEMATICA);
+        model.addColumn("Isbn");
+        model.addColumn("Titulo");
+        model.addColumn("Subitulo");
+        model.addColumn("1° autor");
+        model.addColumn("Género");
+        model.addColumn(Constants.TIPO_OBRA);
+        model.addColumn("Ejemplares");
         Tabla.fill(model, Constants.OBRAS_LECTOR_VIEW);
     }
 

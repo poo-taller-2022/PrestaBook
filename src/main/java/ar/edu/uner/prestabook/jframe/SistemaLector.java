@@ -90,7 +90,7 @@ public class SistemaLector extends JFrame {
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
-            loggedUser = null;
+            SistemaLector.setLoggedUser(null);
             SistemaLector.this.dispose();
         });
 

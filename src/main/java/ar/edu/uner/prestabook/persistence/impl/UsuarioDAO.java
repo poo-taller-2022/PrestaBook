@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
+import ar.edu.uner.prestabook.exception.UserNotFoundException;
+import ar.edu.uner.prestabook.exception.WrongPasswordException;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 import ar.edu.uner.prestabook.security.PasswordEncrypter;
 
@@ -30,27 +32,27 @@ public class UsuarioDAO implements IUsuarioDAO {
         return instance;
     }
 
-    
     @Override
-    public String buscarUsuarioRegistrado(String tipo, String correo, String contrasenia) {
+    public Boolean buscarUsuarioRegistrado(String tipo, String correo, String contrasenia)
+            throws WrongPasswordException, UserNotFoundException {
         String sql = String.format("SELECT EMAIL, CONTRASENIA FROM %s WHERE EMAIL ='%s'",
                 tipo, correo);
         try (Connection conn = ConnectionProvider.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
             ResultSet resultados = statement.executeQuery();
-            if (resultados.next() && Boolean.TRUE
-                    .equals(PasswordEncrypter.verify(resultados.getString("contrasenia"), contrasenia))) {
-                return "usuario encontrado";
-            } else {
-                return "usuario no encontrado";
+            if (!resultados.next()) {
+                throw new UserNotFoundException();
             }
-
+            if (Boolean.FALSE
+                    .equals(PasswordEncrypter.verify(resultados.getString("contrasenia"), contrasenia))) {
+                throw new WrongPasswordException();
+            }
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
-    
 
     @Override
     public String buscarNombre(String tipo, String correo) {

@@ -29,20 +29,17 @@ public class FuncionarioDAO implements IFuncionarioDAO {
         return instance;
     }
 
-    
     @Override
     public List<Funcionario> findAll() {
         return HibernateConnection.getCurrentSession().createQuery("from Funcionario", Funcionario.class).list();
 
     }
 
-
     @Override
     public Funcionario findById(Object dni) {
         return HibernateConnection.getCurrentSession().get(Funcionario.class, (String) dni);
 
     }
-
 
     @Override
     public Funcionario insert(Funcionario funcionario) {
@@ -53,7 +50,6 @@ public class FuncionarioDAO implements IFuncionarioDAO {
         return funcionario;
     }
 
-    
     @Override
     public Funcionario update(Funcionario funcionario) {
         Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
@@ -66,6 +62,13 @@ public class FuncionarioDAO implements IFuncionarioDAO {
     public Funcionario findByEmail(String email) {
         String hql = String.format("from Funcionario l where l.email = '%s'", email);
         return HibernateConnection.getCurrentSession().createQuery(hql, Funcionario.class).getSingleResult();
+    }
+
+    @Override
+    public Funcionario findByEmail(String email) {
+        String hql = String.format("from Funcionario f where f.email = '%s'", email);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Funcionario.class).uniqueResult();
+
     }
 
 }

@@ -52,7 +52,7 @@ public class SistemaFuncionario extends JFrame {
     private transient AbstractPanel panelPrestamos = new PanelPrestamos();
     private transient AbstractPanel panelTiposObra = new PanelTiposObra();
     private transient AbstractPanel panelObrasPorEditorial = new PanelObrasPorEditorial();
-	private transient AbstractPanel panelEjemplaresPorArea = new PanelEjemplaresPorArea();
+    private transient AbstractPanel panelEjemplaresPorArea = new PanelEjemplaresPorArea();
     private transient AbstractPanel panelReservas = new PanelReservas();
     private transient AbstractPanel panelObrasMasSolicitadas = new PanelObrasMasSolicitadas();
     private transient AbstractPanel panelSolicitudes = new PanelSolicitudes();
@@ -138,42 +138,45 @@ public class SistemaFuncionario extends JFrame {
 
         JButton btnObrasPorEditorial = Components.btnLeftMenu("Ver Obras por editorial", 481);
         panelOpciones.add(btnObrasPorEditorial);
-        
+
         JButton btnEjemplaresPorArea = Components.btnLeftMenu("Ver Ejemplares disponibles por area", 533);
         panelOpciones.add(btnEjemplaresPorArea);
 
         JButton btnReservas = Components.btnLeftMenu("Ver reservas", 585);
         panelOpciones.add(btnReservas);
-        
+
         JButton btnMasSolicitadas = Components.btnLeftMenu("Ver obras más solicitadas", 635);
         panelOpciones.add(btnMasSolicitadas);
 
-		JMenuBar menuBarAdministrar = menuBarAdministrar();
-		panelPrestabook.add(menuBarAdministrar);
+        JButton btnOpciones = Components.btnLeftMenu(Constants.OPCIONES, 687);
+        panelOpciones.add(btnOpciones);
 
-		JMenu menuAdministrar = menuAdministrar();
-		menuBarAdministrar.add(menuAdministrar);
+        JMenuBar menuBarAdministrar = menuBarAdministrar();
+        panelPrestabook.add(menuBarAdministrar);
 
-		JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
-		menuAdministrar.add(menuItemTipoObra);
+        JMenu menuAdministrar = menuAdministrar();
+        menuBarAdministrar.add(menuAdministrar);
 
-		JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
-		menuAdministrar.add(menuItemAreaTematica);
+        JMenuItem menuItemTipoObra = new JMenuItem(Constants.TIPOS_DE_OBRAS);
+        menuAdministrar.add(menuItemTipoObra);
 
-		JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
-		menuAdministrar.add(menuItemColeccion);
+        JMenuItem menuItemAreaTematica = new JMenuItem(Constants.AREAS_TEMATICAS);
+        menuAdministrar.add(menuItemAreaTematica);
 
-		JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
-		menuAdministrar.add(menuItemObra);
+        JMenuItem menuItemColeccion = new JMenuItem(Constants.COLECCIONES);
+        menuAdministrar.add(menuItemColeccion);
 
-		JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
-		menuAdministrar.add(menuItemFormato);
+        JMenuItem menuItemObra = new JMenuItem(Constants.OBRAS);
+        menuAdministrar.add(menuItemObra);
 
-		JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
-		menuAdministrar.add(menuItemEdicion);
+        JMenuItem menuItemFormato = new JMenuItem(Constants.FORMATOS);
+        menuAdministrar.add(menuItemFormato);
 
-		JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
-		menuAdministrar.add(menuItemEjemplar);
+        JMenuItem menuItemEdicion = new JMenuItem(Constants.EDICIONES);
+        menuAdministrar.add(menuItemEdicion);
+
+        JMenuItem menuItemEjemplar = new JMenuItem(Constants.EJEMPLARES);
+        menuAdministrar.add(menuItemEjemplar);
 
         menuItemTipoObra.addActionListener(e -> {
             hidePanels();
@@ -233,7 +236,7 @@ public class SistemaFuncionario extends JFrame {
             hidePanels();
             contentPane.add(panelObrasPorEditorial.init());
         });
-        
+
         btnEjemplaresPorArea.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelEjemplaresPorArea.init());
@@ -254,6 +257,11 @@ public class SistemaFuncionario extends JFrame {
             contentPane.add(panelSolicitudes.init());
         });
         
+        btnOpciones.addActionListener(e-> {
+            Configuracion configuracion = new Configuracion();
+            configuracion.setVisible(true);
+        });
+
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
@@ -276,9 +284,9 @@ public class SistemaFuncionario extends JFrame {
         setLocationRelativeTo(null);
     }
 
-	/**
-	 * Menu bar Administrar
-	 */
+    /**
+     * Menu bar Administrar
+     */
 
     private JMenuBar menuBarAdministrar() {
         JMenuBar menuBarAdministrar = new JMenuBar();
