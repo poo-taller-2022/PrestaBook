@@ -43,8 +43,6 @@ public class Prestamos extends JFrame {
     private static final String PRESTAMO_EN_SALA = "En Sala";
     /** Serial number */
     private static final long serialVersionUID = 1L;
-    /** Loan default period */
-    private static final Integer PLAZO_PRESTAMO = 4;
 
     /**
      * Class constructor
@@ -145,7 +143,8 @@ public class Prestamos extends JFrame {
                 prestamo.setFuncionario((Funcionario) comboBoxFuncionario.getSelectedItem());
                 prestamo.setFechaYHoraPrestamo(calendarFechaYHoraPrestamo.getDateTimePermissive().toString());
                 prestamo.setFechaPactadaDevolucion(calendarPactadaDevolucion.getDate().toString());
-                prestamo.setPlazoPrestamo(PLAZO_PRESTAMO);
+                prestamo.setPlazoPrestamo(
+                        Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue()));
                 DaoFactory.getPrestamoDAO().insert(prestamo);
 
                 JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
@@ -348,7 +347,8 @@ public class Prestamos extends JFrame {
     public DatePicker calendarFechaPactadaDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
         calendarFechaYHoraDevolucion.setBounds(326, 320, 271, 29);
-        calendarFechaYHoraDevolucion.setDate(LocalDate.now().plus(PLAZO_PRESTAMO, ChronoUnit.DAYS));
+        calendarFechaYHoraDevolucion.setDate(LocalDate.now().plus(
+                Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue()), ChronoUnit.DAYS));
         calendarFechaYHoraDevolucion.setSettings(DateSettings.getDatePickerSettings());
         return calendarFechaYHoraDevolucion;
     }

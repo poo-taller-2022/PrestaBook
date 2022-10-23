@@ -18,9 +18,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.exception.UserNotFoundException;
+import ar.edu.uner.prestabook.exception.WrongPasswordException;
 import ar.edu.uner.prestabook.jframe.common.Components;
-import ar.edu.uner.prestabook.persistence.impl.UserNotFoundException;
-import ar.edu.uner.prestabook.persistence.impl.WrongPasswordException;
 
 public class IniciarSesion extends JFrame {
 

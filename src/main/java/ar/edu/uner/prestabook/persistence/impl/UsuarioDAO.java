@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
+import ar.edu.uner.prestabook.exception.UserNotFoundException;
+import ar.edu.uner.prestabook.exception.WrongPasswordException;
 import ar.edu.uner.prestabook.persistence.IUsuarioDAO;
 import ar.edu.uner.prestabook.security.PasswordEncrypter;
 
