@@ -19,6 +19,8 @@ import javax.swing.border.LineBorder;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.jframe.common.Components;
+import ar.edu.uner.prestabook.persistence.impl.UserNotFoundException;
+import ar.edu.uner.prestabook.persistence.impl.WrongPasswordException;
 
 public class IniciarSesion extends JFrame {
 
@@ -123,31 +125,32 @@ public class IniciarSesion extends JFrame {
                     && (!(String.valueOf(cajaContrasenia.getPassword()).isBlank())
                             && (btnRadioPublicoGeneral.isSelected() || btnRadioDocente.isSelected()
                                     || btnRadioAlumno.isSelected() || btnRadioFuncionario.isSelected()));
-
-            if (Boolean.TRUE.equals(camposCompletos)) {
-                String busquedaUsuario = DaoFactory.getUsuarioDAO().buscarUsuarioRegistrado(tipoDeUsuario, cajaCorreo.getText(),
-                        String.valueOf(cajaContrasenia.getPassword()));
-
-                if (busquedaUsuario.equals("usuario encontrado")) {
-                    String busquedaNombre = DaoFactory.getUsuarioDAO().buscarNombre(tipoDeUsuario, cajaCorreo.getText());
-
-                    if ("Funcionarios".equals(tipoDeUsuario)) {
-                        SistemaFuncionario interfazSistemaFuncionario = SistemaFuncionario.init();
-                        interfazSistemaFuncionario.setVisible(true);
-                        Components.getTextUsuario().setText(busquedaNombre);
-                    } else {
-                        SistemaLector.setLoggedUser(DaoFactory.getLectorDAO().findByEmail(cajaCorreo.getText()));
-                        SistemaLector interfazSistemaLector = SistemaLector.init();
-                        interfazSistemaLector.setVisible(true);
-                        Components.getTextUsuario().setText(busquedaNombre);
-                    }
-                    IniciarSesion.this.dispose();
-
+            try {
+                if (Boolean.FALSE.equals(camposCompletos)) {
+                    JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
                 } else {
-                    JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
+                    Boolean usuarioEncontrado = DaoFactory.getUsuarioDAO().buscarUsuarioRegistrado(tipoDeUsuario,
+                            cajaCorreo.getText(), String.valueOf(cajaContrasenia.getPassword()));
+                    if (Boolean.TRUE.equals(usuarioEncontrado)) {
+                        String nombre = DaoFactory.getUsuarioDAO().buscarNombre(tipoDeUsuario,
+                                cajaCorreo.getText());
+                        Components.getTextUsuario().setText(nombre);
+                        if ("Funcionarios".equals(tipoDeUsuario)) {
+                            SistemaFuncionario interfazSistemaFuncionario = SistemaFuncionario.init();
+                            interfazSistemaFuncionario.setVisible(true);
+                        } else {
+                            SistemaLector.setLoggedUser(DaoFactory.getLectorDAO().findByEmail(cajaCorreo.getText()));
+                            SistemaLector interfazSistemaLector = SistemaLector.init();
+                            interfazSistemaLector.setVisible(true);
+                        }
+                        IniciarSesion.this.dispose();
+                    }
                 }
-            } else {
-                JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder ingresar");
+            } catch (WrongPasswordException wpe) {
+                JOptionPane.showInternalMessageDialog(null, "Contraseña incorrecta", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (UserNotFoundException ue) {
+                JOptionPane.showInternalMessageDialog(null, "Usuario no registrado");
             }
         });
     }
