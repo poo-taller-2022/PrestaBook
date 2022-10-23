@@ -21,6 +21,7 @@ import ar.edu.uner.prestabook.jframe.Constants;
 import ar.edu.uner.prestabook.jframe.Tabla;
 import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.model.Obra;
+import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 public class PanelObrasLector extends AbstractPanel {
 
