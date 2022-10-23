@@ -134,9 +134,10 @@ public class IniciarSesion extends JFrame {
                     String busquedaNombre = usuariosDAO.buscarNombre(tipoDeUsuario, cajaCorreo.getText());
 
                     if ("Funcionarios".equals(tipoDeUsuario)) {
+                        SistemaFuncionario.setLoggedUser(DaoFactory.getFuncionarioDAO().findByEmail(cajaCorreo.getText()));
                         SistemaFuncionario interfazSistemaFuncionario = SistemaFuncionario.init();
                         interfazSistemaFuncionario.setVisible(true);
-                        interfazSistemaFuncionario.getTextUsuario().setText(busquedaNombre);
+                        Components.getTextUsuario().setText(busquedaNombre);
                     } else {
                         SistemaLector.setLoggedUser(DaoFactory.getLectorDAO().findByEmail(cajaCorreo.getText()));
                         SistemaLector interfazSistemaLector = SistemaLector.init();

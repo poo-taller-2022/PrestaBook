@@ -28,9 +28,9 @@ import lombok.Getter;
 
 public class Components {
 
-    private static final Integer BUTTON_POSITION_LEFT = 140;
-    private static final Integer BUTTON_POSITION_CENTER = 440;
-    private static final Integer BUTTON_POSITION_RIGHT = 740;
+    private static final Integer BUTTON_POSITION_LEFT = 50;
+    private static final Integer BUTTON_POSITION_CENTER = 250;
+    private static final Integer BUTTON_POSITION_RIGHT = 450;
     @Getter
     private static JLabel textUsuario = textUsuario();
     public static final Integer PANEL_WIDTH = 1000;
@@ -66,7 +66,7 @@ public class Components {
                 xAxis = BUTTON_POSITION_CENTER;
                 break;
         }
-        btnGeneric.setBounds(xAxis, 500, 210, 20);
+        btnGeneric.setBounds(xAxis, 520, 180, 20);
         return btnGeneric;
     }
 
@@ -197,7 +197,7 @@ public class Components {
 
     public static JLabel lblPanelTitle(String title) {
         JLabel lblPanelTitle = new JLabel(title);
-        lblPanelTitle.setBounds(440, 20, 369, 136);
+        lblPanelTitle.setBounds(410, 20, 369, 136);
         lblPanelTitle.setForeground(Color.GRAY);
         lblPanelTitle.setFont(new Font(Constants.FONT, Font.BOLD, 19));
         return lblPanelTitle;

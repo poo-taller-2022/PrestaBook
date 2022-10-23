@@ -34,4 +34,6 @@ public class Constants {
     public static final String OBRAS_LECTOR_VIEW = "Obras para lector";
     public static final String RESERVAS = "Reservas";
     public static final String OBRAS_MAS_SOLICITADAS = "Obras más solicitadas";
+    public static final String SOLICITUDES = "Solicitudes";
+    public static final Integer PLAZO_PRESTAMO = 4;
 }

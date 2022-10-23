@@ -1,7 +1,6 @@
 package ar.edu.uner.prestabook.persistence;
 
 public interface IUsuarioDAO {
-
 	
     /**
      * Searchs for a registered user in the database
@@ -19,5 +18,5 @@ public interface IUsuarioDAO {
      * @param correo Email of user
      * @return String with name and surname
      */
-    public String buscarNombre(String tipo, String correo);
+    public String buscarNombre(String tipo, String correo);   
 }

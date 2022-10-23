@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Alumno;
+import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 
 public class AlumnoDAO implements IAlumnoDAO {
@@ -59,6 +60,12 @@ public class AlumnoDAO implements IAlumnoDAO {
         HibernateConnection.getCurrentSession().update(alumno);
         tx.commit();
         return alumno;
+    }
+    
+    @Override
+    public Lector findByEmail(String email) {
+        String hql = String.format("from Alumno l where l.email = '%s'", email);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Alumno.class).getSingleResult();
     }
 
 }

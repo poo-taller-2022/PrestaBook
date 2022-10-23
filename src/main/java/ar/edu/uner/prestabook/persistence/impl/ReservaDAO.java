@@ -68,5 +68,11 @@ public class ReservaDAO implements IReservaDAO {
                 String.format("select count(*) from Reserva r where r.ejemplar.isbnObra = '%s' and r.isActive = true", isbn));
         return (Long) query.getSingleResult();
     }
+    
+    @Override
+    public Reserva findByIdEjemplar(Long idEjemplar) {
+        String hql = String.format("from Reserva p where p.ejemplar.id = '%s'", idEjemplar);
+        return HibernateConnection.getCurrentSession().createQuery(hql, Reserva.class).uniqueResult();
+    }
 
 }

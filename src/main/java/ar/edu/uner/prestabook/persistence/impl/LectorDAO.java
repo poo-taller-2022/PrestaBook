@@ -71,7 +71,6 @@ public class LectorDAO implements ILectorDAO {
     public Lector findByEmail(String email) {
         String hql = String.format("from Lector l where l.email = '%s'", email);
         return HibernateConnection.getCurrentSession().createQuery(hql, Lector.class).getSingleResult();
-
     }
 
 }

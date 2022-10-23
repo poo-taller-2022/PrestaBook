@@ -28,14 +28,18 @@ import ar.edu.uner.prestabook.jframe.panels.PanelObrasMasSolicitadas;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasPorEditorial;
 import ar.edu.uner.prestabook.jframe.panels.PanelPrestamos;
 import ar.edu.uner.prestabook.jframe.panels.PanelReservas;
+import ar.edu.uner.prestabook.jframe.panels.PanelSolicitudes;
 import ar.edu.uner.prestabook.jframe.panels.PanelTiposObra;
+import ar.edu.uner.prestabook.model.Funcionario;
 import lombok.Getter;
+import lombok.Setter;
 
 public class SistemaFuncionario extends JFrame {
 
     private static final long serialVersionUID = 1L;
     @Getter
-    private JLabel textUsuario;
+    @Setter
+    private static transient Funcionario loggedUser;
     private transient AbstractPanel panelBienvenida = new PanelBienvenida();
     private transient AbstractPanel panelAreaTematica = new PanelAreaTematica();
     private transient AbstractPanel panelColeccion = new PanelColecciones();
@@ -51,10 +55,11 @@ public class SistemaFuncionario extends JFrame {
 	private transient AbstractPanel panelEjemplaresPorArea = new PanelEjemplaresPorArea();
     private transient AbstractPanel panelReservas = new PanelReservas();
     private transient AbstractPanel panelObrasMasSolicitadas = new PanelObrasMasSolicitadas();
+    private transient AbstractPanel panelSolicitudes = new PanelSolicitudes();
 
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas);
+            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas, panelSolicitudes);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
@@ -71,7 +76,6 @@ public class SistemaFuncionario extends JFrame {
 
         window();
         setContentPane(contentPane);
-        textUsuario = new JLabel("");
         contentPane.add(panelBienvenida.init());
 
         JPanel panelPrestabook = Components.panelPrestabook();
@@ -97,7 +101,7 @@ public class SistemaFuncionario extends JFrame {
         panelOpciones.add(btnSolicitudes);
 
         panelOpciones.add(Components.lblUsuario());
-        panelOpciones.add(Components.textUsuario());
+        panelOpciones.add(Components.getTextUsuario());
         panelOpciones.add(Components.panelSeparador());
         panelOpciones.add(Components.lblOpciones());
 
@@ -243,6 +247,11 @@ public class SistemaFuncionario extends JFrame {
         btnMasSolicitadas.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelObrasMasSolicitadas.init());
+        });
+        
+        btnSolicitudes.addActionListener(e -> {
+            hidePanels();
+            contentPane.add(panelSolicitudes.init());
         });
         
         btnCerrarSesion.addActionListener(e -> {
