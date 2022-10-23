@@ -27,11 +27,12 @@ public class PanelObrasLector extends AbstractPanel {
 
     public JPanel init() {
         prepare();
+        
         JTextField txtIngresarAreaTematica = txtIngresarAreaTematica();
         
         JButton btnAdministrarObra = Components.btnGeneric("Administrar obra", "Right");
         panel.add(txtIngresarAreaTematica);
-       
+        
         panel.add(btnAdministrarObra);
 
         table.setAutoCreateRowSorter(true);

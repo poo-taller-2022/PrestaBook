@@ -62,9 +62,6 @@ public class AdministrarObra extends JFrame {
         fieldIsbnObra.setText(obra.getTitulo());
         contentPane.add(fieldIsbnObra);
 
-        JLabel lblNoDisponible = lblNoDisponible();
-        contentPane.add(lblNoDisponible);
-
         JLabel lblTituloObra = lblTituloObra();
         contentPane.add(lblTituloObra);
 
@@ -88,7 +85,6 @@ public class AdministrarObra extends JFrame {
         List<Edicion> ediciones = DaoFactory.getEdicionDAO().findByAllObraIsbn(obra.getIsbn());
         if (ediciones.isEmpty()) {
             comboBoxEdiciones.setEnabled(false);
-            lblNoDisponible.setVisible(true);
         } else {
             for (Edicion edicion : ediciones) {
                 comboBoxEdiciones.addItem(edicion);
@@ -135,16 +131,14 @@ public class AdministrarObra extends JFrame {
                 "\n Tercer autor: " + obra.getTercerAutor() +
                 "\n Género: " + obra.getGenero() +
                 "\n Tipo obra: " + obra.getTipo().getNombre() +
-                "\n Editorial: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getEditorial()) +
-                "\n Año de edicion: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getAnio().toString()) +
-                "\n Pais de edicion: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getPais()) +
-                "\n Idioma: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getIdioma()) +
-                "\n Numero de edicion: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getNumero().toString())
-                +
-                "\n Paginas: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getPaginas().toString()) +
-                "\n Volumenes: " + (edicion == null ? Constants.NO_DISPONIBLE : edicion.getVolumenes().toString()) +
-                "\n Formato: "
-                + (edicion == null ? Constants.NO_DISPONIBLE : contatenarFormatos(edicion.getFormatos()).toString()) +
+                "\n Editorial: " + edicion.getEditorial() +
+                "\n Año de edicion: " + edicion.getAnio().toString() +
+                "\n Pais de edicion: " + edicion.getPais() +
+                "\n Idioma: " + edicion.getIdioma() +
+                "\n Numero de edicion: " + edicion.getNumero().toString() +
+                "\n Paginas: " + edicion.getPaginas().toString() +
+                "\n Volumenes: " + edicion.getVolumenes().toString() +
+                "\n Formato: " + contatenarFormatos(edicion.getFormatos()).toString() +
                 "\n Pertenece a una colección: " + (obra.getIsbnColeccion() == null ? "No" : "Si") +
                 "\n Nombre de colección: " + (obra.getIsbnColeccion() == null ? "No corresponde"
                         : DaoFactory.getColeccionDAO().findById(obra.getIsbnColeccion()).getTitulo()));
@@ -222,14 +216,6 @@ public class AdministrarObra extends JFrame {
         fieldEjemplaresDisponibles.setColumns(10);
         fieldEjemplaresDisponibles.setBounds(446, 139, 152, 29);
         return fieldEjemplaresDisponibles;
-    }
-
-    public JLabel lblNoDisponible() {
-        JLabel lblNoDisponible = new JLabel("No disponible");
-        lblNoDisponible.setEnabled(false);
-        lblNoDisponible.setBounds(264, 146, 98, 14);
-        lblNoDisponible.setVisible(false);
-        return lblNoDisponible;
     }
 
     public JTextField fieldIsbnObra() {

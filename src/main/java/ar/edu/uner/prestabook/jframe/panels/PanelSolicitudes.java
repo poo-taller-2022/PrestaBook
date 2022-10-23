@@ -63,7 +63,24 @@ public class PanelSolicitudes extends AbstractPanel {
 
         btnRachazarPrestamo.addActionListener(b -> {
             if (table.getSelectedRow() != -1) {
-                DaoFactory.getPrestamoDAO().delete((long) table.getValueAt(table.getSelectedRow(), 1));
+                Prestamo prestamo = new Prestamo();
+                prestamo.setId((long) table.getValueAt(table.getSelectedRow(), 1));
+
+                Ejemplar ejemplar = new Ejemplar();
+                ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 4));
+                prestamo.setEjemplar(ejemplar);
+
+                prestamo.setFechaYHoraPrestamo(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date()));
+                prestamo.setFechaPactadaDevolucion(null);
+                prestamo.setPlazoPrestamo(null);
+
+                Lector lector = new Lector();
+                lector.setDocumento((long) table.getValueAt(table.getSelectedRow(), 2));
+                prestamo.setLector(lector);
+
+                prestamo.setFuncionario(SistemaFuncionario.getLoggedUser());
+
+                DaoFactory.getPrestamoDAO().update(prestamo);
                 
                 JOptionPane.showInternalMessageDialog(null, "Préstamo rechazado correctamente");
             } else {

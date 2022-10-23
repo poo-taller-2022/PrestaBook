@@ -180,6 +180,19 @@ public class Components {
         btnSolicitudes.setBounds(23, 74, 293, 31);
         return btnSolicitudes;
     }
+    
+    public static JButton btnNotificaciones() {
+        JButton btnNotificaciones = new JButton("Notificaciones");
+        btnNotificaciones.setVerifyInputWhenFocusTarget(false);
+        btnNotificaciones.setForeground(new Color(0, 64, 128));
+        btnNotificaciones.setFont(new Font(Constants.FONT, Font.BOLD, 12));
+        btnNotificaciones.setFocusPainted(false);
+        btnNotificaciones.setBorderPainted(false);
+        btnNotificaciones.setBorder(null);
+        btnNotificaciones.setBackground(Color.WHITE);
+        btnNotificaciones.setBounds(23, 74, 293, 31);
+        return btnNotificaciones;
+    }
 
     public static JPanel panelSeparador() {
         JPanel panelSeparador = new JPanel();

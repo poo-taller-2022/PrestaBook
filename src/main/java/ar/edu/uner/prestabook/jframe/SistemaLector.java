@@ -1,5 +1,7 @@
 package ar.edu.uner.prestabook.jframe;
 
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,6 +11,7 @@ import javax.swing.WindowConstants;
 import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.panels.AbstractPanel;
 import ar.edu.uner.prestabook.jframe.panels.PanelBienvenida;
+import ar.edu.uner.prestabook.jframe.panels.PanelNotificaciones;
 import ar.edu.uner.prestabook.jframe.panels.PanelObrasLector;
 import ar.edu.uner.prestabook.model.Lector;
 import lombok.Getter;
@@ -23,8 +26,11 @@ public class SistemaLector extends JFrame {
     private static transient Lector loggedUser;
     private transient AbstractPanel panelObra = new PanelObrasLector();
     private transient AbstractPanel panelBienvenida = new PanelBienvenida();
+    private transient AbstractPanel panelNotificaciones= new PanelNotificaciones();
     private JPanel contentPane = Components.contentPane();
     private static SistemaLector instance = new SistemaLector();
+    
+    private transient List<AbstractPanel> panels = List.of(panelBienvenida, panelNotificaciones, panelObra);
 
     /**
      * Initializes the system interface
@@ -58,8 +64,8 @@ public class SistemaLector extends JFrame {
         JPanel panelOpciones = Components.panelOpciones();
         contentPane.add(panelOpciones);
 
-        JButton btnSolicitudes = Components.btnSolicitudes();
-        panelOpciones.add(btnSolicitudes);
+        JButton btnNotificaciones = Components.btnNotificaciones();
+        panelOpciones.add(btnNotificaciones);
 
         panelOpciones.add(Components.lblUsuario());
         panelOpciones.add(Components.getTextUsuario());
@@ -72,6 +78,7 @@ public class SistemaLector extends JFrame {
         contentPane.add(panelBienvenida.init());
 
         btnConsultarObras.addActionListener(e -> {
+            hidePanels();
             panelBienvenida.hide();
             contentPane.add(panelObra.init());
         });
@@ -92,6 +99,11 @@ public class SistemaLector extends JFrame {
          */
 
         btnExit.addActionListener(e -> System.exit(0));
+         
+        btnNotificaciones.addActionListener(e -> {
+            hidePanels();
+            contentPane.add(panelNotificaciones.init());
+        });
     }
 
     /**
@@ -107,4 +119,12 @@ public class SistemaLector extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Hides all panels
+     */
+    private void hidePanels() {
+        for (AbstractPanel panel : panels) {
+            panel.hide();
+        }
+    }
 }

@@ -26,6 +26,7 @@ public class PanelObrasPorEditorial extends AbstractPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JTextField txtIngresarEditorial = txtIngresarEditorial();
         panel.add(txtIngresarEditorial);
+        
         TableRowSorter<DefaultTableModel> sorted = new TableRowSorter<>(model);
         table.setRowSorter(sorted);
 

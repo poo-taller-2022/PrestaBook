@@ -92,6 +92,9 @@ public class Tabla {
             case Constants.SOLICITUDES:
                 loadSolicitudes(model, i);
                 break;
+            case Constants.NOTIFICACIONES:
+                loadNotificaciones(model, i);
+                break;
             default:
         }
     }
@@ -403,42 +406,45 @@ public class Tabla {
         IObraDAO obraDAO = DaoFactory.getObraDAO();
         List<Obra> obras = obraDAO.findAll();
         for (Obra obra : obras) {
-            List<Object> fila = new LinkedList<>();
-            fila.add(++i);
+            if (!DaoFactory.getEdicionDAO().findByAllObraIsbn(obra.getIsbn()).isEmpty()) {
+                List<Object> fila = new LinkedList<>();
+                fila.add(++i);
 
-            Set<AreaTematica> areas = obra.getArea();
-            StringBuilder contatenarAreas = new StringBuilder();
+                Set<AreaTematica> areas = obra.getArea();
+                StringBuilder contatenarAreas = new StringBuilder();
 
-            for (AreaTematica area : areas) {
-                contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
-            }
-            contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
-            fila.add(contatenarAreas);
-
-            fila.add(obra.getIsbn().toUpperCase());
-            fila.add(obra.getTitulo().toUpperCase());
-            fila.add(obra.getSubtitulo().toUpperCase());
-            fila.add(obra.getPrimerAutor().toUpperCase());
-            fila.add(obra.getGenero().toUpperCase());
-            fila.add(obra.getTipo().getNombre().toUpperCase());
-
-            IPrestamoDAO prestamoDAO = DaoFactory.getPrestamoDAO();
-            IReservaDAO reservaDAO = DaoFactory.getReservaDAO();
-            List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAll();
-            Integer cantidadEjemplares = 0;
-            if (ejemplares != null) {
-                for (Ejemplar ejemplar : ejemplares) {
-                    if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && ejemplar.getMotivoBaja() == null
-                            && prestamoDAO.findByIdEjemplar(ejemplar.getId()) == null && reservaDAO.findByIdEjemplar(ejemplar.getId()) == null) {
-                        cantidadEjemplares++;
-                    }
+                for (AreaTematica area : areas) {
+                    contatenarAreas.append(area.getNombre().toUpperCase() + ", ");
                 }
-                fila.add(cantidadEjemplares);
-            } else {
-                fila.add(cantidadEjemplares);
-            }
+                contatenarAreas = contatenarAreas.deleteCharAt(contatenarAreas.length() - 2);
+                fila.add(contatenarAreas);
 
-            model.addRow(new Vector<>(fila));
+                fila.add(obra.getIsbn().toUpperCase());
+                fila.add(obra.getTitulo().toUpperCase());
+                fila.add(obra.getSubtitulo().toUpperCase());
+                fila.add(obra.getPrimerAutor().toUpperCase());
+                fila.add(obra.getGenero().toUpperCase());
+                fila.add(obra.getTipo().getNombre().toUpperCase());
+
+                IPrestamoDAO prestamoDAO = DaoFactory.getPrestamoDAO();
+                IReservaDAO reservaDAO = DaoFactory.getReservaDAO();
+                List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAll();
+                Integer cantidadEjemplares = 0;
+                if (ejemplares != null) {
+                    for (Ejemplar ejemplar : ejemplares) {
+                        if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && ejemplar.getMotivoBaja() == null
+                                && prestamoDAO.findByIdEjemplar(ejemplar.getId()) == null && reservaDAO.findByIdEjemplar(ejemplar.getId()) == null) {
+                            cantidadEjemplares++;
+                        }
+                    }
+                    fila.add(cantidadEjemplares);
+                } else {
+                    fila.add(cantidadEjemplares);
+                }
+
+                model.addRow(new Vector<>(fila));
+            }
+           
         }
     }
 
@@ -476,5 +482,23 @@ public class Tabla {
             }
             
         }
+    }
+    
+    private static void loadNotificaciones(DefaultTableModel model, Integer i) {
+        List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
+        for (Prestamo prestamo : prestamos) {
+            if (prestamo.getPlazoPrestamo() == null && Objects.equals(prestamo.getLector().getDocumento(), SistemaLector.getLoggedUser().getDocumento())) {
+                List<Object> fila = new LinkedList<>();
+                fila.add(++i);
+                fila.add(prestamo.getId());
+                fila.add(prestamo.getEjemplar().getId());
+                fila.add(prestamo.getFechaYHoraPrestamo());
+                fila.add("Rechazado");
+                fila.add(prestamo.getFuncionario().getApellido() + " " + prestamo.getFuncionario().getNombre());
+                fila.add("No");
+                model.addRow(new Vector<>(fila));
+            }
+        }
+        
     }
 }

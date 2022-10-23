@@ -79,9 +79,11 @@ public class PrestamoDAO implements IPrestamoDAO {
     
     @Override
     public void delete(Long idPrestamo) {
+        Transaction tx = HibernateConnection.getCurrentSession().beginTransaction();
         Query query = HibernateConnection.getCurrentSession().createQuery(
                 String.format("delete Prestamo p where p.id = '%s'", idPrestamo));
         query.executeUpdate();
+        tx.commit();
     }
 
 }
