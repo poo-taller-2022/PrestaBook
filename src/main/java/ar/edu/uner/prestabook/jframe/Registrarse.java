@@ -206,6 +206,9 @@ public class Registrarse extends JFrame {
                         JOptionPane.showInternalMessageDialog(null,
                                 "Datos del " + tipoSeleccionado + " guardados correctamente");
                     }
+                    IniciarSesion login = new IniciarSesion();
+                    login.setVisible(true);
+                    Registrarse.this.dispose();
                 } catch (PersistenceException exception) {
                     HibernateConnection.getCurrentSession().getTransaction().rollback();
                     JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
