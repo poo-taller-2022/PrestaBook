@@ -29,13 +29,10 @@ import ar.edu.uner.prestabook.jframe.panels.PanelObrasPorEditorial;
 import ar.edu.uner.prestabook.jframe.panels.PanelPrestamos;
 import ar.edu.uner.prestabook.jframe.panels.PanelReservas;
 import ar.edu.uner.prestabook.jframe.panels.PanelTiposObra;
-import lombok.Getter;
 
 public class SistemaFuncionario extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    @Getter
-    private JLabel textUsuario;
     private transient AbstractPanel panelBienvenida = new PanelBienvenida();
     private transient AbstractPanel panelAreaTematica = new PanelAreaTematica();
     private transient AbstractPanel panelColeccion = new PanelColecciones();
@@ -71,7 +68,6 @@ public class SistemaFuncionario extends JFrame {
 
         window();
         setContentPane(contentPane);
-        textUsuario = new JLabel("");
         contentPane.add(panelBienvenida.init());
 
         JPanel panelPrestabook = Components.panelPrestabook();
@@ -97,7 +93,7 @@ public class SistemaFuncionario extends JFrame {
         panelOpciones.add(btnSolicitudes);
 
         panelOpciones.add(Components.lblUsuario());
-        panelOpciones.add(Components.textUsuario());
+        panelOpciones.add(Components.getTextUsuario());
         panelOpciones.add(Components.panelSeparador());
         panelOpciones.add(Components.lblOpciones());
 

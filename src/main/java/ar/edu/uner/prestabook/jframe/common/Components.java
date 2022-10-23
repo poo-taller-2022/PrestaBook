@@ -93,7 +93,7 @@ public class Components {
         return lblBienvenidaParte2;
     }
 
-    public static JLabel textUsuario() {
+    private static JLabel textUsuario() {
         JLabel textUsuario = new JLabel();
         textUsuario.setBackground(new Color(0, 128, 0));
         textUsuario.setBounds(118, 0, 173, 37);
