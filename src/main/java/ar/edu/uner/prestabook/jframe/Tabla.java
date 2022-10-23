@@ -262,7 +262,7 @@ public class Tabla {
                 fila.add(String.format("%s %s", reserva.getLector().getNombre(), reserva.getLector().getApellido()));
                 fila.add(obra.getTitulo());
                 fila.add(reserva.getEjemplar().getId());
-                fila.add(LocalDate.parse(reserva.getFechaReserva(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                fila.add(LocalDate.parse(reserva.getFechaReserva(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 model.addRow(new Vector<>(fila));
             }
         }
