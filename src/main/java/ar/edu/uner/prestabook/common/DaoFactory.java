@@ -4,6 +4,7 @@ import ar.edu.uner.prestabook.persistence.IAlumnoDAO;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
+import ar.edu.uner.prestabook.persistence.IConfigDAO;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
@@ -20,6 +21,7 @@ import ar.edu.uner.prestabook.persistence.impl.AlumnoDAO;
 import ar.edu.uner.prestabook.persistence.impl.AreaTematicaDAO;
 import ar.edu.uner.prestabook.persistence.impl.CodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.impl.ColeccionDAO;
+import ar.edu.uner.prestabook.persistence.impl.ConfigDAO;
 import ar.edu.uner.prestabook.persistence.impl.DocenteDAO;
 import ar.edu.uner.prestabook.persistence.impl.EdicionDAO;
 import ar.edu.uner.prestabook.persistence.impl.EjemplarDAO;
@@ -180,7 +182,7 @@ public class DaoFactory {
     public static IMultaDAO getMultaDAO() {
         return MultaDAO.getInstance();
     }
-    
+
     /**
      * Returns an instance of a Reserva DAO
      *
@@ -188,6 +190,15 @@ public class DaoFactory {
      */
     public static IReservaDAO getReservaDAO() {
         return ReservaDAO.getInstance();
+    }
+
+    /**
+     * Returns an instance of a Config DAO
+     *
+     * @return a Config DAO
+     */
+    public static IConfigDAO getConfigDAO() {
+        return ConfigDAO.getInstance();
     }
 
 }

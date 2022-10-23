@@ -1,4 +1,4 @@
-package ar.edu.uner.prestabook.persistence.impl;
+package ar.edu.uner.prestabook.exception;
 
 public class UserNotFoundException extends Exception {
 

@@ -1,7 +1,7 @@
 package ar.edu.uner.prestabook.persistence;
 
-import ar.edu.uner.prestabook.persistence.impl.UserNotFoundException;
-import ar.edu.uner.prestabook.persistence.impl.WrongPasswordException;
+import ar.edu.uner.prestabook.exception.UserNotFoundException;
+import ar.edu.uner.prestabook.exception.WrongPasswordException;
 
 public interface IUsuarioDAO {
 

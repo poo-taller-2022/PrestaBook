@@ -25,6 +25,7 @@
 		<mapping class="ar.edu.uner.prestabook.model.Prestamo" />
 		<mapping class="ar.edu.uner.prestabook.model.TipoObra" />
 		<mapping class="ar.edu.uner.prestabook.model.Reserva" />
+		<mapping class="ar.edu.uner.prestabook.model.Config" />
 
 
 	</session-factory>
