@@ -112,7 +112,7 @@ public class Devoluciones extends JFrame {
 			Lector lector = (Lector) e.getItem();
 			List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAllByLectorId(lector.getDocumento());
 			for (Prestamo prestamo : prestamos) {
-				if (prestamo.getFechaRealDevolucion() == null)
+				if (prestamo.getFechaRealDevolucion() == null && prestamo.getFuncionario() != null)
 					comboBoxPrestamo.addItem(prestamo);
 			}
 		});

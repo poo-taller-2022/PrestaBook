@@ -17,7 +17,7 @@ public class ColeccionRenderer extends BasicComboBoxRenderer {
 		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		Coleccion item = (Coleccion) value;
 		if (item != null)
-			setText(item.getTitulo());
+			setText(item.getIsbn());
 		return this;
 	}
 

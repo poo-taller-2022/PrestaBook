@@ -35,27 +35,33 @@ public class PanelSolicitudes extends AbstractPanel {
 
         btnConfirmarPrestamo.addActionListener(b -> {
             if (table.getSelectedRow() != -1) {
+                if (table.getValueAt(table.getSelectedRow(), 4) == "No") {
+                    Prestamo prestamo = new Prestamo();
+                    prestamo.setId((long) table.getValueAt(table.getSelectedRow(), 1));
 
-                Prestamo prestamo = new Prestamo();
-                prestamo.setId((long) table.getValueAt(table.getSelectedRow(), 1));
+                    Ejemplar ejemplar = new Ejemplar();
+                    ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 4));
+                    prestamo.setEjemplar(ejemplar);
 
-                Ejemplar ejemplar = new Ejemplar();
-                ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 4));
-                prestamo.setEjemplar(ejemplar);
+                    prestamo.setFechaYHoraPrestamo(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date()));
+                    prestamo.setFechaPactadaDevolucion(table.getValueAt(table.getSelectedRow(), 6).toString());
+                    prestamo.setPlazoPrestamo(Constants.PLAZO_PRESTAMO);
 
-                prestamo.setFechaYHoraPrestamo(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date()));
-                prestamo.setFechaPactadaDevolucion(table.getValueAt(table.getSelectedRow(), 6).toString());
-                prestamo.setPlazoPrestamo(Constants.PLAZO_PRESTAMO);
+                    Lector lector = new Lector();
+                    lector.setDocumento((long) table.getValueAt(table.getSelectedRow(), 2));
+                    prestamo.setLector(lector);
 
-                Lector lector = new Lector();
-                lector.setDocumento((long) table.getValueAt(table.getSelectedRow(), 2));
-                prestamo.setLector(lector);
+                    prestamo.setFuncionario(SistemaFuncionario.getLoggedUser());
 
-                prestamo.setFuncionario(SistemaFuncionario.getLoggedUser());
+                    DaoFactory.getPrestamoDAO().update(prestamo);
 
-                DaoFactory.getPrestamoDAO().update(prestamo);
+                    JOptionPane.showInternalMessageDialog(null, "Préstamo realizado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "No se pudo realizar el préstamo porque el lector posee multas activas", "Error",
+                            JOptionPane.ERROR_MESSAGE);
 
-                JOptionPane.showInternalMessageDialog(null, "Préstamo realizado correctamente");
+                }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe seleccionar un pedido de prestamo");
             }
@@ -67,7 +73,7 @@ public class PanelSolicitudes extends AbstractPanel {
                 prestamo.setId((long) table.getValueAt(table.getSelectedRow(), 1));
 
                 Ejemplar ejemplar = new Ejemplar();
-                ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 4));
+                ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 5));
                 prestamo.setEjemplar(ejemplar);
 
                 prestamo.setFechaYHoraPrestamo(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date()));
@@ -81,8 +87,9 @@ public class PanelSolicitudes extends AbstractPanel {
                 prestamo.setFuncionario(SistemaFuncionario.getLoggedUser());
 
                 DaoFactory.getPrestamoDAO().update(prestamo);
-                
+
                 JOptionPane.showInternalMessageDialog(null, "Préstamo rechazado correctamente");
+                Tabla.fill(model, Constants.SOLICITUDES);
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe seleccionar un pedido de prestamo");
             }
@@ -97,6 +104,7 @@ public class PanelSolicitudes extends AbstractPanel {
         model.addColumn("Id de préstamo");
         model.addColumn("Documento de lector");
         model.addColumn("Cantidad de multas");
+        model.addColumn("Multa activa");
         model.addColumn("Id ejemplar");
         model.addColumn("Fecha pedido de préstamo");
         model.addColumn("Fecha pactada de devolución");

@@ -3,6 +3,7 @@ package ar.edu.uner.prestabook.jframe;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -271,26 +272,28 @@ public class Tabla {
     private static void loadPrestamos(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
         for (Prestamo prestamo : prestamos) {
-            LocalDateTime fechaPrestamo = LocalDateTime.parse(prestamo.getFechaYHoraPrestamo());
-            LocalDate fechaPactadaDevolucion = LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
-                    ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                    : null;
-            Boolean fueraDeTermino = fechaPrestamo.plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue())).toLocalDate()
-                    .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion);
+            if (prestamo.getFuncionario() != null) {
+                LocalDateTime fechaPrestamo = LocalDateTime.parse(prestamo.getFechaYHoraPrestamo());
+                LocalDate fechaPactadaDevolucion = LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
+                        ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        : null;
+                Boolean fueraDeTermino = fechaPrestamo.plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue())).toLocalDate()
+                        .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion);
 
-            List<Object> fila = new LinkedList<>();
-            fila.add(++i);
-            fila.add(DaoFactory.getObraDAO().findById(prestamo.getEjemplar().getIsbnObra()).getTitulo());
-            fila.add(prestamo.getEjemplar().getId());
-            fila.add(fechaPrestamo);
-            fila.add(fechaPactadaDevolucion);
-            fila.add(fechaRealDevolucion);
-            fila.add(prestamo.getLector().getNombre());
-            fila.add(prestamo.getLector().getApellido());
-            fila.add(Boolean.TRUE.equals(fueraDeTermino) ? "Sí" : "No");
-            model.addRow(new Vector<>(fila));
+                List<Object> fila = new LinkedList<>();
+                fila.add(++i);
+                fila.add(DaoFactory.getObraDAO().findById(prestamo.getEjemplar().getIsbnObra()).getTitulo());
+                fila.add(prestamo.getEjemplar().getId());
+                fila.add(fechaPrestamo);
+                fila.add(fechaPactadaDevolucion);
+                fila.add(fechaRealDevolucion);
+                fila.add(prestamo.getLector().getNombre());
+                fila.add(prestamo.getLector().getApellido());
+                fila.add(Boolean.TRUE.equals(fueraDeTermino) ? "Sí" : "No");
+                model.addRow(new Vector<>(fila));
+            }
         }
     }
     
@@ -475,6 +478,25 @@ public class Tabla {
                 fila.add(prestamo.getId());
                 fila.add(prestamo.getLector().getDocumento());
                 fila.add(DaoFactory.getMultaDAO().findByAllDocumentoLector(prestamo.getLector().getDocumento()).size());
+                if (DaoFactory.getMultaDAO().findByAllDocumentoLector(prestamo.getLector().getDocumento()).isEmpty()) {
+                    fila.add("No");
+                } else {
+                    List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(prestamo.getLector().getDocumento());
+                    Boolean fueraDeTermino = false;
+                    for (Multa multa : multas) {
+                        LocalDate fechaConPlazo = LocalDate
+                                .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).plus(multa.getPlazo(), ChronoUnit.DAYS);
+                        if (!LocalDate.now().isAfter(fechaConPlazo)) {
+                            fueraDeTermino = true;
+                        }
+                    }
+                    if (fueraDeTermino) {
+                        fila.add("Si");
+                    } else {
+                        fila.add("No");
+                    }
+                }
+                
                 fila.add(prestamo.getEjemplar().getId());
                 fila.add(prestamo.getFechaYHoraPrestamo());
                 fila.add(prestamo.getFechaPactadaDevolucion());

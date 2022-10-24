@@ -183,7 +183,7 @@ public class AdministrarObra extends JFrame {
             }
             return cantidadEjemplares;
         } else {
-            return 0;
+            return 0; 
         }
     }
 

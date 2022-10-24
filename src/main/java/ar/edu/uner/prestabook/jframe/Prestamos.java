@@ -2,9 +2,12 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -30,6 +33,7 @@ import ar.edu.uner.prestabook.jframe.utils.VetoPastDates;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
+import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.Prestamo;
 
@@ -66,7 +70,7 @@ public class Prestamos extends JFrame {
             comboBoxEjemplar.removeAllItems();
             List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAllByObraIsbn(obra.getIsbn());
             for (Ejemplar ejemplar : ejemplares) {
-                if (ejemplar.getMotivoBaja() == null) {
+                if (ejemplar.getMotivoBaja() == null && DaoFactory.getPrestamoDAO().findByIdEjemplar(ejemplar.getId()) == null) {
                     comboBoxEjemplar.addItem(ejemplar);
                 }
             }
@@ -229,7 +233,7 @@ public class Prestamos extends JFrame {
         comboBoxTipoPrestamo.setSelectedItem(PRESTAMO_A_DOMICILIO);
         return comboBoxTipoPrestamo;
     }
-
+ 
     /**
      * Creates a Combo Box with all the Books
      */
@@ -278,9 +282,20 @@ public class Prestamos extends JFrame {
      * Creates a Combo Box with all the Readers
      */
     public JComboBox<Lector> comboBoxLector() {
-        JComboBox<Lector> comboBoxLector = new JComboBox<>(new Vector<>(DaoFactory.getLectorDAO().findAll()));
+        JComboBox<Lector> comboBoxLector = new JComboBox<>();
         comboBoxLector.setBounds(26, 256, 271, 29);
         comboBoxLector.setRenderer(new PersonaRenderer());
+        List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
+        for (Lector lector : lectores) {
+            List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(lector.getDocumento());
+            for (Multa multa : multas) {
+                LocalDate fechaConPlazo = LocalDate
+                        .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).plus(multa.getPlazo(), ChronoUnit.DAYS);
+                if (LocalDate.now().isAfter(fechaConPlazo)) {
+                    comboBoxLector.addItem(lector);
+                }
+            }
+        } 
         return comboBoxLector;
     }
 
