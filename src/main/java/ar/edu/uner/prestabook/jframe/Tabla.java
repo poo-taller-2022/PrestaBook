@@ -274,13 +274,17 @@ public class Tabla {
         for (Prestamo prestamo : prestamos) {
             if (prestamo.getFuncionario() != null) {
                 LocalDateTime fechaPrestamo = LocalDateTime.parse(prestamo.getFechaYHoraPrestamo());
-                LocalDate fechaPactadaDevolucion = LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate fechaPactadaDevolucion = prestamo.getFechaPactadaDevolucion() != null
+                        ? LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        : null;
                 LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
                         ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                         : null;
-                Boolean fueraDeTermino = fechaPrestamo.plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue())).toLocalDate()
-                        .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion);
+                Boolean fueraDeTermino = fechaPactadaDevolucion != null ? fechaPrestamo
+                        .plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue()))
+                        .toLocalDate()
+                        .isBefore(fechaRealDevolucion != null ? fechaRealDevolucion : fechaPactadaDevolucion) : null;
 
                 List<Object> fila = new LinkedList<>();
                 fila.add(++i);
@@ -296,7 +300,7 @@ public class Tabla {
             }
         }
     }
-    
+
     private static void loadObrasPorEditorial(DefaultTableModel model, Integer i) {
 
         IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
@@ -436,7 +440,8 @@ public class Tabla {
                 if (ejemplares != null) {
                     for (Ejemplar ejemplar : ejemplares) {
                         if (Objects.equals(ejemplar.getIsbnObra(), obra.getIsbn()) && ejemplar.getMotivoBaja() == null
-                                && prestamoDAO.findByIdEjemplar(ejemplar.getId()) == null && reservaDAO.findByIdEjemplar(ejemplar.getId()) == null) {
+                                && prestamoDAO.findByIdEjemplar(ejemplar.getId()) == null
+                                && reservaDAO.findByIdEjemplar(ejemplar.getId()) == null) {
                             cantidadEjemplares++;
                         }
                     }
@@ -447,7 +452,7 @@ public class Tabla {
 
                 model.addRow(new Vector<>(fila));
             }
-           
+
         }
     }
 
@@ -468,7 +473,7 @@ public class Tabla {
             model.addRow(new Vector<>(fila));
         }
     }
-    
+
     private static void loadSolicitudes(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
         for (Prestamo prestamo : prestamos) {
@@ -481,11 +486,13 @@ public class Tabla {
                 if (DaoFactory.getMultaDAO().findByAllDocumentoLector(prestamo.getLector().getDocumento()).isEmpty()) {
                     fila.add("No");
                 } else {
-                    List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(prestamo.getLector().getDocumento());
+                    List<Multa> multas = DaoFactory.getMultaDAO()
+                            .findByAllDocumentoLector(prestamo.getLector().getDocumento());
                     Boolean fueraDeTermino = false;
                     for (Multa multa : multas) {
                         LocalDate fechaConPlazo = LocalDate
-                                .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).plus(multa.getPlazo(), ChronoUnit.DAYS);
+                                .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                                .plus(multa.getPlazo(), ChronoUnit.DAYS);
                         if (!LocalDate.now().isAfter(fechaConPlazo)) {
                             fueraDeTermino = true;
                         }
@@ -496,20 +503,21 @@ public class Tabla {
                         fila.add("No");
                     }
                 }
-                
+
                 fila.add(prestamo.getEjemplar().getId());
                 fila.add(prestamo.getFechaYHoraPrestamo());
                 fila.add(prestamo.getFechaPactadaDevolucion());
                 model.addRow(new Vector<>(fila));
             }
-            
+
         }
     }
-    
+
     private static void loadNotificaciones(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
         for (Prestamo prestamo : prestamos) {
-            if (prestamo.getPlazoPrestamo() == null && Objects.equals(prestamo.getLector().getDocumento(), SistemaLector.getLoggedUser().getDocumento())) {
+            if (prestamo.getPlazoPrestamo() == null && Objects.equals(prestamo.getLector().getDocumento(),
+                    SistemaLector.getLoggedUser().getDocumento())) {
                 List<Object> fila = new LinkedList<>();
                 fila.add(++i);
                 fila.add(prestamo.getId());
@@ -521,6 +529,6 @@ public class Tabla {
                 model.addRow(new Vector<>(fila));
             }
         }
-        
+
     }
 }
