@@ -70,7 +70,7 @@ public class LectorDAO implements ILectorDAO {
     @Override
     public Lector findByEmail(String email) {
         String hql = String.format("from Lector l where l.email = '%s'", email);
-        return HibernateConnection.getCurrentSession().createQuery(hql, Lector.class).getSingleResult();
+        return HibernateConnection.getCurrentSession().createQuery(hql, Lector.class).uniqueResult();
     }
 
 }
