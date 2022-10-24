@@ -11,6 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+* Base class that represents a class of type TipoObra 
+*
+*/
+
 @Data
 @Entity
 @Table(name = "tipos_obra")

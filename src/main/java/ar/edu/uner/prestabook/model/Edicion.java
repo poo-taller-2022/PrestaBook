@@ -17,6 +17,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
+/**
+* Base class that represents a class of type Edicion
+*
+*/
+
 @Data
 @Entity
 @Table(name = "ediciones")

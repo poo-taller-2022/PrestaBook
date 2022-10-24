@@ -13,6 +13,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+* Base class that represents a class of type Ejemplar
+*
+*/
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity

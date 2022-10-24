@@ -7,6 +7,11 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+* Base class that represents a class of type Config
+*
+*/
+
 @Data
 @Entity
 @Table(name = "configs")

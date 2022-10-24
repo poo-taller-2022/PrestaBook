@@ -15,6 +15,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+* Base class that represents a class of type Coleccion
+*
+*/
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
