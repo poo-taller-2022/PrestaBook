@@ -13,7 +13,7 @@ import net.sourceforge.barbecue.output.OutputException;
 
 public class CodigoBarras {
 
-    private static final String PATH = "src/main/resource/codes/";
+    private static final String PATH = "src/main/resources/codes/";
 
     public ImageIcon buscarCodigoBarras(String id) {
         return new ImageIcon(new File(PATH + id + ".png").getAbsolutePath());
@@ -21,10 +21,9 @@ public class CodigoBarras {
 
     public void generarCodigoBarras(CodigoIdentificatorio codigo) {
         try {
-            final File tempDirectory = new File(System.getProperty("java.io.tmpdir"));
-            File newDirectory = new File(tempDirectory, "codes");
+            final File tempDirectory = new File(PATH);
+            File newDirectory = new File(tempDirectory.getAbsolutePath());
             if (newDirectory.mkdir() || newDirectory.isDirectory()) {
-                new File("src/main/resources/codes/");
                 File file = new File(PATH + codigo.getCodigo() + ".png");
                 Barcode bar = BarcodeFactory.createCode128(codigo.toString());
                 BarcodeImageHandler.savePNG(bar, file);
