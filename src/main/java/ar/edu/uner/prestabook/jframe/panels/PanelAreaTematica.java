@@ -13,7 +13,7 @@ public class PanelAreaTematica extends AbstractPanel {
     public JPanel init() {
         prepare();
         JButton btnAreaTematica = Components.btnGeneric("Agregar Area Tematica", "Left");
-        JButton btnActualizarAreaTematica = Components.btnGeneric("Actualizar Area Tematica", "Right");
+        JButton btnActualizarAreaTematica = Components.btnGeneric("Refrescar", "Right");
 
         panel.add(btnAreaTematica);
         panel.add(btnActualizarAreaTematica);
@@ -33,6 +33,7 @@ public class PanelAreaTematica extends AbstractPanel {
     public void setModelColumns() {
         model.addColumn("");
         model.addColumn(Constants.NOMBRE);
+        //Components.clearTable(table);
         Tabla.fill(model, Constants.AREA_TEMATICA);
     }
 
