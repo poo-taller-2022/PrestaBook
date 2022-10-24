@@ -136,6 +136,7 @@ public class IniciarSesion extends JFrame {
                                 cajaCorreo.getText());
                         Components.getTextUsuario().setText(nombre);
                         if ("Funcionarios".equals(tipoDeUsuario)) {
+                            SistemaFuncionario.setLoggedUser(DaoFactory.getFuncionarioDAO().findByEmail(cajaCorreo.getText()));
                             SistemaFuncionario interfazSistemaFuncionario = SistemaFuncionario.init();
                             interfazSistemaFuncionario.setVisible(true);
                         } else {

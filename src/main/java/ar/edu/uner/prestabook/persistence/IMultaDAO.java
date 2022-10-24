@@ -1,8 +1,12 @@
 package ar.edu.uner.prestabook.persistence;
 
+import java.util.List;
+
 import ar.edu.uner.prestabook.common.GenericDAO;
 import ar.edu.uner.prestabook.model.Multa;
 
 public interface IMultaDAO extends GenericDAO<Multa> {
+
+    List<Multa> findByAllDocumentoLector(Long documentoLector);
 
 }
