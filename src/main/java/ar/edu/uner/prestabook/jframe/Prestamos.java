@@ -2,12 +2,10 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
