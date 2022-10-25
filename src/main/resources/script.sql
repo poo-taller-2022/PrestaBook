@@ -207,7 +207,6 @@ INSERT OR IGNORE INTO "formato" ("id","nombre") VALUES (1,'Electrónico'),
  (3,'DVD'),
  (4,'Papel'),
  (5,'Video');
-INSERT OR IGNORE INTO "funcionarios" ("documento","apellido","celular","codigo_postal","contrasenia","departamento","domicilio","email","fecha_nacimiento","localidad","nacionalidad","nombre","sexo","tipo_documento") VALUES (123,'a','21312','a','$2a$12$LzjJxP88XL0n8geagQRf7OXRLujj4OpVZmurQ58GQ5AmuhSJeJGqW','a','a','a','1997-04-10','a','a','a','Hombre','a');
 INSERT OR IGNORE INTO "tipos_obra" ("id","nombre") VALUES (1,'Libro'),
  (2,'Revista'),
  (3,'Tesis'),
