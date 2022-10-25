@@ -9,6 +9,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
+/**
+* Base class that represents a class of type Persona
+*
+*/
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

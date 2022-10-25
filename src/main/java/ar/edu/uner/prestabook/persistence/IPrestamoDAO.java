@@ -10,8 +10,8 @@ public interface IPrestamoDAO extends GenericDAO<Prestamo> {
     /**
      * Finds all prestamos filtered by the reader dni
      * 
-     * @return list of objects Prestamo
-     * @param documentoLector dni of lector in Prestamo
+     *  @param documentoLector dni of lector in Prestamo
+     * @return List of objects Prestamo
      */
     public List<Prestamo> findAllByLectorId(Long documentoLector);
 
@@ -24,6 +24,12 @@ public interface IPrestamoDAO extends GenericDAO<Prestamo> {
      */
     public Long countByObraIsbn(String isbn);
 
+    /**
+     * Delete the prestamo according to the id given
+     * 
+     * @param idPrestamo id that refers to a prestamo
+     * 
+     */
     public void delete(Long idPrestamo);
 
 }
