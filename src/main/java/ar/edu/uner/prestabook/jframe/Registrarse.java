@@ -241,6 +241,7 @@ public class Registrarse extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 648, 557);
         setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
     }
 
     public JPanel contentPane() {

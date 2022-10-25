@@ -68,7 +68,8 @@ public class Prestamos extends JFrame {
             comboBoxEjemplar.removeAllItems();
             List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAllByObraIsbn(obra.getIsbn());
             for (Ejemplar ejemplar : ejemplares) {
-                if (ejemplar.getMotivoBaja() == null && DaoFactory.getPrestamoDAO().findByIdEjemplar(ejemplar.getId()) == null) {
+                if (ejemplar.getMotivoBaja() == null
+                        && DaoFactory.getPrestamoDAO().findByIdEjemplar(ejemplar.getId()) == null) {
                     comboBoxEjemplar.addItem(ejemplar);
                 }
             }
@@ -168,6 +169,7 @@ public class Prestamos extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
     }
 
     /**
@@ -231,7 +233,7 @@ public class Prestamos extends JFrame {
         comboBoxTipoPrestamo.setSelectedItem(PRESTAMO_A_DOMICILIO);
         return comboBoxTipoPrestamo;
     }
- 
+
     /**
      * Creates a Combo Box with all the Books
      */
@@ -288,12 +290,13 @@ public class Prestamos extends JFrame {
             List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(lector.getDocumento());
             for (Multa multa : multas) {
                 LocalDate fechaConPlazo = LocalDate
-                        .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).plus(multa.getPlazo(), ChronoUnit.DAYS);
+                        .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        .plus(multa.getPlazo(), ChronoUnit.DAYS);
                 if (LocalDate.now().isAfter(fechaConPlazo)) {
                     comboBoxLector.addItem(lector);
                 }
             }
-        } 
+        }
         return comboBoxLector;
     }
 

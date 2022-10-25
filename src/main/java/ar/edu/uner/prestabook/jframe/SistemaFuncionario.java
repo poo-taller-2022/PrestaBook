@@ -59,7 +59,8 @@ public class SistemaFuncionario extends JFrame {
 
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas, panelSolicitudes);
+            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas,
+            panelSolicitudes);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
@@ -251,13 +252,13 @@ public class SistemaFuncionario extends JFrame {
             hidePanels();
             contentPane.add(panelObrasMasSolicitadas.init());
         });
-        
+
         btnSolicitudes.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelSolicitudes.init());
         });
-        
-        btnOpciones.addActionListener(e-> {
+
+        btnOpciones.addActionListener(e -> {
             Configuracion configuracion = new Configuracion();
             configuracion.setVisible(true);
         });
@@ -279,7 +280,7 @@ public class SistemaFuncionario extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle(Constants.OPCIONES);
+        setTitle(Constants.PRESTABOOK);
         setBounds(100, 100, 1390, 811);
         setLocationRelativeTo(null);
     }
