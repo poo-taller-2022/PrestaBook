@@ -73,6 +73,11 @@ public class PanelObrasPorEditorial extends AbstractPanel {
         return "Obras por editorial";
     }
 
+    
+    
+    /**
+     * Creates a text field to editorial
+     */
     public JTextField txtIngresarEditorial() {
         JTextField txtIngresarEditorial = new JTextField();
         txtIngresarEditorial.setForeground(new Color(128, 128, 128));
