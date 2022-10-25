@@ -11,6 +11,11 @@ import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
 import net.sourceforge.barbecue.output.OutputException;
 
+
+/**
+ * Class that generates and saves the bar code of an Ejemplar
+ *
+ */
 public class CodigoBarras {
 
 	/**
