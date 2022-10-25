@@ -8,6 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+* Base class that represents a class of type Obra
+*
+*/
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

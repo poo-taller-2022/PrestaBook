@@ -7,17 +7,16 @@ public interface ILectorDAO extends GenericDAO<Lector> {
 
     /**
      * Count how many fines a reader has.
-     * 
-     * @return The number of fines the reader has
      * @param documento of reader
+     * @return The number of fines the reader has
      */
     public Long countFinesById(Long documento);
 
     /**
      * Finds a reader by their e-mail
      * 
-     * @param email of the reader
-     * @return reader
+     * @param email String that represents the email of the reader
+     * @return  entity of type Lector
      */
     public Lector findByEmail(String email);
 

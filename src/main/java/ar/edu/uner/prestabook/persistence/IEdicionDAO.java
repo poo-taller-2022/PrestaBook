@@ -7,6 +7,12 @@ import ar.edu.uner.prestabook.model.Edicion;
 
 public interface IEdicionDAO extends GenericDAO<Edicion> {
 
+	
+	/**
+	 * Finds an Obra by its obra isbn
+	 * @param isbn String that represent the isbn to search
+	 * @return List with all entities of type Edicion if the isbn matches the database field, null if it does not
+	 */
 	List<Edicion> findByAllObraIsbn(String isbn);
 
 }

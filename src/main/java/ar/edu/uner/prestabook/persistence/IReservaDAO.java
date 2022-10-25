@@ -13,6 +13,13 @@ public interface IReservaDAO extends GenericDAO<Reserva> {
      */
     public Long countByObraIsbn(String isbn);
 
+    
+    /**
+     * Finds a Reserva by the id of an ejemplar
+     * 
+     * @param idEjemplar Long that represents the id of a Ejemplar
+     * @return entity of type Reserva if the idEjemplar matches the database field, null if it does not
+     */
     public Reserva findByIdEjemplar(Long idEjemplar);
 
 }

@@ -26,6 +26,11 @@ import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import lombok.Getter;
 
+
+/**
+* Class that contains the principal window and all principals buttons, labels, panels and logo
+*/
+
 public class Components {
 
     private static final Integer BUTTON_POSITION_LEFT = 50;
@@ -216,6 +221,11 @@ public class Components {
         return lblPanelTitle;
     }
 
+    /**
+     * Method which cleans a table already created with data
+     * @param tabla table with data
+     */
+    
     public static void clearTable(JTable tabla) {
         try {
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
@@ -228,6 +238,12 @@ public class Components {
         }
     }
 
+    /**
+     * Method to update the data base according to the type of entity 
+     * @param nombre String that represents the name of the entity to update
+     * @param tipoEntidad type of entity to update in data base
+     */
+    
     public static void updateDatabase(String nombre, String tipoEntidad) {
 
         switch (tipoEntidad) {
@@ -280,6 +296,15 @@ public class Components {
         panelPrestabook.setLayout(null);
         return panelPrestabook;
     }
+    
+    
+    /**
+     * Method that filtering dates from a start date to a end date
+     * @param modelo table model
+     * @param row	row of table to iterate
+     * @param startDate start date to filtering
+     * @param endDate end date to filtering
+     */
 
     public static void filtrarFechas(DefaultTableModel modelo, Integer row, LocalDate startDate,
             LocalDate endDate) {

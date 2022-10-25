@@ -12,6 +12,8 @@ public interface IUsuarioDAO {
      * @param tipo        refers to the differents type user
      * @param Email       of user
      * @param contrasenia of user
+     * @throws WrongPasswordExcpetion
+     * @throws UserNotFoundException
      * @return true if the user is found
      */
     public Boolean buscarUsuarioRegistrado(String tipo, String correo, String contrasenia)

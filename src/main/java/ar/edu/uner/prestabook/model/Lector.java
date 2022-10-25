@@ -13,6 +13,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+* Base class that represents a class of type Lector and extends of Persona
+*
+*/
+
+
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -21,6 +27,15 @@ import lombok.ToString;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Lector extends Persona {
 
+	
+	
+
+	/**
+	 * Registrarse method that saves a Lector  according to a tipoLector
+	 * @param tipoLector String that represents the type of lector
+	 * @param lector Object Lector
+	 *
+	 */
     public void registrarse(String tipoLector, Lector lector) {
         ModelMapper modelMapper = new ModelMapper();
 

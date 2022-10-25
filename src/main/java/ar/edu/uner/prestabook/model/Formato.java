@@ -10,6 +10,11 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+* Base class that represents a class of type Formato
+*
+*/
+
 @Data
 @Entity
 @Table(name = "formato")

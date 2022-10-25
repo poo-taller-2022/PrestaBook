@@ -10,6 +10,12 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+
+/**
+* Base class that represents a class of type Reserva 
+*
+*/
+
 @Data
 @Entity
 @Table(name = "reserva")

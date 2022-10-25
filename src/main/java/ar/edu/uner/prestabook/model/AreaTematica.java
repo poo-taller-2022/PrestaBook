@@ -11,6 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+* Base class that represents a class of type AreaTematica
+*
+*/
+
 @Data
 @Entity
 @Table(name = "areas_tematicas")

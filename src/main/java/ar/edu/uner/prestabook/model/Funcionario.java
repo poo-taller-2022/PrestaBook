@@ -11,12 +11,19 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @ToString(callSuper = true)
 @Table(name = "funcionarios")
 public class Funcionario extends Persona {
+
+	
+	/**
+	 * Registrarse method that allows saves an object of type Lector as Funcionario
+	 * @param Lector Object Lector
+	 */
 
     public void registrarse(Lector lector) {
         if (DaoFactory.getFuncionarioDAO().findByEmail(lector.getEmail()) != null) {

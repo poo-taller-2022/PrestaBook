@@ -10,9 +10,9 @@ public interface IObraDAO extends GenericDAO<Obra> {
 	
     
     /**
-     * Finds all entities from table obras where obras.id matches with the given id 
-     * @return list of objects Obra
-     * @param id of area
+     * Finds all the obras filtered by the id of a tema 
+     * @param id String that represents the id of tema
+     * @return List with all entities the type Obra 
      */
 	List<Obra> filtrarPorTema(Integer id);
 
