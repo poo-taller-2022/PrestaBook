@@ -10,7 +10,7 @@ import ar.edu.uner.prestabook.model.TipoObra;
 
 /**
  * 
- * Class that handles the combobox renderization of TipoObra
+ * Class that handles the combobox rendering of TipoObra
  *
  */
 public class TipoObraRenderer extends BasicComboBoxRenderer {

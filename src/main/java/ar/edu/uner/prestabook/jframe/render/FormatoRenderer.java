@@ -12,7 +12,7 @@ import ar.edu.uner.prestabook.model.Formato;
 
 /**
  * 
- * Class that handles the combobox renderization of Formato 
+ * Class that handles the combobox rendering of Formato 
  *
  */
 public class FormatoRenderer extends BasicComboBoxRenderer {

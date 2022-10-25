@@ -10,7 +10,7 @@ import ar.edu.uner.prestabook.model.Edicion;
 
 /**
  * 
- * Class that handles the combobox renderization of Edicion
+ * Class that handles the combobox rendering of Edicion
  *
  */
 

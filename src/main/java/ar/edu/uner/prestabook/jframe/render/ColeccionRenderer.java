@@ -10,7 +10,7 @@ import ar.edu.uner.prestabook.model.Coleccion;
 
 /**
  * 
- * Class that handles the combobox renderization of coleccion
+ * Class that handles the combobox rendering of coleccion
  *
  */
 

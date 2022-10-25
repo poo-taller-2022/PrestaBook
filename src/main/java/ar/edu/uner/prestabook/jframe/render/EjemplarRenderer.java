@@ -10,7 +10,7 @@ import ar.edu.uner.prestabook.model.Ejemplar;
 
 /**
  * 
- * Class that handles the combobox renderization of Ejemplar
+ * Class that handles the combobox rendering of Ejemplar
  *
  */
 

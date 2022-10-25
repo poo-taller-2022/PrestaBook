@@ -12,7 +12,7 @@ import ar.edu.uner.prestabook.model.Persona;
 
 /**
  * 
- * Class that handles the combobox renderization of Persona
+ * Class that handles the combobox rendering of Persona
  *
  */
 public class PersonaRenderer extends BasicComboBoxRenderer {

@@ -9,7 +9,7 @@ import ar.edu.uner.prestabook.model.AreaTematica;
 
 /**
  * 
- * Class that handles the combobox renderization of area tematica 
+ * Class that handles the combobox rendering of area tematica 
  *
  */
 

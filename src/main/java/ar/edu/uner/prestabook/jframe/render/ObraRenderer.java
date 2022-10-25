@@ -12,7 +12,7 @@ import ar.edu.uner.prestabook.model.ObraAbstract;
 
 /**
  * 
- * Class that handles the combobox renderization of Obra
+ * Class that handles the combobox rendering of Obra
  *
  */
 public class ObraRenderer extends BasicComboBoxRenderer {

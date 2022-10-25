@@ -11,7 +11,7 @@ import ar.edu.uner.prestabook.model.Prestamo;
 
 /**
  * 
- * Class that handles the combobox renderization of Prestamo
+ * Class that handles the combobox rendering of Prestamo
  *
  */
 
