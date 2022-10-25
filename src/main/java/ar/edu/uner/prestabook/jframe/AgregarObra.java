@@ -19,12 +19,15 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.connection.HibernateConnection;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.render.AreaTematicaRenderer;
 import ar.edu.uner.prestabook.jframe.render.ColeccionRenderer;
 import ar.edu.uner.prestabook.jframe.render.TipoObraRenderer;
@@ -40,8 +43,12 @@ public class AgregarObra extends JFrame {
 
     /**
      * Create the frame.
+     * 
+     * @param model model that stores the values of the table this frame will insert
+     *              entities to
+     * @param table table that displays the model
      */
-    public AgregarObra() {
+    public AgregarObra(JTable table, DefaultTableModel model) {
         ventana();
         JPanel contentPane = contentPane();
 
@@ -154,7 +161,8 @@ public class AgregarObra extends JFrame {
                             fieldGenero.getText(), itemTipoObra.getNombre(), itemTipoObra.getId(),
                             areasTematicas, checkBoxColeccion,
                             comboBoxIsbnColeccion);
-
+                    Components.clearTable(table);
+                    Tabla.fill(model, Constants.OBRA);
                     JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
                     this.setVisible(false);
                 } catch (PersistenceException exception) {
@@ -173,6 +181,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Updates database by inserting a new obra entity
+     * 
      * @param isbn
      * @param titulo
      * @param subtitulo

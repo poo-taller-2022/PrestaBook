@@ -18,12 +18,15 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.connection.HibernateConnection;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.render.AreaTematicaRenderer;
 import ar.edu.uner.prestabook.jframe.render.TipoObraRenderer;
 import ar.edu.uner.prestabook.model.AreaTematica;
@@ -36,9 +39,13 @@ public class AgregarColeccion extends JFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create the frame.
+     * Creates the frame.
+     * 
+     * @param model model that stores the values of the table this frame will insert
+     *              entities to
+     * @param table table that displays the model
      */
-    public AgregarColeccion() {
+    public AgregarColeccion(JTable table, DefaultTableModel model) {
         ventana();
         JPanel contentPane = contentPane();
 
@@ -130,7 +137,8 @@ public class AgregarColeccion extends JFrame {
                     actualizarBaseDeDatos(fieldIsbn.getText(), fieldTitulo.getText(), fieldSubtitulo.getText(),
                             fieldPrimerAutor.getText(), fieldSegundoAutor.getText(), fieldTercerAutor.getText(),
                             fieldGenero.getText(), tipoObra.getNombre(), tipoObra.getId(), areasTematicas);
-
+                    Components.clearTable(table);
+                    Tabla.fill(model, Constants.COLECCION);
                     JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
                     this.setVisible(false);
                 } catch (PersistenceException exception) {
@@ -149,6 +157,7 @@ public class AgregarColeccion extends JFrame {
 
     /**
      * Updates database by inserting a new collection entity
+     * 
      * @param isbn
      * @param titulo
      * @param subtitulo

@@ -17,11 +17,14 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.render.FormatoRenderer;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.Edicion;
@@ -37,9 +40,13 @@ public class AgregarEdicion extends JFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create the frame.
+     * Creates the frame.
+     * 
+     * @param model model that stores the values of the table this frame will insert
+     *              entities to
+     * @param table table that displays the model
      */
-    public AgregarEdicion() {
+    public AgregarEdicion(JTable table, DefaultTableModel model) {
         ventana();
         JPanel contentPane = contentPane();
 
@@ -130,6 +137,8 @@ public class AgregarEdicion extends JFrame {
                         fieldAnio.getText(), fieldVolumenes.getText(), fieldPaginas.getText(), fieldIdioma.getText(),
                         formatos, obra.getIsbn());
 
+                Components.clearTable(table);
+                Tabla.fill(model, Constants.EDICION);
                 JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
                 this.setVisible(false);
 
@@ -141,6 +150,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Updates database by inserting a new edition entity
+     * 
      * @param editorial
      * @param pais
      * @param numero

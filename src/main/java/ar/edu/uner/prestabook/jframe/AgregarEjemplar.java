@@ -13,13 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.render.EdicionRenderer;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
@@ -40,9 +43,13 @@ public class AgregarEjemplar extends JFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create the frame.
+     * Creates the frame.
+     * 
+     * @param model model that stores the values of the table this frame will insert
+     *              entities to
+     * @param table table that displays the model
      */
-    public AgregarEjemplar() {
+    public AgregarEjemplar(JTable table, DefaultTableModel model) {
         ventana();
         JPanel contentPane = contentPane();
 
@@ -134,6 +141,8 @@ public class AgregarEjemplar extends JFrame {
                         fieldObservaciones.getText(), fieldPasillo.getText(), fieldEstanteria.getText(),
                         fieldEstante.getText(), itemObra.getIsbn(), itemEdicion.getId());
 
+                Components.clearTable(table);
+                Tabla.fill(model, Constants.EJEMPLAR);
                 JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
                 this.setVisible(false);
             } else {
@@ -144,6 +153,7 @@ public class AgregarEjemplar extends JFrame {
 
     /**
      * Updates database by inserting a new ejemplar entity
+     * 
      * @param formaAdquisicion
      * @param fechaAdquisicion
      * @param observaciones
@@ -209,7 +219,7 @@ public class AgregarEjemplar extends JFrame {
         contentPane.setLayout(null);
         return contentPane;
     }
-    
+
     /**
      * Creates a text field to pasillo
      */
