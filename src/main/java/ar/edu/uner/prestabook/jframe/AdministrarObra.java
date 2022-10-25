@@ -29,6 +29,10 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+/**
+ * Opens a window for different functionalities of managing a book
+ *
+ */
 public class AdministrarObra extends JFrame {
 
     /**
@@ -38,6 +42,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Create the frame.
+     * @param obra Object an Obra
      */
     public AdministrarObra(Obra obra) {
         ventana();
@@ -124,8 +129,8 @@ public class AdministrarObra extends JFrame {
      * 
      * Concatenates all information of an obra
      * Used to displays more information of an obra
-     * @param obra
-     * @param edicion
+     * @param obra Object an Obra
+     * @param edicion Object an edition
      * @return String with the information
      */
     public StringBuilder cargarObra(Obra obra, Edicion edicion) {
@@ -158,6 +163,8 @@ public class AdministrarObra extends JFrame {
      * 
      * Concatenates thematic areas in one string
      * Used to displays more then one area in the GUI
+     * @param obra Object obra
+     * @return String with thematic areas
      */
     public StringBuilder contatenarAreas(Obra obra) {
         Set<AreaTematica> areas = obra.getArea();
@@ -174,6 +181,8 @@ public class AdministrarObra extends JFrame {
      * 
      * Concatenates formats in one string
      * Used to displays more then one format in the GUI
+     * @param formatos Set of objects formato
+     * @return String with formatos
      */
     public StringBuilder contatenarFormatos(Set<Formato> formatos) {
         StringBuilder contatenarFormatos = new StringBuilder();
@@ -188,8 +197,8 @@ public class AdministrarObra extends JFrame {
     /**
      * 
      * Count all available ejemplares
-     * @param obra
-     * @param edicion
+     * @param obra Object obra
+     * @param edicion Obejct edicion
      * @return number of available ejemplares
      */
     public Integer cantidadDeEjemplares(Obra obra, Edicion edicion) {
@@ -250,6 +259,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Crates a comboBox of available ejemplares
+     * @return a text field
      */
     public JTextField fieldEjemplaresDisponibles() {
         JTextField fieldEjemplaresDisponibles = new JTextField();
@@ -262,6 +272,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Creates a text field of isbnObra
+     * @return a text field
      */
     public JTextField fieldIsbnObra() {
         JTextField fieldIsbnObra = new JTextField();
@@ -295,6 +306,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Creates a scrollPane
+     * @return a scrollPane
      */
     public JScrollPane scrollPane() {
         JScrollPane scrollPane = new JScrollPane();
@@ -304,6 +316,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Creates a text
+     * @return a text area
      */
     public JTextArea textArea() {
         JTextArea textArea = new JTextArea();
@@ -340,6 +353,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Creates a Combo Box with all Editions
+     * @return a combo box
      */
     public JComboBox<Edicion> comboBoxEdiciones() {
         JComboBox<Edicion> comboBoxEdiciones = new JComboBox<>();
