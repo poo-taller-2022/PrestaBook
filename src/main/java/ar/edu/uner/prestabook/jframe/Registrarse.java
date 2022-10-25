@@ -139,8 +139,12 @@ public class Registrarse extends JFrame {
         buttonGroupSexo.add(btnRadioOtro);
 
         contentPane.add(lblContrasenia());
+        contentPane.add(lblRepetirContrasenia());
         JTextField textContrasenia = textContrasenia();
         contentPane.add(textContrasenia);
+
+        JTextField textRepetirContrasenia = textRepetirContrasenia();
+        contentPane.add(textRepetirContrasenia);
 
         JButton btnGuardar = btnGuardar();
         contentPane.add(btnGuardar);
@@ -183,36 +187,43 @@ public class Registrarse extends JFrame {
                     && (btnRadioHombre.isSelected() || btnRadioMujer.isSelected() || btnRadioOtro.isSelected())
                     && (btnRadioPublicoGeneral.isSelected() || btnRadioDocente.isSelected()
                             || btnRadioAlumno.isSelected() || btnRadioFuncionario.isSelected())
-                    && !(String.valueOf(((JPasswordField) textContrasenia).getPassword()).isBlank());
+                    && !(String.valueOf(((JPasswordField) textContrasenia).getPassword()).isBlank())
+                    && !(String.valueOf(((JPasswordField) textRepetirContrasenia).getPassword()).isBlank());
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-                String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
-
-                String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
-                        btnRadioFuncionario);
-
-                Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
-                        textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
-                        textNacionalidad,
-                        textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
-                try {
-                    if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
-                        Funcionario funcionario = new Funcionario();
-                        funcionario.registrarse(lector);
-                        JOptionPane.showInternalMessageDialog(null,
-                                "Datos del " + tipoSeleccionado + " guardados correctamente");
-                    } else {
-                        lector.registrarse(tipoSeleccionado, lector);
-                        JOptionPane.showInternalMessageDialog(null,
-                                "Datos del " + tipoSeleccionado + " guardados correctamente");
-                    }
-                    IniciarSesion login = new IniciarSesion();
-                    login.setVisible(true);
-                    Registrarse.this.dispose();
-                } catch (PersistenceException exception) {
-                    HibernateConnection.getCurrentSession().getTransaction().rollback();
-                    JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                if (!textContrasenia.getText().equals(textRepetirContrasenia.getText())) {
+                    JOptionPane.showInternalMessageDialog(null, "Las contraseñas no coinciden", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                } else {
+
+                    String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
+
+                    String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
+                            btnRadioFuncionario);
+
+                    Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
+                            textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
+                            textNacionalidad,
+                            textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
+                    try {
+                        if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
+                            Funcionario funcionario = new Funcionario();
+                            funcionario.registrarse(lector);
+                            JOptionPane.showInternalMessageDialog(null,
+                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
+                        } else {
+                            lector.registrarse(tipoSeleccionado, lector);
+                            JOptionPane.showInternalMessageDialog(null,
+                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
+                        }
+                        IniciarSesion login = new IniciarSesion();
+                        login.setVisible(true);
+                        Registrarse.this.dispose();
+                    } catch (PersistenceException exception) {
+                        HibernateConnection.getCurrentSession().getTransaction().rollback();
+                        JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");
@@ -238,6 +249,14 @@ public class Registrarse extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         return contentPane;
+    }
+
+    private JPasswordField textRepetirContrasenia() {
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setToolTipText("");
+        passwordField.setBackground(Color.WHITE);
+        passwordField.setBounds(458, 447, 180, 30);
+        return passwordField;
     }
 
     public JPanel panelPrestabook() {
@@ -458,57 +477,57 @@ public class Registrarse extends JFrame {
     }
 
     public JLabel lblRegistrarseComo() {
-        JLabel lblRegistrarseComo = new JLabel("Registrase como");
-        lblRegistrarseComo.setBounds(46, 366, 97, 14);
+        JLabel lblRegistrarseComo = new JLabel("Registrarse como");
+        lblRegistrarseComo.setBounds(24, 366, 614, 14);
         return lblRegistrarseComo;
     }
 
     public JPanel panelRegistrarseComo() {
         JPanel panelRegistrarseComo = new JPanel();
         panelRegistrarseComo.setBorder(new LineBorder(new Color(128, 128, 128)));
-        panelRegistrarseComo.setBounds(46, 381, 560, 38);
+        panelRegistrarseComo.setBounds(24, 381, 614, 38);
         panelRegistrarseComo.setLayout(null);
         return panelRegistrarseComo;
     }
 
     public JRadioButton btnRadioFuncionario() {
         JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
-        btnRadioFuncionario.setBounds(19, 7, 109, 23);
+        btnRadioFuncionario.setBounds(44, 7, 109, 23);
         btnRadioFuncionario.setFocusPainted(false);
         return btnRadioFuncionario;
     }
 
     public JRadioButton btnRadioAlumno() {
         JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
-        btnRadioAlumno.setBounds(171, 7, 101, 23);
+        btnRadioAlumno.setBounds(196, 7, 101, 23);
         btnRadioAlumno.setFocusPainted(false);
         return btnRadioAlumno;
     }
 
     public JRadioButton btnRadioDocente() {
         JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
-        btnRadioDocente.setBounds(308, 7, 108, 23);
+        btnRadioDocente.setBounds(333, 7, 108, 23);
         btnRadioDocente.setFocusPainted(false);
         return btnRadioDocente;
     }
 
     public JRadioButton btnRadioPublicoGeneral() {
         JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
-        btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
+        btnRadioPublicoGeneral.setBounds(454, 7, 125, 23);
         btnRadioPublicoGeneral.setFocusPainted(false);
         return btnRadioPublicoGeneral;
     }
 
     public JLabel lblSexo() {
         JLabel lblSexo = new JLabel("Sexo");
-        lblSexo.setBounds(79, 429, 59, 14);
+        lblSexo.setBounds(24, 430, 59, 14);
         return lblSexo;
     }
 
     public JPanel panelSexo() {
         JPanel panelSexo = new JPanel();
         panelSexo.setBorder(new LineBorder(new Color(128, 128, 128)));
-        panelSexo.setBounds(79, 447, 215, 30);
+        panelSexo.setBounds(24, 448, 215, 30);
         panelSexo.setLayout(null);
         return panelSexo;
     }
@@ -536,13 +555,19 @@ public class Registrarse extends JFrame {
 
     public JLabel lblContrasenia() {
         JLabel lblContrasenia = new JLabel("Contraseña");
-        lblContrasenia.setBounds(386, 429, 147, 14);
+        lblContrasenia.setBounds(265, 430, 147, 14);
+        return lblContrasenia;
+    }
+
+    public JLabel lblRepetirContrasenia() {
+        JLabel lblContrasenia = new JLabel("Repetir contraseña");
+        lblContrasenia.setBounds(458, 430, 180, 14);
         return lblContrasenia;
     }
 
     public JPasswordField textContrasenia() {
         JPasswordField textContrasenia = new JPasswordField();
-        textContrasenia.setBounds(386, 446, 180, 30);
+        textContrasenia.setBounds(265, 447, 180, 30);
         textContrasenia.setToolTipText("");
         textContrasenia.setBackground(Color.WHITE);
         return textContrasenia;
