@@ -8,14 +8,15 @@ Se usa una base de datos SQLite con Hibernate como gestor ORM.
 
 ## Dependencias
 
-| Artefacto                | Descripción                                           | Versión                                            |
-| ----------------------- | ----------------------------------------------------- | -------------------------------------------------- |
-| barbecue                | Crea, muestra e imprime códigos de barra              | [1.5-beta1](https://barbecue.sourceforge.net/)     |
-| modelmapper             | Librería inteligente de mapeo de objetos              | [3.1.0](http://modelmapper.org/)                   |
+| Artefacto               | Descripción                                           | Versión                                           |
+| ----------------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| barbecue                | Crea, muestra e imprime códigos de barra              | [1.5-beta1](https://barbecue.sourceforge.net/)    |
+| modelmapper             | Librería inteligente de mapeo de objetos              | [3.1.0](http://modelmapper.org/)                  |
 | sqlite-jdbc             | Accede y crea archivos de base de datos en Java       | [3.39.2.1](https://github.com/xerial/sqlite-jdbc) |
-| lombok                  | Reduce el código boilerplate y aumenta la legibilidad | [1.18.24](https://projectlombok.org/)              |
-| hibernate-entitymanager | Librería de mapeo objeto/relacional escalable         | [5.6.12.Final](https://hibernate.org/)             |
-| sqlite-dialect          | Dialecto Hibernate para SQLite                        | [0.1.2](https://github.com/gwenn/sqlite-dialect)   |
+| lombok                  | Reduce el código boilerplate y aumenta la legibilidad | [1.18.24](https://projectlombok.org/)             |
+| hibernate-entitymanager | Librería de mapeo objeto/relacional escalable         | [5.6.12.Final](https://hibernate.org/)            |
+| sqlite-dialect          | Dialecto Hibernate para SQLite                        | [0.1.2](https://github.com/gwenn/sqlite-dialect)  |
+| ibatis-sqlmap           | Ejecuta scripts SQL                                   | [3.0-beta-10](https://ibatis.apache.org/)         |
 
 ## Iniciar Prestabook
 
