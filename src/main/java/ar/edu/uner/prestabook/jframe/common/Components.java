@@ -130,6 +130,13 @@ public class Components {
         return lblBienvenidaParte2;
     }
 
+    
+    
+    /**
+  	 * Creates a label to text user
+  	 * 
+  	 * @return a label 
+  	 */
     private static JLabel textUsuario() {
         JLabel textUsuario = new JLabel();
         textUsuario.setBackground(new Color(0, 128, 0));
@@ -139,6 +146,12 @@ public class Components {
         return textUsuario;
     }
 
+    
+    /**
+  	 * Creates a panel to the entities
+  	 * 
+  	 * @return a generic panel
+  	 */
     public static JPanel panelEntities() {
         JPanel panelEntities = new JPanel();
         panelEntities.setBounds(339, 104, PANEL_WIDTH, 707);
@@ -191,7 +204,7 @@ public class Components {
     
     /**
   	 * Creates a button of exit
-  	 * 
+  	 * @return a generic button exit
   	 */
 
     public static JButton btnExit() {
@@ -205,8 +218,8 @@ public class Components {
     
     
     /**
-  	 * Creates a button of end of session
-  	 * 
+  	 * Creates a button of log out
+  	 * @return a generic button of log out
   	 */
 
     public static JButton btnCerrarSesion() {
@@ -225,6 +238,7 @@ public class Components {
     /**
   	 * Creates a panel to options
   	 * 
+  	 * @return a generic panel to options
   	 */
     
     public static JPanel panelOpciones() {
@@ -238,7 +252,7 @@ public class Components {
     
     /**
   	 * Creates a label with the load text
-  	 * 
+  	 * @return a label with the text "Usuario"
   	 */
     
     
@@ -253,7 +267,7 @@ public class Components {
     
     /**
   	 * Creates a button of requests
-  	 * 
+  	 * @return a button of requests
   	 */
     
 
@@ -273,7 +287,7 @@ public class Components {
     
     /**
   	 * Creates a button of notifications
-  	 * 
+  	 * @return a button to notifications
   	 */
     
     
@@ -290,6 +304,12 @@ public class Components {
         return btnNotificaciones;
     }
 
+    
+    /**
+     * Creates a panel
+     * @return a generic panel to separate
+     */
+    
     public static JPanel panelSeparador() {
         JPanel panelSeparador = new JPanel();
         panelSeparador.setBounds(23, 121, 292, 3);
@@ -299,7 +319,7 @@ public class Components {
     
     /**
   	 * Creates a label to options
-  	 * 
+  	 * @return a generic label to options
   	 */
     
     
@@ -314,7 +334,7 @@ public class Components {
     
     /**
   	 * Creates a label to a title
-  	 * 
+  	 * @return a label to the title
   	 */
     
     
@@ -377,7 +397,7 @@ public class Components {
     
     /**
 	 * Creates a button menu to the left 
-	 * 
+	 * @return a button for fines
 	 */
     
     public static JButton btnLeftMenu(String label, Integer yAxis) {
