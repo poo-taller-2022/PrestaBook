@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
-* Base class that represents a class of type Ejemplar
+* Base class that represents a class of type Ejemplar and extends of ObraAbstract
 *
 */
 

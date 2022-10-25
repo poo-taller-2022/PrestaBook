@@ -17,6 +17,14 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
+
+
+/**
+* Base class that represents a class of type Obra and extends of ObraAbstract
+*
+*/
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
