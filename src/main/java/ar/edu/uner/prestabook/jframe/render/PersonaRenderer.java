@@ -8,6 +8,13 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.Persona;
 
+
+
+/**
+ * 
+ * Class that handles the combobox rendering of Persona
+ *
+ */
 public class PersonaRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;

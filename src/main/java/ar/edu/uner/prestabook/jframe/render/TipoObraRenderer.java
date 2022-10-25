@@ -7,6 +7,12 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.TipoObra;
 
+
+/**
+ * 
+ * Class that handles the combobox rendering of TipoObra
+ *
+ */
 public class TipoObraRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;

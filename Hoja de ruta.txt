@@ -22,3 +22,58 @@ Hoja de Ruta :
 	Reunión de meet : - División de tareas
 			  - Comienzo de codificación de clases 
 			  
+
+
+14/09
+	Reunión de meet:  - Implementación de diseño con base datos
+			  - Actualización de clases bases del programa.
+
+
+21/09
+	Reunión de meet:  - Primeras operaciones con la base de datos a confirmar
+			  - Primeros diseños de patrones DAOS
+
+28/09
+	Reunión de meet: -Planteamiento de diseño de la interfaz gráfica
+			 - Primeras clases de interfaz gráfica
+			 - Dudas aclaradas respecto a los patrones DAOS y su implementación con las demas clases 
+
+
+5/10
+	Reunión de meet: - Diseños de patrones DAOS finalizados para todas las clases
+			 - Nuevas funcionalidades agregadas a clases bases.
+			 - Testeo con la base de datos óptimo.
+
+12/10
+	Reunión de meet:- Agregado de colecciones a las clases
+			- Corrección de errores en la interfaz gráfica
+			- Actualización de la clase Lector
+			- Creación de métodos en la interfaz gráfica
+			- Modularización en interfaz gráfica
+			- Agregado de la dependencia para cifrar contraseña del usuario
+
+14/10
+	Reunión de meet: - Agregado de lógica para transacciones con ejemplares
+			 - Sistema Funcionario actualizado
+			 - Refactors con Hibernate
+			 - Actualización de la intefaz gráfica
+			 - Logo 
+			 - Corrección de errores
+
+17/10
+	Reunión de meet: - Primeras funcionalidades para prestamos
+			 - Primeras funcionalidades para multas
+			 - Actualización y corrección de errores de interfaz gráfica
+			 - Planteamiento de diseño de código de barras o código QR
+19/10
+	Reunión de meet: - Funcionalides para prestamos agregadas
+			 - Funcionalides de interfaz gráfica actualizada
+			 - Funcionalides para multas agregadas
+
+21/10
+	Reunión de meet: - Corrección de errores
+			 - Refactorización de código
+			 - Nuevos métodos y funcionalidades para la interfaz gráfica
+			 - Implementación del código de barras
+			 - Nuevas funcionalidades para las clases bases
+			 - Agregado de javadocs			  
