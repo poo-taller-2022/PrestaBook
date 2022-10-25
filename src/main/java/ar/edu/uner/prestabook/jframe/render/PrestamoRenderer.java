@@ -7,6 +7,14 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.Prestamo;
 
+
+
+/**
+ * 
+ * Class that handles the combobox renderization of Prestamo
+ *
+ */
+
 public class PrestamoRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;

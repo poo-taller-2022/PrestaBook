@@ -7,6 +7,13 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.Ejemplar;
 
+
+/**
+ * 
+ * Class that handles the combobox renderization of Ejemplar
+ *
+ */
+
 public class EjemplarRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;

@@ -7,6 +7,14 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.Formato;
 
+
+
+
+/**
+ * 
+ * Class that handles the combobox renderization of Formato 
+ *
+ */
 public class FormatoRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;
