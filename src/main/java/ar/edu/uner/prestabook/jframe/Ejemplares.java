@@ -284,7 +284,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Books
+     * Creates a Combo Box the type of Books
+     * @return a Combo Box with all Books
      */
     public JComboBox<Obra> comboBoxObra() {
         JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
@@ -306,7 +307,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Copies of the selected Book
+     * Creates a Combo Box the type of copy
+     * @return a Combo Box with all the Copies of the selected Book
      */
     public JComboBox<Ejemplar> comboBoxEjemplar() {
         JComboBox<Ejemplar> comboBoxEjemplar = new JComboBox<>();
@@ -328,7 +330,9 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Readers
+     * Creates a text field
+     * @return  a text field with all the Readers
+     * 
      */
     public JTextField textPasillo() {
         JTextField textPasillo = new JTextField();
@@ -349,7 +353,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Employees
+     * Creates a text field 
+     * @return a text field with bookshelfs
      */
     public JTextField textEstanteria() {
         JTextField textEstanteria = new JTextField();
@@ -361,7 +366,7 @@ public class Ejemplares extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with the Employee text
+     * @return a label with the bookshelf text
      */
     public JLabel labelEstanteria() {
         JLabel labelEstanteria = new JLabel("Estantería");
@@ -370,7 +375,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Employees
+     * Creates a text field 
+     * @return a text field to the reason of archive
      */
     public JTextField textMotivoBaja() {
         JTextField textMotivoBaja = new JTextField();
@@ -382,7 +388,7 @@ public class Ejemplares extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with the Employee text
+     * @return a label with the reason of archive
      */
     public JLabel labelMotivoBaja() {
         JLabel labelMotivoBaja = new JLabel("Motivo de baja");
@@ -391,7 +397,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a DateTimePicker for the date and time of the loan
+     * Creates a text field 
+     * @return a text field to the bookshelf 
      */
     public JTextField textEstante() {
         JTextField textEstante = new JTextField();
@@ -403,7 +410,7 @@ public class Ejemplares extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with the date and time of loan text
+     * @return a label with the bookshelf text
      */
     public JLabel labelEstante() {
         JLabel labelEstante = new JLabel("Estante");
@@ -412,7 +419,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a DateTimePicker for the date and time of the loan
+     * Creates a text field 
+     * @return a text field to observations
      */
     public JTextField textObservaciones() {
         JTextField textObservaciones = new JTextField();
@@ -424,7 +432,7 @@ public class Ejemplares extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with the date and time of loan text
+     * @return a label with the observations text
      */
     public JLabel labelObservaciones() {
         JLabel labelObservaciones = new JLabel("Observaciones");
@@ -433,7 +441,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a DatePicker for the date and time of the return
+     * Creates a DatePicker 
+     * @return a DatePicker for the date and time of the loan return
      */
     public DatePicker calendarFechaBaja() {
         DatePicker calendarFechaBaja = new DatePicker();
@@ -454,26 +463,29 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a confirmation button
+     * Creates a archive button
+     * @return a button to archive
      */
     public JButton btnDarDeBaja() {
-        JButton btnConfirmar = new JButton("Dar de baja");
-        btnConfirmar.setBounds(243, 487, 120, 23);
-        return btnConfirmar;
+        JButton btnArchive = new JButton("Dar de baja");
+        btnArchive.setBounds(243, 487, 120, 23);
+        return btnArchive;
     }
 
     /**
-     * Creates a cancel button
+     * Creates a edit button
+     * @return a button to edit
      * 
      */
     public JButton btnEditar() {
-        JButton btnCancelar = new JButton("Editar");
-        btnCancelar.setBounds(480, 487, 120, 23);
-        return btnCancelar;
+        JButton btnEdit = new JButton("Editar");
+        btnEdit.setBounds(480, 487, 120, 23);
+        return btnEdit;
     }
 
     /**
      * Creates a confirmation button
+     * @return a button to confirm
      */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton("Confirmar");
@@ -483,6 +495,7 @@ public class Ejemplares extends JFrame {
 
     /**
      * Creates a cancel button
+     * @return a button to cancel
      * 
      */
     public JButton btnCancelar() {
@@ -492,8 +505,8 @@ public class Ejemplares extends JFrame {
     }
 
     /**
-     * Creates a cancel button
-     * 
+     * Creates a back button
+     * @return a button to back
      */
     public JButton btnRegresar() {
         JButton btnRegresar = new JButton("Regresar");
