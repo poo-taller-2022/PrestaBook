@@ -7,6 +7,12 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.AreaTematica;
 
+/**
+ * 
+ * Class that handles the combobox rendering of area tematica 
+ *
+ */
+
 public class AreaTematicaRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;
