@@ -267,7 +267,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a text field for title
+     * Creates a text field to title
      */
     public JTextField fieldTitulo() {
         JTextField fieldTitulo = new JTextField();
@@ -288,7 +288,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a text field for subtitle
+     * Creates a text field to subtitle
      */
     public JTextField fieldSubtitulo() {
         JTextField fieldSubtitulo = new JTextField();
@@ -309,7 +309,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a text field for first author
+     * Creates a text field to first author
      */
     public JTextField fieldPrimerAutor() {
         JTextField fieldPrimerAutor = new JTextField();
@@ -330,7 +330,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a text field for second author
+     * Creates a text field to second author
      */
     public JTextField fieldSegundoAutor() {
         JTextField fieldSegundoAutor = new JTextField();
@@ -351,7 +351,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a text field for third author
+     * Creates a text field to third author
      */
     public JTextField fieldTercerAutor() {
         JTextField fieldTercerAutor = new JTextField();
@@ -372,7 +372,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a text field for gender
+     * Creates a text field to gender
      */
     public JTextField fieldGenero() {
         JTextField fieldGenero = new JTextField();
@@ -395,7 +395,7 @@ public class AgregarColeccion extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with type obra text
+     * @return a label with obra type text
      */
     public JLabel lblTipoObra() {
         JLabel lblTipoObra = new JLabel("Tipo obra");
@@ -404,7 +404,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a combo box of type obra
+     * Creates a combo box of obra type
      */
     public JComboBox<TipoObra> comboBoxTipoObra() {
         JComboBox<TipoObra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getTipoObraDAO().findAll()));
@@ -444,7 +444,7 @@ public class AgregarColeccion extends JFrame {
     }
 
     /**
-     * Creates a scrollPane for thematic areas
+     * Creates a scrollPane to thematic areas
      */
     public JScrollPane jListAreaTematica() {
         JList<AreaTematica> jListAreaTematica = new JList<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
