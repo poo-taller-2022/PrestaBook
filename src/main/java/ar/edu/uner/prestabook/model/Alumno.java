@@ -9,10 +9,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
-* Base class that represents a class of type Alumno 
-*
-*/
-
+ * Base class that represents a class of type Alumno
+ *
+ */
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -22,6 +21,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Alumno extends Lector {
 
-    //TODO: ver la posibilidad de crear una entidad Carrera
-	private String carreras;
+    private String carreras;
 }
