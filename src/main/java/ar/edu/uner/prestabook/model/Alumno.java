@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 */
 
 
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -22,6 +23,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Alumno extends Lector {
 
-    //TODO: ver la posibilidad de crear una entidad Carrera
-	private String carreras;
+    private String carreras;
 }
