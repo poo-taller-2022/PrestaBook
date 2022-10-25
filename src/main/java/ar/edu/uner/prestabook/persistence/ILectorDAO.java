@@ -3,6 +3,12 @@ package ar.edu.uner.prestabook.persistence;
 import ar.edu.uner.prestabook.common.GenericDAO;
 import ar.edu.uner.prestabook.model.Lector;
 
+
+/**
+ * 
+ * Interface defining the contract for the bussiness logic of Lector
+ *
+ */
 public interface ILectorDAO extends GenericDAO<Lector> {
 
     /**

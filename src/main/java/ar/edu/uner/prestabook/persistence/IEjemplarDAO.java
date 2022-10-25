@@ -5,6 +5,12 @@ import java.util.List;
 import ar.edu.uner.prestabook.common.GenericDAO;
 import ar.edu.uner.prestabook.model.Ejemplar;
 
+
+/**
+ * 
+ * Interface defining the contract for the bussiness logic of Ejemplar
+ *
+ */
 public interface IEjemplarDAO extends GenericDAO<Ejemplar> {
 
 	/**

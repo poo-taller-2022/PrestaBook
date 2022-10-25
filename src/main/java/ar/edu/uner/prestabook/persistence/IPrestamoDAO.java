@@ -5,6 +5,13 @@ import java.util.List;
 import ar.edu.uner.prestabook.common.GenericDAO;
 import ar.edu.uner.prestabook.model.Prestamo;
 
+
+
+/**
+ * 
+ * Interface defining the contract for the bussiness logic of Prestamo
+ *
+ */
 public interface IPrestamoDAO extends GenericDAO<Prestamo> {
 
     /**
