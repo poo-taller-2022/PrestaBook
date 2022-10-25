@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import com.github.lgooddatepicker.optionalusertools.DateVetoPolicy;
 
+/**
+ * Class which don't allow choose a date from the future in a DatePicker
+ */
 public class VetoFutureDates implements DateVetoPolicy {
 
     @Override
