@@ -2,9 +2,15 @@ package ar.edu.uner.prestabook.jframe;
 
 public class Constants {
 
+	/**
+	 * Class constructor
+	 */
     private Constants() {
     }
-
+    
+    /**
+     * Sets all constants used throughout the code
+     */
     public static final String FONT = "Verdana";
     public static final String OPCIONES = "Opciones";
     public static final String FORMATO = "Formato";

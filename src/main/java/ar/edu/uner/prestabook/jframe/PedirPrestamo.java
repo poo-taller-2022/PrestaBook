@@ -306,6 +306,12 @@ public class PedirPrestamo extends JFrame {
         return fieldEdicion;
     }
 
+    /**
+     * find an ejemplar by obra and edicion
+     * @param obra
+     * @param edicion
+     * @return ejemplar if it's available for loan
+     */
     private Ejemplar buscarEjemplar(Obra obra, Edicion edicion) {
         IPrestamoDAO prestamoDAO = DaoFactory.getPrestamoDAO();
         IReservaDAO reservaDAO = DaoFactory.getReservaDAO();

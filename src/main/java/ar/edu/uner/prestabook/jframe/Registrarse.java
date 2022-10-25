@@ -232,9 +232,8 @@ public class Registrarse extends JFrame {
     }
 
     /**
-     * Create components
+     * Creates the window
      */
-
     public void ventana() {
         setUndecorated(true);
         setResizable(false);
@@ -244,6 +243,11 @@ public class Registrarse extends JFrame {
         setTitle(Constants.PRESTABOOK);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

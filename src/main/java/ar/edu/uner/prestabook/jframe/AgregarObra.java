@@ -171,6 +171,21 @@ public class AgregarObra extends JFrame {
 
     }
 
+    /**
+     * Updates database by inserting a new obra entity
+     * @param isbn
+     * @param titulo
+     * @param subtitulo
+     * @param primerAutor
+     * @param segundoAutor
+     * @param tercerAutor
+     * @param genero
+     * @param tipoObra
+     * @param idTipoObra
+     * @param areasTematicas
+     * @param checkBoxColeccion
+     * @param comboBoxIsbnColeccion
+     */
     private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
             String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
             Set<AreaTematica> areasTematicas, JCheckBox checkBoxColeccion,

@@ -139,6 +139,18 @@ public class AgregarEdicion extends JFrame {
         });
     }
 
+    /**
+     * Updates database by inserting a new edition entity
+     * @param editorial
+     * @param pais
+     * @param numero
+     * @param anio
+     * @param volumenes
+     * @param paginas
+     * @param idioma
+     * @param formatos
+     * @param isbnObra
+     */
     private void actualizarBaseDeDatos(String editorial, String pais, String numero, String anio, String volumenes,
             String paginas, String idioma, Set<Formato> formatos, String isbnObra) {
         Edicion edicion = new Edicion();
@@ -156,6 +168,11 @@ public class AgregarEdicion extends JFrame {
         e.insert(edicion);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     private JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
@@ -164,24 +181,38 @@ public class AgregarEdicion extends JFrame {
         return contentPane;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with obra text
+     */
     public JLabel lblObra() {
         JLabel lblObra = new JLabel("Obra");
         lblObra.setBounds(37, 139, 46, 14);
         return lblObra;
     }
 
+    /**
+     * Creates a button add
+     */
     public JButton btnAgregar() {
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBounds(94, 454, 89, 23);
         return btnAgregar;
     }
 
+    /**
+     * Creates a button cancel
+     */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setBounds(260, 454, 89, 23);
         return btnCancelar;
     }
 
+    /**
+     * Creates the window
+     */
     private void ventana() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 439, 508);
@@ -191,6 +222,11 @@ public class AgregarEdicion extends JFrame {
         setTitle(Constants.PRESTABOOK);
     }
 
+    /**
+     * Creates a panel
+     * 
+     * @return a panel add edition
+     */
     public JPanel panelAgregarEdicion() {
         JPanel panelAgregarEdicion = new JPanel();
         panelAgregarEdicion.setBackground(new Color(0, 64, 128));
@@ -199,6 +235,11 @@ public class AgregarEdicion extends JFrame {
         return panelAgregarEdicion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with add edition text
+     */
     public JLabel lblAgregarEdicion() {
         JLabel lblAgregarEdicion = new JLabel("Agregar edición");
         lblAgregarEdicion.setForeground(new Color(255, 255, 255));
@@ -207,6 +248,9 @@ public class AgregarEdicion extends JFrame {
         return lblAgregarEdicion;
     }
 
+    /**
+     * Creates a text field for editorial
+     */
     public JTextField fieldEditorial() {
         JTextField fieldEditorial = new JTextField();
         fieldEditorial.setBounds(37, 219, 166, 29);
@@ -214,12 +258,16 @@ public class AgregarEdicion extends JFrame {
         return fieldEditorial;
     }
 
+    
     public JLabel lblEditorial() {
         JLabel lblEditorial = new JLabel("Editorial");
         lblEditorial.setBounds(38, 205, 46, 14);
         return lblEditorial;
     }
 
+    /**
+     * Creates a text field for country
+     */
     public JTextField fieldPais() {
         JTextField fieldPais = new JTextField();
         fieldPais.setColumns(10);
@@ -233,6 +281,9 @@ public class AgregarEdicion extends JFrame {
         return lblPais;
     }
 
+    /**
+     * Creates a text field for number
+     */
     public JTextField fieldNumero() {
         JTextField fieldNumero = new JTextField();
         fieldNumero.setColumns(10);
@@ -252,6 +303,9 @@ public class AgregarEdicion extends JFrame {
         return lblNumero;
     }
 
+    /**
+     * Creates a text field for year
+     */
     public JTextField fieldAnio() {
         JTextField fieldAnio = new JTextField();
         fieldAnio.setColumns(10);
@@ -271,6 +325,9 @@ public class AgregarEdicion extends JFrame {
         return lblAnio;
     }
 
+    /**
+     * Creates a text field for volumenes
+     */
     public JTextField fieldVolumenes() {
         JTextField fieldVolumenes = new JTextField();
         fieldVolumenes.setColumns(10);
@@ -290,6 +347,9 @@ public class AgregarEdicion extends JFrame {
         return lblVolumenes;
     }
 
+    /**
+     * Creates a text field for pages
+     */
     public JTextField fieldPaginas() {
         JTextField fieldPaginas = new JTextField();
         fieldPaginas.setColumns(10);
@@ -309,6 +369,9 @@ public class AgregarEdicion extends JFrame {
         return lblPaginas;
     }
 
+    /**
+     * Creates a text field for language
+     */
     public JTextField fieldIdioma() {
         JTextField fieldIdioma = new JTextField();
         fieldIdioma.setColumns(10);
@@ -328,6 +391,9 @@ public class AgregarEdicion extends JFrame {
         return lblFormato;
     }
 
+    /**
+     * Creates a combo box of Obras
+     */
     public JComboBox<Obra> comboBoxObras() {
         JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
         comboBoxObra.setBounds(37, 154, 166, 29);
@@ -336,6 +402,9 @@ public class AgregarEdicion extends JFrame {
         return comboBoxObra;
     }
 
+    /**
+     * Creates a scroll pane
+     */
     public JScrollPane jListFormatos() {
         JList<Formato> jListFormatos = new JList<>(new Vector<>(DaoFactory.getFormatoDAO().findAll()));
         jListFormatos.setCellRenderer(new FormatoRenderer());

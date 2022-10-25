@@ -142,6 +142,17 @@ public class AgregarEjemplar extends JFrame {
         });
     }
 
+    /**
+     * Updates database by inserting a new ejemplar entity
+     * @param formaAdquisicion
+     * @param fechaAdquisicion
+     * @param observaciones
+     * @param pasillo
+     * @param estanteria
+     * @param estante
+     * @param isbnObra
+     * @param idEdicion
+     */
     private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
             String pasillo, String estanteria, String estante, String isbnObra, Long idEdicion) {
         IObraDAO o = DaoFactory.getObraDAO();
