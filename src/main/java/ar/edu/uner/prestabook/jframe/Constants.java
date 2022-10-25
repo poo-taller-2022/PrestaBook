@@ -4,13 +4,11 @@ public class Constants {
 
 	/**
 	 * Class constructor
-	 */
-    private Constants() {
-    }
-    
-    /**
      * Sets all constants used throughout the code
      */
+    private Constants() {
+    }
+
     public static final String FONT = "Verdana";
     public static final String OPCIONES = "Opciones";
     public static final String FORMATO = "Formato";

@@ -37,15 +37,15 @@ import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 public class Tabla {
 
 	/**
-	 * Creates a constructor
+	 * Table constructor
 	 */
     private Tabla() {
     }
 
     /**
      * Fills a table with an entity depending on the type
-     * @param model
-     * @param tipoEntidad
+     * @param model table model
+     * @param tipoEntidad the type of entity to fill the table with
      */
     public static void fill(DefaultTableModel model, String tipoEntidad) {
         Integer i = 0;
@@ -109,9 +109,9 @@ public class Tabla {
     }
 
     /**
-     * Loads an edition in database
-     * @param model
-     * @param i
+     * Loads the editions from the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadEdicion(DefaultTableModel model, Integer i) {
         IEdicionDAO edicionDAO = DaoFactory.getEdicionDAO();
@@ -139,9 +139,9 @@ public class Tabla {
     }
 
     /**
-     * Loads an ejemplar in database
-     * @param model
-     * @param i
+     * Loads the ejemplar from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadEjemplar(DefaultTableModel model, Integer i) {
         IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
@@ -162,9 +162,9 @@ public class Tabla {
     }
 
     /**
-     * Loads an obra in database
-     * @param model
-     * @param i
+     * Loads the obra from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadObra(DefaultTableModel model, Integer i) {
         IObraDAO obraDAO = DaoFactory.getObraDAO();
@@ -192,9 +192,9 @@ public class Tabla {
     }
 
     /**
-     * Loads a collection in database
-     * @param model
-     * @param i
+     * Loads the collection from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadColeccion(DefaultTableModel model, Integer i) {
         IColeccionDAO coleccionDAO = DaoFactory.getColeccionDAO();
@@ -221,9 +221,9 @@ public class Tabla {
     }
 
     /**
-     * Loads a format in database
-     * @param model
-     * @param i
+     * Loads the format from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadFormato(DefaultTableModel model, Integer i) {
         IFormatoDAO formatoDAO = DaoFactory.getFormatoDAO();
@@ -237,9 +237,9 @@ public class Tabla {
     }
 
     /**
-     * Loads a thematic area in database
-     * @param model
-     * @param i
+     * Loads the thematic area from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadAreaTematica(DefaultTableModel model, Integer i) {
         IAreaTematicaDAO areaTematicaDAO = DaoFactory.getAreaTematicaDAO();
@@ -253,9 +253,9 @@ public class Tabla {
     }
 
     /**
-     * Loads an obra type in database
-     * @param model
-     * @param i
+     * Loads the obra type from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadTipoObra(DefaultTableModel model, Integer i) {
         ITipoObraDAO tipoObraDAO = DaoFactory.getTipoObraDAO();
@@ -269,9 +269,9 @@ public class Tabla {
     }
 
     /**
-     * Loads a lector in database
-     * @param model
-     * @param i
+     * Loads the lector from database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadLector(DefaultTableModel model, Integer i) {
         List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
@@ -289,9 +289,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many fines in database
-     * @param model
-     * @param i
+     * Loads the fines stored in the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadMultas(DefaultTableModel model, Integer i) {
         List<Multa> multas = DaoFactory.getMultaDAO().findAll();
@@ -307,9 +307,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many reservations in database
-     * @param model
-     * @param i
+     * Loads the reservations stored in the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadReservas(DefaultTableModel model) {
         List<Reserva> reservas = DaoFactory.getReservaDAO().findAll();
@@ -328,9 +328,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many lends in database
-     * @param model
-     * @param i
+     * Loads the lends stored in the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadPrestamos(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
@@ -365,9 +365,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many obras by editorial in database
-     * @param model
-     * @param i
+     * Loads the obras by editorial stored in the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadObrasPorEditorial(DefaultTableModel model, Integer i) {
 
@@ -404,9 +404,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many ejemplares by thematic area in database
-     * @param model
-     * @param i
+     * Loads the ejemplares by thematic area stored in the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadEjemplaresPorArea(DefaultTableModel model, Integer i) {
         IEjemplarDAO ejemplarDAO = DaoFactory.getEjemplarDAO();
@@ -450,9 +450,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many obras by area in database
-     * @param model
-     * @param i
+     * Loads the obras by area stored in the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     public static void loadObrasPorArea(DefaultTableModel model, Integer i) {
 
@@ -483,9 +483,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many obras borrowed to a lector in database
-     * @param model
-     * @param i
+     * Loads the view of the books of the reader
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadObrasLector(DefaultTableModel model, Integer i) {
 
@@ -536,9 +536,9 @@ public class Tabla {
     }
 
     /**
-     * Loads obras more requested in database
-     * @param model
-     * @param i
+     * Loads obras more requested from the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadObrasMasSolicitadas(DefaultTableModel model, Integer i) {
 
@@ -559,9 +559,9 @@ public class Tabla {
     }
 
     /**
-     * Loads many requests in database
-     * @param model
-     * @param i
+     * Loads the requests from the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadSolicitudes(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
@@ -604,9 +604,9 @@ public class Tabla {
 
     
     /**
-     * Loads many notifications in database
-     * @param model
-     * @param i
+     * Loads the notifications from the database
+     * @param model table model
+     * @param i counter used to serve as a numerator when filling the table, used as an index for it
      */
     private static void loadNotificaciones(DefaultTableModel model, Integer i) {
         List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();

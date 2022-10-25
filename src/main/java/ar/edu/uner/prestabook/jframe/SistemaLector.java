@@ -42,7 +42,7 @@ public class SistemaLector extends JFrame {
     }
 
     /**
-     * Creates a constructor
+     * Reader system constructor
      */
     private SistemaLector() {
 

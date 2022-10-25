@@ -20,8 +20,8 @@ public class CodigoBarras {
 
     /**
      * Find barcode by id
-     * @param id
-     * @return
+     * @param id of the barcode
+     * @return an imagenIcon with codebar
      */
     public ImageIcon buscarCodigoBarras(String id) {
         return new ImageIcon(new File(PATH + id + ".png").getAbsolutePath());

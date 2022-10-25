@@ -280,10 +280,9 @@ public class ReservarEjemplar extends JFrame {
     }
 
     /**
-     * Find date where ejemplar will be available
+     * Find date when ejemplar will be available
      * @param obra
      * @param edicion
-     * @return
      */
     public List<Object> buscarFechaDisponible(Obra obra, Edicion edicion) {
         List<Reserva> reservas = DaoFactory.getReservaDAO().findAll();
