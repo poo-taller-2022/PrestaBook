@@ -245,6 +245,11 @@ public class Ejemplares extends JFrame {
         return contentPane;
     }
 
+	    
+	/**
+	 * Creates a label 
+	 * @return a label with the bar code of book
+	 */
     public JLabel lblMostrarCodigo() {
         JLabel lblMostrarCodigo = new JLabel("");
         lblMostrarCodigo.setBounds(314, 198, 300, 60);

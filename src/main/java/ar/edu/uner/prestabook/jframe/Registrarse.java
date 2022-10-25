@@ -256,6 +256,12 @@ public class Registrarse extends JFrame {
         return contentPane;
     }
 
+    
+    /**
+	 * Creates a field
+	 * @return password field when password is wrong
+	 */
+    
     private JPasswordField textRepetirContrasenia() {
         JPasswordField passwordField = new JPasswordField();
         passwordField.setToolTipText("");

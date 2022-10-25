@@ -290,6 +290,10 @@ public class PedirPrestamo extends JFrame {
         return btnCancelar;
     }
 
+    
+	/**
+	 * Creates a text field to obra
+	 */
     public JTextField fieldObra() {
         JTextField fieldObra = new JTextField();
         fieldObra.setEditable(false);
@@ -298,6 +302,10 @@ public class PedirPrestamo extends JFrame {
         return fieldObra;
     }
 
+    
+    /**
+	 * Creates a text field to edicion
+	 */
     public JTextField fieldEdicion() {
         JTextField fieldEdicion = new JTextField();
         fieldEdicion.setEditable(false);
