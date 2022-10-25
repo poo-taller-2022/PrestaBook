@@ -15,6 +15,13 @@ import ar.edu.uner.prestabook.jframe.tablemodel.NonEditableTableModel;
  */
 public abstract class AbstractPanel {
 
+	/**
+	 * Class construct
+	 */
+	public AbstractPanel() {
+		
+	}
+	
     JPanel panel = Components.panelEntities();
     DefaultTableModel model;
     JTable table;
@@ -50,6 +57,7 @@ public abstract class AbstractPanel {
 
     /**
      * Initializes this panel.
+     * @return Jpanel
      */
     public abstract JPanel init();
 
@@ -59,7 +67,7 @@ public abstract class AbstractPanel {
     public abstract void setModelColumns();
 
     /**
-     * 
+     * get the name of this panel
      * @return the name of this panel.
      */
     public abstract String getPanelName();

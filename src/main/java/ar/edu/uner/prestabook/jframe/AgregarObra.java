@@ -37,6 +37,10 @@ import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 
+/**
+ * Opens a window for functionality of add obra
+ *
+ */
 public class AgregarObra extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -245,6 +249,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a check box with belongs to collection text
+     * @return check box
      */
     public JCheckBox checkBoxColeccion() {
         JCheckBox checkBoxColeccion = new JCheckBox("Pertenece a una colección");
@@ -264,6 +269,10 @@ public class AgregarObra extends JFrame {
         return lblIsbnDeColeccion;
     }
 
+    /**
+     * Creates a button add edition
+     * @return a button
+     */
     public JButton btnAñadirEdicion() {
         JButton btnAñadirEdicion = new JButton("Añadir edición");
         btnAñadirEdicion.setBounds(166, 338, 127, 23);
@@ -298,6 +307,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a text field to isbn
+     * @return a text field
      */
     public JTextField fieldIsbn() {
         JTextField fieldIsbn = new JTextField();
@@ -343,6 +353,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a text field to subtitle
+     * @return text field
      */
     public JTextField fieldSubtitulo() {
         JTextField fieldSubtitulo = new JTextField();
@@ -364,6 +375,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a text field to first author
+     * @return a text field
      */
     public JTextField fieldPrimerAutor() {
         JTextField fieldPrimerAutor = new JTextField();
@@ -385,6 +397,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a text field to second author
+     * @return a text field
      */
     public JTextField fieldSegundoAutor() {
         JTextField fieldSegundoAutor = new JTextField();
@@ -406,6 +419,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a text field to third author
+     * @return a text field
      */
     public JTextField fieldTercerAutor() {
         JTextField fieldTercerAutor = new JTextField();
@@ -427,6 +441,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a text field to gender
+     * @return text field
      */
     public JTextField fieldGenero() {
         JTextField fieldGenero = new JTextField();
@@ -459,6 +474,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a combo box of isbn collections
+     * @return a combo box
      */
     public JComboBox<Coleccion> comboBoxIsbnColeccion() {
         JComboBox<Coleccion> comboBoxIsbnColeccion = new JComboBox<>(
@@ -471,6 +487,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a combo box of obra types
+     * @return a combo box
      */
     public JComboBox<TipoObra> comboBoxTipoObra() {
         JComboBox<TipoObra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getTipoObraDAO().findAll()));
@@ -493,6 +510,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a button add
+     * @return a button
      */
     public JButton btnAgregar() {
         JButton btnAgregar = new JButton("Agregar");
@@ -502,6 +520,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a button cancel
+     * @return a button
      */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
@@ -511,6 +530,7 @@ public class AgregarObra extends JFrame {
 
     /**
      * Creates a scrollPane to thematic areas
+     * @return a scroll pane
      */
     public JScrollPane jListAreaTematica() {
         JList<AreaTematica> jListAreaTematica = new JList<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
