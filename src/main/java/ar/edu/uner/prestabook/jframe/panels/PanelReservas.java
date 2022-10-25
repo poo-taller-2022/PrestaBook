@@ -98,7 +98,7 @@ public class PanelReservas extends AbstractPanel {
 
     
     /**
-   	 * Creates a label to filtering according to a start date
+   	 * Creates a label to filter according to a start date
    	 * 
    	 */
     private JLabel labelFiltroFechas() {

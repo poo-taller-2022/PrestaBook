@@ -65,7 +65,7 @@ public class PanelPrestamos extends AbstractPanel {
     
     
     /**
-     * Creates a check box to filtering lead out of term
+     * Creates a check box to filter out of term rows
      */	
     private JCheckBox checkBoxFiltro() {
         JCheckBox checkBoxFiltro = new JCheckBox("Mostrar fuera de término");
