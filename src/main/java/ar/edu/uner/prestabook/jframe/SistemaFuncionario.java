@@ -79,6 +79,9 @@ public class SistemaFuncionario extends JFrame {
         return instance;
     }
 
+    /**
+     * Creates a frame
+     */
     private SistemaFuncionario() {
 
         window();
@@ -281,7 +284,6 @@ public class SistemaFuncionario extends JFrame {
     /**
      * Creates the window
      */
-
     private void window() {
         setUndecorated(true);
         setResizable(false);
@@ -294,7 +296,6 @@ public class SistemaFuncionario extends JFrame {
     /**
      * Menu bar Administrar
      */
-
     private JMenuBar menuBarAdministrar() {
         JMenuBar menuBarAdministrar = new JMenuBar();
         menuBarAdministrar.setBounds(10, 6, 75, 22);
@@ -302,6 +303,9 @@ public class SistemaFuncionario extends JFrame {
         return menuBarAdministrar;
     }
 
+    /**
+     * Creates a menu
+     */
     private JMenu menuAdministrar() {
         JMenu menuAdministrar = new JMenu("Administrar");
         menuAdministrar.setBackground(new Color(255, 255, 255));

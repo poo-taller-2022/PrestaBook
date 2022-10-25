@@ -207,9 +207,9 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates the pane
+     * Creates a panel
      * 
-     * @return a container
+     * @return a panel new prestamo
      */
     public JPanel panelNuevoPrestamo() {
         JPanel panelAgregarObra = new JPanel();

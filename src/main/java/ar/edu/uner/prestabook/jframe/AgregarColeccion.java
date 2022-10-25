@@ -147,6 +147,19 @@ public class AgregarColeccion extends JFrame {
 
     }
 
+    /**
+     * Updates database by inserting a new collection entity
+     * @param isbn
+     * @param titulo
+     * @param subtitulo
+     * @param primerAutor
+     * @param segundoAutor
+     * @param tercerAutor
+     * @param genero
+     * @param tipoObra
+     * @param idTipoObra
+     * @param areasTematicas
+     */
     private void actualizarBaseDeDatos(String isbn, String titulo, String subtitulo, String primerAutor,
             String segundoAutor, String tercerAutor, String genero, String tipoObra, Integer idTipoObra,
             Set<AreaTematica> areasTematicas) {
@@ -166,6 +179,9 @@ public class AgregarColeccion extends JFrame {
         c.insert(coleccion);
     }
 
+    /**
+     * Creates the window
+     */
     public void ventana() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 655, 390);
@@ -175,6 +191,11 @@ public class AgregarColeccion extends JFrame {
         setTitle(Constants.PRESTABOOK);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
@@ -183,12 +204,20 @@ public class AgregarColeccion extends JFrame {
         return contentPane;
     }
 
+    /**
+     * Creates a confirmation button
+     */
     public JButton btnAniadirEdicion() {
         JButton btnAniadirEdicion = new JButton("Añadir edición");
         btnAniadirEdicion.setBounds(166, 338, 127, 23);
         return btnAniadirEdicion;
     }
 
+    /**
+     * Creates a panel
+     * 
+     * @return a agregarColeccion panel
+     */
     public JPanel panelAgregarColeccion() {
         JPanel panelAgregarColeccion = new JPanel();
         panelAgregarColeccion.setBackground(new Color(0, 64, 128));
@@ -197,6 +226,11 @@ public class AgregarColeccion extends JFrame {
         return panelAgregarColeccion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with add collection text
+     */
     public JLabel lblAgregarColeccion() {
         JLabel lblAgregarColeccion = new JLabel("Agregar coleccion");
         lblAgregarColeccion.setForeground(new Color(255, 255, 255));
@@ -205,6 +239,9 @@ public class AgregarColeccion extends JFrame {
         return lblAgregarColeccion;
     }
 
+    /**
+     * Creates a combo box of isbn
+     */
     public JTextField fieldIsbn() {
         JTextField fieldIsbn = new JTextField();
         fieldIsbn.setBounds(37, 134, 166, 29);
@@ -218,12 +255,20 @@ public class AgregarColeccion extends JFrame {
         return fieldIsbn;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with isbn collection text
+     */
     public JLabel lblIsbn() {
         JLabel lblIsbn = new JLabel("Isbn de coleccion");
         lblIsbn.setBounds(37, 120, 105, 14);
         return lblIsbn;
     }
 
+    /**
+     * Creates a text field to title
+     */
     public JTextField fieldTitulo() {
         JTextField fieldTitulo = new JTextField();
         fieldTitulo.setColumns(10);
@@ -231,12 +276,20 @@ public class AgregarColeccion extends JFrame {
         return fieldTitulo;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of collection text
+     */
     public JLabel lblTitulo() {
         JLabel lblTitulo = new JLabel("Título de coleccion");
         lblTitulo.setBounds(237, 120, 112, 14);
         return lblTitulo;
     }
 
+    /**
+     * Creates a text field to subtitle
+     */
     public JTextField fieldSubtitulo() {
         JTextField fieldSubtitulo = new JTextField();
         fieldSubtitulo.setColumns(10);
@@ -244,12 +297,20 @@ public class AgregarColeccion extends JFrame {
         return fieldSubtitulo;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with subtitle text
+     */
     public JLabel lblSubtitulo() {
         JLabel lblSubtitulo = new JLabel("Subtítulo");
         lblSubtitulo.setBounds(436, 120, 73, 14);
         return lblSubtitulo;
     }
 
+    /**
+     * Creates a text field to first author
+     */
     public JTextField fieldPrimerAutor() {
         JTextField fieldPrimerAutor = new JTextField();
         fieldPrimerAutor.setColumns(10);
@@ -257,12 +318,20 @@ public class AgregarColeccion extends JFrame {
         return fieldPrimerAutor;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with first author text
+     */
     public JLabel lblPrimerAutor() {
         JLabel lblPrimerAutor = new JLabel("Primer autor");
         lblPrimerAutor.setBounds(37, 183, 83, 14);
         return lblPrimerAutor;
     }
 
+    /**
+     * Creates a text field to second author
+     */
     public JTextField fieldSegundoAutor() {
         JTextField fieldSegundoAutor = new JTextField();
         fieldSegundoAutor.setColumns(10);
@@ -270,12 +339,20 @@ public class AgregarColeccion extends JFrame {
         return fieldSegundoAutor;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with second author text
+     */
     public JLabel lblSegundoAutor() {
         JLabel lblSegundoAutor = new JLabel("Segundo autor");
         lblSegundoAutor.setBounds(237, 183, 112, 14);
         return lblSegundoAutor;
     }
 
+    /**
+     * Creates a text field to third author
+     */
     public JTextField fieldTercerAutor() {
         JTextField fieldTercerAutor = new JTextField();
         fieldTercerAutor.setColumns(10);
@@ -283,12 +360,20 @@ public class AgregarColeccion extends JFrame {
         return fieldTercerAutor;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with third author text
+     */
     public JLabel lblTercerAutor() {
         JLabel lblTercerAutor = new JLabel("Tercer autor");
         lblTercerAutor.setBounds(436, 183, 83, 14);
         return lblTercerAutor;
     }
 
+    /**
+     * Creates a text field to gender
+     */
     public JTextField fieldGenero() {
         JTextField fieldGenero = new JTextField();
         fieldGenero.setColumns(10);
@@ -296,18 +381,31 @@ public class AgregarColeccion extends JFrame {
         return fieldGenero;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with gender text
+     */
     public JLabel lblGenero() {
         JLabel lblGenero = new JLabel("Genero");
         lblGenero.setBounds(37, 249, 64, 14);
         return lblGenero;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with obra type text
+     */
     public JLabel lblTipoObra() {
         JLabel lblTipoObra = new JLabel("Tipo obra");
         lblTipoObra.setBounds(235, 249, 83, 14);
         return lblTipoObra;
     }
 
+    /**
+     * Creates a combo box of obra type
+     */
     public JComboBox<TipoObra> comboBoxTipoObra() {
         JComboBox<TipoObra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getTipoObraDAO().findAll()));
         comboBoxObra.setBounds(235, 268, 166, 29);
@@ -316,24 +414,38 @@ public class AgregarColeccion extends JFrame {
         return comboBoxObra;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with thematic area text
+     */
     public JLabel lblAreaTematica() {
         JLabel lblAreaTematica = new JLabel("Área temática");
         lblAreaTematica.setBounds(437, 249, 89, 14);
         return lblAreaTematica;
     }
 
+    /**
+     * Creates a button add
+     */
     public JButton btnAgregar() {
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBounds(196, 332, 89, 23);
         return btnAgregar;
     }
 
+    /**
+     * Creates a button cancel
+     */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setBounds(344, 332, 89, 23);
         return btnCancelar;
     }
 
+    /**
+     * Creates a scrollPane to thematic areas
+     */
     public JScrollPane jListAreaTematica() {
         JList<AreaTematica> jListAreaTematica = new JList<>(new Vector<>(DaoFactory.getAreaTematicaDAO().findAll()));
         jListAreaTematica.setCellRenderer(new AreaTematicaRenderer());
