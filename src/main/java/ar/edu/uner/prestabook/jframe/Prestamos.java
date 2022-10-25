@@ -2,6 +2,8 @@ package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,11 +63,12 @@ public class Prestamos extends JFrame {
 
         JComboBox<Ejemplar> comboBoxEjemplar = comboBoxEjemplar();
         contentPane.add(comboBoxEjemplar);
-
+        
         JComboBox<Obra> comboBoxObra = comboBoxObra();
+        
         comboBoxObra.addItemListener(e -> {
             Obra obra = (Obra) e.getItem();
-            comboBoxEjemplar.removeAllItems();
+            
             List<Ejemplar> ejemplares = DaoFactory.getEjemplarDAO().findAllByObraIsbn(obra.getIsbn());
             for (Ejemplar ejemplar : ejemplares) {
                 if (ejemplar.getMotivoBaja() == null
@@ -290,7 +293,7 @@ public class Prestamos extends JFrame {
             List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(lector.getDocumento());
             for (Multa multa : multas) {
                 LocalDate fechaConPlazo = LocalDate
-                        .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        .parse(multa.getFecha(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                         .plus(multa.getPlazo(), ChronoUnit.DAYS);
                 if (LocalDate.now().isAfter(fechaConPlazo)) {
                     comboBoxLector.addItem(lector);

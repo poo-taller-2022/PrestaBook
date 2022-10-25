@@ -28,6 +28,8 @@ import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.model.Obra;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * GUI Designed to display the user interface of a new book loan
@@ -99,7 +101,7 @@ public class Ejemplares extends JFrame {
             textEstanteria.setText(ejemplar.getCodigoIdentificatorio().getEstanteria().toString());
             textEstante.setText(ejemplar.getCodigoIdentificatorio().getEstante().toString());
             calendarFechaBaja.setDate(ejemplar.getFechaBaja() != null
-                    ? LocalDate.parse(ejemplar.getFechaBaja(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    ? LocalDate.parse(ejemplar.getFechaBaja(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                     : null);
             textMotivoBaja.setText(ejemplar.getMotivoBaja());
             textObservaciones.setText(ejemplar.getObservaciones());

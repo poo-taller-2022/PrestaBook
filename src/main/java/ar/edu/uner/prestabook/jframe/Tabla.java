@@ -245,7 +245,7 @@ public class Tabla {
         for (Multa multa : multas) {
             List<Object> fila = new LinkedList<>();
             fila.add(++i);
-            fila.add(LocalDate.parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            fila.add(LocalDate.parse(multa.getFecha(), DateTimeFormatter.ofPattern("uuuu-MM-dd")));
             fila.add(multa.getPlazo());
             fila.add(multa.getLector().getNombre());
             fila.add(multa.getLector().getApellido());
@@ -263,7 +263,7 @@ public class Tabla {
                 fila.add(String.format("%s %s", reserva.getLector().getNombre(), reserva.getLector().getApellido()));
                 fila.add(obra.getTitulo());
                 fila.add(reserva.getEjemplar().getId());
-                fila.add(LocalDate.parse(reserva.getFechaReserva(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                fila.add(LocalDate.parse(reserva.getFechaReserva(), DateTimeFormatter.ofPattern("uuuu-MM-dd")));
                 model.addRow(new Vector<>(fila));
             }
         }
@@ -276,10 +276,10 @@ public class Tabla {
                 LocalDateTime fechaPrestamo = LocalDateTime.parse(prestamo.getFechaYHoraPrestamo());
                 LocalDate fechaPactadaDevolucion = prestamo.getFechaPactadaDevolucion() != null
                         ? LocalDate.parse(prestamo.getFechaPactadaDevolucion(),
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                                DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                         : null;
                 LocalDate fechaRealDevolucion = prestamo.getFechaRealDevolucion() != null
-                        ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        ? LocalDate.parse(prestamo.getFechaRealDevolucion(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                         : null;
                 Boolean fueraDeTermino = fechaPactadaDevolucion != null ? fechaPrestamo
                         .plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue()))
@@ -491,7 +491,7 @@ public class Tabla {
                     Boolean fueraDeTermino = false;
                     for (Multa multa : multas) {
                         LocalDate fechaConPlazo = LocalDate
-                                .parse(multa.getFecha(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                                .parse(multa.getFecha(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                                 .plus(multa.getPlazo(), ChronoUnit.DAYS);
                         if (!LocalDate.now().isAfter(fechaConPlazo)) {
                             fueraDeTermino = true;

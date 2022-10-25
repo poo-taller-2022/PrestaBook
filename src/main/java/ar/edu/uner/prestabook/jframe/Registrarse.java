@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.PersistenceException;
 import javax.swing.ButtonGroup;
@@ -20,11 +24,17 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 
+import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
+import ar.edu.uner.prestabook.jframe.utils.UnderAgeVetoPolicy;
+import ar.edu.uner.prestabook.jframe.utils.VetoPastDates;
+import ar.edu.uner.prestabook.jframe.validation.ValidationFields;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.security.PasswordEncrypter;
@@ -72,6 +82,9 @@ public class Registrarse extends JFrame {
         contentPane.add(lblNumeroDeTelefono());
         JTextField textNumeroDeTelefono = textNumeroDeTelefono();
         contentPane.add(textNumeroDeTelefono);
+
+        JLabel lblNroNoValido = lblNroNoValido();
+        contentPane.add(lblNroNoValido);
 
         contentPane.add(lblFechaDeNacimiento());
         DatePicker datePickerFechaDeNacimiento = datePickerFechaDeNacimiento();
@@ -140,6 +153,7 @@ public class Registrarse extends JFrame {
 
         contentPane.add(lblContrasenia());
         contentPane.add(lblRepetirContrasenia());
+        contentPane.add(lblCondicionContrasenia());
         JTextField textContrasenia = textContrasenia();
         contentPane.add(textContrasenia);
 
@@ -170,6 +184,103 @@ public class Registrarse extends JFrame {
          */
 
         btnExit.addActionListener(e -> System.exit(0));
+        
+        /**
+         * Methods that indicate if the value entered in the fields is correct
+         */
+        
+        ValidationFields validationFields = new ValidationFields();
+        
+        textNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textNombre); 
+            }
+        });
+        
+        textApellido.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textApellido); 
+            }
+        });
+        
+        textTipoDeDocumento.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textTipoDeDocumento); 
+            }
+        });
+        
+        textNumeroDeDocumento.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationDocument(textNumeroDeDocumento); 
+            }
+        });
+        
+        textEmail.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationEmail(textEmail); 
+            } 
+        });
+
+        textNumeroDeTelefono.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationNumber(textNumeroDeTelefono, lblNroNoValido); 
+            }
+        }); 
+        
+        textNacionalidad.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textNacionalidad); 
+            }
+        });
+        
+        textDomicilio.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericString(textDomicilio); 
+            }
+        });
+        
+        textCodigoPostal.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericString(textCodigoPostal); 
+            }
+        });
+        
+        textDepartamento.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericString(textDepartamento); 
+            }
+        });
+        
+        textLocalidad.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textLocalidad); 
+            }
+        });   
+
+        textContrasenia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationPassword(textContrasenia); 
+            }
+        });
+        
+        textRepetirContrasenia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationRepeatPassword(textContrasenia, textRepetirContrasenia); 
+            }
+        });
 
         /**
          * Method created to instantiate a reader object with the data entered in the
@@ -361,7 +472,7 @@ public class Registrarse extends JFrame {
 
     public JLabel lblEmail() {
         JLabel lblEmail = new JLabel("Correo electrónico");
-        lblEmail.setBounds(241, 137, 91, 14);
+        lblEmail.setBounds(241, 137, 159, 14);
         return lblEmail;
     }
 
@@ -398,7 +509,12 @@ public class Registrarse extends JFrame {
         datePickerFechaDeNacimiento.setForeground(Color.GRAY);
         datePickerFechaDeNacimiento.setBackground(Color.WHITE);
         datePickerFechaDeNacimiento.setBounds(241, 271, 180, 30);
-        datePickerFechaDeNacimiento.setSettings(DateSettings.getDatePickerSettings());
+        datePickerFechaDeNacimiento.setSettings(DateSettings.getDatePickerSettings());   
+        datePickerFechaDeNacimiento.setDate(LocalDate.now().minusYears(17));
+        DatePickerSettings settings = DateSettings.getDatePickerSettings();
+        datePickerFechaDeNacimiento.setSettings(settings);
+        settings.setVetoPolicy(new UnderAgeVetoPolicy());
+        
         return datePickerFechaDeNacimiento;
     }
 
@@ -636,7 +752,7 @@ public class Registrarse extends JFrame {
         } else {
             tipoSeleccionado = btnRadioFuncionario.getText();
         }
-        return tipoSeleccionado;
+        return tipoSeleccionado; 
     }
 
     /**
@@ -666,5 +782,22 @@ public class Registrarse extends JFrame {
                 PasswordEncrypter.encrypt((String.valueOf(((JPasswordField) textContrasenia).getPassword()))));
 
         return lector;
+    }
+
+    public JLabel lblNroNoValido() {
+        JLabel lblNroNoValido = new JLabel("Nro no válido en arg");
+        lblNroNoValido.setFont(new Font("Tahoma", Font.PLAIN, 9));
+        lblNroNoValido.setBounds(337, 246, 133, 14);
+        lblNroNoValido.setForeground(new Color(170, 0, 0));
+        lblNroNoValido.setVisible(false);
+        return lblNroNoValido;
+    }
+
+    public JLabel lblCondicionContrasenia() {
+        JLabel lblCondicionContrasenia = new JLabel(
+                "Utiliza ocho caracteres como mínimo con una combinación de letras, números y símbolos");
+        lblCondicionContrasenia.setFont(new Font("Tahoma", Font.PLAIN, 9));
+        lblCondicionContrasenia.setBounds(265, 477, 383, 14);
+        return lblCondicionContrasenia;
     }
 }

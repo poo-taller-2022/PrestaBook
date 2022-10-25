@@ -213,7 +213,7 @@ public class AgregarObra extends JFrame {
 
     public JCheckBox checkBoxColeccion() {
         JCheckBox checkBoxColeccion = new JCheckBox("Pertenece a una colección");
-        checkBoxColeccion.setBounds(37, 331, 166, 23);
+        checkBoxColeccion.setBounds(37, 331, 192, 23);
         return checkBoxColeccion;
     }
 
@@ -222,12 +222,6 @@ public class AgregarObra extends JFrame {
         lblIsbnDeColeccion.setEnabled(false);
         lblIsbnDeColeccion.setBounds(236, 308, 114, 14);
         return lblIsbnDeColeccion;
-    }
-
-    public JButton btnAñadirEdicion() {
-        JButton btnAñadirEdicion = new JButton("Añadir edición");
-        btnAñadirEdicion.setBounds(166, 338, 127, 23);
-        return btnAñadirEdicion;
     }
 
     public JPanel panelAgregarObra() {
