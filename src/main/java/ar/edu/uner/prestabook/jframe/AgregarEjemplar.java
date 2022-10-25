@@ -13,13 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
 import ar.edu.uner.prestabook.common.DaoFactory;
+import ar.edu.uner.prestabook.jframe.common.Components;
 import ar.edu.uner.prestabook.jframe.render.EdicionRenderer;
 import ar.edu.uner.prestabook.jframe.render.ObraRenderer;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
@@ -34,307 +37,414 @@ import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 public class AgregarEjemplar extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the frame.
-	 */
-	public AgregarEjemplar() {
-		ventana();
-		JPanel contentPane = contentPane();
+    /**
+     * Creates the frame.
+     * 
+     * @param model model that stores the values of the table this frame will insert
+     *              entities to
+     * @param table table that displays the model
+     */
+    public AgregarEjemplar(JTable table, DefaultTableModel model) {
+        ventana();
+        JPanel contentPane = contentPane();
 
-		JPanel panelAgregarEjemplar = panelAgregarEjemplar();
-		contentPane.add(panelAgregarEjemplar);
+        JPanel panelAgregarEjemplar = panelAgregarEjemplar();
+        contentPane.add(panelAgregarEjemplar);
 
-		JLabel lblAgregarEjemplar = lblAgregarEjemplar();
-		panelAgregarEjemplar.add(lblAgregarEjemplar);
+        JLabel lblAgregarEjemplar = lblAgregarEjemplar();
+        panelAgregarEjemplar.add(lblAgregarEjemplar);
 
-		JTextField fieldFormaAdquisicion = fieldFormaAdquisicion();
-		contentPane.add(fieldFormaAdquisicion);
+        JTextField fieldFormaAdquisicion = fieldFormaAdquisicion();
+        contentPane.add(fieldFormaAdquisicion);
 
-		DatePicker calendarFechaAdquisicion = calendarFechaAdquisicion();
-		contentPane.add(calendarFechaAdquisicion);
+        DatePicker calendarFechaAdquisicion = calendarFechaAdquisicion();
+        contentPane.add(calendarFechaAdquisicion);
 
-		JLabel lblFormaAdquisicion = lblFormaAdquisicion();
-		contentPane.add(lblFormaAdquisicion);
+        JLabel lblFormaAdquisicion = lblFormaAdquisicion();
+        contentPane.add(lblFormaAdquisicion);
 
-		JLabel lblFechaAdquisicion = lblFechaAdquisicion();
-		contentPane.add(lblFechaAdquisicion);
+        JLabel lblFechaAdquisicion = lblFechaAdquisicion();
+        contentPane.add(lblFechaAdquisicion);
 
-		JTextField fieldObservaciones = fieldObservaciones();
-		contentPane.add(fieldObservaciones);
+        JTextField fieldObservaciones = fieldObservaciones();
+        contentPane.add(fieldObservaciones);
 
-		JLabel lblObservaciones = lblObservaciones();
-		contentPane.add(lblObservaciones);
+        JLabel lblObservaciones = lblObservaciones();
+        contentPane.add(lblObservaciones);
 
-		JButton btnAgregar = btnAgregar();
-		contentPane.add(btnAgregar);
+        JButton btnAgregar = btnAgregar();
+        contentPane.add(btnAgregar);
 
-		JButton btnCancelar = btnCancelar();
-		contentPane.add(btnCancelar);
+        JButton btnCancelar = btnCancelar();
+        contentPane.add(btnCancelar);
 
-		JTextField fieldPasillo = fieldPasillo();
-		contentPane.add(fieldPasillo);
+        JTextField fieldPasillo = fieldPasillo();
+        contentPane.add(fieldPasillo);
 
-		JTextField fieldEstanteria = fieldEstanteria();
-		contentPane.add(fieldEstanteria);
+        JTextField fieldEstanteria = fieldEstanteria();
+        contentPane.add(fieldEstanteria);
 
-		JTextField fieldEstante = fieldEstante();
-		contentPane.add(fieldEstante);
+        JTextField fieldEstante = fieldEstante();
+        contentPane.add(fieldEstante);
 
-		JLabel lblPasillo = lblPasillo();
-		contentPane.add(lblPasillo);
+        JLabel lblPasillo = lblPasillo();
+        contentPane.add(lblPasillo);
 
-		JLabel lblEstanteria = lblEstanteria();
-		contentPane.add(lblEstanteria);
+        JLabel lblEstanteria = lblEstanteria();
+        contentPane.add(lblEstanteria);
 
-		JLabel lblEstante = lblEstante();
-		contentPane.add(lblEstante);
+        JLabel lblEstante = lblEstante();
+        contentPane.add(lblEstante);
 
-		JLabel lblObra = lblObra();
-		contentPane.add(lblObra);
-		  
-		JLabel lblEdicion = lblEdicion();
-		contentPane.add(lblEdicion);
-		
-		JComboBox<Edicion> comboBoxEdiciones = comboBoxEdiciones();
-		contentPane.add(comboBoxEdiciones);
-		
-		JComboBox<Obra> comboBoxObras = comboBoxObras();
-		
-		comboBoxObras.addItemListener(e -> {
-			Obra obra = (Obra) e.getItem();
-			comboBoxEdiciones.removeAllItems();
-			List<Edicion> ediciones = DaoFactory.getEdicionDAO().findByAllObraIsbn(obra.getIsbn());
-			for (Edicion edicion : ediciones) {
-				
-				comboBoxEdiciones.addItem(edicion); 
-			}
-		}); 
-		contentPane.add(comboBoxObras);
+        JLabel lblObra = lblObra();
+        contentPane.add(lblObra);
 
-		btnCancelar.addActionListener(e -> this.setVisible(false));
+        JLabel lblEdicion = lblEdicion();
+        contentPane.add(lblEdicion);
 
-		btnAgregar.addActionListener(e -> {
-			Boolean camposCompletos = !(fieldFormaAdquisicion.getText().isBlank()
-					|| fieldObservaciones.getText().isBlank() || fieldPasillo.getText().isBlank()
-					|| fieldEstanteria.getText().isBlank() || fieldEstante.getText().isBlank())
-					&& calendarFechaAdquisicion.getDate() != null && comboBoxEdiciones.getSelectedItem() != null;
+        JComboBox<Edicion> comboBoxEdiciones = comboBoxEdiciones();
+        contentPane.add(comboBoxEdiciones);
 
-			if (Boolean.TRUE.equals(camposCompletos)) {
+        JComboBox<Obra> comboBoxObras = comboBoxObras();
 
-				Obra itemObra = (Obra) comboBoxObras.getSelectedItem();
-				
-				Edicion itemEdicion = (Edicion) comboBoxEdiciones.getSelectedItem();
+        comboBoxObras.addItemListener(e -> {
+            Obra obra = (Obra) e.getItem();
+            comboBoxEdiciones.removeAllItems();
+            List<Edicion> ediciones = DaoFactory.getEdicionDAO().findByAllObraIsbn(obra.getIsbn());
+            for (Edicion edicion : ediciones) {
 
-				actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), calendarFechaAdquisicion.getDate().toString(),
-						fieldObservaciones.getText(), fieldPasillo.getText(), fieldEstanteria.getText(),
-						fieldEstante.getText(), itemObra.getIsbn(), itemEdicion.getId());
+                comboBoxEdiciones.addItem(edicion);
+            }
+        });
+        contentPane.add(comboBoxObras);
 
-				JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
-				this.setVisible(false);
-			} else {
-				JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
-			}
-		});
-	}
+        btnCancelar.addActionListener(e -> this.setVisible(false));
 
-	private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
-			String pasillo, String estanteria, String estante, String isbnObra, Long idEdicion) {
-		IObraDAO o = DaoFactory.getObraDAO();
-		Obra obra = o.findById(isbnObra);
+        btnAgregar.addActionListener(e -> {
+            Boolean camposCompletos = !(fieldFormaAdquisicion.getText().isBlank()
+                    || fieldObservaciones.getText().isBlank() || fieldPasillo.getText().isBlank()
+                    || fieldEstanteria.getText().isBlank() || fieldEstante.getText().isBlank())
+                    && calendarFechaAdquisicion.getDate() != null && comboBoxEdiciones.getSelectedItem() != null;
 
-		Ejemplar ejemplar = new Ejemplar();
-		ejemplar.setIsbnObra(obra.getIsbn());
-		ejemplar.setTitulo(obra.getTitulo());
-		ejemplar.setSubtitulo(obra.getSubtitulo());
-		ejemplar.setPrimerAutor(obra.getPrimerAutor()); 
-		ejemplar.setSegundoAutor(obra.getSegundoAutor());
-		ejemplar.setTercerAutor(obra.getTercerAutor());
-		ejemplar.setGenero(obra.getGenero());
-		ejemplar.setTipo(new TipoObra(obra.getTipo().getId(), obra.getTipo().getNombre()));
-		ejemplar.setFormaAdquisicion(formaAdquisicion);
-		ejemplar.setFechaAdquisicion(fechaAdquisicion);
-		ejemplar.setObservaciones(observaciones);
-		ejemplar.setIdEdicion(idEdicion);
+            if (Boolean.TRUE.equals(camposCompletos)) {
 
-		CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
-		codigoIden.setEstante(Integer.parseInt(estante));
-		codigoIden.setEstanteria(Integer.parseInt(estanteria));
-		codigoIden.setPasillo(Integer.parseInt(pasillo));
+                Obra itemObra = (Obra) comboBoxObras.getSelectedItem();
 
-		ICodigoIdentificatorioDAO co = DaoFactory.getCodigoIdentificatorioDAO();
-		co.insert(codigoIden);
-		ejemplar.setCodigoIdentificatorio(codigoIden);
+                Edicion itemEdicion = (Edicion) comboBoxEdiciones.getSelectedItem();
 
-		IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
-		ej.insert(ejemplar);
-	}
+                actualizarBaseDeDatos(fieldFormaAdquisicion.getText(), calendarFechaAdquisicion.getDate().toString(),
+                        fieldObservaciones.getText(), fieldPasillo.getText(), fieldEstanteria.getText(),
+                        fieldEstante.getText(), itemObra.getIsbn(), itemEdicion.getId());
 
-	public void ventana() {
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 655, 448);
-		setUndecorated(true);
-		setResizable(false);
-		setLocationRelativeTo(null);
-	}
+                Components.clearTable(table);
+                Tabla.fill(model, Constants.EJEMPLAR);
+                JOptionPane.showInternalMessageDialog(null, "Datos guardados correctamente");
+                this.setVisible(false);
+            } else {
+                JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos");
+            }
+        });
+    }
 
-	public JPanel contentPane() {
-		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		return contentPane;
-	}
+    /**
+     * Updates database by inserting a new ejemplar entity
+     * 
+     * @param formaAdquisicion
+     * @param fechaAdquisicion
+     * @param observaciones
+     * @param pasillo
+     * @param estanteria
+     * @param estante
+     * @param isbnObra
+     * @param idEdicion
+     */
+    private void actualizarBaseDeDatos(String formaAdquisicion, String fechaAdquisicion, String observaciones,
+            String pasillo, String estanteria, String estante, String isbnObra, Long idEdicion) {
+        IObraDAO o = DaoFactory.getObraDAO();
+        Obra obra = o.findById(isbnObra);
 
-	public JTextField fieldPasillo() {
-		JTextField fieldPasillo = new JTextField();
-		fieldPasillo.setColumns(10);
-		fieldPasillo.setBounds(446, 233, 166, 29);
-		fieldPasillo.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldPasillo.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldPasillo;
-	}
+        Ejemplar ejemplar = new Ejemplar();
+        ejemplar.setIsbnObra(obra.getIsbn());
+        ejemplar.setTitulo(obra.getTitulo());
+        ejemplar.setSubtitulo(obra.getSubtitulo());
+        ejemplar.setPrimerAutor(obra.getPrimerAutor());
+        ejemplar.setSegundoAutor(obra.getSegundoAutor());
+        ejemplar.setTercerAutor(obra.getTercerAutor());
+        ejemplar.setGenero(obra.getGenero());
+        ejemplar.setTipo(new TipoObra(obra.getTipo().getId(), obra.getTipo().getNombre()));
+        ejemplar.setFormaAdquisicion(formaAdquisicion);
+        ejemplar.setFechaAdquisicion(fechaAdquisicion);
+        ejemplar.setObservaciones(observaciones);
+        ejemplar.setIdEdicion(idEdicion);
 
-	public JTextField fieldEstanteria() {
-		JTextField fieldEstanteria = new JTextField();
-		fieldEstanteria.setColumns(10);
-		fieldEstanteria.setBounds(147, 297, 166, 29);
-		fieldEstanteria.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldEstanteria.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldEstanteria;
-	}
+        CodigoIdentificatorio codigoIden = new CodigoIdentificatorio();
+        codigoIden.setEstante(Integer.parseInt(estante));
+        codigoIden.setEstanteria(Integer.parseInt(estanteria));
+        codigoIden.setPasillo(Integer.parseInt(pasillo));
 
-	public JTextField fieldEstante() {
-		JTextField fieldEstante = new JTextField();
-		fieldEstante.setColumns(10);
-		fieldEstante.setBounds(353, 297, 166, 29);
-		fieldEstante.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				fieldEstante.setEditable(!Character.isLetter(ke.getKeyChar()));
-			}
-		});
-		return fieldEstante;
-	}
+        ICodigoIdentificatorioDAO co = DaoFactory.getCodigoIdentificatorioDAO();
+        co.insert(codigoIden);
+        ejemplar.setCodigoIdentificatorio(codigoIden);
 
-	public JLabel lblPasillo() {
-		JLabel lblPasillo = new JLabel("Pasillo");
-		lblPasillo.setBounds(446, 220, 133, 14);
-		return lblPasillo;
-	}
+        IEjemplarDAO ej = DaoFactory.getEjemplarDAO();
+        ej.insert(ejemplar);
+    }
 
-	public JLabel lblEstanteria() {
-		JLabel lblEstanteria = new JLabel("Estantería");
-		lblEstanteria.setBounds(147, 285, 133, 14);
-		return lblEstanteria;
-	}
+    /**
+     * Creates the window
+     */
+    public void ventana() {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(100, 100, 655, 448);
+        setUndecorated(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
+    }
 
-	public JLabel lblEstante() {
-		JLabel lblEstante = new JLabel("Estante");
-		lblEstante.setBounds(353, 285, 133, 14);
-		return lblEstante;
-	}
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
+    public JPanel contentPane() {
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        return contentPane;
+    }
 
-	public JButton btnAgregar() {
-		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(198, 376, 89, 23);
-		return btnAgregar;
-	}
+    /**
+     * Creates a text field to pasillo
+     */
+    public JTextField fieldPasillo() {
+        JTextField fieldPasillo = new JTextField();
+        fieldPasillo.setColumns(10);
+        fieldPasillo.setBounds(446, 233, 166, 29);
+        fieldPasillo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldPasillo.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldPasillo;
+    }
 
-	public JButton btnCancelar() {
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(390, 376, 89, 23);
-		return btnCancelar;
-	}
+    /**
+     * Creates a text field to estanteria
+     */
+    public JTextField fieldEstanteria() {
+        JTextField fieldEstanteria = new JTextField();
+        fieldEstanteria.setColumns(10);
+        fieldEstanteria.setBounds(147, 297, 166, 29);
+        fieldEstanteria.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldEstanteria.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldEstanteria;
+    }
 
-	public JPanel panelAgregarEjemplar() {
-		JPanel panelAgregarEjemplar = new JPanel();
-		panelAgregarEjemplar.setBackground(new Color(0, 64, 128));
-		panelAgregarEjemplar.setBounds(0, 0, 655, 98);
-		panelAgregarEjemplar.setLayout(null);
-		return panelAgregarEjemplar;
-	}
+    /**
+     * Creates a text field to estante
+     */
+    public JTextField fieldEstante() {
+        JTextField fieldEstante = new JTextField();
+        fieldEstante.setColumns(10);
+        fieldEstante.setBounds(353, 297, 166, 29);
+        fieldEstante.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                fieldEstante.setEditable(!Character.isLetter(ke.getKeyChar()));
+            }
+        });
+        return fieldEstante;
+    }
 
-	public JLabel lblAgregarEjemplar() {
-		JLabel lblAgregarEjemplar = new JLabel("Agregar Ejemplar");
-		lblAgregarEjemplar.setForeground(new Color(255, 255, 255));
-		lblAgregarEjemplar.setBounds(252, 30, 276, 39);
-		lblAgregarEjemplar.setFont(new Font("Verdana", Font.BOLD, 20));
-		return lblAgregarEjemplar;
-	}
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of pasillo text
+     */
+    public JLabel lblPasillo() {
+        JLabel lblPasillo = new JLabel("Pasillo");
+        lblPasillo.setBounds(446, 220, 133, 14);
+        return lblPasillo;
+    }
 
-	public JTextField fieldFormaAdquisicion() {
-		JTextField fieldFormaAdquisicion = new JTextField();
-		fieldFormaAdquisicion.setColumns(10);
-		fieldFormaAdquisicion.setBounds(41, 233, 166, 29);
-		return fieldFormaAdquisicion;
-	}
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of estanteria text
+     */
+    public JLabel lblEstanteria() {
+        JLabel lblEstanteria = new JLabel("Estantería");
+        lblEstanteria.setBounds(147, 285, 133, 14);
+        return lblEstanteria;
+    }
 
-	public JLabel lblFormaAdquisicion() {
-		JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
-		lblFormaAdquisicion.setBounds(41, 220, 127, 14);
-		return lblFormaAdquisicion;
-	}
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of estante text
+     */
+    public JLabel lblEstante() {
+        JLabel lblEstante = new JLabel("Estante");
+        lblEstante.setBounds(353, 285, 133, 14);
+        return lblEstante;
+    }
 
-	public JLabel lblFechaAdquisicion() {
-		JLabel lblFechaAdquisicion = new JLabel("Fecha de adquisición");
-		lblFechaAdquisicion.setBounds(446, 149, 133, 14);
-		return lblFechaAdquisicion;
-	}
+    /**
+     * Creates a button add
+     */
+    public JButton btnAgregar() {
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(198, 376, 89, 23);
+        return btnAgregar;
+    }
 
-	public JTextField fieldObservaciones() {
-		JTextField fieldObservaciones = new JTextField();
-		fieldObservaciones.setColumns(10);
-		fieldObservaciones.setBounds(241, 233, 166, 29);
-		return fieldObservaciones;
-	}
+    /**
+     * Creates a button cancel
+     */
+    public JButton btnCancelar() {
+        JButton btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBounds(390, 376, 89, 23);
+        return btnCancelar;
+    }
 
-	public JLabel lblObservaciones() {
-		JLabel lblObservaciones = new JLabel("Observaciones");
-		lblObservaciones.setBounds(241, 220, 133, 14);
-		return lblObservaciones;
-	}
+    /**
+     * Creates a panel
+     * 
+     * @return a panel agregar ejemplar
+     */
+    public JPanel panelAgregarEjemplar() {
+        JPanel panelAgregarEjemplar = new JPanel();
+        panelAgregarEjemplar.setBackground(new Color(0, 64, 128));
+        panelAgregarEjemplar.setBounds(0, 0, 655, 98);
+        panelAgregarEjemplar.setLayout(null);
+        return panelAgregarEjemplar;
+    }
 
-	public JLabel lblObra() {
-		JLabel lblObra = new JLabel("Obra");
-		lblObra.setBounds(41, 149, 46, 14);
-		return lblObra;
-	}
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of agregar ejemplar text
+     */
+    public JLabel lblAgregarEjemplar() {
+        JLabel lblAgregarEjemplar = new JLabel("Agregar Ejemplar");
+        lblAgregarEjemplar.setForeground(new Color(255, 255, 255));
+        lblAgregarEjemplar.setBounds(252, 30, 276, 39);
+        lblAgregarEjemplar.setFont(new Font("Verdana", Font.BOLD, 20));
+        return lblAgregarEjemplar;
+    }
 
-	public JComboBox<Obra> comboBoxObras() {
-		JComboBox<Obra> comboBoxObras = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
-		comboBoxObras.setRenderer(new ObraRenderer());
-		comboBoxObras.setBounds(41, 163, 166, 29);
-		comboBoxObras.setSelectedItem(null);
-		return comboBoxObras;
-	}
+    /**
+     * Creates a text field to forma de adquisicion
+     */
+    public JTextField fieldFormaAdquisicion() {
+        JTextField fieldFormaAdquisicion = new JTextField();
+        fieldFormaAdquisicion.setColumns(10);
+        fieldFormaAdquisicion.setBounds(41, 233, 166, 29);
+        return fieldFormaAdquisicion;
+    }
 
-	public DatePicker calendarFechaAdquisicion() {
-		DatePicker calendarFechaAdquisicion = new DatePicker();
-		calendarFechaAdquisicion.setBounds(446, 163, 166, 29);
-		calendarFechaAdquisicion.setSettings(DateSettings.getDatePickerSettings());
-		return calendarFechaAdquisicion;
-	}
-	
-	public JLabel lblEdicion() {
-		JLabel lblEdicion = new JLabel("Edicion");
-		lblEdicion.setBounds(241, 149, 72, 14);
-		return lblEdicion;
-	}
-	
-	public JComboBox<Edicion> comboBoxEdiciones() {
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of forma de adquisicion text
+     */
+    public JLabel lblFormaAdquisicion() {
+        JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
+        lblFormaAdquisicion.setBounds(41, 220, 127, 14);
+        return lblFormaAdquisicion;
+    }
+
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of fecha de aquisicion text
+     */
+    public JLabel lblFechaAdquisicion() {
+        JLabel lblFechaAdquisicion = new JLabel("Fecha de adquisición");
+        lblFechaAdquisicion.setBounds(446, 149, 133, 14);
+        return lblFechaAdquisicion;
+    }
+
+    /**
+     * Creates a text field for observaciones
+     */
+    public JTextField fieldObservaciones() {
+        JTextField fieldObservaciones = new JTextField();
+        fieldObservaciones.setColumns(10);
+        fieldObservaciones.setBounds(241, 233, 166, 29);
+        return fieldObservaciones;
+    }
+
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of observaciones text
+     */
+    public JLabel lblObservaciones() {
+        JLabel lblObservaciones = new JLabel("Observaciones");
+        lblObservaciones.setBounds(241, 220, 133, 14);
+        return lblObservaciones;
+    }
+
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of obra text
+     */
+    public JLabel lblObra() {
+        JLabel lblObra = new JLabel("Obra");
+        lblObra.setBounds(41, 149, 46, 14);
+        return lblObra;
+    }
+
+    /**
+     * Creates a combo box of Obras
+     */
+    public JComboBox<Obra> comboBoxObras() {
+        JComboBox<Obra> comboBoxObras = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
+        comboBoxObras.setRenderer(new ObraRenderer());
+        comboBoxObras.setBounds(41, 163, 166, 29);
+        comboBoxObras.setSelectedItem(null);
+        return comboBoxObras;
+    }
+
+    /**
+     * Creates a date picker calendar to fechaAdquisicion
+     */
+    public DatePicker calendarFechaAdquisicion() {
+        DatePicker calendarFechaAdquisicion = new DatePicker();
+        calendarFechaAdquisicion.setBounds(446, 163, 166, 29);
+        calendarFechaAdquisicion.setSettings(DateSettings.getDatePickerSettings());
+        return calendarFechaAdquisicion;
+    }
+
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of edicion text
+     */
+    public JLabel lblEdicion() {
+        JLabel lblEdicion = new JLabel("Edicion");
+        lblEdicion.setBounds(241, 149, 72, 14);
+        return lblEdicion;
+    }
+
+    /**
+     * Creates a comob box of ediciones
+     */
+    public JComboBox<Edicion> comboBoxEdiciones() {
         JComboBox<Edicion> comboBoxEdiciones = new JComboBox<>();
         comboBoxEdiciones.setBounds(241, 163, 166, 29);
         comboBoxEdiciones.setRenderer(new EdicionRenderer());

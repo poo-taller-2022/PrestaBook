@@ -38,7 +38,6 @@ public abstract class AbstractPanel {
         model = new NonEditableTableModel();
         table = new JTable();
         scrollPane = Components.scrollPane();
-
         panel.setVisible(true);
         panel.add(scrollPane);
         table.setSize(Components.PANEL_WIDTH, 1600);

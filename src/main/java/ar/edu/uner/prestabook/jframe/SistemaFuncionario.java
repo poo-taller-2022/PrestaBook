@@ -1,6 +1,8 @@
 package ar.edu.uner.prestabook.jframe;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -59,9 +61,16 @@ public class SistemaFuncionario extends JFrame {
 
     private transient List<AbstractPanel> panels = List.of(panelAreaTematica, panelBienvenida, panelColeccion,
             panelEdiciones, panelEjemplares, panelFormatos, panelLectores, panelObras, panelTiposObra, panelMultas,
-            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas, panelSolicitudes);
+            panelPrestamos, panelObrasPorEditorial, panelEjemplaresPorArea, panelReservas, panelObrasMasSolicitadas,
+            panelSolicitudes);
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
+
+    private JFrame prestamos;
+    private JFrame devoluciones;
+    private JFrame ejemplares;
+    private JFrame configuracion;
+    private List<JFrame> windows = new ArrayList<>(Arrays.asList(prestamos, devoluciones, ejemplares, configuracion));
 
     /**
      * Initializes the system interface
@@ -72,6 +81,9 @@ public class SistemaFuncionario extends JFrame {
         return instance;
     }
 
+    /**
+     * Creates a frame
+     */
     private SistemaFuncionario() {
 
         window();
@@ -107,21 +119,24 @@ public class SistemaFuncionario extends JFrame {
 
         JButton btnGestionarPrestamo = Components.btnLeftMenu("Gestionar Préstamo", 169);
         btnGestionarPrestamo.addActionListener(e -> {
-            Prestamos prestamos = new Prestamos();
+            hideWindows();
+            prestamos = new Prestamos();
             prestamos.setVisible(true);
         });
         panelOpciones.add(btnGestionarPrestamo);
 
         JButton btnGestionarDevolucion = Components.btnLeftMenu("Gestionar devolución de obra", 221);
         btnGestionarDevolucion.addActionListener(e -> {
-            Devoluciones devoluciones = new Devoluciones();
+            hideWindows();
+            devoluciones = new Devoluciones();
             devoluciones.setVisible(true);
         });
         panelOpciones.add(btnGestionarDevolucion);
 
         JButton btnVerEjemplares = Components.btnLeftMenu("Ver Ejemplares", 273);
         btnVerEjemplares.addActionListener(e -> {
-            Ejemplares ejemplares = new Ejemplares();
+            hideWindows();
+            ejemplares = new Ejemplares();
             ejemplares.setVisible(true);
         });
 
@@ -251,14 +266,15 @@ public class SistemaFuncionario extends JFrame {
             hidePanels();
             contentPane.add(panelObrasMasSolicitadas.init());
         });
-        
+
         btnSolicitudes.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelSolicitudes.init());
         });
-        
-        btnOpciones.addActionListener(e-> {
-            Configuracion configuracion = new Configuracion();
+
+        btnOpciones.addActionListener(e -> {
+            hideWindows();
+            configuracion = new Configuracion();
             configuracion.setVisible(true);
         });
 
@@ -274,12 +290,11 @@ public class SistemaFuncionario extends JFrame {
     /**
      * Creates the window
      */
-
     private void window() {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle(Constants.OPCIONES);
+        setTitle(Constants.PRESTABOOK);
         setBounds(100, 100, 1390, 811);
         setLocationRelativeTo(null);
     }
@@ -287,7 +302,6 @@ public class SistemaFuncionario extends JFrame {
     /**
      * Menu bar Administrar
      */
-
     private JMenuBar menuBarAdministrar() {
         JMenuBar menuBarAdministrar = new JMenuBar();
         menuBarAdministrar.setBounds(10, 6, 75, 22);
@@ -295,6 +309,9 @@ public class SistemaFuncionario extends JFrame {
         return menuBarAdministrar;
     }
 
+    /**
+     * Creates a menu
+     */
     private JMenu menuAdministrar() {
         JMenu menuAdministrar = new JMenu("Administrar");
         menuAdministrar.setBackground(new Color(255, 255, 255));
@@ -306,9 +323,17 @@ public class SistemaFuncionario extends JFrame {
      * Hides all panels
      */
     private void hidePanels() {
-        for (AbstractPanel panel : panels) {
-            panel.hide();
-        }
+        panels.forEach(AbstractPanel::hide);
+    }
+
+    /**
+     * Hides all windows
+     */
+    private void hideWindows() {
+        windows.forEach(window -> {
+            if (window != null)
+                window.setVisible(false);
+        });
     }
 
 }

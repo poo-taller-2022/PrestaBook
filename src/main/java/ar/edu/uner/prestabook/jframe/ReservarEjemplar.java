@@ -130,6 +130,7 @@ public class ReservarEjemplar extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
     }
 
     /**
@@ -158,6 +159,9 @@ public class ReservarEjemplar extends JFrame {
         return panelReservarObra;
     }
 
+    /**
+     * Creates a text field to titulo
+     */
     public JTextField fieldTitulo() {
         JTextField fieldTitulo = new JTextField();
         fieldTitulo.setEditable(false);
@@ -166,6 +170,9 @@ public class ReservarEjemplar extends JFrame {
         return fieldTitulo;
     }
 
+    /**
+     * Creates a text field to isbn Obra
+     */
     public JTextField fieldIsbnObra() {
         JTextField fieldIsbnObra = new JTextField();
         fieldIsbnObra.setEditable(false);
@@ -173,7 +180,12 @@ public class ReservarEjemplar extends JFrame {
         fieldIsbnObra.setColumns(10);
         return fieldIsbnObra;
     }
-
+    
+    /**
+     * Creates a label
+     * 
+     * @return a label with reservar obra text
+     */
     public JLabel labelReservarObra() {
         JLabel labelReservarObra = new JLabel("Reservar obra");
         labelReservarObra.setForeground(new Color(255, 255, 255));
@@ -182,12 +194,22 @@ public class ReservarEjemplar extends JFrame {
         return labelReservarObra;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with reservar obra para el dia text
+     */
     public JLabel lblReservarObraPara() {
         JLabel lblReservarObraPara = new JLabel("Reservar obra para el dia");
         lblReservarObraPara.setBounds(358, 256, 191, 14);
         return lblReservarObraPara;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with isbn obra text
+     */
     public JLabel labelObra() {
         JLabel lblIsbnObra = new JLabel("Isbn de obra");
         lblIsbnObra.setBounds(56, 123, 106, 14);
@@ -247,6 +269,9 @@ public class ReservarEjemplar extends JFrame {
         return btnCancelar;
     }
 
+    /**
+     * Creates a date picker calendar to fechaReserva
+     */
     public DatePicker calendarFechaReserva() {
         DatePicker calendarFechaReserva = new DatePicker();
         calendarFechaReserva.setBounds(360, 281, 230, 29);
@@ -254,6 +279,11 @@ public class ReservarEjemplar extends JFrame {
         return calendarFechaReserva;
     }
 
+    /**
+     * Find date when ejemplar will be available
+     * @param obra
+     * @param edicion
+     */
     public List<Object> buscarFechaDisponible(Obra obra, Edicion edicion) {
         List<Reserva> reservas = DaoFactory.getReservaDAO().findAll();
         List<Object> fechaIdEjempalar = new LinkedList<>();
@@ -283,16 +313,24 @@ public class ReservarEjemplar extends JFrame {
                 }
             }
         }
-        
+
         return fechaIdEjempalar;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with edicion text
+     */
     public JLabel lblEdicion() {
         JLabel lblEdicion = new JLabel("Edicion");
         lblEdicion.setBounds(56, 196, 106, 14);
         return lblEdicion;
     }
 
+    /**
+     * Creates a text field to edicion
+     */
     public JTextField fieldEdicion() {
         JTextField fieldEdicion = new JTextField();
         fieldEdicion.setText((String) null);

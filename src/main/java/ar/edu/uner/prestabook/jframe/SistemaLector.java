@@ -26,10 +26,10 @@ public class SistemaLector extends JFrame {
     private static transient Lector loggedUser;
     private transient AbstractPanel panelObra = new PanelObrasLector();
     private transient AbstractPanel panelBienvenida = new PanelBienvenida();
-    private transient AbstractPanel panelNotificaciones= new PanelNotificaciones();
+    private transient AbstractPanel panelNotificaciones = new PanelNotificaciones();
     private JPanel contentPane = Components.contentPane();
     private static SistemaLector instance = new SistemaLector();
-    
+
     private transient List<AbstractPanel> panels = List.of(panelBienvenida, panelNotificaciones, panelObra);
 
     /**
@@ -41,6 +41,9 @@ public class SistemaLector extends JFrame {
         return instance;
     }
 
+    /**
+     * Reader system constructor
+     */
     private SistemaLector() {
 
         window();
@@ -86,7 +89,6 @@ public class SistemaLector extends JFrame {
         /**
          * Method created to log out and return to the "IniciarSesion" window
          */
-
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
@@ -97,24 +99,22 @@ public class SistemaLector extends JFrame {
         /**
          * Created method to close window
          */
-
         btnExit.addActionListener(e -> System.exit(0));
-         
+
         btnNotificaciones.addActionListener(e -> {
             hidePanels();
             contentPane.add(panelNotificaciones.init());
         });
     }
-
+    
     /**
-     * Create components
+     * Creates the window
      */
-
     private void window() {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Prestabook");
+        setTitle(Constants.PRESTABOOK);
         setBounds(100, 100, 1390, 811);
         setLocationRelativeTo(null);
     }

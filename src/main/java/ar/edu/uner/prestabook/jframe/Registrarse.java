@@ -139,8 +139,12 @@ public class Registrarse extends JFrame {
         buttonGroupSexo.add(btnRadioOtro);
 
         contentPane.add(lblContrasenia());
+        contentPane.add(lblRepetirContrasenia());
         JTextField textContrasenia = textContrasenia();
         contentPane.add(textContrasenia);
+
+        JTextField textRepetirContrasenia = textRepetirContrasenia();
+        contentPane.add(textRepetirContrasenia);
 
         JButton btnGuardar = btnGuardar();
         contentPane.add(btnGuardar);
@@ -183,36 +187,43 @@ public class Registrarse extends JFrame {
                     && (btnRadioHombre.isSelected() || btnRadioMujer.isSelected() || btnRadioOtro.isSelected())
                     && (btnRadioPublicoGeneral.isSelected() || btnRadioDocente.isSelected()
                             || btnRadioAlumno.isSelected() || btnRadioFuncionario.isSelected())
-                    && !(String.valueOf(((JPasswordField) textContrasenia).getPassword()).isBlank());
+                    && !(String.valueOf(((JPasswordField) textContrasenia).getPassword()).isBlank())
+                    && !(String.valueOf(((JPasswordField) textRepetirContrasenia).getPassword()).isBlank());
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-                String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
-
-                String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
-                        btnRadioFuncionario);
-
-                Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
-                        textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
-                        textNacionalidad,
-                        textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
-                try {
-                    if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
-                        Funcionario funcionario = new Funcionario();
-                        funcionario.registrarse(lector);
-                        JOptionPane.showInternalMessageDialog(null,
-                                "Datos del " + tipoSeleccionado + " guardados correctamente");
-                    } else {
-                        lector.registrarse(tipoSeleccionado, lector);
-                        JOptionPane.showInternalMessageDialog(null,
-                                "Datos del " + tipoSeleccionado + " guardados correctamente");
-                    }
-                    IniciarSesion login = new IniciarSesion();
-                    login.setVisible(true);
-                    Registrarse.this.dispose();
-                } catch (PersistenceException exception) {
-                    HibernateConnection.getCurrentSession().getTransaction().rollback();
-                    JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                if (!textContrasenia.getText().equals(textRepetirContrasenia.getText())) {
+                    JOptionPane.showInternalMessageDialog(null, "Las contraseñas no coinciden", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                } else {
+
+                    String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
+
+                    String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
+                            btnRadioFuncionario);
+
+                    Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
+                            textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
+                            textNacionalidad,
+                            textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
+                    try {
+                        if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
+                            Funcionario funcionario = new Funcionario();
+                            funcionario.registrarse(lector);
+                            JOptionPane.showInternalMessageDialog(null,
+                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
+                        } else {
+                            lector.registrarse(tipoSeleccionado, lector);
+                            JOptionPane.showInternalMessageDialog(null,
+                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
+                        }
+                        IniciarSesion login = new IniciarSesion();
+                        login.setVisible(true);
+                        Registrarse.this.dispose();
+                    } catch (PersistenceException exception) {
+                        HibernateConnection.getCurrentSession().getTransaction().rollback();
+                        JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");
@@ -221,17 +232,22 @@ public class Registrarse extends JFrame {
     }
 
     /**
-     * Create components
+     * Creates the window
      */
-
     public void ventana() {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 648, 557);
         setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -240,6 +256,27 @@ public class Registrarse extends JFrame {
         return contentPane;
     }
 
+    
+    /**
+	 * Creates a field
+	 * @return password field when password is wrong
+	 */
+    
+    private JPasswordField textRepetirContrasenia() {
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setToolTipText("");
+        passwordField.setBackground(Color.WHITE);
+        passwordField.setBounds(458, 447, 180, 30);
+        return passwordField;
+    }
+
+    
+    
+    /**
+     * Creates a panel
+     * @return a container
+     */
+    
     public JPanel panelPrestabook() {
         JPanel panelPrestabook = new JPanel();
         panelPrestabook.setBounds(0, 0, 648, 100);
@@ -249,6 +286,12 @@ public class Registrarse extends JFrame {
         return panelPrestabook;
     }
 
+    
+    /**
+     * Creates a label
+     *
+     */
+    
     public JLabel lblPrestabook() {
         JLabel lblPrestabook = new JLabel("PrestaBook");
         lblPrestabook.setBounds(214, 30, 263, 42);
@@ -257,6 +300,14 @@ public class Registrarse extends JFrame {
         return lblPrestabook;
     }
 
+    
+    
+    
+    /**
+     * Creates a label
+     *@return a label to sign up
+     */
+    
     public JLabel lblRegistrarse() {
         JLabel lblRegistrarse = new JLabel("Registrarse");
         lblRegistrarse.setBounds(265, 106, 180, 23);
@@ -264,12 +315,23 @@ public class Registrarse extends JFrame {
         return lblRegistrarse;
     }
 
+    
+    
+    /**
+     * Creates a label
+     *@return a label to the name
+     */
     public JLabel lblNombre() {
         JLabel lblNombre = new JLabel("Nombre");
         lblNombre.setBounds(24, 137, 59, 14);
         return lblNombre;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the name 
+     */
     public JTextField textNombre() {
         JTextField textNombre = new JTextField();
         textNombre.setBounds(24, 154, 180, 30);
@@ -279,12 +341,24 @@ public class Registrarse extends JFrame {
         return textNombre;
     }
 
+    
+    
+    
+    /**
+     * Creates a label
+     *@return a label to the surname
+     */
     public JLabel lblApellido() {
         JLabel lblApellido = new JLabel("Apellido");
         lblApellido.setBounds(24, 195, 59, 14);
         return lblApellido;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the surname 
+     */
     public JTextField textApellido() {
         JTextField textApellido = new JTextField();
         textApellido.setBounds(24, 217, 180, 30);
@@ -294,12 +368,22 @@ public class Registrarse extends JFrame {
         return textApellido;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to the type of dni
+     */
     public JLabel lblTipoDeDocumento() {
         JLabel lblTipoDeDocumento = new JLabel("Tipo de documento");
         lblTipoDeDocumento.setBounds(24, 258, 119, 14);
         return lblTipoDeDocumento;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the type of dni
+     */
     public JTextField textTipoDeDocumento() {
         JTextField textTipoDeDocumento = new JTextField();
         textTipoDeDocumento.setBounds(24, 271, 180, 30);
@@ -308,13 +392,24 @@ public class Registrarse extends JFrame {
         textTipoDeDocumento.setBackground(Color.WHITE);
         return textTipoDeDocumento;
     }
-
+    
+    
+    /**
+     * Creates a label
+     *@return a label to the dni number
+     */
     public JLabel lblNumeroDeDocumento() {
         JLabel lblNumeroDeDocumento = new JLabel("Numero de documento");
         lblNumeroDeDocumento.setBounds(24, 312, 135, 14);
         return lblNumeroDeDocumento;
     }
 
+    
+    
+    /**
+     * Creates a text field formated
+     *@return dni number formated
+     */
     public JFormattedTextField textNumeroDeDocumento() {
         JFormattedTextField textNumeroDeDocumento = new JFormattedTextField();
         textNumeroDeDocumento.setBounds(24, 331, 180, 30);
@@ -330,6 +425,13 @@ public class Registrarse extends JFrame {
         return textNumeroDeDocumento;
     }
 
+    
+    
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the email
+     */
     public JTextField textEmail() {
         JTextField textEmail = new JTextField();
         textEmail.setForeground(Color.GRAY);
@@ -339,18 +441,34 @@ public class Registrarse extends JFrame {
         return textEmail;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to the email
+     */
     public JLabel lblEmail() {
         JLabel lblEmail = new JLabel("Correo electrónico");
         lblEmail.setBounds(241, 137, 91, 14);
         return lblEmail;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to the phone number
+     */
     public JLabel lblNumeroDeTelefono() {
         JLabel lblNumeroDeTelefono = new JLabel("Numero de telefono");
         lblNumeroDeTelefono.setBounds(241, 195, 133, 14);
         return lblNumeroDeTelefono;
     }
 
+    
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the phone number
+     */
     public JTextField textNumeroDeTelefono() {
         JTextField textNumeroDeTelefono = new JTextField();
         textNumeroDeTelefono.setBounds(241, 217, 180, 30);
@@ -366,12 +484,22 @@ public class Registrarse extends JFrame {
         return textNumeroDeTelefono;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to the birth date
+     */
     public JLabel lblFechaDeNacimiento() {
         JLabel lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
         lblFechaDeNacimiento.setBounds(241, 258, 139, 14);
         return lblFechaDeNacimiento;
     }
 
+    
+    /**
+     * Creates a date picker
+     *@return a birth date
+     */
     public DatePicker datePickerFechaDeNacimiento() {
         DatePicker datePickerFechaDeNacimiento = new DatePicker();
         datePickerFechaDeNacimiento.getComponentDateTextField().setSize(110, 30);
@@ -382,12 +510,22 @@ public class Registrarse extends JFrame {
         return datePickerFechaDeNacimiento;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to nationality
+     */
     public JLabel lblNacionalidad() {
         JLabel lblNacionalidad = new JLabel("Nacionalidad");
         lblNacionalidad.setBounds(241, 312, 108, 14);
         return lblNacionalidad;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the nationality
+     */
     public JTextField textNacionalidad() {
         JTextField textNacionalidad = new JTextField();
         textNacionalidad.setForeground(Color.GRAY);
@@ -397,12 +535,22 @@ public class Registrarse extends JFrame {
         return textNacionalidad;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to address
+     */
     public JLabel lblDomicilio() {
         JLabel lblDomicilio = new JLabel("Domicilio");
         lblDomicilio.setBounds(458, 137, 75, 14);
         return lblDomicilio;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the address
+     */
     public JTextField textDomicilio() {
         JTextField textDomicilio = new JTextField();
         textDomicilio.setForeground(Color.GRAY);
@@ -412,12 +560,23 @@ public class Registrarse extends JFrame {
         return textDomicilio;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to zip code
+     */
     public JLabel lblCodigoPostal() {
         JLabel lblCodigoPostal = new JLabel("Código postal");
         lblCodigoPostal.setBounds(458, 195, 105, 14);
         return lblCodigoPostal;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the zip code
+     *
+     */ 
     public JTextField textCodigoPostal() {
         JTextField textCodigoPostal = new JTextField();
         textCodigoPostal.setForeground(Color.GRAY);
@@ -426,13 +585,26 @@ public class Registrarse extends JFrame {
         textCodigoPostal.setBounds(458, 217, 180, 30);
         return textCodigoPostal;
     }
-
+    
+    
+    
+    /**
+     * Creates a label
+     *@return a label to the district
+     */
     public JLabel lblDepartamento() {
         JLabel lblDepartamento = new JLabel("Departamento");
         lblDepartamento.setBounds(458, 258, 108, 14);
         return lblDepartamento;
     }
 
+    
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the district
+     *
+     */ 
     public JTextField textDepartamento() {
         JTextField textDepartamento = new JTextField();
         textDepartamento.setForeground(Color.GRAY);
@@ -442,12 +614,24 @@ public class Registrarse extends JFrame {
         return textDepartamento;
     }
 
+    
+    
+    /**
+     * Creates a label
+     *@return a label to the city
+     */
     public JLabel lblLocalidad() {
         JLabel lblLocalidad = new JLabel("Localidad");
         lblLocalidad.setBounds(458, 312, 75, 14);
         return lblLocalidad;
     }
 
+    
+    /**
+     * Creates a text field
+     *@return a text field to insert the city
+     *
+     */ 
     public JTextField textLocalidad() {
         JTextField textLocalidad = new JTextField();
         textLocalidad.setForeground(Color.GRAY);
@@ -457,62 +641,106 @@ public class Registrarse extends JFrame {
         return textLocalidad;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to sign up like
+     */
     public JLabel lblRegistrarseComo() {
-        JLabel lblRegistrarseComo = new JLabel("Registrase como");
-        lblRegistrarseComo.setBounds(46, 366, 97, 14);
+        JLabel lblRegistrarseComo = new JLabel("Registrarse como");
+        lblRegistrarseComo.setBounds(24, 366, 614, 14);
         return lblRegistrarseComo;
     }
 
+    
+    /**
+     * Creates a panel
+     *@return a container
+     */
     public JPanel panelRegistrarseComo() {
         JPanel panelRegistrarseComo = new JPanel();
         panelRegistrarseComo.setBorder(new LineBorder(new Color(128, 128, 128)));
-        panelRegistrarseComo.setBounds(46, 381, 560, 38);
+        panelRegistrarseComo.setBounds(24, 381, 614, 38);
         panelRegistrarseComo.setLayout(null);
         return panelRegistrarseComo;
     }
 
+    
+    
+    /**
+     * Creates a button to sign up as funcionary
+     *@return selected type
+     */
     public JRadioButton btnRadioFuncionario() {
         JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
-        btnRadioFuncionario.setBounds(19, 7, 109, 23);
+        btnRadioFuncionario.setBounds(44, 7, 109, 23);
         btnRadioFuncionario.setFocusPainted(false);
         return btnRadioFuncionario;
     }
 
+    
+    /**
+     * Creates a button to sign up as student
+     *@return selected type
+     */
     public JRadioButton btnRadioAlumno() {
         JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
-        btnRadioAlumno.setBounds(171, 7, 101, 23);
+        btnRadioAlumno.setBounds(196, 7, 101, 23);
         btnRadioAlumno.setFocusPainted(false);
         return btnRadioAlumno;
     }
 
+    /**
+     * Creates a button to sign up as teacher
+     *@return selected type
+     */
     public JRadioButton btnRadioDocente() {
         JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
-        btnRadioDocente.setBounds(308, 7, 108, 23);
+        btnRadioDocente.setBounds(333, 7, 108, 23);
         btnRadioDocente.setFocusPainted(false);
         return btnRadioDocente;
     }
 
+    
+    /**
+     * Creates a button to sign up as general public
+     *@return selected type
+     */
     public JRadioButton btnRadioPublicoGeneral() {
         JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
-        btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
+        btnRadioPublicoGeneral.setBounds(454, 7, 125, 23);
         btnRadioPublicoGeneral.setFocusPainted(false);
         return btnRadioPublicoGeneral;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to the sex
+     */
     public JLabel lblSexo() {
         JLabel lblSexo = new JLabel("Sexo");
-        lblSexo.setBounds(79, 429, 59, 14);
+        lblSexo.setBounds(24, 430, 59, 14);
         return lblSexo;
     }
 
+    /**
+     * Creates a panel
+     *@return a container with options of sex
+     */
     public JPanel panelSexo() {
         JPanel panelSexo = new JPanel();
         panelSexo.setBorder(new LineBorder(new Color(128, 128, 128)));
-        panelSexo.setBounds(79, 447, 215, 30);
+        panelSexo.setBounds(24, 448, 215, 30);
         panelSexo.setLayout(null);
         return panelSexo;
     }
 
+    
+    /**
+     * Creates a button to sign up as male
+     *@return selected type
+     */
     public JRadioButton btnRadioHombre() {
         JRadioButton btnRadioHombre = new JRadioButton("Hombre");
         btnRadioHombre.setBounds(6, 7, 73, 16);
@@ -520,6 +748,10 @@ public class Registrarse extends JFrame {
         return btnRadioHombre;
     }
 
+    /**
+     * Creates a button to sign up as female
+     *@return selected type
+     */
     public JRadioButton btnRadioMujer() {
         JRadioButton btnRadioMujer = new JRadioButton("Mujer");
         btnRadioMujer.setBounds(81, 7, 63, 16);
@@ -527,6 +759,10 @@ public class Registrarse extends JFrame {
         return btnRadioMujer;
     }
 
+    /**
+     * Creates a button to sign up as other
+     *@return selected type
+     */
     public JRadioButton btnRadioOtro() {
         JRadioButton btnRadioOtro = new JRadioButton("Otro");
         btnRadioOtro.setBounds(146, 7, 63, 16);
@@ -534,20 +770,45 @@ public class Registrarse extends JFrame {
         return btnRadioOtro;
     }
 
+    /**
+     * Creates a label
+     *@return a label to the password
+     */
     public JLabel lblContrasenia() {
         JLabel lblContrasenia = new JLabel("Contraseña");
-        lblContrasenia.setBounds(386, 429, 147, 14);
+        lblContrasenia.setBounds(265, 430, 147, 14);
         return lblContrasenia;
     }
 
+    
+    /**
+     * Creates a label
+     *@return a label to repeat the password
+     */
+    public JLabel lblRepetirContrasenia() {
+        JLabel lblContrasenia = new JLabel("Repetir contraseña");
+        lblContrasenia.setBounds(458, 430, 180, 14);
+        return lblContrasenia;
+    }
+
+    
+    /**
+     * Creates a password field
+     *@return a text field to insert the password
+     *
+     */ 
     public JPasswordField textContrasenia() {
         JPasswordField textContrasenia = new JPasswordField();
-        textContrasenia.setBounds(386, 446, 180, 30);
+        textContrasenia.setBounds(265, 447, 180, 30);
         textContrasenia.setToolTipText("");
         textContrasenia.setBackground(Color.WHITE);
         return textContrasenia;
     }
 
+    
+    /**
+     * Creates a save button
+     */
     public JButton btnGuardar() {
         JButton btnGuardar = new JButton("Guardar");
         btnGuardar.setBounds(197, 512, 119, 23);
@@ -556,6 +817,10 @@ public class Registrarse extends JFrame {
         return btnGuardar;
     }
 
+    /**
+     * Creates a back button
+     */
+    
     public JButton btnRegresar() {
         JButton btnRegresar = new JButton("Regresar");
         btnRegresar.setBounds(326, 512, 119, 23);
@@ -564,6 +829,10 @@ public class Registrarse extends JFrame {
         return btnRegresar;
     }
 
+    
+    /**
+     * Creates a exit button
+     */
     public JButton btnExit() {
         JButton btnExit = new JButton("X");
         btnExit.setBorderPainted(false);
@@ -578,6 +847,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Method created to find the gender selected by the user
+     * @return the sex selected
      */
 
     public String sexoSeleccionado(JRadioButton btnRadioHombre, JRadioButton btnRadioMujer, JRadioButton btnRadioOtro) {
@@ -595,6 +865,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Method created to find the selected user type
+     * @return the user type
      */
 
     public String tipoSeleccionado(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,
@@ -615,6 +886,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Method to create a reader
+     * @return a reader
      */
 
     public Lector crearLector(JTextField textNombre, JTextField textApellido, JTextField textTipoDeDocumento,

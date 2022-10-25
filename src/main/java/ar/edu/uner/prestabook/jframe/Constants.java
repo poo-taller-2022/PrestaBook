@@ -2,6 +2,10 @@ package ar.edu.uner.prestabook.jframe;
 
 public class Constants {
 
+	/**
+	 * Class constructor
+     * Sets all constants used throughout the code
+     */
     private Constants() {
     }
 
