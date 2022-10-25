@@ -209,7 +209,7 @@ public class Devoluciones extends JFrame {
     /**
      * Creates a panel
      * 
-     * @return a panel new prestamo
+     * @return a panel to new loan
      */
     public JPanel panelNuevoPrestamo() {
         JPanel panelAgregarObra = new JPanel();
@@ -244,8 +244,8 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with the type of loans
-     * 
+     * Creates a Combo Box of loans
+     * @return Combo Box with the type of loans
      */
     public JComboBox<Prestamo> comboBoxPrestamo() {
         JComboBox<Prestamo> comboBoxPrestamo = new JComboBox<>();
@@ -256,7 +256,9 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Books
+     * Creates a text field 
+     * @return a text field to book
+     * 
      */
     public JTextField textObra() {
         JTextField textObra = new JTextField();
@@ -277,7 +279,8 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Copies of the selected Book
+     * Creates a text field 
+     * @return a text field to a copy
      */
     public JTextField textEjemplar() {
         JTextField textEjemplar = new JTextField();
@@ -298,7 +301,9 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Readers
+     * Creates a Combo Box of type Readers
+     * @return a Combo Box with all Readers
+     * 
      */
     public JComboBox<Lector> comboBoxLector() {
         JComboBox<Lector> comboBoxLector = new JComboBox<>(new Vector<>(DaoFactory.getLectorDAO().findAll()));
@@ -320,7 +325,8 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with all the Employees
+     * Creates a text field 
+     * @return  a text field to the Employees
      */
     public JTextField textFuncionario() {
         JTextField textFuncionario = new JTextField();
@@ -342,6 +348,7 @@ public class Devoluciones extends JFrame {
 
     /**
      * Creates a DateTimePicker for the date and time of the loan
+     * @return the date and time of the loan
      */
     public DateTimePicker calendarFechaYHoraPrestamo() {
         DateTimePicker calendarFechaYHoraPrestamo = new DateTimePicker();
@@ -364,6 +371,7 @@ public class Devoluciones extends JFrame {
 
     /**
      * Creates a DatePicker for the date and time of the return
+     * @return the date and time of a load return
      */
     public DatePicker calendarFechaPactadaDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
@@ -386,6 +394,7 @@ public class Devoluciones extends JFrame {
 
     /**
      * Creates a DatePicker for the date and time of the return
+     * @return the real date of a load return
      */
     public DatePicker calendarFechaRealDevolucion() {
         DatePicker calendarFechaRealDevolucion = new DatePicker();
@@ -406,7 +415,8 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a confirmation button
+     * Creates a button to fine
+     * @return a fine button
      */
     public JButton btnMultar() {
         JButton btnMultar = new JButton("Aplicar multa");
@@ -416,7 +426,8 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a confirmation button
+     * Creates a button to confirm
+     * @return a confirmation button
      */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton(CONFIRMAR);
@@ -425,7 +436,8 @@ public class Devoluciones extends JFrame {
     }
 
     /**
-     * Creates a cancel button
+     * Creates a button to cancel
+     * @return a cancel button
      * 
      */
     public JButton btnCancelar() {
