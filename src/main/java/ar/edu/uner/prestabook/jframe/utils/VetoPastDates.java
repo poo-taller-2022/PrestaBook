@@ -6,7 +6,7 @@ import com.github.lgooddatepicker.optionalusertools.DateVetoPolicy;
 
 
 /**
- * Class which don't allow choose a date from the past in a DatePicker
+ * Class that doesn't allow choose a date from the past in a DatePicker
  *
  */
 public class VetoPastDates implements DateVetoPolicy {
