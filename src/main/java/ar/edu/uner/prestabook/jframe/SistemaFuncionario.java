@@ -68,7 +68,7 @@ public class SistemaFuncionario extends JFrame {
     private JFrame devoluciones = new Devoluciones();
     private JFrame ejemplares = new Ejemplares();
     private JFrame configuracion = new Configuracion();
-    List<JFrame> windows = List.of(prestamos, devoluciones, ejemplares, configuracion);
+    private List<JFrame> windows = List.of(prestamos, devoluciones, ejemplares, configuracion);
 
     /**
      * Initializes the system interface

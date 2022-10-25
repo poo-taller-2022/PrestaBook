@@ -23,10 +23,10 @@ public class PanelObrasFuncionario extends AbstractPanel {
         panel.add(btnRefrescar);
 
         btnAgregarObra.addActionListener(b -> {
-            AgregarObra agregarObra = new AgregarObra();
+            AgregarObra agregarObra = new AgregarObra(table, model);
             agregarObra.setVisible(true);
         });
-        
+
         btnRefrescar.addActionListener(b -> {
             Components.clearTable(table);
             Tabla.fill(model, Constants.OBRA);
