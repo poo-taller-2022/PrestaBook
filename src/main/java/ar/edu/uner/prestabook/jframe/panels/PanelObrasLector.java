@@ -78,6 +78,11 @@ public class PanelObrasLector extends AbstractPanel {
         return panel;
     }
 
+    
+    
+    /**
+     * Creates a text field to area
+     */
     private JTextField txtIngresarAreaTematica() {
         JTextField txtIngresarAreaTematica = new JTextField();
         txtIngresarAreaTematica.setForeground(new Color(128, 128, 128));

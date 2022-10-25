@@ -84,12 +84,23 @@ public class PanelReservas extends AbstractPanel {
         return Constants.RESERVAS;
     }
 
+    
+    
+    /**
+   	 * Creates a date picker to choose a start date
+   	 * 
+   	 */
     private DatePicker datePickerInitial() {
         DatePicker datePickerInitial = new DatePicker(DateSettings.getDatePickerSettings());
         datePickerInitial.setBounds(70, 70, 200, 30);
         return datePickerInitial;
     }
 
+    
+    /**
+   	 * Creates a label to filtering according to a start date
+   	 * 
+   	 */
     private JLabel labelFiltroFechas() {
         JLabel filtro = new JLabel("Filtrar a partir de");
         filtro.setBounds(10, -30, 775, 136);
@@ -98,6 +109,11 @@ public class PanelReservas extends AbstractPanel {
         return filtro;
     }
 
+    
+    
+    /**
+     * Creates a label to filtering
+     */
     private JLabel labelFiltroInicio() {
         JLabel filtro = new JLabel("Inicio");
         filtro.setBounds(10, 20, 775, 136);
