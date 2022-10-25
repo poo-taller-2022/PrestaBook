@@ -7,6 +7,13 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.Edicion;
 
+
+/**
+ * 
+ * Class that handles the combobox rendering of Edicion
+ *
+ */
+
 public class EdicionRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;

@@ -9,9 +9,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Base class that represents a class of type Docente
- *
- */
+* Base class that represents a class of type Docente and extends of Lector
+*
+*/
+
 
 @Data
 @EqualsAndHashCode(callSuper = true)

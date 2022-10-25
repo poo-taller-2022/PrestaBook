@@ -3,6 +3,12 @@ package ar.edu.uner.prestabook.persistence;
 import ar.edu.uner.prestabook.exception.UserNotFoundException;
 import ar.edu.uner.prestabook.exception.WrongPasswordException;
 
+
+/**
+ * 
+ * Interface defining the contract for the bussiness logic of Usuario
+ *
+ */
 public interface IUsuarioDAO {
 	
 
