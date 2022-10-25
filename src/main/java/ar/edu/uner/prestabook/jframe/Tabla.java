@@ -602,6 +602,7 @@ public class Tabla {
         }
     }
 
+    
     /**
      * Loads many notifications in database
      * @param model
