@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.AreaTematica;
 import ar.edu.uner.prestabook.persistence.IAreaTematicaDAO;
 
+/**
+ * Data access object to thematic area class,
+ * interacts with table AreasTematicas in database
+ */
 public class AreaTematicaDAO implements IAreaTematicaDAO {
 
     /**
@@ -22,7 +26,7 @@ public class AreaTematicaDAO implements IAreaTematicaDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class
      * @return the singleton instance of the class
      */
     public static AreaTematicaDAO getInstance() {
