@@ -13,10 +13,10 @@ import ar.edu.uner.prestabook.jframe.IniciarSesion;
 
 public class App {
 
-	public static void main(String[] args) {
-		HibernateConnection.openCurrentSession();
-		Configs.loadConfigs();
-		Logo.print();
-		IniciarSesion.main();
-	}
+    public static void main(String[] args) {
+        HibernateConnection.openCurrentSession();
+        Configs.loadDemoData();
+        Logo.print();
+        IniciarSesion.main();
+    }
 }

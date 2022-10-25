@@ -1,10 +1,14 @@
 package ar.edu.uner.prestabook.common;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
+import org.apache.ibatis.jdbc.ScriptRunner;
 
 import ar.edu.uner.prestabook.connection.ConnectionProvider;
 import lombok.Getter;
@@ -37,13 +41,19 @@ public class Configs {
         datasourceUrl = properties.getProperty("datasource");
     }
 
-    public static void loadConfigs() {
+    /**
+     * Loads demo data into the database from an sql script
+     */
+    public static void loadDemoData() {
         try (Connection conn = ConnectionProvider.getConnection();
-                Statement statement = conn.createStatement()) {
-            statement.executeUpdate(
-                    "INSERT OR IGNORE INTO CONFIGS(key_col, value_col) VALUES('default_loan_time', '4')");
-        } catch (SQLException e1) {
-            e1.printStackTrace();
+                Statement statement = conn.createStatement();
+                InputStreamReader reader = new InputStreamReader(
+                        new FileInputStream("src/main/resources/script.sql"));) {
+            ScriptRunner runner = new ScriptRunner(conn);
+            runner.setLogWriter(null);
+            runner.runScript(reader);
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
     }
 }
