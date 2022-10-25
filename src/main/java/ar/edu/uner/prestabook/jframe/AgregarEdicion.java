@@ -249,7 +249,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for editorial
+     * Creates a text field to editorial
      */
     public JTextField fieldEditorial() {
         JTextField fieldEditorial = new JTextField();
@@ -258,7 +258,11 @@ public class AgregarEdicion extends JFrame {
         return fieldEditorial;
     }
 
-    
+    /**
+     * Creates a label
+     * 
+     * @return a label with editorial text
+     */
     public JLabel lblEditorial() {
         JLabel lblEditorial = new JLabel("Editorial");
         lblEditorial.setBounds(38, 205, 46, 14);
@@ -266,7 +270,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for country
+     * Creates a text field to country
      */
     public JTextField fieldPais() {
         JTextField fieldPais = new JTextField();
@@ -275,6 +279,11 @@ public class AgregarEdicion extends JFrame {
         return fieldPais;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with country text
+     */
     public JLabel lblPais() {
         JLabel lblPais = new JLabel("Pais");
         lblPais.setBounds(237, 139, 46, 14);
@@ -282,7 +291,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for number
+     * Creates a text field to number
      */
     public JTextField fieldNumero() {
         JTextField fieldNumero = new JTextField();
@@ -297,6 +306,11 @@ public class AgregarEdicion extends JFrame {
         return fieldNumero;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with number text
+     */
     public JLabel lblNumero() {
         JLabel lblNumero = new JLabel("Numero");
         lblNumero.setBounds(37, 314, 73, 14);
@@ -304,7 +318,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for year
+     * Creates a text field to year
      */
     public JTextField fieldAnio() {
         JTextField fieldAnio = new JTextField();
@@ -319,6 +333,11 @@ public class AgregarEdicion extends JFrame {
         return fieldAnio;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with year text
+     */
     public JLabel lblAnio() {
         JLabel lblAnio = new JLabel("Año");
         lblAnio.setBounds(39, 256, 83, 14);
@@ -326,7 +345,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for volumenes
+     * Creates a text field to volumenes
      */
     public JTextField fieldVolumenes() {
         JTextField fieldVolumenes = new JTextField();
@@ -341,6 +360,11 @@ public class AgregarEdicion extends JFrame {
         return fieldVolumenes;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with volumenes text
+     */
     public JLabel lblVolumenes() {
         JLabel lblVolumenes = new JLabel("Volúmenes");
         lblVolumenes.setBounds(237, 205, 112, 14);
@@ -348,7 +372,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for pages
+     * Creates a text field to pages
      */
     public JTextField fieldPaginas() {
         JTextField fieldPaginas = new JTextField();
@@ -363,6 +387,11 @@ public class AgregarEdicion extends JFrame {
         return fieldPaginas;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with pages text
+     */
     public JLabel lblPaginas() {
         JLabel lblPaginas = new JLabel("Páginas");
         lblPaginas.setBounds(237, 256, 83, 14);
@@ -370,7 +399,7 @@ public class AgregarEdicion extends JFrame {
     }
 
     /**
-     * Creates a text field for language
+     * Creates a text field to language
      */
     public JTextField fieldIdioma() {
         JTextField fieldIdioma = new JTextField();
@@ -379,12 +408,22 @@ public class AgregarEdicion extends JFrame {
         return fieldIdioma;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with language text
+     */
     public JLabel lblIdioma() {
         JLabel lblIdioma = new JLabel("Idioma");
         lblIdioma.setBounds(37, 372, 64, 14);
         return lblIdioma;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with add formats text
+     */
     public JLabel lblFormato() {
         JLabel lblFormato = new JLabel("Formatos");
         lblFormato.setBounds(237, 314, 83, 14);

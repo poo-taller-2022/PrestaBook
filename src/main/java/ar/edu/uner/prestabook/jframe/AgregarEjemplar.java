@@ -185,6 +185,9 @@ public class AgregarEjemplar extends JFrame {
         ej.insert(ejemplar);
     }
 
+    /**
+     * Creates the window
+     */
     public void ventana() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 655, 448);
@@ -194,6 +197,11 @@ public class AgregarEjemplar extends JFrame {
         setTitle(Constants.PRESTABOOK);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
@@ -201,7 +209,10 @@ public class AgregarEjemplar extends JFrame {
         contentPane.setLayout(null);
         return contentPane;
     }
-
+    
+    /**
+     * Creates a text field to pasillo
+     */
     public JTextField fieldPasillo() {
         JTextField fieldPasillo = new JTextField();
         fieldPasillo.setColumns(10);
@@ -215,6 +226,9 @@ public class AgregarEjemplar extends JFrame {
         return fieldPasillo;
     }
 
+    /**
+     * Creates a text field to estanteria
+     */
     public JTextField fieldEstanteria() {
         JTextField fieldEstanteria = new JTextField();
         fieldEstanteria.setColumns(10);
@@ -228,6 +242,9 @@ public class AgregarEjemplar extends JFrame {
         return fieldEstanteria;
     }
 
+    /**
+     * Creates a text field to estante
+     */
     public JTextField fieldEstante() {
         JTextField fieldEstante = new JTextField();
         fieldEstante.setColumns(10);
@@ -241,36 +258,62 @@ public class AgregarEjemplar extends JFrame {
         return fieldEstante;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of pasillo text
+     */
     public JLabel lblPasillo() {
         JLabel lblPasillo = new JLabel("Pasillo");
         lblPasillo.setBounds(446, 220, 133, 14);
         return lblPasillo;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of estanteria text
+     */
     public JLabel lblEstanteria() {
         JLabel lblEstanteria = new JLabel("Estantería");
         lblEstanteria.setBounds(147, 285, 133, 14);
         return lblEstanteria;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of estante text
+     */
     public JLabel lblEstante() {
         JLabel lblEstante = new JLabel("Estante");
         lblEstante.setBounds(353, 285, 133, 14);
         return lblEstante;
     }
 
+    /**
+     * Creates a button add
+     */
     public JButton btnAgregar() {
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBounds(198, 376, 89, 23);
         return btnAgregar;
     }
 
+    /**
+     * Creates a button cancel
+     */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setBounds(390, 376, 89, 23);
         return btnCancelar;
     }
 
+    /**
+     * Creates a panel
+     * 
+     * @return a panel agregar ejemplar
+     */
     public JPanel panelAgregarEjemplar() {
         JPanel panelAgregarEjemplar = new JPanel();
         panelAgregarEjemplar.setBackground(new Color(0, 64, 128));
@@ -279,6 +322,11 @@ public class AgregarEjemplar extends JFrame {
         return panelAgregarEjemplar;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of agregar ejemplar text
+     */
     public JLabel lblAgregarEjemplar() {
         JLabel lblAgregarEjemplar = new JLabel("Agregar Ejemplar");
         lblAgregarEjemplar.setForeground(new Color(255, 255, 255));
@@ -287,6 +335,9 @@ public class AgregarEjemplar extends JFrame {
         return lblAgregarEjemplar;
     }
 
+    /**
+     * Creates a text field to forma de adquisicion
+     */
     public JTextField fieldFormaAdquisicion() {
         JTextField fieldFormaAdquisicion = new JTextField();
         fieldFormaAdquisicion.setColumns(10);
@@ -294,18 +345,31 @@ public class AgregarEjemplar extends JFrame {
         return fieldFormaAdquisicion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of forma de adquisicion text
+     */
     public JLabel lblFormaAdquisicion() {
         JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
         lblFormaAdquisicion.setBounds(41, 220, 127, 14);
         return lblFormaAdquisicion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of fecha de aquisicion text
+     */
     public JLabel lblFechaAdquisicion() {
         JLabel lblFechaAdquisicion = new JLabel("Fecha de adquisición");
         lblFechaAdquisicion.setBounds(446, 149, 133, 14);
         return lblFechaAdquisicion;
     }
 
+    /**
+     * Creates a text field for observaciones
+     */
     public JTextField fieldObservaciones() {
         JTextField fieldObservaciones = new JTextField();
         fieldObservaciones.setColumns(10);
@@ -313,18 +377,31 @@ public class AgregarEjemplar extends JFrame {
         return fieldObservaciones;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of observaciones text
+     */
     public JLabel lblObservaciones() {
         JLabel lblObservaciones = new JLabel("Observaciones");
         lblObservaciones.setBounds(241, 220, 133, 14);
         return lblObservaciones;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of obra text
+     */
     public JLabel lblObra() {
         JLabel lblObra = new JLabel("Obra");
         lblObra.setBounds(41, 149, 46, 14);
         return lblObra;
     }
 
+    /**
+     * Creates a combo box of Obras
+     */
     public JComboBox<Obra> comboBoxObras() {
         JComboBox<Obra> comboBoxObras = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
         comboBoxObras.setRenderer(new ObraRenderer());
@@ -333,6 +410,9 @@ public class AgregarEjemplar extends JFrame {
         return comboBoxObras;
     }
 
+    /**
+     * Creates a date picker calendar to fechaAdquisicion
+     */
     public DatePicker calendarFechaAdquisicion() {
         DatePicker calendarFechaAdquisicion = new DatePicker();
         calendarFechaAdquisicion.setBounds(446, 163, 166, 29);
@@ -340,12 +420,20 @@ public class AgregarEjemplar extends JFrame {
         return calendarFechaAdquisicion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of edicion text
+     */
     public JLabel lblEdicion() {
         JLabel lblEdicion = new JLabel("Edicion");
         lblEdicion.setBounds(241, 149, 72, 14);
         return lblEdicion;
     }
 
+    /**
+     * Creates a comob box of ediciones
+     */
     public JComboBox<Edicion> comboBoxEdiciones() {
         JComboBox<Edicion> comboBoxEdiciones = new JComboBox<>();
         comboBoxEdiciones.setBounds(241, 163, 166, 29);
