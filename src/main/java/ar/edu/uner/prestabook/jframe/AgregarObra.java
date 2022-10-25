@@ -38,7 +38,7 @@ import ar.edu.uner.prestabook.model.TipoObra;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 /**
- * Opens a window for functionality of add obra
+ * Opens a window for functionality of adding an obra
  *
  */
 public class AgregarObra extends JFrame {

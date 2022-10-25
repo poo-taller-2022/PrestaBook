@@ -33,7 +33,7 @@ import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 
 /**
- * Opens a window for functionality of add edition
+ * Opens a window for functionality of adding an edition
  *
  */
 public class AgregarEdicion extends JFrame {

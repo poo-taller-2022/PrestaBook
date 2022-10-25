@@ -30,7 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
- * Opens a window for different functionalities of administrar un obra
+ * Opens a window for different functionalities of managing a book
  *
  */
 public class AdministrarObra extends JFrame {
@@ -42,7 +42,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Create the frame.
-     * @param obra Object Obra
+     * @param obra Object an Obra
      */
     public AdministrarObra(Obra obra) {
         ventana();
@@ -129,8 +129,8 @@ public class AdministrarObra extends JFrame {
      * 
      * Concatenates all information of an obra
      * Used to displays more information of an obra
-     * @param obra Object Obra
-     * @param edicion Object edition
+     * @param obra Object an Obra
+     * @param edicion Object an edition
      * @return String with the information
      */
     public StringBuilder cargarObra(Obra obra, Edicion edicion) {

@@ -57,7 +57,7 @@ public abstract class AbstractPanel {
 
     /**
      * Initializes this panel.
-     * @return Jpanel
+     * @return a panel
      */
     public abstract JPanel init();
 
