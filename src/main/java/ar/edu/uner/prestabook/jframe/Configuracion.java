@@ -80,6 +80,7 @@ public class Configuracion extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
     }
 
     /**

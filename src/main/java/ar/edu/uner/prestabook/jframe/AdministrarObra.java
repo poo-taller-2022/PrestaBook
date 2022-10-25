@@ -193,6 +193,7 @@ public class AdministrarObra extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
+        setTitle(Constants.PRESTABOOK);
     }
 
     public JPanel contentPane() {
