@@ -26,6 +26,11 @@ import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 import lombok.Getter;
 
+
+/**
+* Class that contains the principal window and all principals buttons, labels, panels and logo
+*/
+
 public class Components {
 
     private static final Integer BUTTON_POSITION_LEFT = 50;
@@ -216,6 +221,11 @@ public class Components {
         return lblPanelTitle;
     }
 
+    /**
+     * Method which cleans a table already created with data
+     * @param tabla table with data
+     */
+    
     public static void clearTable(JTable tabla) {
         try {
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();

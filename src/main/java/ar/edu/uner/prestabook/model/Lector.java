@@ -31,7 +31,7 @@ public class Lector extends Persona {
 	
 
 	/**
-	 * Registrarse method that saves a map to tipoLector according to a Lector 
+	 * Registrarse method that saves a Lector  according to a tipoLector
 	 * @param tipoLector String that represents the type of lector
 	 * @param lector Object Lector
 	 *

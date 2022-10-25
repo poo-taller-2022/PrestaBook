@@ -15,7 +15,7 @@ public interface IReservaDAO extends GenericDAO<Reserva> {
 
     
     /**
-     * Finds an entity by id of Ejemplar
+     * Finds a Reserva by the id of an ejemplar
      * 
      * @param idEjemplar Long that represents the id of a Ejemplar
      * @return entity of type Reserva if the idEjemplar matches the database field, null if it does not

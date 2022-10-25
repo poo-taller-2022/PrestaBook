@@ -6,7 +6,7 @@ import ar.edu.uner.prestabook.model.Funcionario;
 public interface IFuncionarioDAO extends GenericDAO<Funcionario> {
 
 	/**
-	 * Finds an entity by its email
+	 * Finds a Funcionario by its email
 	 * @param email String that represent the email to search
 	 * @return entity of type Funcionario if the email matches the database field, null if it does not
 	 */
