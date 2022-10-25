@@ -64,6 +64,12 @@ public class SistemaFuncionario extends JFrame {
     private JPanel contentPane = Components.contentPane();
     private static SistemaFuncionario instance = new SistemaFuncionario();
 
+    private JFrame prestamos = new Prestamos();
+    private JFrame devoluciones = new Devoluciones();
+    private JFrame ejemplares = new Ejemplares();
+    private JFrame configuracion = new Configuracion();
+    List<JFrame> windows = List.of(prestamos, devoluciones, ejemplares, configuracion);
+
     /**
      * Initializes the system interface
      * 
@@ -108,21 +114,21 @@ public class SistemaFuncionario extends JFrame {
 
         JButton btnGestionarPrestamo = Components.btnLeftMenu("Gestionar Préstamo", 169);
         btnGestionarPrestamo.addActionListener(e -> {
-            Prestamos prestamos = new Prestamos();
+            hideWindows();
             prestamos.setVisible(true);
         });
         panelOpciones.add(btnGestionarPrestamo);
 
         JButton btnGestionarDevolucion = Components.btnLeftMenu("Gestionar devolución de obra", 221);
         btnGestionarDevolucion.addActionListener(e -> {
-            Devoluciones devoluciones = new Devoluciones();
+            hideWindows();
             devoluciones.setVisible(true);
         });
         panelOpciones.add(btnGestionarDevolucion);
 
         JButton btnVerEjemplares = Components.btnLeftMenu("Ver Ejemplares", 273);
         btnVerEjemplares.addActionListener(e -> {
-            Ejemplares ejemplares = new Ejemplares();
+            hideWindows();
             ejemplares.setVisible(true);
         });
 
@@ -259,7 +265,7 @@ public class SistemaFuncionario extends JFrame {
         });
 
         btnOpciones.addActionListener(e -> {
-            Configuracion configuracion = new Configuracion();
+            hideWindows();
             configuracion.setVisible(true);
         });
 
@@ -309,6 +315,15 @@ public class SistemaFuncionario extends JFrame {
     private void hidePanels() {
         for (AbstractPanel panel : panels) {
             panel.hide();
+        }
+    }
+
+    /**
+     * Hides all windows
+     */
+    private void hideWindows() {
+        for (JFrame window : windows) {
+            window.setVisible(false);
         }
     }
 
