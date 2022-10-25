@@ -313,18 +313,14 @@ public class SistemaFuncionario extends JFrame {
      * Hides all panels
      */
     private void hidePanels() {
-        for (AbstractPanel panel : panels) {
-            panel.hide();
-        }
+        panels.forEach(AbstractPanel::hide);
     }
 
     /**
      * Hides all windows
      */
     private void hideWindows() {
-        for (JFrame window : windows) {
-            window.setVisible(false);
-        }
+        windows.forEach(window -> window.setVisible(false));
     }
 
 }
