@@ -182,7 +182,7 @@ public class Components {
   	 */
     public static JLabel lblIconCerrarSesion() {
         JLabel lblIconCerrarSesion = new JLabel("");
-        lblIconCerrarSesion.setBounds(817, 5, 19, 16);
+        lblIconCerrarSesion.setBounds(845, 5, 19, 16);
         return lblIconCerrarSesion;
     }
 
