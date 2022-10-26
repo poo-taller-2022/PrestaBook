@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.persistence.IFormatoDAO;
 
+/**
+ * Data access object to format class,
+ * interacts with table Formatos in database
+ */
 public class FormatoDAO implements IFormatoDAO {
 
     /**
@@ -22,7 +26,7 @@ public class FormatoDAO implements IFormatoDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class  
      * @return the singleton instance of the class
      */
     public static FormatoDAO getInstance() {
