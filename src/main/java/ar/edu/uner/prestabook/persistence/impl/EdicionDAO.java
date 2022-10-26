@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Edicion;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 
+/**
+ * Data access object to edition class,
+ * interacts with table Ediciones in database
+ */
 public class EdicionDAO implements IEdicionDAO {
 
     /**
@@ -22,7 +26,7 @@ public class EdicionDAO implements IEdicionDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class
      * @return the singleton instance of the class
      */
     public static EdicionDAO getInstance() {

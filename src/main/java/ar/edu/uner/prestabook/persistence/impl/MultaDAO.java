@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Multa;
 import ar.edu.uner.prestabook.persistence.IMultaDAO;
 
+/**
+ * Data access object to fine class,
+ * interacts with table Multas in database
+ */
 public class MultaDAO implements IMultaDAO {
 
     /**
@@ -22,7 +26,7 @@ public class MultaDAO implements IMultaDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class  
      * @return the singleton instance of the class
      */
     public static MultaDAO getInstance() {
