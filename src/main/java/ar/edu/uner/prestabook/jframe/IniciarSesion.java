@@ -22,6 +22,12 @@ import ar.edu.uner.prestabook.exception.UserNotFoundException;
 import ar.edu.uner.prestabook.exception.WrongPasswordException;
 import ar.edu.uner.prestabook.jframe.common.Components;
 
+
+/**
+ * GUI Designed to display the user interface of a login and sign up
+ *
+ */
+
 public class IniciarSesion extends JFrame {
 
     private static final long serialVersionUID = 1L;

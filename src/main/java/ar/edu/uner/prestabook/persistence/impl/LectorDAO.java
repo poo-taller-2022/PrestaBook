@@ -10,6 +10,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.persistence.ILectorDAO;
 
+/**
+ * Data access object to reader class,
+ * interacts with table Lectores in database
+ */
 public class LectorDAO implements ILectorDAO {
 
     /**
@@ -24,7 +28,7 @@ public class LectorDAO implements ILectorDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class  
      * @return the singleton instance of the class
      */
     public static LectorDAO getInstance() {

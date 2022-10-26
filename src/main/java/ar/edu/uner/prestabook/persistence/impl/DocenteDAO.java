@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Docente;
 import ar.edu.uner.prestabook.persistence.IDocenteDAO;
 
+/**
+ * Data access object to teacher class,
+ * interacts with table Docentes in database
+ */
 public class DocenteDAO implements IDocenteDAO {
 
     /**
@@ -22,7 +26,7 @@ public class DocenteDAO implements IDocenteDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class
      * @return the singleton instance of the class
      */
     public static DocenteDAO getInstance() {

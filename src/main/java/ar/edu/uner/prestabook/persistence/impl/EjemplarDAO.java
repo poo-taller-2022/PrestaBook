@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Ejemplar;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 
+/**
+ * Data access object to copy class,
+ * interacts with table Ejemplares in database
+ */
 public class EjemplarDAO implements IEjemplarDAO {
 
     /**
@@ -22,7 +26,7 @@ public class EjemplarDAO implements IEjemplarDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class 
      * @return the singleton instance of the class
      */
     public static EjemplarDAO getInstance() {
