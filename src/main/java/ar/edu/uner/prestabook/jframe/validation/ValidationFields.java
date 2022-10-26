@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
@@ -15,6 +14,25 @@ import javax.swing.border.MatteBorder;
  *
  */
 public class ValidationFields {
+    
+    /**
+     * Modify the color of the Name field border depending on whether the
+     * validation is correct
+     * 
+     * @param name
+     **/
+    public void validationName(JTextField name) {
+        name.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (validationPatternName(name.getText())) {
+                    name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
+                } else {
+                    name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0))); 
+                }
+            }
+        });
+    }
 
     /**
      * Modify the color of the Email field border depending on whether the
@@ -42,24 +60,9 @@ public class ValidationFields {
      * @param number
      * @param lblNroNoValido
      **/
-    public void validationNumber(JTextField number, JLabel lblNroNoValido) {
+    public void validationNumber(JTextField number) {
+        number.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
         number.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (validationPatternNumber(number.getText())) {
-                    if (number.getText().length() < 10) {
-                        number.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
-                        lblNroNoValido.setVisible(true);
-                    } else {
-                        number.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
-                        lblNroNoValido.setVisible(false);
-                    }
-                } else {
-                    number.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
-                    lblNroNoValido.setVisible(true);
-                }
-            }
-
             @Override
             public void keyTyped(KeyEvent e) {
                 if (number.getText().length() >= 10) {
@@ -138,15 +141,12 @@ public class ValidationFields {
      * @param password
      **/
     public void validationPassword(JTextField password) {
+        password.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
         password.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                if (validationPatternPassword(password.getText())) {
-
-                    password.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
-
-                } else {
-                    password.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
+            public void keyTyped(KeyEvent e) {
+                if (password.getText().length() >= 20) {
+                    e.consume();
                 }
             }
         });
@@ -194,18 +194,6 @@ public class ValidationFields {
     }
 
     /**
-     * Validate the phone number field
-     * 
-     * @param phone number
-     * @return boolean depending on whether it matches the pattern or not
-     **/
-    public boolean validationPatternNumber(String telefono) {
-        Pattern patron = Pattern.compile("^([(]0345[)]\s154|[+]5493454|3454)[0-9]{6}$");
-        Matcher mat = patron.matcher(telefono);
-        return mat.find();
-    }
-
-    /**
      * Validate the field accepting only letters
      * 
      * @param textfield
@@ -216,17 +204,16 @@ public class ValidationFields {
         Matcher mat = patron.matcher(textfield);
         return mat.find();
     }
-
+    
     /**
-     * Validate the password field
+     * Validate the name field
      * 
-     * @param password
+     * @param name
      * @return boolean depending on whether it matches the pattern or not
      **/
-    public boolean validationPatternPassword(String password) {
-        Pattern patron = Pattern.compile(
-                "^(?=.*[0-9])(?=.*[az])([AZ]?)(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
-        Matcher mat = patron.matcher(password);
+    public boolean validationPatternName(String name) {
+        Pattern patron = Pattern.compile("^[a-zA-ZàáâäãåąćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$");
+        Matcher mat = patron.matcher(name);
         return mat.find();
     }
 }

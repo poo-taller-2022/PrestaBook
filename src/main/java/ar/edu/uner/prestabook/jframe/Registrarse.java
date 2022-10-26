@@ -77,9 +77,6 @@ public class Registrarse extends JFrame {
         JTextField textNumeroDeTelefono = textNumeroDeTelefono();
         contentPane.add(textNumeroDeTelefono);
 
-        JLabel lblNroNoValido = lblNroNoValido();
-        contentPane.add(lblNroNoValido);
-
         contentPane.add(lblFechaDeNacimiento());
         DatePicker datePickerFechaDeNacimiento = datePickerFechaDeNacimiento();
         contentPane.add(datePickerFechaDeNacimiento);
@@ -147,7 +144,6 @@ public class Registrarse extends JFrame {
 
         contentPane.add(lblContrasenia());
         contentPane.add(lblRepetirContrasenia());
-        contentPane.add(lblCondicionContrasenia());
         JTextField textContrasenia = textContrasenia();
         contentPane.add(textContrasenia);
 
@@ -219,7 +215,7 @@ public class Registrarse extends JFrame {
         textNumeroDeTelefono.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationNumber(textNumeroDeTelefono, lblNroNoValido);
+                validationFields.validationName(textNumeroDeTelefono);
             }
         });
 
@@ -279,14 +275,12 @@ public class Registrarse extends JFrame {
 
         btnGuardar.addActionListener(e -> {
 
-            Boolean camposValidos = validationFields.validationPatternGeneric(textNombre.getText())
-                    && validationFields.validationPatternGeneric(textApellido.getText()) &&
+            Boolean camposValidos = validationFields.validationPatternName(textNombre.getText())
+                    && validationFields.validationPatternName(textApellido.getText()) &&
                     validationFields.validationPatternGeneric(textTipoDeDocumento.getText()) &&
                     validationFields.validationPatternEmail(textEmail.getText())
-                    && validationFields.validationPatternNumber(textNumeroDeTelefono.getText()) &&
-                    validationFields.validationPatternGeneric(textNacionalidad.getText())
-                    && validationFields.validationPatternGeneric(textLocalidad.getText()) &&
-                    validationFields.validationPatternPassword(textContrasenia.getText());      
+                    && validationFields.validationPatternGeneric(textNacionalidad.getText())
+                    && validationFields.validationPatternGeneric(textLocalidad.getText());      
 
             Boolean camposCompletos = !textNombre.getText().isBlank() && !textApellido.getText().isBlank()
                     && !textTipoDeDocumento.getText().isBlank() && !textNumeroDeDocumento.getText().isBlank()
@@ -788,22 +782,5 @@ public class Registrarse extends JFrame {
                 PasswordEncrypter.encrypt((String.valueOf(((JPasswordField) textContrasenia).getPassword()))));
 
         return lector;
-    }
-
-    public JLabel lblNroNoValido() {
-        JLabel lblNroNoValido = new JLabel("Nro no válido en arg");
-        lblNroNoValido.setFont(new Font("Tahoma", Font.PLAIN, 9));
-        lblNroNoValido.setBounds(337, 246, 133, 14);
-        lblNroNoValido.setForeground(new Color(170, 0, 0));
-        lblNroNoValido.setVisible(false);
-        return lblNroNoValido;
-    }
-
-    public JLabel lblCondicionContrasenia() {
-        JLabel lblCondicionContrasenia = new JLabel(
-                "Utiliza ocho caracteres como mínimo con una combinación de letras, números y símbolos");
-        lblCondicionContrasenia.setFont(new Font("Tahoma", Font.PLAIN, 9));
-        lblCondicionContrasenia.setBounds(265, 477, 383, 14);
-        return lblCondicionContrasenia;
     }
 }
