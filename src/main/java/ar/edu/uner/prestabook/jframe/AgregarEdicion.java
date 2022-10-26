@@ -81,7 +81,7 @@ public class AgregarEdicion extends JFrame {
         JTextField fieldAnio = fieldAnio();
         contentPane.add(fieldAnio);
 
-        JLabel lblAnio = lblAnio();
+        JLabel lblAnio = lblAnio(); 
         contentPane.add(lblAnio);
 
         JTextField fieldPaginas = fieldPaginas();

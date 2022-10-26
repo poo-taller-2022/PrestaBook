@@ -100,7 +100,7 @@ public class AgregarObra extends JFrame {
 
         JTextField fieldGenero = fieldGenero();
         contentPane.add(fieldGenero);
-
+ 
         JLabel lblGenero = lblGenero();
         contentPane.add(lblGenero);
 

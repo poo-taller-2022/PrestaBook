@@ -16,19 +16,19 @@ import javax.swing.border.MatteBorder;
 public class ValidationFields {
 
     /**
-     * Modify the color of the Name field border depending on whether the
+     * Modify the color of the field border depending on whether the
      * validation is correct
      * 
      * @param name
      **/
-    public void validationName(JTextField name) {
-        name.addKeyListener(new KeyAdapter() {
+    public void validationGenericLetters(JTextField field) {
+        field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (validationPatternName(name.getText())) {
-                    name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
+                if (validationPatternName(field.getText())) {
+                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
                 } else {
-                    name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
+                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0))); 
                 }
             }
         });
@@ -110,32 +110,6 @@ public class ValidationFields {
     }
 
     /**
-     * Modify the border color of fields with only letters depending on whether
-     * validation is successful
-     * 
-     * @param field
-     **/
-    public void validationGenericLetters(JTextField field) {
-        field.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (validationPatternGeneric(field.getText())) {
-                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
-                } else {
-                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (field.getText().length() >= 40) {
-                    e.consume();
-                }
-            }
-        });
-    }
-
-    /**
      * Modify the color of the document field border depending on whether the
      * validation is correct
      * 
@@ -144,6 +118,15 @@ public class ValidationFields {
     public void validationDocument(JTextField document) {
         document.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
         document.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (document.getText().length() < 7) {
+                    document.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0))); 
+                } else {
+                    document.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
+                }
+            }
+            
             @Override
             public void keyTyped(KeyEvent e) {
                 if (document.getText().length() >= 10) {

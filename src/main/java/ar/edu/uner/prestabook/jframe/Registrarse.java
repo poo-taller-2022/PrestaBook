@@ -142,7 +142,7 @@ public class Registrarse extends JFrame {
         panelSexo.add(btnRadioMujer);
         buttonGroupSexo.add(btnRadioMujer);
 
-        JRadioButton btnRadioOtro = btnRadioOtro();
+        JRadioButton btnRadioOtro = btnRadioOtro(); 
         panelSexo.add(btnRadioOtro);
         buttonGroupSexo.add(btnRadioOtro);
 

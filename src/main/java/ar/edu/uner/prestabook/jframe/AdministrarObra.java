@@ -80,7 +80,9 @@ public class AdministrarObra extends JFrame {
         contentPane.add(fieldEjemplaresDisponibles);
 
         JButton btnSolicitarPrestamo = Components.btnGeneric("Solicitar préstamo", "Center");
+        btnSolicitarPrestamo.setEnabled(false);
         JButton btnReservarObra = Components.btnGeneric("Reservar Obra", "Left");
+        btnReservarObra.setEnabled(false);
         JButton btnRegresar = Components.btnGeneric("Regresar", "Right");
         
         contentPane.add(btnRegresar);
