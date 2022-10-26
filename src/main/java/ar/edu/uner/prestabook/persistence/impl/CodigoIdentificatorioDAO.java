@@ -8,6 +8,11 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.CodigoIdentificatorio;
 import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 
+/**
+ * Data access object to identification code class,
+ * interacts with table CodigoIdentificario in database
+ *
+ */
 public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
 
     /**
@@ -22,7 +27,7 @@ public class CodigoIdentificatorioDAO implements ICodigoIdentificatorioDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class
      * @return the singleton instance of the class
      */
     public static CodigoIdentificatorioDAO getInstance() {

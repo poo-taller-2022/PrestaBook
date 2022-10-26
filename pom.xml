@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ar.edu.uner</groupId>
 	<artifactId>prestabook</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>Prestabook</name>
 	<description>Proyecto de gestión de préstamos de libros</description>
 

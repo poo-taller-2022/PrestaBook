@@ -290,6 +290,10 @@ public class PedirPrestamo extends JFrame {
         return btnCancelar;
     }
 
+    
+	/**
+	 * Creates a text field to obra
+	 */
     public JTextField fieldObra() {
         JTextField fieldObra = new JTextField();
         fieldObra.setEditable(false);
@@ -298,6 +302,10 @@ public class PedirPrestamo extends JFrame {
         return fieldObra;
     }
 
+    
+    /**
+	 * Creates a text field to edicion
+	 */
     public JTextField fieldEdicion() {
         JTextField fieldEdicion = new JTextField();
         fieldEdicion.setEditable(false);
@@ -306,6 +314,12 @@ public class PedirPrestamo extends JFrame {
         return fieldEdicion;
     }
 
+    /**
+     * find an ejemplar by obra and edicion
+     * @param obra
+     * @param edicion
+     * @return ejemplar if it's available for loan
+     */
     private Ejemplar buscarEjemplar(Obra obra, Edicion edicion) {
         IPrestamoDAO prestamoDAO = DaoFactory.getPrestamoDAO();
         IReservaDAO reservaDAO = DaoFactory.getReservaDAO();

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 
 /**
-* Base class that represents a class of type Obra
+* Base abstract class that contains the properties of the class Obra
 *
 */
 

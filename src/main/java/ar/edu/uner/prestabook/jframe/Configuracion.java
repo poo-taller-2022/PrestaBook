@@ -124,6 +124,7 @@ public class Configuracion extends JFrame {
 
     /**
      * Creates a Combo Box with all the Books
+     * @return an inputNumer
      */
     public JFormattedTextField inputNumber() {
         JFormattedTextField inputNumber = new JFormattedTextField();
@@ -150,6 +151,7 @@ public class Configuracion extends JFrame {
 
     /**
      * Creates a confirmation button
+     * @return a button to confirm
      */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton("Confirmar");
@@ -159,6 +161,7 @@ public class Configuracion extends JFrame {
 
     /**
      * Creates a cancel button
+     * @return a button to cancel
      * 
      */
     public JButton btnCancelar() {

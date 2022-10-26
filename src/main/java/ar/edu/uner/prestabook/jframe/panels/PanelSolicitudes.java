@@ -60,7 +60,6 @@ public class PanelSolicitudes extends AbstractPanel {
                     JOptionPane.showMessageDialog(null,
                             "No se pudo realizar el préstamo porque el lector posee multas activas", "Error",
                             JOptionPane.ERROR_MESSAGE);
-
                 }
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe seleccionar un pedido de prestamo");

@@ -1,7 +1,17 @@
 package ar.edu.uner.prestabook.jframe;
 
+
+/**
+ * Class that contains several constants
+ *
+ */
+
 public class Constants {
 
+	/**
+	 * Class constructor
+     * Sets all constants used throughout the code
+     */
     private Constants() {
     }
 

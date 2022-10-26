@@ -19,7 +19,7 @@ public class PanelEjemplares extends AbstractPanel {
         panel.add(btnRefrescar);
 
         btnAgregarEjemplar.addActionListener(b -> {
-            AgregarEjemplar agregarEjemplar = new AgregarEjemplar();
+            AgregarEjemplar agregarEjemplar = new AgregarEjemplar(table, model);
             agregarEjemplar.setVisible(true);
         });
 

@@ -7,6 +7,13 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import ar.edu.uner.prestabook.model.Coleccion;
 
+
+/**
+ * 
+ * Class that handles the combobox rendering of coleccion
+ *
+ */
+
 public class ColeccionRenderer extends BasicComboBoxRenderer {
 
 	private static final long serialVersionUID = 1L;

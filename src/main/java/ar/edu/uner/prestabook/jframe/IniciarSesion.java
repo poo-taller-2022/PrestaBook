@@ -157,9 +157,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Create components
+     * Creates the window
      */
-
     public void ventana() {
         setUndecorated(true);
         setResizable(false);
@@ -169,6 +168,11 @@ public class IniciarSesion extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBackground(new Color(255, 255, 255));
@@ -178,6 +182,11 @@ public class IniciarSesion extends JFrame {
         return contentPane;
     }
 
+    /**
+     * Creates a panel
+     * 
+     * @return a main Panel
+     */
     public JPanel panelPrestabook() {
         JPanel panelPrestabook = new JPanel();
         panelPrestabook.setBackground(new Color(0, 64, 128));
@@ -186,6 +195,11 @@ public class IniciarSesion extends JFrame {
         return panelPrestabook;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with Prestabook text
+     */
     public JLabel lblPrestaBook() {
         JLabel lblPrestaBook = new JLabel("PrestaBook");
         lblPrestaBook.setForeground(new Color(255, 255, 255));
@@ -194,6 +208,10 @@ public class IniciarSesion extends JFrame {
         return lblPrestaBook;
     }
 
+    /**
+     * Creates a button exit
+     * @return return a button to exit
+     */
     public JButton btnExit() {
         JButton btnExit = new JButton("X");
         btnExit.setBorderPainted(false);
@@ -206,6 +224,11 @@ public class IniciarSesion extends JFrame {
         return btnExit;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with log in text
+     */
     public JLabel lblIniciarSesion() {
         JLabel lblIniciarSesion = new JLabel("Iniciar sesión");
         lblIniciarSesion.setFont(new Font("Verdana", Font.BOLD, 17));
@@ -213,12 +236,22 @@ public class IniciarSesion extends JFrame {
         return lblIniciarSesion;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with log in as text
+     */
     public JLabel lblIngresarComo() {
         JLabel lblIngresarComo = new JLabel("Ingresar como");
         lblIngresarComo.setBounds(39, 162, 97, 14);
         return lblIngresarComo;
     }
 
+    /**
+     * Creates a panel
+     * 
+     * @return a session panel
+     */
     public JPanel panelIngresarComo() {
         JPanel panelIngresarComo = new JPanel();
         panelIngresarComo.setLayout(null);
@@ -227,6 +260,10 @@ public class IniciarSesion extends JFrame {
         return panelIngresarComo;
     }
 
+    /**
+     * Creates a select button 
+     * @return a select button to employee 
+     */
     public JRadioButton btnRadioFuncionario() {
         JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
         btnRadioFuncionario.setBounds(19, 7, 109, 23);
@@ -234,6 +271,10 @@ public class IniciarSesion extends JFrame {
         return btnRadioFuncionario;
     }
 
+    /**
+     * Creates a select button 
+     * @return a select button to student
+     */
     public JRadioButton btnRadioAlumno() {
         JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
         btnRadioAlumno.setBounds(171, 7, 101, 23);
@@ -241,6 +282,10 @@ public class IniciarSesion extends JFrame {
         return btnRadioAlumno;
     }
 
+    /**
+     * Creates a select button 
+     * @return a select button to techer
+     */
     public JRadioButton btnRadioDocente() {
         JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
         btnRadioDocente.setBounds(308, 7, 108, 23);
@@ -248,6 +293,10 @@ public class IniciarSesion extends JFrame {
         return btnRadioDocente;
     }
 
+    /**
+     * Creates a select button 
+     * @return a select button to general public
+     */
     public JRadioButton btnRadioPublicoGeneral() {
         JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
         btnRadioPublicoGeneral.setBounds(429, 7, 125, 23);
@@ -255,18 +304,32 @@ public class IniciarSesion extends JFrame {
         return btnRadioPublicoGeneral;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with password text
+     */
     public JLabel lblContrasenia() {
         JLabel lblContrasenia = new JLabel("Contraseña");
         lblContrasenia.setBounds(239, 314, 66, 14);
         return lblContrasenia;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with email text
+     */
     public JLabel lblCorreo() {
         JLabel lblCorreo = new JLabel("Correo");
         lblCorreo.setBounds(239, 238, 59, 14);
         return lblCorreo;
     }
 
+    /**
+     * Creates text field 
+     * @return a text field to email
+     */
     public JTextField cajaCorreo() {
         JTextField cajaCorreo = new JTextField();
         cajaCorreo.setBackground(new Color(255, 255, 255));
@@ -276,6 +339,10 @@ public class IniciarSesion extends JFrame {
         return cajaCorreo;
     }
 
+    /**
+     * Creates text field 
+     * @return a text field to password
+     */
     public JPasswordField cajaContrasenia() {
         JPasswordField cajaContrasenia = new JPasswordField();
         cajaContrasenia.setToolTipText("");
@@ -284,6 +351,10 @@ public class IniciarSesion extends JFrame {
         return cajaContrasenia;
     }
 
+    /**
+     * Creates a button 
+     * @return a button to login
+     */
     public JButton btnIngresar() {
         JButton btnIngresar = new JButton("Ingresar");
         btnIngresar.setForeground(new Color(0, 0, 0));
@@ -292,12 +363,21 @@ public class IniciarSesion extends JFrame {
         return btnIngresar;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with unregister text
+     */
     public JLabel lblNoRegistrado() {
         JLabel lblNoRegistrado = new JLabel("¿No estas registrado?");
         lblNoRegistrado.setBounds(224, 432, 141, 14);
         return lblNoRegistrado;
     }
 
+    /**
+     * Creates a button 
+     * @return a button to sign up
+     */
     public JButton btnRegistrarse() {
         JButton btnRegistrarse = new JButton("Registrarse");
         btnRegistrarse.setBackground(new Color(255, 255, 255));
@@ -311,6 +391,10 @@ public class IniciarSesion extends JFrame {
     /**
      * Method created to find the type of user to log in and search the
      * corresponding table in the database
+     * @param btnRadioPublicoGeneral type of general public user 
+     * @param btnRadioDocente type of teacher user 
+     * @param btnRadioAlumno type of student user
+     * @return a type of user according to the choice
      */
 
     public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,

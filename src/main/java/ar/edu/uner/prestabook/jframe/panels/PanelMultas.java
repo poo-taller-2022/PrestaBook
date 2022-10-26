@@ -77,18 +77,38 @@ public class PanelMultas extends AbstractPanel {
         Tabla.fill(model, Constants.MULTAS);
     }
 
+    
+    
+    
+    /**
+	 * Creates a date picker to choose a start date
+	 * 
+	 */
     private DatePicker datePickerInitial() {
         DatePicker datePickerInitial = new DatePicker(DateSettings.getDatePickerSettings());
         datePickerInitial.setBounds(70, 70, 200, 30);
         return datePickerInitial;
     }
 
+    
+    
+    /**
+   	 * Creates a date picker to choose an end date
+   	 * 
+   	 */
     private DatePicker datePickerFinal() {
         DatePicker datePickerFinal = new DatePicker(DateSettings.getDatePickerSettings());
         datePickerFinal.setBounds(70, 110, 200, 30);
         return datePickerFinal;
     }
 
+    
+    /**
+	 * Creates a label
+	 * 
+	 * @return a label to filtering fines
+	 */
+    
     private JLabel labelFiltroFechas() {
         JLabel filtro = new JLabel("Filtrar por fecha de multas");
         filtro.setBounds(10, -30, 775, 136);
@@ -97,6 +117,12 @@ public class PanelMultas extends AbstractPanel {
         return filtro;
     }
 
+    
+    /**
+	 * Creates a label
+	 * 
+	 * @return a label of start
+	 */
     private JLabel labelFiltroInicio() {
         JLabel filtro = new JLabel("Inicio");
         filtro.setBounds(10, 20, 775, 136);
@@ -105,6 +131,13 @@ public class PanelMultas extends AbstractPanel {
         return filtro;
     }
 
+    
+    /**
+	 * Creates a label
+	 * 
+	 * @return a label of end
+	 */
+    
     private JLabel labelFiltroFin() {
         JLabel filtro = new JLabel("Fin");
         filtro.setBounds(10, 60, 775, 136);

@@ -41,6 +41,9 @@ public class SistemaLector extends JFrame {
         return instance;
     }
 
+    /**
+     * Reader system constructor
+     */
     private SistemaLector() {
 
         window();
@@ -86,7 +89,6 @@ public class SistemaLector extends JFrame {
         /**
          * Method created to log out and return to the "IniciarSesion" window
          */
-
         btnCerrarSesion.addActionListener(e -> {
             IniciarSesion login = new IniciarSesion();
             login.setVisible(true);
@@ -97,7 +99,6 @@ public class SistemaLector extends JFrame {
         /**
          * Created method to close window
          */
-
         btnExit.addActionListener(e -> System.exit(0));
 
         btnNotificaciones.addActionListener(e -> {
@@ -105,11 +106,10 @@ public class SistemaLector extends JFrame {
             contentPane.add(panelNotificaciones.init());
         });
     }
-
+    
     /**
-     * Create components
+     * Creates the window
      */
-
     private void window() {
         setUndecorated(true);
         setResizable(false);

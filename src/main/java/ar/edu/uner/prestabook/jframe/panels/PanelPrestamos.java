@@ -62,12 +62,21 @@ public class PanelPrestamos extends AbstractPanel {
         Tabla.fill(model, Constants.PRESTAMOS);
     }
 
+    
+    
+    /**
+     * Creates a check box to filter out of term rows
+     */	
     private JCheckBox checkBoxFiltro() {
         JCheckBox checkBoxFiltro = new JCheckBox("Mostrar fuera de término");
         checkBoxFiltro.setBounds(10, 120, 300, 20);
         return checkBoxFiltro;
     }
 
+    
+    
+    
+    
     private RowFilter<TableModel, Integer> filtradorPorFueraDeTermino() {
         return new RowFilter<TableModel, Integer>() {
             @Override

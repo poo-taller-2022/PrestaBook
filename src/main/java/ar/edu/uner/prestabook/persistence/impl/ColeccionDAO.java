@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Coleccion;
 import ar.edu.uner.prestabook.persistence.IColeccionDAO;
 
+/**
+ * Data access object to collection class
+ * interacts with table Coleccion in database
+ */
 public class ColeccionDAO implements IColeccionDAO {
 
     /**
@@ -22,7 +26,7 @@ public class ColeccionDAO implements IColeccionDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class
      * @return the singleton instance of the class
      */
     public static ColeccionDAO getInstance() {
