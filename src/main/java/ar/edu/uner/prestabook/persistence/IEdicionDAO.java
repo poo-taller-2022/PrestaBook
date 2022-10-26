@@ -5,6 +5,12 @@ import java.util.List;
 import ar.edu.uner.prestabook.common.GenericDAO;
 import ar.edu.uner.prestabook.model.Edicion;
 
+
+/**
+ * 
+ * Interface defining the contract for the bussiness logic of Edicion
+ *
+ */
 public interface IEdicionDAO extends GenericDAO<Edicion> {
 
 	

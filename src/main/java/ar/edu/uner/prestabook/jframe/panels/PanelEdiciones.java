@@ -20,7 +20,7 @@ public class PanelEdiciones extends AbstractPanel {
         panel.add(btnRefrescar);
 
         btnAgregarEdicion.addActionListener(b -> {
-            AgregarEdicion agregarEdicion = new AgregarEdicion();
+            AgregarEdicion agregarEdicion = new AgregarEdicion(table, model);
             agregarEdicion.setVisible(true);
         });
 

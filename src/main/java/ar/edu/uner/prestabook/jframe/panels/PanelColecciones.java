@@ -18,7 +18,7 @@ public class PanelColecciones extends AbstractPanel {
         panel.add(btnRefrescar);
 
         btnAgregarColeccion.addActionListener(b -> {
-            AgregarColeccion agregarColeccion = new AgregarColeccion();
+            AgregarColeccion agregarColeccion = new AgregarColeccion(table, model);
             agregarColeccion.setVisible(true);
         });
 

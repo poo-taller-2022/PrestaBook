@@ -43,12 +43,24 @@ public class Components {
     private Components() {
     }
 
+    
+    /**
+     * Method that creates a scroll pane
+     * 
+     */
+    
     public static JScrollPane scrollPane() {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 158, 990, 300);
         return scrollPane;
     }
 
+    /**
+     * Creates a button generic
+     * @param label label to button
+     * @param position position to button
+     * 
+     */
     public static JButton btnGeneric(String label, String position) {
         JButton btnGeneric = new JButton(label);
         btnGeneric.setFocusPainted(false);
@@ -75,6 +87,12 @@ public class Components {
         return btnGeneric;
     }
 
+    /**
+	 * Creates a label
+	 * 
+	 * @return a label with the welcome text
+	 */
+    
     public static JLabel lblBienvenidaParte1() {
         JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
         lblBienvenidaParte1.setBounds(204, 11, 775, 136);
@@ -83,12 +101,26 @@ public class Components {
         return lblBienvenidaParte1;
     }
 
+    
+    /**
+  	 * Creates a label with an icon of library
+  	 * 
+  	 * @return an image as icon
+  	 */
+    
     public static JLabel lblIconLibreria() {
         JLabel lblIconLibreria = new JLabel("");
         lblIconLibreria.setBounds(194, 191, 605, 493);
         lblIconLibreria.setIcon(new ImageIcon(new File("src/main/resources/library.png").getAbsolutePath()));
         return lblIconLibreria;
     }
+    
+    
+    /**
+  	 * Creates a label
+  	 * 
+  	 * @return a label with the welcome text
+  	 */
 
     public static JLabel lblBienvenidaParte2() {
         JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
@@ -98,6 +130,13 @@ public class Components {
         return lblBienvenidaParte2;
     }
 
+    
+    
+    /**
+  	 * Creates a label to text user
+  	 * 
+  	 * @return a label 
+  	 */
     private static JLabel textUsuario() {
         JLabel textUsuario = new JLabel();
         textUsuario.setBackground(new Color(0, 128, 0));
@@ -107,6 +146,12 @@ public class Components {
         return textUsuario;
     }
 
+    
+    /**
+  	 * Creates a panel to the entities
+  	 * 
+  	 * @return a generic panel
+  	 */
     public static JPanel panelEntities() {
         JPanel panelEntities = new JPanel();
         panelEntities.setBounds(339, 104, PANEL_WIDTH, 707);
@@ -114,6 +159,12 @@ public class Components {
         return panelEntities;
     }
 
+    
+    /**
+  	 * Creates a image as an icon of exit
+  	 * 
+  	 */
+    
     public static void jLabelImage(JLabel lblIconCerrarSesion) {
         ImageIcon image = new ImageIcon(new File("src/main/resources/Vector.png").getAbsolutePath());
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblIconCerrarSesion.getWidth(),
@@ -122,12 +173,26 @@ public class Components {
 
     }
 
+    
+    
+    /**
+  	 * Creates a label to exit
+  	 * 
+  	 * 
+  	 */
     public static JLabel lblIconCerrarSesion() {
         JLabel lblIconCerrarSesion = new JLabel("");
         lblIconCerrarSesion.setBounds(817, 5, 19, 16);
         return lblIconCerrarSesion;
     }
 
+    
+    /**
+  	 * Creates a label
+  	 * 
+  	 * @return a label with the load text
+  	 */
+    
     public static JLabel lblPrestabook() {
         JLabel lblPrestabook = new JLabel("PrestaBook");
         lblPrestabook.setBounds(399, 30, 267, 42);
@@ -135,6 +200,12 @@ public class Components {
         lblPrestabook.setFont(new Font(Constants.FONT, Font.BOLD, 32));
         return lblPrestabook;
     }
+    
+    
+    /**
+  	 * Creates a button of exit
+  	 * @return a generic button exit
+  	 */
 
     public static JButton btnExit() {
         JButton btnExit = new JButton("X");
@@ -144,6 +215,12 @@ public class Components {
         btnExit.setBounds(980, 1, 47, 25);
         return btnExit;
     }
+    
+    
+    /**
+  	 * Creates a button of log out
+  	 * @return a generic button of log out
+  	 */
 
     public static JButton btnCerrarSesion() {
         JButton btnCerrarSesion = new JButton("Cerrar Sesión");
@@ -157,6 +234,13 @@ public class Components {
         return btnCerrarSesion;
     }
 
+    
+    /**
+  	 * Creates a panel to options
+  	 * 
+  	 * @return a generic panel to options
+  	 */
+    
     public static JPanel panelOpciones() {
         JPanel panelOpciones = new JPanel();
         panelOpciones.setBounds(0, 0, 341, 811);
@@ -165,6 +249,13 @@ public class Components {
         return panelOpciones;
     }
 
+    
+    /**
+  	 * Creates a label with the load text
+  	 * @return a label with the text "Usuario"
+  	 */
+    
+    
     public static JLabel lblUsuario() {
         JLabel lblUsuario = new JLabel("Usuario:");
         lblUsuario.setBounds(27, 0, 122, 37);
@@ -172,6 +263,13 @@ public class Components {
         lblUsuario.setForeground(new Color(255, 255, 255));
         return lblUsuario;
     }
+    
+    
+    /**
+  	 * Creates a button of requests
+  	 * @return a button of requests
+  	 */
+    
 
     public static JButton btnSolicitudes() {
         JButton btnSolicitudes = new JButton("Solicitudes");
@@ -186,6 +284,13 @@ public class Components {
         return btnSolicitudes;
     }
     
+    
+    /**
+  	 * Creates a button of notifications
+  	 * @return a button to notifications
+  	 */
+    
+    
     public static JButton btnNotificaciones() {
         JButton btnNotificaciones = new JButton("Notificaciones");
         btnNotificaciones.setVerifyInputWhenFocusTarget(false);
@@ -199,12 +304,25 @@ public class Components {
         return btnNotificaciones;
     }
 
+    
+    /**
+     * Creates a panel
+     * @return a generic panel to separate
+     */
+    
     public static JPanel panelSeparador() {
         JPanel panelSeparador = new JPanel();
         panelSeparador.setBounds(23, 121, 292, 3);
         return panelSeparador;
     }
 
+    
+    /**
+  	 * Creates a label to options
+  	 * @return a generic label to options
+  	 */
+    
+    
     public static JLabel lblOpciones() {
         JLabel lblOpciones = new JLabel(Constants.OPCIONES);
         lblOpciones.setForeground(new Color(255, 255, 255));
@@ -213,6 +331,13 @@ public class Components {
         return lblOpciones;
     }
 
+    
+    /**
+  	 * Creates a label to a title
+  	 * @return a label to the title
+  	 */
+    
+    
     public static JLabel lblPanelTitle(String title) {
         JLabel lblPanelTitle = new JLabel(title);
         lblPanelTitle.setBounds(410, 20, 369, 136);
@@ -269,6 +394,12 @@ public class Components {
         }
     }
 
+    
+    /**
+	 * Creates a button menu to the left 
+	 * @return a button for fines
+	 */
+    
     public static JButton btnLeftMenu(String label, Integer yAxis) {
         JButton btnAplicarMultaALector = new JButton(label);
         btnAplicarMultaALector.setFocusPainted(false);
@@ -280,6 +411,14 @@ public class Components {
         return btnAplicarMultaALector;
     }
 
+    
+    
+    /**
+	 * Creates the pane
+	 * 
+	 * @return a container
+	 */
+    
     public static JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane = new JPanel();
@@ -288,6 +427,13 @@ public class Components {
         return contentPane;
     }
 
+    
+    /**
+	 * Creates the pane
+	 * 
+	 * @return a container
+	 */
+    
     public static JPanel panelPrestabook() {
         JPanel panelPrestabook = new JPanel();
         panelPrestabook.setBounds(339, 0, 1061, 103);

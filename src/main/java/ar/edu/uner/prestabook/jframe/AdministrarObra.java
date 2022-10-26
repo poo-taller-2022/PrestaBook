@@ -29,6 +29,10 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+/**
+ * Opens a window for different functionalities of managing a book
+ *
+ */
 public class AdministrarObra extends JFrame {
 
     /**
@@ -38,6 +42,7 @@ public class AdministrarObra extends JFrame {
 
     /**
      * Create the frame.
+     * @param obra Object an Obra
      */
     public AdministrarObra(Obra obra) {
         ventana();
@@ -120,6 +125,14 @@ public class AdministrarObra extends JFrame {
 
     } 
 
+    /**
+     * 
+     * Concatenates all information of an obra
+     * Used to displays more information of an obra
+     * @param obra Object an Obra
+     * @param edicion Object an edition
+     * @return String with the information
+     */
     public StringBuilder cargarObra(Obra obra, Edicion edicion) {
         StringBuilder informacionObra = new StringBuilder();
         informacionObra.append(" Isbn de obra: " + obra.getIsbn() +
@@ -145,7 +158,14 @@ public class AdministrarObra extends JFrame {
 
         return informacionObra;
     }
-
+    
+    /**
+     * 
+     * Concatenates thematic areas in one string
+     * Used to displays more then one area in the GUI
+     * @param obra Object obra
+     * @return String with thematic areas
+     */
     public StringBuilder contatenarAreas(Obra obra) {
         Set<AreaTematica> areas = obra.getArea();
         StringBuilder contatenarAreas = new StringBuilder();
@@ -157,6 +177,13 @@ public class AdministrarObra extends JFrame {
         return contatenarAreas;
     }
 
+    /**
+     * 
+     * Concatenates formats in one string
+     * Used to displays more then one format in the GUI
+     * @param formatos Set of objects formato
+     * @return String with formatos
+     */
     public StringBuilder contatenarFormatos(Set<Formato> formatos) {
         StringBuilder contatenarFormatos = new StringBuilder();
 
@@ -167,6 +194,13 @@ public class AdministrarObra extends JFrame {
         return contatenarFormatos;
     }
 
+    /**
+     * 
+     * Count all available ejemplares
+     * @param obra Object obra
+     * @param edicion Obejct edicion
+     * @return number of available ejemplares
+     */
     public Integer cantidadDeEjemplares(Obra obra, Edicion edicion) {
         IPrestamoDAO prestamoDAO = DaoFactory.getPrestamoDAO();
         IReservaDAO reservaDAO = DaoFactory.getReservaDAO();
@@ -187,6 +221,9 @@ public class AdministrarObra extends JFrame {
         }
     }
 
+    /**
+     * Creates the window
+     */
     public void ventana() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 664, 583);
@@ -196,6 +233,11 @@ public class AdministrarObra extends JFrame {
         setTitle(Constants.PRESTABOOK);
     }
 
+    /**
+     * Creates the pane
+     * 
+     * @return a container
+     */
     public JPanel contentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new MatteBorder(3, 3, 3, 3, new Color(0, 64, 128)));
@@ -204,12 +246,21 @@ public class AdministrarObra extends JFrame {
         return contentPane;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with ejemplaresDisponibles text 
+     */
     public JLabel lblEjemplaresDisponibles() {
         JLabel lblEjemplaresDisponibles = new JLabel("Ejemplares disponibles");
         lblEjemplaresDisponibles.setBounds(446, 121, 152, 14);
         return lblEjemplaresDisponibles;
     }
 
+    /**
+     * Crates a comboBox of available ejemplares
+     * @return a text field
+     */
     public JTextField fieldEjemplaresDisponibles() {
         JTextField fieldEjemplaresDisponibles = new JTextField();
         fieldEjemplaresDisponibles.setText((String) null);
@@ -219,6 +270,10 @@ public class AdministrarObra extends JFrame {
         return fieldEjemplaresDisponibles;
     }
 
+    /**
+     * Creates a text field of isbnObra
+     * @return a text field
+     */
     public JTextField fieldIsbnObra() {
         JTextField fieldIsbnObra = new JTextField();
         fieldIsbnObra.setEditable(false);
@@ -227,24 +282,42 @@ public class AdministrarObra extends JFrame {
         return fieldIsbnObra;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with edicion text
+     */
     public JLabel lblEdicion() {
         JLabel lblEdicion = new JLabel("Edicion");
         lblEdicion.setBounds(264, 121, 46, 14);
         return lblEdicion;
     }
-
+    
+    /**
+     * Creates a label
+     * 
+     * @return a label with title of obra text
+     */
     public JLabel lblTituloObra() {
         JLabel lblTituloObra = new JLabel("Obra");
         lblTituloObra.setBounds(67, 120, 119, 14);
         return lblTituloObra;
     }
 
+    /**
+     * Creates a scrollPane
+     * @return a scrollPane
+     */
     public JScrollPane scrollPane() {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(67, 181, 531, 310);
         return scrollPane;
     }
 
+    /**
+     * Creates a text
+     * @return a text area
+     */
     public JTextArea textArea() {
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
@@ -252,6 +325,11 @@ public class AdministrarObra extends JFrame {
         return textArea;
     }
 
+    /**
+     * Creates a panel
+     * 
+     * @return adminObra panel
+     */
     public JPanel panelAdministrarObra() {
         JPanel panelAdministrarObra = new JPanel();
         panelAdministrarObra.setBackground(new Color(0, 64, 128));
@@ -260,6 +338,11 @@ public class AdministrarObra extends JFrame {
         return panelAdministrarObra;
     }
 
+    /**
+     * Creates a label
+     * 
+     * @return a label with administrar obra text
+     */
     public JLabel lblAdministrarObra() {
         JLabel lblAdministrarObra = new JLabel("Administrar obra");
         lblAdministrarObra.setForeground(new Color(255, 255, 255));
@@ -268,6 +351,10 @@ public class AdministrarObra extends JFrame {
         return lblAdministrarObra;
     }
 
+    /**
+     * Creates a Combo Box with all Editions
+     * @return a combo box
+     */
     public JComboBox<Edicion> comboBoxEdiciones() {
         JComboBox<Edicion> comboBoxEdiciones = new JComboBox<>();
         comboBoxEdiciones.setBounds(260, 139, 166, 29);

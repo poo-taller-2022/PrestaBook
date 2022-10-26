@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Config;
 import ar.edu.uner.prestabook.persistence.IConfigDAO;
 
+/**
+ * Data access object to config class,
+ * 
+ */
 public class ConfigDAO implements IConfigDAO {
 
     /**
@@ -22,7 +26,7 @@ public class ConfigDAO implements IConfigDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class
      * @return the singleton instance of the class
      */
     public static ConfigDAO getInstance() {

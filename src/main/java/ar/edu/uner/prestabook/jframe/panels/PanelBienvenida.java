@@ -28,6 +28,13 @@ public class PanelBienvenida extends AbstractPanel {
         // method not implemented
     }
 
+    
+    /**
+	 * Creates a label
+	 * 
+	 * @return a label with the welcome text
+	 */
+    
     private JLabel lblBienvenidaParte1() {
         JLabel lblBienvenidaParte1 = new JLabel("¡Bienvenido al sistema de gestión de préstamos de libros más");
         lblBienvenidaParte1.setBounds(161, 0, 775, 136);
@@ -36,6 +43,13 @@ public class PanelBienvenida extends AbstractPanel {
         return lblBienvenidaParte1;
     }
 
+    
+    /**
+	 * Creates a label
+	 * 
+	 * @return a label with the welcome text
+	 */
+    
     private JLabel lblBienvenidaParte2() {
         JLabel lblBienvenidaParte2 = new JLabel("grande del mundo!");
         lblBienvenidaParte2.setBounds(397, 64, 369, 136);
