@@ -258,8 +258,8 @@ public class AdministrarObra extends JFrame {
     }
 
     /**
-     * Crates a comboBox of available ejemplares
-     * @return a text field
+     * Crates a text field 
+     * @return a text field to available copies
      */
     public JTextField fieldEjemplaresDisponibles() {
         JTextField fieldEjemplaresDisponibles = new JTextField();
