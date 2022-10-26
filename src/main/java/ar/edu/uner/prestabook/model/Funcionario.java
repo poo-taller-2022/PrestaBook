@@ -12,6 +12,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
+/**
+ * 
+ * Base class that represents a class of type Funcionario and extends of Persona
+ *
+ */
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity

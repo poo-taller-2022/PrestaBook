@@ -32,6 +32,10 @@ import ar.edu.uner.prestabook.model.Formato;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IEdicionDAO;
 
+/**
+ * Opens a window for functionality of adding an edition
+ *
+ */
 public class AgregarEdicion extends JFrame {
 
     /**
@@ -204,6 +208,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a button add
+     * @return a button
      */
     public JButton btnAgregar() {
         JButton btnAgregar = new JButton("Agregar");
@@ -213,6 +218,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a button cancel
+     * @return a button
      */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
@@ -260,6 +266,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to editorial
+     * @return a text field
      */
     public JTextField fieldEditorial() {
         JTextField fieldEditorial = new JTextField();
@@ -281,6 +288,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to country
+     * @return a text field
      */
     public JTextField fieldPais() {
         JTextField fieldPais = new JTextField();
@@ -302,6 +310,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to number
+     * @return a text field
      */
     public JTextField fieldNumero() {
         JTextField fieldNumero = new JTextField();
@@ -329,6 +338,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to year
+     * @return a text field
      */
     public JTextField fieldAnio() {
         JTextField fieldAnio = new JTextField();
@@ -356,6 +366,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to volumenes
+     * @return a text field
      */
     public JTextField fieldVolumenes() {
         JTextField fieldVolumenes = new JTextField();
@@ -383,6 +394,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to pages
+     * @return a text field
      */
     public JTextField fieldPaginas() {
         JTextField fieldPaginas = new JTextField();
@@ -410,6 +422,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a text field to language
+     * @return a text field
      */
     public JTextField fieldIdioma() {
         JTextField fieldIdioma = new JTextField();
@@ -442,6 +455,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a combo box of Obras
+     * @return a combo box
      */
     public JComboBox<Obra> comboBoxObras() {
         JComboBox<Obra> comboBoxObra = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
@@ -453,6 +467,7 @@ public class AgregarEdicion extends JFrame {
 
     /**
      * Creates a scroll pane
+     * @return a scroll pane
      */
     public JScrollPane jListFormatos() {
         JList<Formato> jListFormatos = new JList<>(new Vector<>(DaoFactory.getFormatoDAO().findAll()));

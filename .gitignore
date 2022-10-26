@@ -8,6 +8,7 @@ settings/
 **.db
 maven.properties
 **codes/
+**doc/
 
 ### STS ###
 .apt_generated

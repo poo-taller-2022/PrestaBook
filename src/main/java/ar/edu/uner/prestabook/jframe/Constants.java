@@ -1,5 +1,11 @@
 package ar.edu.uner.prestabook.jframe;
 
+
+/**
+ * Class that contains several constants
+ *
+ */
+
 public class Constants {
 
 	/**

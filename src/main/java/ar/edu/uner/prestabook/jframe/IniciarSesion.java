@@ -22,6 +22,12 @@ import ar.edu.uner.prestabook.exception.UserNotFoundException;
 import ar.edu.uner.prestabook.exception.WrongPasswordException;
 import ar.edu.uner.prestabook.jframe.common.Components;
 
+
+/**
+ * GUI Designed to display the user interface of a login and sign up
+ *
+ */
+
 public class IniciarSesion extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -210,6 +216,7 @@ public class IniciarSesion extends JFrame {
 
     /**
      * Creates a button exit
+     * @return return a button to exit
      */
     public JButton btnExit() {
         JButton btnExit = new JButton("X");
@@ -238,7 +245,7 @@ public class IniciarSesion extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with ingresar como text
+     * @return a label with log in as text
      */
     public JLabel lblIngresarComo() {
         JLabel lblIngresarComo = new JLabel("Ingresar como");
@@ -260,7 +267,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates a select button to funcionario
+     * Creates a select button 
+     * @return a select button to employee 
      */
     public JRadioButton btnRadioFuncionario() {
         JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
@@ -270,7 +278,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates a select button to alumno
+     * Creates a select button 
+     * @return a select button to student
      */
     public JRadioButton btnRadioAlumno() {
         JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
@@ -280,7 +289,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates a select button to docente
+     * Creates a select button 
+     * @return a select button to techer
      */
     public JRadioButton btnRadioDocente() {
         JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
@@ -290,7 +300,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates a select button to general public
+     * Creates a select button 
+     * @return a select button to general public
      */
     public JRadioButton btnRadioPublicoGeneral() {
         JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
@@ -322,7 +333,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates text field to email
+     * Creates text field 
+     * @return a text field to email
      */
     public JTextField cajaCorreo() {
         JTextField cajaCorreo = new JTextField();
@@ -334,7 +346,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates text field to password
+     * Creates text field 
+     * @return a text field to password
      */
     public JPasswordField cajaContrasenia() {
         JPasswordField cajaContrasenia = new JPasswordField();
@@ -345,7 +358,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates a button ingresar
+     * Creates a button 
+     * @return a button to login
      */
     public JButton btnIngresar() {
         JButton btnIngresar = new JButton("Ingresar");
@@ -367,7 +381,8 @@ public class IniciarSesion extends JFrame {
     }
 
     /**
-     * Creates a button register
+     * Creates a button 
+     * @return a button to sign up
      */
     public JButton btnRegistrarse() {
         JButton btnRegistrarse = new JButton("Registrarse");
@@ -382,6 +397,10 @@ public class IniciarSesion extends JFrame {
     /**
      * Method created to find the type of user to log in and search the
      * corresponding table in the database
+     * @param btnRadioPublicoGeneral type of general public user 
+     * @param btnRadioDocente type of teacher user 
+     * @param btnRadioAlumno type of student user
+     * @return a type of user according to the choice
      */
 
     public String encontrarTipoDeUsuario(JRadioButton btnRadioPublicoGeneral, JRadioButton btnRadioDocente,

@@ -8,6 +8,10 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.persistence.IFuncionarioDAO;
 
+/**
+ * Data access object to administrator class,
+ * interacts with table Funcionarios in database
+ */
 public class FuncionarioDAO implements IFuncionarioDAO {
 
     /**
@@ -22,7 +26,7 @@ public class FuncionarioDAO implements IFuncionarioDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class 
      * @return the singleton instance of the class
      */
     public static FuncionarioDAO getInstance() {

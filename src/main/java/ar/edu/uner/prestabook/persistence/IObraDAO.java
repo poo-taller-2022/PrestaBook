@@ -5,6 +5,12 @@ import java.util.List;
 import ar.edu.uner.prestabook.common.GenericDAO;
 import ar.edu.uner.prestabook.model.Obra;
 
+
+/**
+ * 
+ * Interface defining the contract for the bussiness logic of Obra
+ *
+ */
 public interface IObraDAO extends GenericDAO<Obra> {
 
 	
