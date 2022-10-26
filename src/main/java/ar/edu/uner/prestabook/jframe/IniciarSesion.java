@@ -24,7 +24,7 @@ import ar.edu.uner.prestabook.jframe.common.Components;
 
 
 /**
- * GUI Designed to display the user interface of a login and sign up
+ * GUI Designed to display the user interface of a login or sign up
  *
  */
 
