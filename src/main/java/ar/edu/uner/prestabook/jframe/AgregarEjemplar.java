@@ -35,6 +35,12 @@ import ar.edu.uner.prestabook.persistence.ICodigoIdentificatorioDAO;
 import ar.edu.uner.prestabook.persistence.IEjemplarDAO;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 
+
+/**
+ * Opens a window for add a new copy
+ *
+ */
+
 public class AgregarEjemplar extends JFrame {
 
     /**
@@ -237,7 +243,9 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a text field to estanteria
+     * Creates a text field 
+     * @return a text field to shelves book
+     * 
      */
     public JTextField fieldEstanteria() {
         JTextField fieldEstanteria = new JTextField();
@@ -253,7 +261,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a text field to estante
+     * Creates a text field 
+     * @return a text field to shelve book
      */
     public JTextField fieldEstante() {
         JTextField fieldEstante = new JTextField();
@@ -271,7 +280,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of pasillo text
+     * @return a label with title of hall text
      */
     public JLabel lblPasillo() {
         JLabel lblPasillo = new JLabel("Pasillo");
@@ -282,7 +291,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of estanteria text
+     * @return a label with title of shelves book text
      */
     public JLabel lblEstanteria() {
         JLabel lblEstanteria = new JLabel("Estantería");
@@ -293,7 +302,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of estante text
+     * @return a label with title of shelve book text
      */
     public JLabel lblEstante() {
         JLabel lblEstante = new JLabel("Estante");
@@ -302,7 +311,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a button add
+     * Creates a button 
+     * @return a button to add
      */
     public JButton btnAgregar() {
         JButton btnAgregar = new JButton("Agregar");
@@ -311,7 +321,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a button cancel
+     * Creates a button 
+     * @return a button to cancel
      */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
@@ -322,7 +333,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a panel
      * 
-     * @return a panel agregar ejemplar
+     * @return a panel to add copy
      */
     public JPanel panelAgregarEjemplar() {
         JPanel panelAgregarEjemplar = new JPanel();
@@ -335,7 +346,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of agregar ejemplar text
+     * @return a label with title of add copy text
      */
     public JLabel lblAgregarEjemplar() {
         JLabel lblAgregarEjemplar = new JLabel("Agregar Ejemplar");
@@ -346,7 +357,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a text field to forma de adquisicion
+     * Creates a text field 
+     * @return a text field to acquisition way
      */
     public JTextField fieldFormaAdquisicion() {
         JTextField fieldFormaAdquisicion = new JTextField();
@@ -358,7 +370,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of forma de adquisicion text
+     * @return a label with title of acquisition way text
      */
     public JLabel lblFormaAdquisicion() {
         JLabel lblFormaAdquisicion = new JLabel("Forma de adquisición");
@@ -369,7 +381,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of fecha de aquisicion text
+     * @return a label with title of date of  acquisition text
      */
     public JLabel lblFechaAdquisicion() {
         JLabel lblFechaAdquisicion = new JLabel("Fecha de adquisición");
@@ -378,7 +390,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a text field for observaciones
+     * Creates a text field 
+     * @return a text field to observations
      */
     public JTextField fieldObservaciones() {
         JTextField fieldObservaciones = new JTextField();
@@ -390,7 +403,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of observaciones text
+     * @return a label with title of observations text
      */
     public JLabel lblObservaciones() {
         JLabel lblObservaciones = new JLabel("Observaciones");
@@ -401,7 +414,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of obra text
+     * @return a label with title of book text
      */
     public JLabel lblObra() {
         JLabel lblObra = new JLabel("Obra");
@@ -410,7 +423,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a combo box of Obras
+     * Creates a combo box of type Obras
+     * @return a combo box with all Obra
      */
     public JComboBox<Obra> comboBoxObras() {
         JComboBox<Obra> comboBoxObras = new JComboBox<>(new Vector<>(DaoFactory.getObraDAO().findAll()));
@@ -421,7 +435,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a date picker calendar to fechaAdquisicion
+     * Creates a date picker
+     * @return a date to acquisition
      */
     public DatePicker calendarFechaAdquisicion() {
         DatePicker calendarFechaAdquisicion = new DatePicker();
@@ -433,7 +448,7 @@ public class AgregarEjemplar extends JFrame {
     /**
      * Creates a label
      * 
-     * @return a label with title of edicion text
+     * @return a label with title of edition text
      */
     public JLabel lblEdicion() {
         JLabel lblEdicion = new JLabel("Edicion");
@@ -442,7 +457,8 @@ public class AgregarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a comob box of ediciones
+     * Creates a combo box of type  Edicion
+     * @return a combo box with all editions
      */
     public JComboBox<Edicion> comboBoxEdiciones() {
         JComboBox<Edicion> comboBoxEdiciones = new JComboBox<>();
