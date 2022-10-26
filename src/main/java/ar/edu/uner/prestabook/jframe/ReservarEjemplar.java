@@ -252,6 +252,7 @@ public class ReservarEjemplar extends JFrame {
 
     /**
      * Creates a confirmation button
+     * @return a button to confirm
      */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton("Confirmar");
@@ -261,7 +262,7 @@ public class ReservarEjemplar extends JFrame {
 
     /**
      * Creates a cancel button
-     * 
+     * @return a button to cancel
      */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
@@ -270,7 +271,8 @@ public class ReservarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a date picker calendar to fechaReserva
+     * Creates a date picker 
+     * @return a date picker to fechaReserva
      */
     public DatePicker calendarFechaReserva() {
         DatePicker calendarFechaReserva = new DatePicker();
@@ -329,7 +331,8 @@ public class ReservarEjemplar extends JFrame {
     }
 
     /**
-     * Creates a text field to edicion
+     * Creates a text field 
+     * @return a text field to edicion
      */
     public JTextField fieldEdicion() {
         JTextField fieldEdicion = new JTextField();
