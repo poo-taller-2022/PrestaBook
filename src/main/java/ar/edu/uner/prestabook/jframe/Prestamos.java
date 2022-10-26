@@ -335,7 +335,8 @@ public class Prestamos extends JFrame {
     }
 
     /**
-     * Creates a DateTimePicker for the date and time of the loan
+     * Creates a DateTimePicker 
+     * @return a date and time of the loan
      */
     public DateTimePicker calendarFechaYHoraPrestamo() {
         DateTimePicker calendarFechaYHoraPrestamo = new DateTimePicker();
@@ -359,7 +360,9 @@ public class Prestamos extends JFrame {
     }
 
     /**
-     * Creates a DatePicker for the date and time of the return
+     * Creates a DatePicker 
+     * 
+     * @return a date and time of return of the loan
      */
     public DatePicker calendarFechaPactadaDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
@@ -383,6 +386,7 @@ public class Prestamos extends JFrame {
 
     /**
      * Creates a confirmation button
+     * @return a button to confirm
      */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton("Confirmar");
@@ -392,7 +396,7 @@ public class Prestamos extends JFrame {
 
     /**
      * Creates a cancel button
-     * 
+     * @return a button to cancel
      */
     public JButton btnCancelar() {
         JButton btnCancelar = new JButton("Cancelar");
