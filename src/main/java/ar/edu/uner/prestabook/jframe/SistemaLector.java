@@ -20,6 +20,7 @@ import lombok.Setter;
 /**
  * Supports all the operations carried out by an reader
  *
+ *
  */
 public class SistemaLector extends JFrame {
 

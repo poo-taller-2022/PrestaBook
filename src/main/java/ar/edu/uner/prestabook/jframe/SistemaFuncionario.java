@@ -37,7 +37,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * supports all the operations carried out by an administrator
+ * Supports all the operations carried out by an administrator
  *
  */
 public class SistemaFuncionario extends JFrame {
