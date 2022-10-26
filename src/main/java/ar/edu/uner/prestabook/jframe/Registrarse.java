@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.PersistenceException;
@@ -22,9 +23,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 
 import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
+import ar.edu.uner.prestabook.jframe.utils.UnderAgeVetoPolicy;
+import ar.edu.uner.prestabook.jframe.validation.ValidationFields;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.security.PasswordEncrypter;
@@ -171,12 +175,112 @@ public class Registrarse extends JFrame {
 
         btnExit.addActionListener(e -> System.exit(0));
 
+        ValidationFields validationFields = new ValidationFields();
+
+        textNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textNombre);
+            }
+        });
+
+        textApellido.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textApellido);
+            }
+        });
+
+        textTipoDeDocumento.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textTipoDeDocumento);
+            }
+        });
+
+        textNumeroDeDocumento.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationDocument(textNumeroDeDocumento);
+            }
+        });
+
+        textEmail.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationEmail(textEmail);
+            }
+        });
+
+        textNumeroDeTelefono.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationName(textNumeroDeTelefono);
+            }
+        });
+
+        textNacionalidad.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textNacionalidad);
+            }
+        });
+
+        textDomicilio.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericString(textDomicilio);
+            }
+        });
+
+        textCodigoPostal.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericString(textCodigoPostal);
+            }
+        });
+
+        textDepartamento.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericString(textDepartamento);
+            }
+        });
+
+        textLocalidad.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationGenericLetters(textLocalidad);
+            }
+        });
+
+        textContrasenia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationPassword(textContrasenia);
+            }
+        });
+
+        textRepetirContrasenia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                validationFields.validationRepeatPassword(textContrasenia, textRepetirContrasenia);
+            }
+        });
+
         /**
          * Method created to instantiate a reader object with the data entered in the
          * fields and send it to the database
          **/
 
         btnGuardar.addActionListener(e -> {
+
+            Boolean camposValidos = validationFields.validationPatternName(textNombre.getText())
+                    && validationFields.validationPatternName(textApellido.getText()) &&
+                    validationFields.validationPatternGeneric(textTipoDeDocumento.getText()) &&
+                    validationFields.validationPatternEmail(textEmail.getText())
+                    && validationFields.validationPatternGeneric(textNacionalidad.getText())
+                    && validationFields.validationPatternGeneric(textLocalidad.getText());      
 
             Boolean camposCompletos = !textNombre.getText().isBlank() && !textApellido.getText().isBlank()
                     && !textTipoDeDocumento.getText().isBlank() && !textNumeroDeDocumento.getText().isBlank()
@@ -191,40 +295,47 @@ public class Registrarse extends JFrame {
                     && !(String.valueOf(((JPasswordField) textRepetirContrasenia).getPassword()).isBlank());
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-                if (!textContrasenia.getText().equals(textRepetirContrasenia.getText())) {
-                    JOptionPane.showInternalMessageDialog(null, "Las contraseñas no coinciden", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-
-                    String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
-
-                    String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
-                            btnRadioFuncionario);
-
-                    Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
-                            textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
-                            textNacionalidad,
-                            textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
-                    try {
-                        if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
-                            Funcionario funcionario = new Funcionario();
-                            funcionario.registrarse(lector);
-                            JOptionPane.showInternalMessageDialog(null,
-                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
-                        } else {
-                            lector.registrarse(tipoSeleccionado, lector);
-                            JOptionPane.showInternalMessageDialog(null,
-                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
-                        }
-                        IniciarSesion login = new IniciarSesion();
-                        login.setVisible(true);
-                        Registrarse.this.dispose();
-                    } catch (PersistenceException exception) {
-                        HibernateConnection.getCurrentSession().getTransaction().rollback();
-                        JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                if (Boolean.TRUE.equals(camposValidos)) {
+                    if (!textContrasenia.getText().equals(textRepetirContrasenia.getText())) {
+                        JOptionPane.showInternalMessageDialog(null, "Las contraseñas no coinciden", "Error",
                                 JOptionPane.ERROR_MESSAGE);
+                    } else {
+
+                        String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
+
+                        String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente,
+                                btnRadioAlumno,
+                                btnRadioFuncionario);
+
+                        Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento,
+                                textNumeroDeDocumento,
+                                textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
+                                textNacionalidad,
+                                textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
+                        try {
+                            if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
+                                Funcionario funcionario = new Funcionario();
+                                funcionario.registrarse(lector);
+                                JOptionPane.showInternalMessageDialog(null,
+                                        "Datos del " + tipoSeleccionado + " guardados correctamente");
+                            } else {
+                                lector.registrarse(tipoSeleccionado, lector);
+                                JOptionPane.showInternalMessageDialog(null,
+                                        "Datos del " + tipoSeleccionado + " guardados correctamente");
+                            }
+                            IniciarSesion login = new IniciarSesion();
+                            login.setVisible(true);
+                            Registrarse.this.dispose();
+                        } catch (PersistenceException exception) {
+                            HibernateConnection.getCurrentSession().getTransaction().rollback();
+                            JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                } else {
+                    JOptionPane.showInternalMessageDialog(null, "Existen datos ingresados no válidos");
                 }
+
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");
             }
@@ -448,7 +559,7 @@ public class Registrarse extends JFrame {
      */
     public JLabel lblEmail() {
         JLabel lblEmail = new JLabel("Correo electrónico");
-        lblEmail.setBounds(241, 137, 91, 14);
+        lblEmail.setBounds(241, 137, 159, 14);
         return lblEmail;
     }
 
@@ -507,6 +618,11 @@ public class Registrarse extends JFrame {
         datePickerFechaDeNacimiento.setBackground(Color.WHITE);
         datePickerFechaDeNacimiento.setBounds(241, 271, 180, 30);
         datePickerFechaDeNacimiento.setSettings(DateSettings.getDatePickerSettings());
+        datePickerFechaDeNacimiento.setDate(LocalDate.now().minusYears(17));
+        DatePickerSettings settings = DateSettings.getDatePickerSettings();
+        datePickerFechaDeNacimiento.setSettings(settings);
+        settings.setVetoPolicy(new UnderAgeVetoPolicy());
+
         return datePickerFechaDeNacimiento;
     }
 

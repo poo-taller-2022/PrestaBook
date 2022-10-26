@@ -99,7 +99,7 @@ public class Ejemplares extends JFrame {
             textEstanteria.setText(ejemplar.getCodigoIdentificatorio().getEstanteria().toString());
             textEstante.setText(ejemplar.getCodigoIdentificatorio().getEstante().toString());
             calendarFechaBaja.setDate(ejemplar.getFechaBaja() != null
-                    ? LocalDate.parse(ejemplar.getFechaBaja(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    ? LocalDate.parse(ejemplar.getFechaBaja(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                     : null);
             textMotivoBaja.setText(ejemplar.getMotivoBaja());
             textObservaciones.setText(ejemplar.getObservaciones());

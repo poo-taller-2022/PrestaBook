@@ -98,7 +98,7 @@ public class Devoluciones extends JFrame {
             textObra.setText(prestamo.getEjemplar().getTitulo());
             textFuncionario.setText(prestamo.getFuncionario().getApellido());
             calendarPactadaDevolucion.setDate(prestamo.getFechaPactadaDevolucion() != null
-                    ? LocalDate.parse(prestamo.getFechaPactadaDevolucion(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    ? LocalDate.parse(prestamo.getFechaPactadaDevolucion(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                     : null);
             calendarFechaYHoraPrestamo.setDateTimePermissive(
                     prestamo.getFechaYHoraPrestamo() != null ? LocalDateTime.parse(prestamo.getFechaYHoraPrestamo())

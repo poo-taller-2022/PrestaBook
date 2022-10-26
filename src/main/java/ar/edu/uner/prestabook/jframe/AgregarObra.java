@@ -253,7 +253,7 @@ public class AgregarObra extends JFrame {
      */
     public JCheckBox checkBoxColeccion() {
         JCheckBox checkBoxColeccion = new JCheckBox("Pertenece a una colección");
-        checkBoxColeccion.setBounds(37, 331, 166, 23);
+        checkBoxColeccion.setBounds(37, 331, 192, 23);
         return checkBoxColeccion;
     }
 

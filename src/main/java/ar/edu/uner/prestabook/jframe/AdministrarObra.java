@@ -123,7 +123,7 @@ public class AdministrarObra extends JFrame {
             this.setVisible(false);
         });
 
-    }
+    } 
 
     /**
      * 

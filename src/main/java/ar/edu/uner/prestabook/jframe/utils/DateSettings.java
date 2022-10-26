@@ -12,7 +12,7 @@ public class DateSettings {
 
     public static DatePickerSettings getDatePickerSettings() {
         DatePickerSettings settings = new DatePickerSettings();
-        settings.setFormatForDatesCommonEra("dd/MM/uuuu");
+        settings.setFormatForDatesCommonEra("uuuu-MM-dd");
         return settings;
     }
 }

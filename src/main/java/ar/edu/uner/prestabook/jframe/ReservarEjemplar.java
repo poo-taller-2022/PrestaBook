@@ -293,7 +293,7 @@ public class ReservarEjemplar extends JFrame {
                         && Objects.equals(reserva.getEjemplar().getIdEdicion(), edicion.getId())) {
                     LocalDate fechaReserva = LocalDate
                             .parse(DaoFactory.getReservaDAO().findByIdEjemplar(reserva.getEjemplar().getId())
-                                    .getFechaReserva(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                                    .getFechaReserva(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                             .plus(Constants.PLAZO_PRESTAMO, ChronoUnit.DAYS);
                     fechaIdEjempalar.add(reserva.getEjemplar().getId());
                     fechaIdEjempalar.add(fechaReserva.toString());
