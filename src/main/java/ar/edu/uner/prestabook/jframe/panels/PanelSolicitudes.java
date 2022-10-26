@@ -40,7 +40,7 @@ public class PanelSolicitudes extends AbstractPanel {
                     prestamo.setId((long) table.getValueAt(table.getSelectedRow(), 1));
 
                     Ejemplar ejemplar = new Ejemplar();
-                    ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 4));
+                    ejemplar.setId((long) table.getValueAt(table.getSelectedRow(), 5));
                     prestamo.setEjemplar(ejemplar);
 
                     prestamo.setFechaYHoraPrestamo(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date()));

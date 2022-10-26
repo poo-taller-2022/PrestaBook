@@ -189,7 +189,7 @@ public class PedirPrestamo extends JFrame {
      */
     public JLabel labelTipoPrestamo() {
         JLabel lblNuevoPrestamo = new JLabel("Tipo de préstamo");
-        lblNuevoPrestamo.setBounds(24, 126, 227, 14);
+        lblNuevoPrestamo.setBounds(24, 122, 227, 14);
         return lblNuevoPrestamo;
     }
 
@@ -213,7 +213,7 @@ public class PedirPrestamo extends JFrame {
      */
     public JLabel labelObra() {
         JLabel labelObra = new JLabel("Obra");
-        labelObra.setBounds(24, 177, 46, 14);
+        labelObra.setBounds(24, 213, 46, 14);
         return labelObra;
     }
 
@@ -224,7 +224,7 @@ public class PedirPrestamo extends JFrame {
      */
     public JLabel labelEjemplar() {
         JLabel lblEdicion = new JLabel("Edición");
-        lblEdicion.setBounds(370, 177, 67, 14);
+        lblEdicion.setBounds(370, 213, 67, 14);
         return lblEdicion;
     }
 
@@ -303,7 +303,7 @@ public class PedirPrestamo extends JFrame {
     public JTextField fieldObra() {
         JTextField fieldObra = new JTextField();
         fieldObra.setEditable(false);
-        fieldObra.setBounds(24, 191, 227, 29);
+        fieldObra.setBounds(24, 227, 227, 29);
         fieldObra.setColumns(10);
         return fieldObra;
     }
@@ -317,7 +317,7 @@ public class PedirPrestamo extends JFrame {
         JTextField fieldEdicion = new JTextField();
         fieldEdicion.setEditable(false);
         fieldEdicion.setColumns(10);
-        fieldEdicion.setBounds(370, 191, 227, 29);
+        fieldEdicion.setBounds(370, 227, 227, 29);
         return fieldEdicion;
     }
 
