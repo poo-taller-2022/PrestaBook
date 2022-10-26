@@ -17,6 +17,11 @@ import ar.edu.uner.prestabook.model.Lector;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 
+ * supports all the operations carried out by an reader
+ *
+ */
 public class SistemaLector extends JFrame {
 
     private static final long serialVersionUID = 1L;

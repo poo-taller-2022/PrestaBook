@@ -36,6 +36,10 @@ import ar.edu.uner.prestabook.model.Funcionario;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * supports all the operations carried out by an administrator
+ *
+ */
 public class SistemaFuncionario extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -301,6 +305,7 @@ public class SistemaFuncionario extends JFrame {
 
     /**
      * Menu bar Administrar
+     * @return a menu bar
      */
     private JMenuBar menuBarAdministrar() {
         JMenuBar menuBarAdministrar = new JMenuBar();
@@ -311,6 +316,7 @@ public class SistemaFuncionario extends JFrame {
 
     /**
      * Creates a menu
+     * @return a menu
      */
     private JMenu menuAdministrar() {
         JMenu menuAdministrar = new JMenu("Administrar");

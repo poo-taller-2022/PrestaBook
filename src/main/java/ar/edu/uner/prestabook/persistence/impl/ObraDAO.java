@@ -8,6 +8,11 @@ import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.model.Obra;
 import ar.edu.uner.prestabook.persistence.IObraDAO;
 
+/**
+ * Data access object to book class,
+ * interacts with table Obra in database
+ *
+ */
 public class ObraDAO implements IObraDAO {
 
     /**
@@ -22,7 +27,7 @@ public class ObraDAO implements IObraDAO {
     }
 
     /**
-     * 
+     * Creates an instance of the class 
      * @return the singleton instance of the class
      */
     public static ObraDAO getInstance() {
