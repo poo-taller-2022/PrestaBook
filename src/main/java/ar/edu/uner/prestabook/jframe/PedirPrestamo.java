@@ -194,7 +194,8 @@ public class PedirPrestamo extends JFrame {
     }
 
     /**
-     * Creates a Combo Box with the type of loans
+     * Creates a Combo Box  the type of loans
+     * @return a combo box with all types of loans
      * 
      */
     public JComboBox<String> comboBoxTipoPrestamo() {
@@ -228,7 +229,8 @@ public class PedirPrestamo extends JFrame {
     }
 
     /**
-     * Creates a DateTimePicker for the date and time of the loan
+     * Creates a DateTimePicker 
+     * @return a DateTimePicker for the date and time of the loan
      */
     public DateTimePicker calendarFechaYHoraPrestamo() {
         DateTimePicker calendarFechaYHoraPrestamo = new DateTimePicker();
@@ -250,7 +252,8 @@ public class PedirPrestamo extends JFrame {
     }
 
     /**
-     * Creates a DatePicker for the date and time of the return
+     * Creates a DatePicker 
+     * @return  a DatePicker for the date and time of the return
      */
     public DatePicker calendarFechaPactadaDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
@@ -273,6 +276,7 @@ public class PedirPrestamo extends JFrame {
 
     /**
      * Creates a confirmation button
+     * @return a button to confirm
      */
     public JButton btnConfirmar() {
         JButton btnConfirmar = new JButton("Confirmar");
@@ -282,6 +286,7 @@ public class PedirPrestamo extends JFrame {
 
     /**
      * Creates a cancel button
+     * @return a button to cancel
      * 
      */
     public JButton btnCancelar() {
@@ -292,7 +297,8 @@ public class PedirPrestamo extends JFrame {
 
     
 	/**
-	 * Creates a text field to obra
+	 * Creates a text field 
+	 * @return a text field to a book
 	 */
     public JTextField fieldObra() {
         JTextField fieldObra = new JTextField();
@@ -304,7 +310,8 @@ public class PedirPrestamo extends JFrame {
 
     
     /**
-	 * Creates a text field to edicion
+	 * Creates a text field
+	 * @return a text field to copies
 	 */
     public JTextField fieldEdicion() {
         JTextField fieldEdicion = new JTextField();
