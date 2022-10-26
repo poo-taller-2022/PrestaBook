@@ -25,7 +25,6 @@ import javax.swing.border.LineBorder;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
-import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.jframe.utils.UnderAgeVetoPolicy;
 import ar.edu.uner.prestabook.jframe.validation.ValidationFields;
@@ -33,9 +32,8 @@ import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.security.PasswordEncrypter;
 
-
 /**
- * Opens a window to an user sign up 
+ * Opens a window to an user sign up
  *
  */
 
@@ -221,7 +219,7 @@ public class Registrarse extends JFrame {
         textNumeroDeTelefono.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationName(textNumeroDeTelefono);
+                validationFields.validationPhoneNumber(textNumeroDeTelefono);
             }
         });
 
@@ -286,7 +284,7 @@ public class Registrarse extends JFrame {
                     validationFields.validationPatternGeneric(textTipoDeDocumento.getText()) &&
                     validationFields.validationPatternEmail(textEmail.getText())
                     && validationFields.validationPatternGeneric(textNacionalidad.getText())
-                    && validationFields.validationPatternGeneric(textLocalidad.getText());      
+                    && validationFields.validationPatternGeneric(textLocalidad.getText());
 
             Boolean camposCompletos = !textNombre.getText().isBlank() && !textApellido.getText().isBlank()
                     && !textTipoDeDocumento.getText().isBlank() && !textNumeroDeDocumento.getText().isBlank()
@@ -333,7 +331,6 @@ public class Registrarse extends JFrame {
                             login.setVisible(true);
                             Registrarse.this.dispose();
                         } catch (PersistenceException exception) {
-                            HibernateConnection.getCurrentSession().getTransaction().rollback();
                             JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
                                     JOptionPane.ERROR_MESSAGE);
                         }
@@ -373,12 +370,12 @@ public class Registrarse extends JFrame {
         return contentPane;
     }
 
-    
     /**
-	 * Creates a field
-	 * @return password field when password is wrong
-	 */
-    
+     * Creates a field
+     * 
+     * @return password field when password is wrong
+     */
+
     private JPasswordField textRepetirContrasenia() {
         JPasswordField passwordField = new JPasswordField();
         passwordField.setToolTipText("");
@@ -387,13 +384,12 @@ public class Registrarse extends JFrame {
         return passwordField;
     }
 
-    
-    
     /**
      * Creates a panel
+     * 
      * @return a container
      */
-    
+
     public JPanel panelPrestabook() {
         JPanel panelPrestabook = new JPanel();
         panelPrestabook.setBounds(0, 0, 648, 100);
@@ -403,13 +399,13 @@ public class Registrarse extends JFrame {
         return panelPrestabook;
     }
 
-    
     /**
      * Creates a label
-     * @return a label wit the Prestabook text 
+     * 
+     * @return a label wit the Prestabook text
      *
      */
-    
+
     public JLabel lblPrestabook() {
         JLabel lblPrestabook = new JLabel("PrestaBook");
         lblPrestabook.setBounds(214, 30, 263, 42);
@@ -418,14 +414,12 @@ public class Registrarse extends JFrame {
         return lblPrestabook;
     }
 
-    
-    
-    
     /**
      * Creates a label
-     *@return a label with the sign up text
+     * 
+     * @return a label with the sign up text
      */
-    
+
     public JLabel lblRegistrarse() {
         JLabel lblRegistrarse = new JLabel("Registrarse");
         lblRegistrarse.setBounds(265, 106, 180, 23);
@@ -433,11 +427,10 @@ public class Registrarse extends JFrame {
         return lblRegistrarse;
     }
 
-    
-    
     /**
      * Creates a label
-     *@return a label whit the name text
+     * 
+     * @return a label whit the name text
      */
     public JLabel lblNombre() {
         JLabel lblNombre = new JLabel("Nombre");
@@ -445,10 +438,10 @@ public class Registrarse extends JFrame {
         return lblNombre;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the name 
+     * 
+     * @return a text field to insert the name
      */
     public JTextField textNombre() {
         JTextField textNombre = new JTextField();
@@ -459,12 +452,10 @@ public class Registrarse extends JFrame {
         return textNombre;
     }
 
-    
-    
-    
     /**
      * Creates a label
-     *@return a label with the surname text
+     * 
+     * @return a label with the surname text
      */
     public JLabel lblApellido() {
         JLabel lblApellido = new JLabel("Apellido");
@@ -472,10 +463,10 @@ public class Registrarse extends JFrame {
         return lblApellido;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the surname 
+     * 
+     * @return a text field to insert the surname
      */
     public JTextField textApellido() {
         JTextField textApellido = new JTextField();
@@ -486,10 +477,10 @@ public class Registrarse extends JFrame {
         return textApellido;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with the type of dni text
+     * 
+     * @return a label with the type of dni text
      */
     public JLabel lblTipoDeDocumento() {
         JLabel lblTipoDeDocumento = new JLabel("Tipo de documento");
@@ -497,10 +488,10 @@ public class Registrarse extends JFrame {
         return lblTipoDeDocumento;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the type of dni
+     * 
+     * @return a text field to insert the type of dni
      */
     public JTextField textTipoDeDocumento() {
         JTextField textTipoDeDocumento = new JTextField();
@@ -510,11 +501,11 @@ public class Registrarse extends JFrame {
         textTipoDeDocumento.setBackground(Color.WHITE);
         return textTipoDeDocumento;
     }
-    
-    
+
     /**
      * Creates a label
-     *@return a label with the dni number text
+     * 
+     * @return a label with the dni number text
      */
     public JLabel lblNumeroDeDocumento() {
         JLabel lblNumeroDeDocumento = new JLabel("Numero de documento");
@@ -522,11 +513,10 @@ public class Registrarse extends JFrame {
         return lblNumeroDeDocumento;
     }
 
-    
-    
     /**
      * Creates a text field formated
-     *@return dni number formated
+     * 
+     * @return dni number formated
      */
     public JFormattedTextField textNumeroDeDocumento() {
         JFormattedTextField textNumeroDeDocumento = new JFormattedTextField();
@@ -543,12 +533,10 @@ public class Registrarse extends JFrame {
         return textNumeroDeDocumento;
     }
 
-    
-    
-    
     /**
      * Creates a text field
-     *@return a text field to insert the email
+     * 
+     * @return a text field to insert the email
      */
     public JTextField textEmail() {
         JTextField textEmail = new JTextField();
@@ -559,10 +547,10 @@ public class Registrarse extends JFrame {
         return textEmail;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with the email text
+     * 
+     * @return a label with the email text
      */
     public JLabel lblEmail() {
         JLabel lblEmail = new JLabel("Correo electrónico");
@@ -570,10 +558,10 @@ public class Registrarse extends JFrame {
         return lblEmail;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with the phone number text
+     * 
+     * @return a label with the phone number text
      */
     public JLabel lblNumeroDeTelefono() {
         JLabel lblNumeroDeTelefono = new JLabel("Numero de telefono");
@@ -581,11 +569,10 @@ public class Registrarse extends JFrame {
         return lblNumeroDeTelefono;
     }
 
-    
-    
     /**
      * Creates a text field
-     *@return a text field to insert the phone number
+     * 
+     * @return a text field to insert the phone number
      */
     public JTextField textNumeroDeTelefono() {
         JTextField textNumeroDeTelefono = new JTextField();
@@ -602,10 +589,10 @@ public class Registrarse extends JFrame {
         return textNumeroDeTelefono;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with the birth date text
+     * 
+     * @return a label with the birth date text
      */
     public JLabel lblFechaDeNacimiento() {
         JLabel lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
@@ -613,10 +600,10 @@ public class Registrarse extends JFrame {
         return lblFechaDeNacimiento;
     }
 
-    
     /**
      * Creates a date picker
-     *@return a birth date
+     * 
+     * @return a birth date
      */
     public DatePicker datePickerFechaDeNacimiento() {
         DatePicker datePickerFechaDeNacimiento = new DatePicker();
@@ -633,10 +620,10 @@ public class Registrarse extends JFrame {
         return datePickerFechaDeNacimiento;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with nationality text
+     * 
+     * @return a label with nationality text
      */
     public JLabel lblNacionalidad() {
         JLabel lblNacionalidad = new JLabel("Nacionalidad");
@@ -644,10 +631,10 @@ public class Registrarse extends JFrame {
         return lblNacionalidad;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the nationality
+     * 
+     * @return a text field to insert the nationality
      */
     public JTextField textNacionalidad() {
         JTextField textNacionalidad = new JTextField();
@@ -658,10 +645,10 @@ public class Registrarse extends JFrame {
         return textNacionalidad;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with address text
+     * 
+     * @return a label with address text
      */
     public JLabel lblDomicilio() {
         JLabel lblDomicilio = new JLabel("Domicilio");
@@ -669,10 +656,10 @@ public class Registrarse extends JFrame {
         return lblDomicilio;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the address
+     * 
+     * @return a text field to insert the address
      */
     public JTextField textDomicilio() {
         JTextField textDomicilio = new JTextField();
@@ -683,10 +670,10 @@ public class Registrarse extends JFrame {
         return textDomicilio;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with zip code text
+     * 
+     * @return a label with zip code text
      */
     public JLabel lblCodigoPostal() {
         JLabel lblCodigoPostal = new JLabel("Código postal");
@@ -694,12 +681,12 @@ public class Registrarse extends JFrame {
         return lblCodigoPostal;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the zip code
+     * 
+     * @return a text field to insert the zip code
      *
-     */ 
+     */
     public JTextField textCodigoPostal() {
         JTextField textCodigoPostal = new JTextField();
         textCodigoPostal.setForeground(Color.GRAY);
@@ -708,12 +695,11 @@ public class Registrarse extends JFrame {
         textCodigoPostal.setBounds(458, 217, 180, 30);
         return textCodigoPostal;
     }
-    
-    
-    
+
     /**
      * Creates a label
-     *@return a label with the district text
+     * 
+     * @return a label with the district text
      */
     public JLabel lblDepartamento() {
         JLabel lblDepartamento = new JLabel("Departamento");
@@ -721,13 +707,12 @@ public class Registrarse extends JFrame {
         return lblDepartamento;
     }
 
-    
-    
     /**
      * Creates a text field
-     *@return a text field to insert the district
+     * 
+     * @return a text field to insert the district
      *
-     */ 
+     */
     public JTextField textDepartamento() {
         JTextField textDepartamento = new JTextField();
         textDepartamento.setForeground(Color.GRAY);
@@ -737,11 +722,10 @@ public class Registrarse extends JFrame {
         return textDepartamento;
     }
 
-    
-    
     /**
      * Creates a label
-     *@return a label with the city text
+     * 
+     * @return a label with the city text
      */
     public JLabel lblLocalidad() {
         JLabel lblLocalidad = new JLabel("Localidad");
@@ -749,12 +733,12 @@ public class Registrarse extends JFrame {
         return lblLocalidad;
     }
 
-    
     /**
      * Creates a text field
-     *@return a text field to insert the city
+     * 
+     * @return a text field to insert the city
      *
-     */ 
+     */
     public JTextField textLocalidad() {
         JTextField textLocalidad = new JTextField();
         textLocalidad.setForeground(Color.GRAY);
@@ -764,10 +748,10 @@ public class Registrarse extends JFrame {
         return textLocalidad;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with sign up as text
+     * 
+     * @return a label with sign up as text
      */
     public JLabel lblRegistrarseComo() {
         JLabel lblRegistrarseComo = new JLabel("Registrarse como");
@@ -775,10 +759,10 @@ public class Registrarse extends JFrame {
         return lblRegistrarseComo;
     }
 
-    
     /**
      * Creates a panel
-     *@return a container
+     * 
+     * @return a container
      */
     public JPanel panelRegistrarseComo() {
         JPanel panelRegistrarseComo = new JPanel();
@@ -788,11 +772,10 @@ public class Registrarse extends JFrame {
         return panelRegistrarseComo;
     }
 
-    
-    
     /**
      * Creates a button to sign up as funcionary
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioFuncionario() {
         JRadioButton btnRadioFuncionario = new JRadioButton("Funcionario", false);
@@ -801,10 +784,10 @@ public class Registrarse extends JFrame {
         return btnRadioFuncionario;
     }
 
-    
     /**
      * Creates a button to sign up as student
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioAlumno() {
         JRadioButton btnRadioAlumno = new JRadioButton("Alumno", false);
@@ -815,7 +798,8 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a button to sign up as teacher
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioDocente() {
         JRadioButton btnRadioDocente = new JRadioButton("Docente", false);
@@ -824,10 +808,10 @@ public class Registrarse extends JFrame {
         return btnRadioDocente;
     }
 
-    
     /**
      * Creates a button to sign up as general public
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioPublicoGeneral() {
         JRadioButton btnRadioPublicoGeneral = new JRadioButton("Publico general", false);
@@ -836,10 +820,10 @@ public class Registrarse extends JFrame {
         return btnRadioPublicoGeneral;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with  sex text
+     * 
+     * @return a label with sex text
      */
     public JLabel lblSexo() {
         JLabel lblSexo = new JLabel("Sexo");
@@ -849,7 +833,8 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a panel
-     *@return a container with options of sex
+     * 
+     * @return a container with options of sex
      */
     public JPanel panelSexo() {
         JPanel panelSexo = new JPanel();
@@ -859,10 +844,10 @@ public class Registrarse extends JFrame {
         return panelSexo;
     }
 
-    
     /**
      * Creates a button to sign up as male
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioHombre() {
         JRadioButton btnRadioHombre = new JRadioButton("Hombre");
@@ -873,7 +858,8 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a button to sign up as female
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioMujer() {
         JRadioButton btnRadioMujer = new JRadioButton("Mujer");
@@ -884,7 +870,8 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a button to sign up as other
-     *@return selected type
+     * 
+     * @return selected type
      */
     public JRadioButton btnRadioOtro() {
         JRadioButton btnRadioOtro = new JRadioButton("Otro");
@@ -895,7 +882,8 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a label
-     *@return a label with  password text
+     * 
+     * @return a label with password text
      */
     public JLabel lblContrasenia() {
         JLabel lblContrasenia = new JLabel("Contraseña");
@@ -903,10 +891,10 @@ public class Registrarse extends JFrame {
         return lblContrasenia;
     }
 
-    
     /**
      * Creates a label
-     *@return a label with repeat the password text
+     * 
+     * @return a label with repeat the password text
      */
     public JLabel lblRepetirContrasenia() {
         JLabel lblContrasenia = new JLabel("Repetir contraseña");
@@ -914,12 +902,12 @@ public class Registrarse extends JFrame {
         return lblContrasenia;
     }
 
-    
     /**
      * Creates a password field
-     *@return a text field to insert the password
+     * 
+     * @return a text field to insert the password
      *
-     */ 
+     */
     public JPasswordField textContrasenia() {
         JPasswordField textContrasenia = new JPasswordField();
         textContrasenia.setBounds(265, 447, 180, 30);
@@ -928,9 +916,9 @@ public class Registrarse extends JFrame {
         return textContrasenia;
     }
 
-    
     /**
      * Creates a save button
+     * 
      * @return a button to save
      */
     public JButton btnGuardar() {
@@ -943,9 +931,10 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a back button
+     * 
      * @return a button to back
      */
-    
+
     public JButton btnRegresar() {
         JButton btnRegresar = new JButton("Regresar");
         btnRegresar.setBounds(326, 512, 119, 23);
@@ -954,9 +943,9 @@ public class Registrarse extends JFrame {
         return btnRegresar;
     }
 
-    
     /**
      * Creates a exit button
+     * 
      * @return a button to exit
      */
     public JButton btnExit() {
@@ -973,6 +962,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Method created to find the gender selected by the user
+     * 
      * @return the sex selected
      */
 
@@ -991,6 +981,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Method created to find the selected user type
+     * 
      * @return the user type
      */
 
@@ -1012,6 +1003,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Method to create a reader
+     * 
      * @return a reader
      */
 

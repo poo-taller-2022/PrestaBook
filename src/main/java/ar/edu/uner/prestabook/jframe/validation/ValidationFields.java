@@ -14,7 +14,7 @@ import javax.swing.border.MatteBorder;
  *
  */
 public class ValidationFields {
-    
+
     /**
      * Modify the color of the Name field border depending on whether the
      * validation is correct
@@ -28,7 +28,7 @@ public class ValidationFields {
                 if (validationPatternName(name.getText())) {
                     name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
                 } else {
-                    name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0))); 
+                    name.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
                 }
             }
         });
@@ -47,7 +47,26 @@ public class ValidationFields {
                 if (validationPatternEmail(email.getText())) {
                     email.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
                 } else {
-                    email.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0))); 
+                    email.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
+                }
+            }
+        });
+    }
+
+    /**
+     * Modify the color of the Email field border depending on whether the
+     * validation is correct
+     * 
+     * @param phoneNumber
+     **/
+    public void validationPhoneNumber(JTextField phoneNumber) {
+        phoneNumber.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (validationPhone(phoneNumber.getText())) {
+                    phoneNumber.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
+                } else {
+                    phoneNumber.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
                 }
             }
         });
@@ -204,7 +223,7 @@ public class ValidationFields {
         Matcher mat = patron.matcher(textfield);
         return mat.find();
     }
-    
+
     /**
      * Validate the name field
      * 
@@ -212,8 +231,19 @@ public class ValidationFields {
      * @return boolean depending on whether it matches the pattern or not
      **/
     public boolean validationPatternName(String name) {
-        Pattern patron = Pattern.compile("^[a-zA-ZàáâäãåąćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$");
+        Pattern patron = Pattern.compile(
+                "^[a-zA-ZàáâäãåąćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$");
         Matcher mat = patron.matcher(name);
         return mat.find();
+    }
+
+    /**
+     * Validate the phone field
+     * 
+     * @param name
+     * @return boolean depending on whether it matches the pattern or not
+     **/
+    public boolean validationPhone(String phone) {
+        return phone.length() > 7 && phone.length() < 13;
     }
 }
