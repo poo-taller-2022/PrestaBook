@@ -33,6 +33,12 @@ import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
 import ar.edu.uner.prestabook.security.PasswordEncrypter;
 
+
+/**
+ * Opens a window to an user sign up 
+ *
+ */
+
 public class Registrarse extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -400,6 +406,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
+     * @return a label wit the Prestabook text 
      *
      */
     
@@ -416,7 +423,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to sign up
+     *@return a label with the sign up text
      */
     
     public JLabel lblRegistrarse() {
@@ -430,7 +437,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the name
+     *@return a label whit the name text
      */
     public JLabel lblNombre() {
         JLabel lblNombre = new JLabel("Nombre");
@@ -457,7 +464,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the surname
+     *@return a label with the surname text
      */
     public JLabel lblApellido() {
         JLabel lblApellido = new JLabel("Apellido");
@@ -482,7 +489,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the type of dni
+     *@return a label with the type of dni text
      */
     public JLabel lblTipoDeDocumento() {
         JLabel lblTipoDeDocumento = new JLabel("Tipo de documento");
@@ -507,7 +514,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the dni number
+     *@return a label with the dni number text
      */
     public JLabel lblNumeroDeDocumento() {
         JLabel lblNumeroDeDocumento = new JLabel("Numero de documento");
@@ -555,7 +562,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the email
+     *@return a label with the email text
      */
     public JLabel lblEmail() {
         JLabel lblEmail = new JLabel("Correo electrónico");
@@ -566,7 +573,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the phone number
+     *@return a label with the phone number text
      */
     public JLabel lblNumeroDeTelefono() {
         JLabel lblNumeroDeTelefono = new JLabel("Numero de telefono");
@@ -598,7 +605,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the birth date
+     *@return a label with the birth date text
      */
     public JLabel lblFechaDeNacimiento() {
         JLabel lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
@@ -629,7 +636,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to nationality
+     *@return a label with nationality text
      */
     public JLabel lblNacionalidad() {
         JLabel lblNacionalidad = new JLabel("Nacionalidad");
@@ -654,7 +661,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to address
+     *@return a label with address text
      */
     public JLabel lblDomicilio() {
         JLabel lblDomicilio = new JLabel("Domicilio");
@@ -679,7 +686,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to zip code
+     *@return a label with zip code text
      */
     public JLabel lblCodigoPostal() {
         JLabel lblCodigoPostal = new JLabel("Código postal");
@@ -706,7 +713,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the district
+     *@return a label with the district text
      */
     public JLabel lblDepartamento() {
         JLabel lblDepartamento = new JLabel("Departamento");
@@ -734,7 +741,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the city
+     *@return a label with the city text
      */
     public JLabel lblLocalidad() {
         JLabel lblLocalidad = new JLabel("Localidad");
@@ -760,7 +767,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to sign up like
+     *@return a label with sign up as text
      */
     public JLabel lblRegistrarseComo() {
         JLabel lblRegistrarseComo = new JLabel("Registrarse como");
@@ -832,7 +839,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to the sex
+     *@return a label with  sex text
      */
     public JLabel lblSexo() {
         JLabel lblSexo = new JLabel("Sexo");
@@ -888,7 +895,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a label
-     *@return a label to the password
+     *@return a label with  password text
      */
     public JLabel lblContrasenia() {
         JLabel lblContrasenia = new JLabel("Contraseña");
@@ -899,7 +906,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a label
-     *@return a label to repeat the password
+     *@return a label with repeat the password text
      */
     public JLabel lblRepetirContrasenia() {
         JLabel lblContrasenia = new JLabel("Repetir contraseña");
@@ -924,6 +931,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a save button
+     * @return a button to save
      */
     public JButton btnGuardar() {
         JButton btnGuardar = new JButton("Guardar");
@@ -935,6 +943,7 @@ public class Registrarse extends JFrame {
 
     /**
      * Creates a back button
+     * @return a button to back
      */
     
     public JButton btnRegresar() {
@@ -948,6 +957,7 @@ public class Registrarse extends JFrame {
     
     /**
      * Creates a exit button
+     * @return a button to exit
      */
     public JButton btnExit() {
         JButton btnExit = new JButton("X");
