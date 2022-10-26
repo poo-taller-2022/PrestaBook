@@ -36,7 +36,6 @@ import ar.edu.uner.prestabook.persistence.ITipoObraDAO;
 
 /**
  * Interacts with the database by loading entities
- *
  */
 public class Tabla {
 

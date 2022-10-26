@@ -18,8 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
- * supports all the operations carried out by an reader
+ * Supports all the operations carried out by an reader
  *
  */
 public class SistemaLector extends JFrame {

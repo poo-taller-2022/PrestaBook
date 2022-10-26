@@ -10,7 +10,7 @@ import ar.edu.uner.prestabook.persistence.IObraDAO;
 
 /**
  * Data access object to book class,
- * interacts with table Obra in database
+ * interacts with table Obras in database
  *
  */
 public class ObraDAO implements IObraDAO {

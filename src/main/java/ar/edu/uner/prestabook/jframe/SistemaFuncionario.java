@@ -341,5 +341,4 @@ public class SistemaFuncionario extends JFrame {
                 window.setVisible(false);
         });
     }
-
 }
