@@ -5,10 +5,7 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.persistence.PersistenceException;
 import javax.swing.ButtonGroup;
@@ -24,16 +21,13 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
-import ar.edu.uner.prestabook.common.DaoFactory;
 import ar.edu.uner.prestabook.connection.HibernateConnection;
 import ar.edu.uner.prestabook.jframe.utils.DateSettings;
 import ar.edu.uner.prestabook.jframe.utils.UnderAgeVetoPolicy;
-import ar.edu.uner.prestabook.jframe.utils.VetoPastDates;
 import ar.edu.uner.prestabook.jframe.validation.ValidationFields;
 import ar.edu.uner.prestabook.model.Funcionario;
 import ar.edu.uner.prestabook.model.Lector;
@@ -184,101 +178,97 @@ public class Registrarse extends JFrame {
          */
 
         btnExit.addActionListener(e -> System.exit(0));
-        
-        /**
-         * Methods that indicate if the value entered in the fields is correct
-         */
-        
+
         ValidationFields validationFields = new ValidationFields();
-        
+
         textNombre.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericLetters(textNombre); 
+                validationFields.validationGenericLetters(textNombre);
             }
         });
-        
+
         textApellido.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericLetters(textApellido); 
+                validationFields.validationGenericLetters(textApellido);
             }
         });
-        
+
         textTipoDeDocumento.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericLetters(textTipoDeDocumento); 
+                validationFields.validationGenericLetters(textTipoDeDocumento);
             }
         });
-        
+
         textNumeroDeDocumento.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationDocument(textNumeroDeDocumento); 
+                validationFields.validationDocument(textNumeroDeDocumento);
             }
         });
-        
+
         textEmail.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationEmail(textEmail); 
-            } 
+                validationFields.validationEmail(textEmail);
+            }
         });
 
         textNumeroDeTelefono.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationNumber(textNumeroDeTelefono, lblNroNoValido); 
+                validationFields.validationNumber(textNumeroDeTelefono, lblNroNoValido);
             }
-        }); 
-        
+        });
+
         textNacionalidad.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericLetters(textNacionalidad); 
+                validationFields.validationGenericLetters(textNacionalidad);
             }
         });
-        
+
         textDomicilio.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericString(textDomicilio); 
+                validationFields.validationGenericString(textDomicilio);
             }
         });
-        
+
         textCodigoPostal.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericString(textCodigoPostal); 
+                validationFields.validationGenericString(textCodigoPostal);
             }
         });
-        
+
         textDepartamento.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericString(textDepartamento); 
+                validationFields.validationGenericString(textDepartamento);
             }
         });
-        
+
         textLocalidad.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationGenericLetters(textLocalidad); 
+                validationFields.validationGenericLetters(textLocalidad);
             }
-        });   
+        });
 
         textContrasenia.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationPassword(textContrasenia); 
+                validationFields.validationPassword(textContrasenia);
             }
         });
-        
+
         textRepetirContrasenia.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                validationFields.validationRepeatPassword(textContrasenia, textRepetirContrasenia); 
+                validationFields.validationRepeatPassword(textContrasenia, textRepetirContrasenia);
             }
         });
 
@@ -288,6 +278,15 @@ public class Registrarse extends JFrame {
          **/
 
         btnGuardar.addActionListener(e -> {
+
+            Boolean camposValidos = validationFields.validationPatternGeneric(textNombre.getText())
+                    && validationFields.validationPatternGeneric(textApellido.getText()) &&
+                    validationFields.validationPatternGeneric(textTipoDeDocumento.getText()) &&
+                    validationFields.validationPatternEmail(textEmail.getText())
+                    && validationFields.validationPatternNumber(textNumeroDeTelefono.getText()) &&
+                    validationFields.validationPatternGeneric(textNacionalidad.getText())
+                    && validationFields.validationPatternGeneric(textLocalidad.getText()) &&
+                    validationFields.validationPatternPassword(textContrasenia.getText());      
 
             Boolean camposCompletos = !textNombre.getText().isBlank() && !textApellido.getText().isBlank()
                     && !textTipoDeDocumento.getText().isBlank() && !textNumeroDeDocumento.getText().isBlank()
@@ -302,40 +301,47 @@ public class Registrarse extends JFrame {
                     && !(String.valueOf(((JPasswordField) textRepetirContrasenia).getPassword()).isBlank());
 
             if (Boolean.TRUE.equals(camposCompletos)) {
-                if (!textContrasenia.getText().equals(textRepetirContrasenia.getText())) {
-                    JOptionPane.showInternalMessageDialog(null, "Las contraseñas no coinciden", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-
-                    String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
-
-                    String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente, btnRadioAlumno,
-                            btnRadioFuncionario);
-
-                    Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento, textNumeroDeDocumento,
-                            textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
-                            textNacionalidad,
-                            textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
-                    try {
-                        if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
-                            Funcionario funcionario = new Funcionario();
-                            funcionario.registrarse(lector);
-                            JOptionPane.showInternalMessageDialog(null,
-                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
-                        } else {
-                            lector.registrarse(tipoSeleccionado, lector);
-                            JOptionPane.showInternalMessageDialog(null,
-                                    "Datos del " + tipoSeleccionado + " guardados correctamente");
-                        }
-                        IniciarSesion login = new IniciarSesion();
-                        login.setVisible(true);
-                        Registrarse.this.dispose();
-                    } catch (PersistenceException exception) {
-                        HibernateConnection.getCurrentSession().getTransaction().rollback();
-                        JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                if (Boolean.TRUE.equals(camposValidos)) {
+                    if (!textContrasenia.getText().equals(textRepetirContrasenia.getText())) {
+                        JOptionPane.showInternalMessageDialog(null, "Las contraseñas no coinciden", "Error",
                                 JOptionPane.ERROR_MESSAGE);
+                    } else {
+
+                        String sexoSeleccionado = sexoSeleccionado(btnRadioHombre, btnRadioMujer, btnRadioOtro);
+
+                        String tipoSeleccionado = tipoSeleccionado(btnRadioPublicoGeneral, btnRadioDocente,
+                                btnRadioAlumno,
+                                btnRadioFuncionario);
+
+                        Lector lector = crearLector(textNombre, textApellido, textTipoDeDocumento,
+                                textNumeroDeDocumento,
+                                textEmail, textNumeroDeTelefono, datePickerFechaDeNacimiento, sexoSeleccionado,
+                                textNacionalidad,
+                                textDomicilio, textCodigoPostal, textDepartamento, textLocalidad, textContrasenia);
+                        try {
+                            if (Objects.equals(tipoSeleccionado, btnRadioFuncionario.getText())) {
+                                Funcionario funcionario = new Funcionario();
+                                funcionario.registrarse(lector);
+                                JOptionPane.showInternalMessageDialog(null,
+                                        "Datos del " + tipoSeleccionado + " guardados correctamente");
+                            } else {
+                                lector.registrarse(tipoSeleccionado, lector);
+                                JOptionPane.showInternalMessageDialog(null,
+                                        "Datos del " + tipoSeleccionado + " guardados correctamente");
+                            }
+                            IniciarSesion login = new IniciarSesion();
+                            login.setVisible(true);
+                            Registrarse.this.dispose();
+                        } catch (PersistenceException exception) {
+                            HibernateConnection.getCurrentSession().getTransaction().rollback();
+                            JOptionPane.showInternalMessageDialog(null, "Ya existe un usuario con esos datos", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                } else {
+                    JOptionPane.showInternalMessageDialog(null, "Existen datos ingresados no válidos");
                 }
+
             } else {
                 JOptionPane.showInternalMessageDialog(null, "Debe completar todos los campos para poder guardar");
             }
@@ -509,12 +515,12 @@ public class Registrarse extends JFrame {
         datePickerFechaDeNacimiento.setForeground(Color.GRAY);
         datePickerFechaDeNacimiento.setBackground(Color.WHITE);
         datePickerFechaDeNacimiento.setBounds(241, 271, 180, 30);
-        datePickerFechaDeNacimiento.setSettings(DateSettings.getDatePickerSettings());   
+        datePickerFechaDeNacimiento.setSettings(DateSettings.getDatePickerSettings());
         datePickerFechaDeNacimiento.setDate(LocalDate.now().minusYears(17));
         DatePickerSettings settings = DateSettings.getDatePickerSettings();
         datePickerFechaDeNacimiento.setSettings(settings);
         settings.setVetoPolicy(new UnderAgeVetoPolicy());
-        
+
         return datePickerFechaDeNacimiento;
     }
 
@@ -752,7 +758,7 @@ public class Registrarse extends JFrame {
         } else {
             tipoSeleccionado = btnRadioFuncionario.getText();
         }
-        return tipoSeleccionado; 
+        return tipoSeleccionado;
     }
 
     /**

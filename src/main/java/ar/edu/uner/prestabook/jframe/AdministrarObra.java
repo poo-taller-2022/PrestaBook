@@ -118,7 +118,7 @@ public class AdministrarObra extends JFrame {
             this.setVisible(false);
         });
 
-    }
+    } 
 
     public StringBuilder cargarObra(Obra obra, Edicion edicion) {
         StringBuilder informacionObra = new StringBuilder();

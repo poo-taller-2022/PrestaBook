@@ -10,30 +10,43 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
+/**
+ * Class for the validation of the fields when registering
+ *
+ */
 public class ValidationFields {
+
     /**
-     * Methods that indicate if the value entered in the fields is correct
+     * Modify the color of the Email field border depending on whether the
+     * validation is correct
+     * 
+     * @param email
      **/
-    
-    public void validationEmail(JTextField field) {
-        field.addKeyListener(new KeyAdapter() {
+    public void validationEmail(JTextField email) {
+        email.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (varilarCorreo(field.getText())) {
-                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
+                if (validationPatternEmail(email.getText())) {
+                    email.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
                 } else {
-                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
+                    email.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0))); 
                 }
-
             }
         });
     }
-    
+
+    /**
+     * Modify the color of the phone number field border depending on whether the
+     * validation is correct
+     * 
+     * @param number
+     * @param lblNroNoValido
+     **/
     public void validationNumber(JTextField number, JLabel lblNroNoValido) {
         number.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (varilarTelefono(number.getText())) {
+                if (validationPatternNumber(number.getText())) {
                     if (number.getText().length() < 10) {
                         number.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
                         lblNroNoValido.setVisible(true);
@@ -46,20 +59,25 @@ public class ValidationFields {
                     lblNroNoValido.setVisible(true);
                 }
             }
-            
+
             @Override
             public void keyTyped(KeyEvent e) {
                 if (number.getText().length() >= 10) {
                     e.consume();
                 }
             }
-    
         });
     }
 
+    /**
+     * Modify the color of the border of the fields with string depending on whether
+     * the validation is successful
+     * 
+     * @param field
+     **/
     public void validationGenericString(JTextField field) {
         field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
-        field.addKeyListener(new KeyAdapter() {         
+        field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (field.getText().length() >= 40) {
@@ -68,18 +86,24 @@ public class ValidationFields {
             }
         });
     }
-    
+
+    /**
+     * Modify the border color of fields with only letters depending on whether
+     * validation is successful
+     * 
+     * @param field
+     **/
     public void validationGenericLetters(JTextField field) {
         field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (validarGeneric(field.getText())) {
+                if (validationPatternGeneric(field.getText())) {
                     field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
                 } else {
                     field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
                 }
             }
-            
+
             @Override
             public void keyTyped(KeyEvent e) {
                 if (field.getText().length() >= 40) {
@@ -88,10 +112,16 @@ public class ValidationFields {
             }
         });
     }
-    
+
+    /**
+     * Modify the color of the document field border depending on whether the
+     * validation is correct
+     * 
+     * @param document
+     **/
     public void validationDocument(JTextField document) {
         document.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
-        document.addKeyListener(new KeyAdapter() {        
+        document.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (document.getText().length() >= 10) {
@@ -100,28 +130,40 @@ public class ValidationFields {
             }
         });
     }
-    
-    public void validationPassword(JTextField field) {
-        field.addKeyListener(new KeyAdapter() {
+
+    /**
+     * Modify the color of the password field border depending on whether the
+     * validation is correct
+     * 
+     * @param password
+     **/
+    public void validationPassword(JTextField password) {
+        password.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (validarContrasenia(field.getText())) {
+                if (validationPatternPassword(password.getText())) {
 
-                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
+                    password.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
 
                 } else {
-                    field.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
+                    password.setBorder(new MatteBorder(1, 1, 1, 1, new Color(170, 0, 0)));
                 }
             }
         });
     }
-    
+
+    /**
+     * Modify the color of the repeat password field border depending on whether the
+     * validation is correct
+     * 
+     * @param password
+     * @param repeatPassword
+     **/
     public void validationRepeatPassword(JTextField password, JTextField repeatPassword) {
         repeatPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (repeatPassword.getText().equals(password.getText())) {
-
                     repeatPassword.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 170, 0)));
 
                 } else {
@@ -137,34 +179,54 @@ public class ValidationFields {
             }
         });
     }
-    
-    public boolean varilarCorreo(String correo) {
+
+    /**
+     * Validate the email field
+     * 
+     * @param email
+     * @return boolean depending on whether it matches the pattern or not
+     **/
+    public boolean validationPatternEmail(String email) {
         Pattern patron = Pattern.compile(
                 "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        Matcher mat = patron.matcher(correo);
-
+        Matcher mat = patron.matcher(email);
         return mat.find();
     }
 
-    public boolean varilarTelefono(String telefono) {
+    /**
+     * Validate the phone number field
+     * 
+     * @param phone number
+     * @return boolean depending on whether it matches the pattern or not
+     **/
+    public boolean validationPatternNumber(String telefono) {
         Pattern patron = Pattern.compile("^([(]0345[)]\s154|[+]5493454|3454)[0-9]{6}$");
         Matcher mat = patron.matcher(telefono);
-
         return mat.find();
     }
 
-    public boolean validarGeneric(String field) {
+    /**
+     * Validate the field accepting only letters
+     * 
+     * @param textfield
+     * @return boolean depending on whether it matches the pattern or not
+     **/
+    public boolean validationPatternGeneric(String textfield) {
         Pattern patron = Pattern.compile("^[A-Za-z]+$");
-        Matcher mat = patron.matcher(field);
-
+        Matcher mat = patron.matcher(textfield);
         return mat.find();
     }
 
-    public boolean validarContrasenia(String contrasenia) {
+    /**
+     * Validate the password field
+     * 
+     * @param password
+     * @return boolean depending on whether it matches the pattern or not
+     **/
+    public boolean validationPatternPassword(String password) {
         Pattern patron = Pattern.compile(
                 "^(?=.*[0-9])(?=.*[az])([AZ]?)(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
-        Matcher mat = patron.matcher(contrasenia);
-
+        Matcher mat = patron.matcher(password);
         return mat.find();
     }
 }
