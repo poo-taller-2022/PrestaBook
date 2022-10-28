@@ -289,13 +289,18 @@ public class Prestamos extends JFrame {
         List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
         for (Lector lector : lectores) {
             List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(lector.getDocumento());
-            for (Multa multa : multas) {
-                LocalDate fechaConPlazo = LocalDate
-                        .parse(multa.getFecha(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
-                        .plus(multa.getPlazo(), ChronoUnit.DAYS);
-                if (LocalDate.now().isAfter(fechaConPlazo)) {
-                    comboBoxLector.addItem(lector);
-                }
+            System.out.print(multas);
+            if (multas.isEmpty()) {
+                comboBoxLector.addItem(lector);
+            } else {
+                for (Multa multa : multas) {
+                    LocalDate fechaConPlazo = LocalDate
+                            .parse(multa.getFecha(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
+                            .plus(multa.getPlazo(), ChronoUnit.DAYS);
+                    if (LocalDate.now().isAfter(fechaConPlazo)) {
+                        comboBoxLector.addItem(lector);
+                    }
+                } 
             }
         }
         return comboBoxLector;
