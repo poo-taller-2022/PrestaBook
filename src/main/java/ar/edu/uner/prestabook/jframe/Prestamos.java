@@ -261,7 +261,7 @@ public class Prestamos extends JFrame {
      * Creates a Combo Box with all the Copies of the selected Book
      */
     public JComboBox<Ejemplar> comboBoxEjemplar() {
-        JComboBox<Ejemplar> comboBoxEjemplar = new JComboBox<>(new Vector<>(DaoFactory.getEjemplarDAO().findAll()));
+        JComboBox<Ejemplar> comboBoxEjemplar = new JComboBox<>();
         comboBoxEjemplar.setBounds(528, 191, 69, 29);
         comboBoxEjemplar.setRenderer(new EjemplarRenderer());
         comboBoxEjemplar.setSelectedItem(null);
@@ -289,7 +289,6 @@ public class Prestamos extends JFrame {
         List<Lector> lectores = DaoFactory.getLectorDAO().findAll();
         for (Lector lector : lectores) {
             List<Multa> multas = DaoFactory.getMultaDAO().findByAllDocumentoLector(lector.getDocumento());
-            System.out.print(multas);
             if (multas.isEmpty()) {
                 comboBoxLector.addItem(lector);
             } else {

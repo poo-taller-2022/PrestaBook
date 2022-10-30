@@ -140,7 +140,7 @@ public class Components {
     private static JLabel textUsuario() {
         JLabel textUsuario = new JLabel();
         textUsuario.setBackground(new Color(0, 128, 0));
-        textUsuario.setBounds(118, 0, 173, 37);
+        textUsuario.setBounds(118, 0, 180, 37);
         textUsuario.setFont(new Font(Constants.FONT, Font.BOLD, 16));
         textUsuario.setForeground(new Color(255, 255, 255));
         return textUsuario;
