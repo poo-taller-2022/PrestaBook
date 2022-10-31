@@ -258,7 +258,8 @@ public class PedirPrestamo extends JFrame {
     public DatePicker calendarFechaPactadaDevolucion() {
         DatePicker calendarFechaYHoraDevolucion = new DatePicker();
         calendarFechaYHoraDevolucion.setBounds(326, 320, 271, 29);
-        calendarFechaYHoraDevolucion.setDate(LocalDate.now().plus(Constants.PLAZO_PRESTAMO, ChronoUnit.DAYS));
+        calendarFechaYHoraDevolucion.setDate(LocalDate.now().plus(
+                Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue()), ChronoUnit.DAYS));
         calendarFechaYHoraDevolucion.setSettings(DateSettings.getDatePickerSettings());
         return calendarFechaYHoraDevolucion;
     }

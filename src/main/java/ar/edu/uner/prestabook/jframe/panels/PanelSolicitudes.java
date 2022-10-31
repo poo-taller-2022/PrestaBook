@@ -44,7 +44,7 @@ public class PanelSolicitudes extends AbstractPanel {
                     prestamo.setEjemplar(ejemplar);
 
                     prestamo.setFechaYHoraPrestamo(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date()));
-                    prestamo.setFechaPactadaDevolucion(table.getValueAt(table.getSelectedRow(), 6).toString());
+                    prestamo.setFechaPactadaDevolucion(table.getValueAt(table.getSelectedRow(), 7).toString());
                     prestamo.setPlazoPrestamo(Constants.PLAZO_PRESTAMO);
 
                     Lector lector = new Lector();
