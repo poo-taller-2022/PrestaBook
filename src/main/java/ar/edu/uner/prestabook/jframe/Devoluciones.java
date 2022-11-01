@@ -145,8 +145,7 @@ public class Devoluciones extends JFrame {
         calendarFechaRealDevolucion.addDateChangeListener(e -> {
             LocalDate fechaReal = e.getNewDate();
             LocalDate fechaPactada = calendarPactadaDevolucion.getDate();
-            btnMultar.setEnabled(fechaReal.isAfter(fechaPactada
-                    .plusDays(Integer.valueOf(DaoFactory.getConfigDAO().findById("default_loan_time").getValue()))));
+            btnMultar.setEnabled(fechaReal.isAfter(fechaPactada));
         });
         contentPane.add(calendarFechaRealDevolucion);
 

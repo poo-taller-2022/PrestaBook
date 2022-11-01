@@ -10,5 +10,4 @@ public class UnderAgeVetoPolicy implements DateVetoPolicy {
     public boolean isDateAllowed(LocalDate date) {
         return date.isBefore(LocalDate.now().minusYears(17));
     }
-
 }

@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,7 +79,7 @@ public class ReservarEjemplar extends JFrame {
         contentPane.add(fieldIsbnObra);
 
         JTextField fieldFechaDisponible = fieldFechaDisponible();
-        fieldFechaDisponible.setText(buscarFechaDisponible(obra, edicion).get(1).toString());
+        fieldFechaDisponible.setText(buscarFechaDisponible(obra, edicion)[1]);
         contentPane.add(fieldFechaDisponible);
 
         DatePicker calendarFechaReserva = calendarFechaReserva();
@@ -99,7 +98,7 @@ public class ReservarEjemplar extends JFrame {
                 Reserva reserva = new Reserva();
 
                 reserva.setEjemplar(DaoFactory.getEjemplarDAO()
-                        .findById(buscarFechaDisponible(obra, edicion).get(0)));
+                        .findById(buscarFechaDisponible(obra, edicion)[0]));
 
                 reserva.setFechaReserva(calendarFechaReserva.getText());
                 reserva.setLector(SistemaLector.getLoggedUser());
@@ -286,37 +285,38 @@ public class ReservarEjemplar extends JFrame {
      * @param obra
      * @param edicion
      */
-    public List<Object> buscarFechaDisponible(Obra obra, Edicion edicion) {
+    public  String[] buscarFechaDisponible(Obra obra, Edicion edicion) {
         List<Reserva> reservas = DaoFactory.getReservaDAO().findAll();
-        List<Object> fechaIdEjempalar = new LinkedList<>();
+        String[] fechaIdEjemplar = new String[2];
         if (!reservas.isEmpty()) {
             for (Reserva reserva : reservas) {
                 if (Objects.equals(reserva.getEjemplar().getIsbnObra(), obra.getIsbn())
                         && Objects.equals(reserva.getEjemplar().getIdEdicion(), edicion.getId())) {
                     LocalDate fechaReserva = LocalDate
-                            .parse(DaoFactory.getReservaDAO().findByIdEjemplar(reserva.getEjemplar().getId())
-                                    .getFechaReserva(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
+                            .parse(reserva.getFechaReserva(), DateTimeFormatter.ofPattern("uuuu-MM-dd"))
                             .plus(Constants.PLAZO_PRESTAMO, ChronoUnit.DAYS);
-                    fechaIdEjempalar.add(reserva.getEjemplar().getId());
-                    fechaIdEjempalar.add(fechaReserva.toString());
+                    fechaIdEjemplar[0] = reserva.getEjemplar().getId().toString(); 
+                    fechaIdEjemplar[1] = fechaReserva.toString();
+                    return fechaIdEjemplar;
                 }
             }
         }
 
-        if (fechaIdEjempalar.isEmpty()) {
+        if (fechaIdEjemplar[0] == null) {
             List<Prestamo> prestamos = DaoFactory.getPrestamoDAO().findAll();
             if (!prestamos.isEmpty()) {
                 for (Prestamo prestamo : prestamos) {
                     if (Objects.equals(prestamo.getEjemplar().getIsbnObra(), obra.getIsbn())
                             && Objects.equals(prestamo.getEjemplar().getIdEdicion(), edicion.getId())) {
-                        fechaIdEjempalar.add(prestamo.getEjemplar().getId());
-                        fechaIdEjempalar.add(prestamo.getFechaPactadaDevolucion());
+                        fechaIdEjemplar[0] = prestamo.getEjemplar().getId().toString();
+                        fechaIdEjemplar[1] = prestamo.getFechaPactadaDevolucion();
+                        return fechaIdEjemplar;
                     }
                 }
             }
         }
 
-        return fechaIdEjempalar;
+        return fechaIdEjemplar;
     }
 
     /**

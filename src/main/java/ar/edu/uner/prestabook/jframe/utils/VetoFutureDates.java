@@ -13,5 +13,4 @@ public class VetoFutureDates implements DateVetoPolicy {
     public boolean isDateAllowed(LocalDate date) {
         return date.isEqual(LocalDate.now()) || date.isBefore(LocalDate.now());
     }
-
 }

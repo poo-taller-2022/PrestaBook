@@ -15,5 +15,4 @@ public class VetoPastDates implements DateVetoPolicy {
     public boolean isDateAllowed(LocalDate date) {
         return date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now());
     }
-
 }
