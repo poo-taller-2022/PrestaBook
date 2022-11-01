@@ -442,7 +442,7 @@ public class Tabla {
                     fila.add(ejemplar.getSegundoAutor().toUpperCase());
                     fila.add(ejemplar.getTercerAutor().toUpperCase());
                     fila.add(ejemplar.getGenero().toUpperCase());
-                    fila.add(ejemplar.getTipo());
+                    fila.add(ejemplar.getTipo().getNombre());
                     fila.add(ejemplar.getFormaAdquisicion().toUpperCase());
                     fila.add(ejemplar.getFechaAdquisicion().toUpperCase());
                     fila.add(ejemplar.getObservaciones().toUpperCase());
